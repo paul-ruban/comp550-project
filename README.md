@@ -6,3 +6,24 @@
 
 # References
 * 
+
+# Datasets
+* Wikipedia subset
+* News articles
+* Books
+* Deepzip dataset for text 
+
+# Prepocessing
+* Baselines
+* Create stream of words and numbers (the scope does not include recovering format)
+* Keeping plain text
+* POS Tagger
+
+# TODOS:
+[] Compressor and decompressor
+[] Baseline for vanilla compressor with statistics
+[] Data loading process
+[] Interface setup
+
+See the drive
+
