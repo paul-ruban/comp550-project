@@ -13,6 +13,7 @@
 
 
 ############### INFER THE SCRIPT DIRNAME ###############
+
 prg=$0
 
 if [ ! -e "${prg}" ]; then
@@ -29,6 +30,7 @@ prg=${dir}/$(basename -- "${prg}") || exit
 
 
 ############### PARSE ARGS ###############
+
 for i in "$@"
 do
 case $i in
@@ -63,6 +65,8 @@ if [ -z "${output_dir}" ]; then
 fi
 
 
+############### EXECUTE PROGRAM ###############
+
 echo $input_dir
 echo $output_dir
 
@@ -70,6 +74,7 @@ exit $? # end of program, return the most resent value
 
 
 ############### COMMAND TO RUN THE PROGRAM ###############
+
 ./template.sh\
     --input_dir=/a/b/c \
     --output_dir=/d/f/g
