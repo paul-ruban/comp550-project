@@ -5,7 +5,10 @@
 * https://drive.google.com/drive/u/0/folders/1FLMfbQ7Mo4qbOODJlcErGjMFiQZpktEd
 
 # References
-* 
+* **DeepZip**: [poster](https://shubhamchandak94.github.io/slides/DeepZip_poster.pdf), [paper](https://arxiv.org/pdf/1811.08162.pdf)
+* **Lane Compression**: [article](https://dl.acm.org/doi/fullHtml/10.1145/3431815)
+* **Sentence Compression**: [papers_with_code](https://paperswithcode.com/task/sentence-compression)
+* **Data Compression vs RNNs**: [paper](https://arxiv.org/pdf/1705.00697.pdf)
 
 # Datasets
 * Wikipedia subset
