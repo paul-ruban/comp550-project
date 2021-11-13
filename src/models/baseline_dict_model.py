@@ -2,9 +2,6 @@ from string import printable
 from nltk import ngrams, FreqDist
 from typing import List
 
-from nltk.tokenize import word_tokenize
-
-
 class BaselineDictModel:
     def __init__(self, number_of_types_to_replace: int = 0) -> None:
         assert (
@@ -33,7 +30,7 @@ class BaselineDictModel:
         assigned_dict = {}
         # Replace n-grams with most frequent n-gram
         i = 0
-        for ((word_type,), _) in self.freq_dict.most_common():
+        for ((word_type,), _) in freq_dict.most_common():
             if word_type in input_string and i < self.number_of_types_to_replace:
                 input_string = [
                     printable[i] if word == word_type else word for word in input_string
