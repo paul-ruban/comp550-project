@@ -2,8 +2,8 @@ import editdistance
 import os
 
 from pathlib import Path
-from compressor import Compressor
-from file_metrics import FileMetrics
+from src.utils.compressor import Compressor
+from src.utils.file_metrics import FileMetrics
 
 
 def compression_ratio(original_file_path: str, compressed_file_path: str) -> float:

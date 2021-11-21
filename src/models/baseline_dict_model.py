@@ -19,7 +19,6 @@ class BaselineDictModel:
         input_string = (" ".join(X)).split()
         # Tokenize into n-gram
         self.freq_dict = FreqDist(ngrams(input_string, 1))
-        print(self.freq_dict.most_common())
 
     def encode(self, x: str) -> str:
         # Encode using most frequent token replacement
@@ -33,7 +32,7 @@ class BaselineDictModel:
         assigned_dict = {}
         # Replace n-grams with most frequent n-gram
         i = 0
-        for ((word_type,), _) in self.freq_dict.most_common():
+        for ((word_type,), _) in freq_dict.most_common():
             if word_type in input_string and i < self.number_of_types_to_replace:
                 input_string = [
                     printable[i] if word == word_type else word for word in input_string
