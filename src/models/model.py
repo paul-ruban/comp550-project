@@ -13,10 +13,12 @@ class Model:
 
     @abstractmethod
     def encode(self, x: str) -> str:
-        """encode string x, the string x represents one text"""
+        """encode string x, the string x represents one text,
+        this is like part 1 of predict."""
         pass
 
     @abstractmethod
     def decode(self, x: str) -> str:
-        """decode string x, the string x represents one encoded text"""
+        """decode string x, the string x represents one encoded text,
+        this is like part 2 of predict"""
         pass

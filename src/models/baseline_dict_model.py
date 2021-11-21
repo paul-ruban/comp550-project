@@ -1,8 +1,10 @@
 from string import printable
 from nltk import ngrams, FreqDist
 from typing import List
+from model import Model
 
-class BaselineDictModel:
+
+class BaselineDictModel(Model):
     def __init__(self, number_of_types_to_replace: int = 0) -> None:
         assert (
             isinstance(number_of_types_to_replace, int) and number_of_types_to_replace >= 0
@@ -28,7 +30,7 @@ class BaselineDictModel:
         else:
             freq_dict = self.freq_dict
         assigned_dict = {}
-        # Replace n-grams with most frequent n-gram
+        # Replace most frequent unigrams with character from printable
         i = 0
         for ((word_type,), _) in freq_dict.most_common():
             if word_type in input_string and i < self.number_of_types_to_replace:
@@ -56,7 +58,7 @@ if __name__ == "__main__":
     X = ["i like to shop", "he likes to shop", "we all like to shop"]
     model = BaselineDictModel(number_of_types_to_replace=5)
     model.fit(X)
-    encoded_string = model.encode("i like jake and he likes shopping")
+    encoded_string = model.encode("i like jake and he likes shopping and we like shopping")
     print(encoded_string)
     decoded_string = model.decode(encoded_string)
     print(decoded_string)
