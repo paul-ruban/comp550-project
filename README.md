@@ -28,6 +28,12 @@
 - [ ] Data loading process
 - [ ] Interface setup
 
+# Baselines
+
+# Digit Compressor - To Run compressor/decompressor
+* Run from root python digit_compressor/compressor.py
+* Run from root python digit_compressor/decompressor.py
+
 See the drive
 
 test
