@@ -1,4 +1,5 @@
 # Add libraries here
 datasets==1.15.1
+torch==1.10.0
 transformers==4.12.2
 nltk==3.6.2
