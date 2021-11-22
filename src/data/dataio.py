@@ -66,7 +66,7 @@ def remove_empty_lines(examples):
     return examples
 
 
-def tokenize_fn(examples, tokenizer, max_seq_length, fill_to_max=True, sep_token="</s>"):
+def tokenize_fn(examples, tokenizer, max_seq_length, fill_to_max=True):
     # skip tokenization if it is already done
     if examples["text"] and isinstance(examples["text"][0], str):
         examples["text"] = [tokenizer.tokenize(line) for line in examples["text"]]
@@ -91,13 +91,15 @@ def tokenize_fn(examples, tokenizer, max_seq_length, fill_to_max=True, sep_token
                 next_example_length = len(examples["text"][i+1])
 
                 # if concatenate lines, insert a separator token
-                # also make sure lines come from the same file
+                # make sure lines come from the same file
+                # keep 15% of lines the original size
                 if (current_example_length + next_example_length + 1 < max_seq_length and
-                    examples["file_idx"][i] == examples["file_idx"][i+1]):
+                    examples["file_idx"][i] == examples["file_idx"][i+1] and
+                    random.random() < 0.85):
                     next_example = { feat: examples[feat].pop(i) for feat in examples}
                     
                     # join lines, but keep file, document, line ids the same
-                    examples["text"][i] += [sep_token] + next_example["text"]
+                    examples["text"][i] += [tokenizer.sep_token] + next_example["text"]
             i += 1
     
     return examples
