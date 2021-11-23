@@ -49,9 +49,9 @@ class Text(datasets.ArrowBasedBuilder):
     def _generate_tables(self, files):
         schema = pa.schema(
             {
-                "file_idx": pa.int64(), 
-                "doc_idx": pa.int64(), 
-                "line_idx": pa.int64(), 
+                "file_id": pa.int64(), 
+                "line_id": pa.int64(), 
+                "subline_id": pa.int64(), 
                 "text": pa.string()
             }
         )
