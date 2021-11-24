@@ -24,14 +24,14 @@ def compression_accuracy(original_file_path: str, compressed_file_path: str) -> 
     return 1 - compression_ratio(original_file_path, compressed_file_path)
 
 
-def edit_distance(original_string: str, uncompressed_string: str) -> float:
+def edit_distance(original_string: str, decompressed_string: str) -> float:
     """Finds the edit distance between the original and uncompressed text.
     Since we want the edit distance of words we convert the strings to list
     of strings.
     """
     original_text = original_string.split()
-    uncompressed_text = uncompressed_string.split()
-    return editdistance.eval(original_text, uncompressed_text)
+    decompressed_text = decompressed_string.split()
+    return editdistance.eval(original_text, decompressed_text)
 
 
 def edit_distance_accuracy(original_string: str, uncompressed_string: str) -> float:

@@ -13,10 +13,10 @@ from src.utils.eval_metrics import compression_accuracy, edit_distance_accuracy,
 
 
 def main():
-    os.curdir = os.path.dirname(os.path.abspath(__file__))
+    curdir = os.path.dirname(os.path.abspath(__file__))
     # TODO: Need methods for 1 and 2 large scale batches
     # 1. Raw input text
-    data_path = Path(os.path.join(os.curdir, "test_data", "test_compression_data.txt"))
+    data_path = Path(os.path.join(curdir, "test_data", "test_compression_data.txt"))
     # 2. Preprocessed data
     with open(data_path, "r") as f:
         input_string = f.read()
