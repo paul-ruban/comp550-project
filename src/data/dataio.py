@@ -2,7 +2,7 @@ import os
 import torch
 from datasets import load_dataset
 
-DATASET_SCRIPT_PATH = "/home/pavlo/comp-550/comp-550-project/src/data/dataset_script.py"
+DATASET_SCRIPT_PATH = os.path.join(os.path.dirname(os.path.realpath(__file__)), "dataset_script.py")
 
 
 class DataFiles:
