@@ -18,7 +18,6 @@ class BaselineDictModel(Model):
         input_string = (" ".join(X)).split()
         # Tokenize into n-gram
         self.freq_dict = FreqDist(ngrams(input_string, 1))
-        print(self.freq_dict.most_common())
 
     def encode(self, x: str) -> str:
         # Encode using most frequent token replacement
