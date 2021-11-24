@@ -1,6 +1,5 @@
 import os
 import torch
-import random
 from datasets import load_dataset
 
 DATASET_SCRIPT_PATH = "/home/pavlo/comp-550/comp-550-project/src/data/dataset_script.py"
@@ -76,7 +75,8 @@ def remove_empty_fn(examples):
     return examples
 
 
-def tokenize_fn(examples, tokenizer, max_seq_length, fill_to_max=False):
+def truncate_fn(examples, tokenizer, max_seq_length=128, fill_to_max=False):
+    # add tokens feature
     examples["tokens"] = [tokenizer.tokenize(line) for line in examples["text"]]
     
     # split sequences longer than max_seq_length
@@ -111,5 +111,7 @@ def tokenize_fn(examples, tokenizer, max_seq_length, fill_to_max=False):
                     examples["tokens"][i] += [tokenizer.sep_token] + next_example["tokens"]
                     continue
             i += 1
+    # remove tokens feature as having them will result in errors when we iterate over batches
+    examples.pop("tokens")
     
     return examples
