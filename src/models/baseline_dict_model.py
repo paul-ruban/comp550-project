@@ -1,6 +1,8 @@
 from string import printable
-from nltk import ngrams, FreqDist
 from typing import List
+
+from nltk import FreqDist, ngrams
+
 from model import Model
 
 
