@@ -1,3 +1,7 @@
+#!/bin/bash
+# Script used to create a single dataset from the list of different files
+# Pass number of books and train, val, test split with the following default values
+num_books=200
 train_split=0.8
 val_split=0.1
 test_split=0.1

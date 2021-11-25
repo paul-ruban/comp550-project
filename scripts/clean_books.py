@@ -1,4 +1,5 @@
 import argparse
+import os
 from pathlib import Path
 from nltk.tokenize import word_tokenize, sent_tokenize
 from tqdm import tqdm
@@ -18,8 +19,8 @@ def parse_args():
     output_path = Path(args.output_path)
     # Do some checks on path
     assert input_path.exists() and input_path.is_dir(), "Input path does not exist or is not a directory."
-    if not output_path.exists():
-        output_path.mkdir()
+    # if not output_path.exists():
+    #     os.mkdir(output_path)
     assert output_path.is_dir(), "Output path is not a directory."
     return input_path, output_path
 
