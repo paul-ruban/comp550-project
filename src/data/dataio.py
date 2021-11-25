@@ -1,4 +1,5 @@
 import os
+import re
 import torch
 from datasets import load_dataset
 
@@ -11,17 +12,17 @@ class DataFiles:
     def __init__(self, paths) -> None:
         self.paths = paths
     
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self.paths)
     
-    def __iter__(self):
+    def __iter__(self) -> str:
         for path in self.paths:
             yield path
     
-    def __getitem__(self, i):
+    def __getitem__(self, i) -> str:
         return self.paths[i]
     
-    def __str__(self):
+    def __str__(self) -> str:
         return str(self.paths)
 
     @classmethod
@@ -51,10 +52,10 @@ class Dataset(torch.utils.data.Dataset):
             split=split
         )
 
-    def __getitem__(self, idx):
+    def __getitem__(self, idx : int) -> dict:
         return self.dataset[idx]
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self.dataset)
 
     def map(self, *args, **kwargs):
@@ -65,7 +66,8 @@ class Dataset(torch.utils.data.Dataset):
         return self.dataset.filter(*args, **kwargs)
 
 
-def remove_empty_fn(examples):
+def remove_empty_fn(examples : Dataset) -> Dataset:
+    """Removes empty lines from the dataset."""
     # non-empty lines
     keep_ids = [i for i, line in enumerate(examples["text"]) if len(line.strip())]
     # remove empty lines
@@ -75,7 +77,17 @@ def remove_empty_fn(examples):
     return examples
 
 
-def truncate_fn(examples, tokenizer, max_seq_length=128, fill_to_max=False):
+def truncate_fn(examples: Dataset, tokenizer, max_seq_length : int = 128, fill_to_max : bool = False) -> Dataset:
+    """Performs splitting of long lines into several lines by keeping track of their original location.
+    Also may merge several lines into one to have fuller data samples.
+    
+    Parameters
+    ----------
+    examples        : Datasetdataset object
+    tokenizer       : HuggingFace tokenizer
+    max_seq_length  : maximum sequence length accepted by the model we are preparing the dataset for
+    fill_to_max     : whether or not merge adjacent short sequnces in one to reduce computation waste
+    """
     # add tokens feature
     examples["tokens"] = [tokenizer.tokenize(line) for line in examples["text"]]
     
@@ -114,4 +126,33 @@ def truncate_fn(examples, tokenizer, max_seq_length=128, fill_to_max=False):
     # remove tokens feature as having them will result in errors when we iterate over batches
     examples.pop("tokens")
     
+    return examples
+
+
+def tokenize_fn(examples : Dataset, tokenizer) -> Dataset:
+    """Tokenizes text feature and adds tokens feature to the Dataset."""
+    examples["tokens"] = [tokenizer.tokenize(line) for line in examples["text"]]
+
+    return examples
+
+
+def recover_mask_fn(examples : Dataset, tokenizer, mask_char='A') -> Dataset:
+    """Replace the symbol used to mask words in a file to a mask recognized by the model.
+    By convention a single <mask_char> represents a single token. To indicate that multiple tokens 
+    were masked we use <number><mask_char>, like 3A -> <mask><mask><mask>.
+    Note: this is better to be done before truncating and merging lines. 
+
+    Ex.
+    1. "I 'm enjoying A." -> I 'm enjoying <mask>.
+    2. "I 'm 2A life." -> I 'm <mask><mask> life.
+    """
+
+    examples["text"] = [
+        re.sub(
+            pattern=rf'(\d*)({mask_char})', 
+            repl=lambda x: tokenizer.mask_token * int(x[1] if x[1] else 1), 
+            string=line) 
+        for line in examples["text"]
+    ]
+
     return examples
