@@ -1,6 +1,7 @@
 from collections import Counter
 from os import walk
 import time
+import sys
 
 start_time = time.time()
 
@@ -13,10 +14,8 @@ def getAllTokens (fileNames):
     combinedTokens = []
     for fileName in fileNames:
         text_file = open("digit_compressor/data/" + fileName, "r")
-        tokens = text_file.read().replace('\n', ' ').split(' ')
+        tokens = text_file.read().lower().replace('\n', ' ').split(' ')
         while '' in tokens: tokens.remove('')
-        # print(tokens[:10])
-        # print(len(tokens))
         text_file.close()
         combinedTokens.extend(tokens)
         print("--- Tokenized File", fileName, "in %s seconds ---" % round(time.time() - start_time, 1))
@@ -24,25 +23,26 @@ def getAllTokens (fileNames):
 
 tokens = getAllTokens(fileNames)
 
-# print(tokens)
-
 def count_tokens(tokens):
     tokenCounts = Counter(tokens)
     return tokenCounts
 
 tokenCounts = count_tokens(tokens)
-# tokenCountsOrder = list(tokenCounts.keys())
 
 print(tokenCounts)
 
 def ordered_most_common_words(tokenCounts):
-    # print(tokenCounts)
+    # orderedCommonWords = []
+    # mostCommonWords = tokenCounts.most_common()
+    # for ind, word in enumerate(mostCommonWords):
+    #     if(sys.getsizeof(word[0]) < sys.getsizeof(ind)):
+    #         orderedCommonWords.append(word)
+    # return orderedCommonWords
+
     mostCommonWords = [word for word, wordCount in tokenCounts.most_common()]
     return mostCommonWords
 
 tokenCountsOrder = ordered_most_common_words(tokenCounts)
-
-# print(tokenCountsOrder[:11])
 
 def replaceTokensWithDigits(tokens, tokenCountsOrder):
     compressedTokens = []
