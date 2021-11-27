@@ -1,6 +1,6 @@
 import random
 from pathlib import Path
-from typing import List
+from typing import List, Union
 
 import dill as pickle
 import nltk.lm
@@ -9,15 +9,18 @@ from nltk.lm.preprocessing import padded_everygram_pipeline
 
 
 class NGramModel:
-    CODING_CHAR = "A"
-
     def __init__(self, n):
         self.n = n
         self.lm = None
 
-    def fit(self, X: List[List[str]], lm: nltk.lm, **kwargs) -> nltk.lm:
+    def fit(self, X: List[str], lm: nltk.lm, **kwargs) -> nltk.lm:
+        # This assumption of padding is reasonable because we are in some
+        # sense modeling at the document level so <s> and </s> represent
+        # the start and end token for the n-gram model (they have a slightly
+        # different interpretation for RNNs and Bert)
+        X = [x.split() for x in X]
         train, vocab = padded_everygram_pipeline(self.n, X)
-        self.lm = lm(**kwargs)
+        self.lm = lm(order=self.n, **kwargs)
         self.lm.fit(train, vocab)
         return self.lm
 
@@ -36,37 +39,27 @@ class NGramModel:
         with open(pickle_model_path, "wb") as f:
             pickle.dump(self.lm, f)
 
-    def encode(self, x: List[str], proportion: float, encoding_type: str = "random", seed: int = 42) -> List[str]:
-        if encoding_type == "random":
-            num_words_to_encode = int(len(x) * proportion)
-            random.seed(seed)
-            replacement_index = random.sample(range(len(x)), num_words_to_encode)
-            x_encoded = [
-                NGramModel.CODING_CHAR if i in replacement_index else x[i] for i in range(len(x))
-            ]
-            return x_encoded
-        elif encoding_type == "greedy":
-            num_words_to_encode = int(len(x) * proportion)
-            # get index by largest character word
-            replacement_index = sorted(range(len(x)), key=lambda i: len(x[i]), reverse=True)[
-                :num_words_to_encode
-            ]
-            x_encoded = [
-                NGramModel.CODING_CHAR if i in replacement_index else x[i] for i in range(len(x))
-            ]
-        else:
-            raise ValueError("No other encoding is supported.")
-
-    def decode(self, x: List[str], random_seed: int = 42) -> List[str]:
+    def decode(
+        self, x: Union[str, List[str]],  masking_char: str = "_"
+    ) -> List[str]:
+        """
+        Decode the masked text x to its original form.
+        """
         if self.lm is None:
             raise ValueError("Must fit the model before decoding")
         else:
+            # The text has already been tokenized and separated by spaces.
+            x = x if isinstance(x, list) else x.split()
+            # Pad the very beginning and end with <s> and </s> tokens.
+            # To satisfy probability distribution.
             x_decoded = list(pad_both_ends(x, n=self.n))
             for i, word in enumerate(x_decoded):
-                if word == NGramModel.CODING_CHAR:
+                if word == masking_char:
                     context = x_decoded[i - self.n + 1 : i] if self.n > 1 else []
                     x_decoded[i] = self.lm.generate(
-                        num_words=1, random_seed=random_seed, text_seed=context
+                        num_words=1, random_seed=i, text_seed=context
                     )
+            # Remove the padding
             x_decoded = x_decoded[self.n - 1 : -self.n + 1] if self.n > 1 else x_decoded
-            return x_decoded
+            # Return the decoded text as a string
+            return " ".join(x_decoded)
