@@ -53,7 +53,6 @@ class Model:
             reconstruction_accuracy[i] = sum(masked_results) / len(masked_results)
         return np.mean(reconstruction_accuracy)
 
-
     def similarity_score(
         self,
         masking_token: str,
@@ -66,7 +65,7 @@ class Model:
         X_decoded is a list of strings, a string represents one text
         if either are passed as lists of strings, then they are tokenized
 
-        Finds the average reconstruction accuracy, focuses explicitly on
+        Finds the average similarity score, focuses explicitly on
         the tokens that have been masked.
         """
         if isinstance(X_original[0], str):
@@ -79,12 +78,12 @@ class Model:
             len(x_og) == len(x_mask) == len(x_dec)
             for x_og, x_mask, x_dec in zip(X_original, X_masked, X_decoded)
         ), "The outer or inner length of your original and decoded tokens is different."
-        reconstruction_accuracy = np.zeros(len(X_original))
+        similarity_score = np.zeros(len(X_original))
         for i, (x_original, x_masked, x_decoded) in enumerate(zip(X_original, X_masked, X_decoded)):
             masked_results = [
-                int(x_o == x_d)
+                measure_similarity(x_o, x_d)
                 for x_o, x_m, x_d in zip(x_original, x_masked, x_decoded)
                 if x_m == masking_token
             ]
-            reconstruction_accuracy[i] = sum(masked_results) / len(masked_results)
-        return np.mean(reconstruction_accuracy)
+            similarity_score[i] = np.mean(masked_results)
+        return np.mean(similarity_score)

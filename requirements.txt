@@ -5,3 +5,4 @@ transformers==4.12.2
 nltk==3.6.2
 editdistance==0.3.1
 genism==4.1.2
+pymagnitude==0.1.143
