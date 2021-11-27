@@ -17,7 +17,7 @@ class NGramModel:
 
     def fit(self, X: List[List[str]], lm: nltk.lm, **kwargs) -> nltk.lm:
         train, vocab = padded_everygram_pipeline(self.n, X)
-        self.lm = lm(2, **kwargs)
+        self.lm = lm(**kwargs)
         self.lm.fit(train, vocab)
         return self.lm
 
