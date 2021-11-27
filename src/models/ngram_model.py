@@ -55,11 +55,11 @@ class NGramModel:
             x_decoded = list(pad_both_ends(x, n=self.n))
             for i, word in enumerate(x_decoded):
                 if word == masking_char:
-                    context = x_decoded[i - self.n + 1 : i] if self.n > 1 else []
+                    context = x_decoded[i - self.n + 1: i] if self.n > 1 else []
                     x_decoded[i] = self.lm.generate(
                         num_words=1, random_seed=i, text_seed=context
                     )
             # Remove the padding
-            x_decoded = x_decoded[self.n - 1 : -self.n + 1] if self.n > 1 else x_decoded
+            x_decoded = x_decoded[self.n - 1: -self.n + 1] if self.n > 1 else x_decoded
             # Return the decoded text as a string
             return " ".join(x_decoded)
