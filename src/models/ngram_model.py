@@ -1,6 +1,9 @@
 import copy
 from pathlib import Path
 from typing import List, Union
+from multiprocessing import Pool
+from functools import partial
+
 
 import dill as pickle
 import nltk.lm
@@ -40,7 +43,7 @@ class NGramModel(Model):
         with open(pickle_model_path, "wb") as f:
             pickle.dump(self.lm, f)
 
-    def decode(self, X: Union[List[str], List[List[str]]], masking_char: str = "_") -> List[str]:
+    def decode(self, X: Union[List[str], List[List[str]]], masking_char: str = "_", parallel: bool = False) -> List[str]:
         """
         Decode the masked text x to its original form.
         """
@@ -49,21 +52,27 @@ class NGramModel(Model):
         else:
             # The text has already been tokenized and separated by spaces.
             X_encoded = copy.deepcopy(X)
-            X_encoded = (
-                X_encoded if isinstance(X[0], list) else [x.split() for x in X_encoded]
-            )
+            X_encoded = X_encoded if isinstance(X[0], list) else [x.split() for x in X_encoded]
             X_decoded = []
-            for x in X_encoded:
-                # Pad the very beginning and end with <s> and </s> tokens.
-                # To satisfy probability distribution.
-                x_decoded = list(pad_both_ends(x, n=self.n))
-                indices_to_decode = [i for i, x in enumerate(x_decoded) if x == masking_char]
-                for i in indices_to_decode:
-                    context = x_decoded[i - self.n + 1 : i] if self.n > 1 else []
-                    x_decoded[i] = self.lm.generate(num_words=1, text_seed=context)
-                # Remove the padding
-                x_decoded = x_decoded[self.n - 1 : -self.n + 1] if self.n > 1 else x_decoded
-                x_decoded = x_decoded if isinstance(X[0], list) else " ".join(x_decoded)
-                X_decoded.append(x_decoded)
-            # Return the decoded text as a string
-            return x_decoded
+            if parallel:
+                with Pool() as pool:
+                    X_decoded = pool.map(partial(self._decode, masking_char=masking_char), X_encoded)
+            else:
+                for x in X_encoded:
+                    x_decoded = self._decode(x, masking_char)
+                    X_decoded.append(x_decoded)
+            return X_decoded
+
+
+    def _decode(
+        self, x: Union[str, List[str]], masking_char: str = "_"
+    ) -> Union[str, List[str]]:
+        x_decoded = list(pad_both_ends(x, n=self.n))
+        indices_to_decode = [i for i, x in enumerate(x_decoded) if x == masking_char]
+        for i in indices_to_decode:
+            context = x_decoded[i - self.n + 1 : i] if self.n > 1 else []
+            x_decoded[i] = self.lm.generate(num_words=1, text_seed=context)
+        # Remove the padding
+        x_decoded = x_decoded[self.n - 1 : -self.n + 1] if self.n > 1 else x_decoded
+        x_decoded = x_decoded if isinstance(x, list) else " ".join(x_decoded)
+        return x_decoded
