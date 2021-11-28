@@ -43,7 +43,13 @@ class NGramModel(Model):
         with open(pickle_model_path, "wb") as f:
             pickle.dump(self.lm, f)
 
-    def decode(self, X: Union[List[str], List[List[str]]], masking_char: str = "_", parallel: bool = False) -> List[str]:
+    def decode(
+        self,
+        X: Union[List[str], List[List[str]]],
+        masking_char: str = "_",
+        random_seed: int = 42,
+        parallel: bool = False,
+    ) -> List[str]:
         """
         Decode the masked text x to its original form.
         """
@@ -52,11 +58,20 @@ class NGramModel(Model):
         else:
             # The text has already been tokenized and separated by spaces.
             X_encoded = copy.deepcopy(X)
-            X_encoded = X_encoded if isinstance(X[0], list) else [x.split() for x in X_encoded]
+            X_encoded = (
+                X_encoded if isinstance(X[0], list) else [x.split() for x in X_encoded]
+            )
             X_decoded = []
             if parallel:
                 with Pool() as pool:
-                    X_decoded = pool.map(partial(self._decode, masking_char=masking_char), X_encoded)
+                    X_decoded = pool.map(
+                        partial(
+                            self._decode,
+                            masking_char=masking_char,
+                            random_seed=random_seed,
+                        ),
+                        X_encoded[:10],
+                    )
             else:
                 for x in X_encoded:
                     x_decoded = self._decode(x, masking_char)
@@ -64,13 +79,23 @@ class NGramModel(Model):
             return X_decoded
 
     def _decode(
-        self, x: Union[str, List[str]], masking_char: str = "_"
+        self, x: Union[str, List[str]], masking_char: str = "_", random_seed: int = 42
     ) -> Union[str, List[str]]:
         x_decoded = list(pad_both_ends(x, n=self.n))
         indices_to_decode = [i for i, x in enumerate(x_decoded) if x == masking_char]
-        for i in indices_to_decode:
-            context = x_decoded[i - self.n + 1 : i] if self.n > 1 else []
-            x_decoded[i] = self.lm.generate(num_words=1, text_seed=context)
+        if self.n == 1:
+            decoded_words = self.lm.generate(
+                num_words=len(indices_to_decode),
+                random_seed=random_seed,
+                text_seed=None,
+            )
+            x_decoded = [decoded_words.pop()  if i in indices_to_decode else x for i, x in enumerate(x_decoded)]
+        else:
+            for i in indices_to_decode:
+                context = x_decoded[i - self.n + 1 : i]
+                x_decoded[i] = self.lm.generate(
+                    num_words=1, random_seed=random_seed, text_seed=context
+                )
         # Remove the padding
         x_decoded = x_decoded[self.n - 1 : -self.n + 1] if self.n > 1 else x_decoded
         x_decoded = x_decoded if isinstance(x, list) else " ".join(x_decoded)

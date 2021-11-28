@@ -89,6 +89,7 @@ def main():
     MASKING_PKL_DATA_PATH = os.path.join(
         cur_dir, "..", "src", "models", "pickle", "ngram", "ngram_lm_masked_dict.pkl"
     )
+    MASK_TOKEN = "_"
     LOG_DATA_PATH = os.path.join(cur_dir, "..", "logs", "ngram")
     compression_json_name = "compression_accuracies.json"
     if os.path.exists(MASKING_PKL_DATA_PATH):
@@ -102,10 +103,9 @@ def main():
     else:
         X_masked_dict = {}
         compression_score = []
-        mask_token = "_"
         for masking in masking_grid_list:
             kwargs = {k: v for k, v in masking.items() if k != "mask_type"}
-            mask = masking["mask_type"](mask_token=mask_token, **kwargs)
+            mask = masking["mask_type"](mask_token=MASK_TOKEN, **kwargs)
             masking_key = (mask.__class__.__name__, *tuple(kwargs.items()))
             X_masked_dict[masking_key] = mask.mask(X_val)
             compression_score.append(
@@ -141,15 +141,21 @@ def main():
         # Evaluate the model on each masking dataset
         for key, X_masked in X_masked_dict.items():
             # This appears to be a time bottleneck
-            X_decoded = model.decode(X_masked)
+            import time
+            start = time.time()
+            model.lm._cutoff = 5
+            X_decoded = model.decode(X_masked, parallel=True)
+            print(time.time() - start)
+            import pdb
+            pdb.set_trace()
             reconstruction_accuracy = model.accuracy_score(
-                masking_token=mask_token,
+                masking_token=MASK_TOKEN,
                 X_original=X_val,
                 X_masked=X_masked,
                 X_decoded=X_decoded,
             )
             similarity_score = model.similarity_score(
-                masking_token=mask_token,
+                masking_token=MASK_TOKEN,
                 X_original=X_val,
                 X_masked=X_masked,
                 X_decoded=X_decoded,
