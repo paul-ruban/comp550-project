@@ -63,7 +63,6 @@ class NGramModel(Model):
                     X_decoded.append(x_decoded)
             return X_decoded
 
-
     def _decode(
         self, x: Union[str, List[str]], masking_char: str = "_"
     ) -> Union[str, List[str]]:
