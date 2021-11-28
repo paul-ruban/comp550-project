@@ -1,12 +1,13 @@
 import copy
 import os
 import random
-
 from abc import abstractmethod
-from typing import List
 from collections import Counter
+from typing import List, Tuple, Union
+
+import nltk
 import numpy as np
-from typing import Tuple, Union
+from nltk.corpus import stopwords
 from src.utils.compressor import Compressor
 from src.utils.eval_metrics import compression_accuracy
 
@@ -270,40 +271,101 @@ class FrequencyBasedMask(Mask):
         return tokens_to_mask
 
 
-class ModifiedTfidMask(Mask):
-    def __init__(self, mask_token) -> None:
-        super().__init__(mask_token)
+class WeightedFrequencyMask(Mask):
+    def __init__(self, num_of_masks, prop_masked, mask_token) -> None:
+        """This masking scheme wights the frequency of each token by its length."""
+        assert (num_of_masks is not None and prop_masked is None) or (
+            num_of_masks is None and prop_masked is not None
+        )
+        self.num_of_masks = num_of_masks
+        self.prop_masked = prop_masked
+        self.mask_token = mask_token
 
     def mask(self, X: Union[List[str], List[List[str]]]) -> Union[List[str], List[List[str]]]:
-        pass
+        """X is a list of lists of strings, a string represents one token
+        Can also be a list of strings in which case the method does an extra tokenization
+        step"""
+        # make a copy of the data not to mess up the original
+        _X = copy.deepcopy(X)
+        _X = [x.split() if isinstance(x, str) else x for x in _X]
+        weighted_frequency_X = self.get_weighted_frequency(X=_X)
+        for i, tokenized_text in enumerate(_X):
+            num_masks = (
+                self.num_of_mask
+                if self.prop_masked is None
+                else int(len(tokenized_text) * self.prop_masked)
+            )
+            word_type_mask_list = weighted_frequency_X[i][:num_masks]
+            _X[i] = [
+                self.mask_token if token in word_type_mask_list else token
+                for token in tokenized_text
+            ]
+        # If used a list of strings as X, convert it back to this form
+        _X = [" ".join(x) for x in _X] if isinstance(X[0], str) else _X
+        return _X
+
+    def get_weighted_frequency(self, X: List[List[str]]) -> List[List[str]]:
+        """
+        Sorts the word types in each text by their weighted frequency.
+        """
+        frequency_X = [Counter(x) for x in X]
+        weighted_frequency_X = [
+            [(word_type, len(word_type) * count) for word_type, count in freq_x.items()]
+            for freq_x in frequency_X
+        ]
+        sorted_weighted_frequency_X = [
+            [
+                word_type
+                for word_type, _ in sorted(weighted_freq_x, key=lambda x: x[1], reverse=True)
+            ]
+            for weighted_freq_x in weighted_frequency_X
+        ]
+        return sorted_weighted_frequency_X
 
 
 class StopwordMask(Mask):
-    def __init__(
-        self,
-        ratio: float,
-        strategy: str,
-        mask_token: str = "_",
-        window_size: int = 10,
-    ):
-        pass
+    def __init__(self, prop_masked, mask_token, random_seed=42) -> None:
+        """Replace a the same proportion of stopwords in each text"""
+        self.prop_masked = prop_masked
+        self.random_seed = random_seed
+        self.mask_token = mask_token
 
-    def mask(self, X: List[List[str]]) -> List[List[str]]:
-        pass
+    def mask(self, X: Union[List[str], List[List[str]]]) -> Union[List[str], List[List[str]]]:
+        # make a copy of the data not to mess up the original
+        _X = copy.deepcopy(X)
+        _X = [x.split() if isinstance(x, str) else x for x in _X]
+        stopwords_list = stopwords.words("english")
+        random.seed(self.random_seed)
+        for i, tokenized_text in _X:
+            _X[i] = [
+                self.mask_token
+                if token in stopwords_list and random.random() < self.prop_masked
+                else token
+                for token in tokenized_text
+            ]
+        # If used a list of strings as X, convert it back to this form
+        _X = [" ".join(x) for x in _X] if isinstance(X[0], str) else _X
+        return _X
 
 
 class POSMask(Mask):
-    def __init__(
-        self,
-        ratio: float,
-        strategy: str,
-        mask_token: str = "_",
-        window_size: int = 10,
-    ):
-        pass
+    def __init__(self, pos_list, mask_token) -> None:
+        self.pos_list = pos_list
+        self.mask_token = mask_token
 
-    def mask(self, X: List[List[str]]) -> List[List[str]]:
-        pass
+    def mask(self, X: Union[List[str], List[List[str]]]) -> Union[List[str], List[List[str]]]:
+        _X = copy.deepcopy(X)
+        _X = [x.split() if isinstance(x, str) else x for x in _X]
+        pos_X = [nltk.pos_tag(x)[1] for x in _X]
+        for i, (tokenized_text, pos_list) in enumerate(zip(_X, pos_X)):
+            print(pos_list)
+            _X[i] = [
+                self.mask_token if token_pos in pos_list else token
+                for token, token_pos in zip(tokenized_text, pos_list)
+            ]
+        # If used a list of strings as X, convert it back to this form
+        _X = [" ".join(x) for x in _X] if isinstance(X[0], str) else _X
+        return _X
 
 
 class ProbabilisticMask(Mask):

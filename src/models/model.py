@@ -1,6 +1,7 @@
 import numpy as np
 from abc import abstractmethod
 from typing import List, Union
+from pymagnitude import Magnitude
 
 
 class Model:
@@ -68,6 +69,7 @@ class Model:
         Finds the average similarity score, focuses explicitly on
         the tokens that have been masked.
         """
+        vecs = Magnitude('word2vec/heavy/GoogleNews-vectors-negative300')
         if isinstance(X_original[0], str):
             X_original = [x.split() for x in X_original]
         if isinstance(X_masked[0], str):
@@ -81,7 +83,7 @@ class Model:
         similarity_score = np.zeros(len(X_original))
         for i, (x_original, x_masked, x_decoded) in enumerate(zip(X_original, X_masked, X_decoded)):
             masked_results = [
-                measure_similarity(x_o, x_d)
+                vecs.similarity(x_o, x_d)
                 for x_o, x_m, x_d in zip(x_original, x_masked, x_decoded)
                 if x_m == masking_token
             ]
