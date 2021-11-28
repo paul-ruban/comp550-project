@@ -1,7 +1,13 @@
 import numpy as np
 from abc import abstractmethod
 from typing import List, Union
-from pymagnitude import Magnitude
+
+try:
+    # If at first you don't succeed,
+    from pymagnitude import Magnitude
+except Exception as _:
+    # Simply try again!
+    from pymagnitude import Magnitude
 
 
 class Model:

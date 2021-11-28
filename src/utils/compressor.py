@@ -31,4 +31,3 @@ class Compressor:
         with open(self.data_path, "rb") as f_in:
             with gzip.open(compressed_data_path, "wb") as f_out:
                 shutil.copyfileobj(f_in, f_out)
-        print(f"Compressed {self.data_path} as {compressed_data_path}")

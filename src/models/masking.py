@@ -13,11 +13,11 @@ from src.utils.eval_metrics import compression_accuracy
 
 
 class Mask:
-    def __init__(self, mask_token) -> None:
+    def __init__(self, mask_token: str = "_") -> None:
         self.mask_token = mask_token
 
     @abstractmethod
-    def mask(self, X: List[List[str]]) -> List[List[str]]:
+    def mask(self, X: Union[List[str], List[List[str]]]) -> Union[List[str], List[List[str]]]:
         """X is a list of lists of strings, a string represents one token"""
         pass
 
@@ -40,7 +40,8 @@ class Mask:
             X_original = [" ".join(x) for x in X_original]
         if isinstance(X_masked[0], list):
             X_masked = [" ".join(x) for x in X_original]
-        temp_data_path = os.path.join(os.getcwd(), "..", "..", "data", "temp")
+        parent_dir = os.path.dirname(os.path.abspath(__file__))
+        temp_data_path = os.path.join(parent_dir, "..", "..", "data", "temp")
         compression_scores = np.zeros(len(X_original))
         for i, (x_original, x_masked) in enumerate(zip(X_original, X_masked)):
             original_file_path = os.path.join(temp_data_path, "original.txt")
@@ -62,11 +63,11 @@ class Mask:
 class RandomMask(Mask):
     """Implements random masking strategy."""
 
-    def __init__(self, proba, mask_token, adjust_by_length=False) -> None:
+    def __init__(self, mask_token, proba, adjust_by_length=False) -> None:
         assert 0 < proba <= 1, "Masking probability proba must be > 0 and <= 1"
+        super().__init__(mask_token)
         self.proba = proba
         self.adjust_by_length = adjust_by_length
-        self.mask_token = mask_token
 
     def mask(self, X: List[List[str]]) -> List[List[str]]:
         """X is a list of lists of strings, a string represents one token"""
@@ -90,12 +91,12 @@ class RandomMask(Mask):
 
 
 class LengthBasedMask(Mask):
-    def __init__(self, ratio, strategy, mask_token) -> None:
+    def __init__(self, mask_token, ratio, strategy) -> None:
         assert 0 < ratio <= 1, "Masking ratio must be > 0 and <= 1"
         assert strategy in ["sentence", "all"], "Masking strategy must be one of: [sent, all]"
+        super().__init__(mask_token)
         self.ratio = ratio
         self.strategy = strategy
-        self.mask_token = mask_token
 
     def mask(self, X: List[List[str]]) -> List[List[str]]:
         """X is a list of lists of strings, a string represents one token"""
@@ -134,18 +135,18 @@ class LengthBasedMask(Mask):
 
 
 class RandomWindowMask(Mask):
-    def __int__(
+    def __init__(
         self,
         mask_token: str = "_",
         window_size: int = 10,
-        num_of_masks: int = 1,
+        num_of_masks: int = None,
         prop_masked: float = None,
         random_seed: int = 42,
     ) -> None:
         assert (num_of_masks is not None and prop_masked is None) or (
             num_of_masks is None and prop_masked is not None
-        ), "You must be either a fixed num of tokens to mask within a window or a proportion."
-        self.mask_token = mask_token
+        ), "You must be either pass a fixed num of tokens to mask within a window or a proportion."
+        super().__init__(mask_token)
         self.window_size = window_size
         self.num_of_masks = num_of_masks
         self.prop_masked = prop_masked
@@ -190,13 +191,13 @@ class LengthWindowMask(Mask):
         self,
         mask_token: str = "_",
         window_size: int = 10,
-        num_of_masks: int = 1,
+        num_of_masks: int = None,
         prop_masked: float = None,
     ):
         assert (num_of_masks is not None and prop_masked is None) or (
             num_of_masks is None and prop_masked is not None
         )
-        self.mask_token = mask_token
+        super().__init__(mask_token)
         self.window_size = window_size
         self.num_of_masks = num_of_masks
         self.prop_masked = prop_masked
@@ -228,7 +229,7 @@ class LengthWindowMask(Mask):
                 )[:num_of_masks]
             ]
             masked_text = [
-                self.masking_token if i in masked_indices else token
+                self.mask_token if i in masked_indices else token
                 for i, token in tokenized_text_with_index
             ]
             # If used a list of strings as X, convert it back
@@ -238,10 +239,10 @@ class LengthWindowMask(Mask):
 
 
 class FrequencyBasedMask(Mask):
-    def __init__(self, top_freq, mask_token) -> None:
+    def __init__(self, mask_token, top_freq) -> None:
         assert top_freq > 0, "Top frequent must be positive"
+        super().__init__(mask_token)
         self.top_freq = top_freq
-        self.mask_token = mask_token
 
     def mask(self, X: Union[List[str], List[List[str]]]) -> Union[List[str], List[List[str]]]:
         """X is a list of lists of strings, a string represents one token
@@ -271,15 +272,61 @@ class FrequencyBasedMask(Mask):
         return tokens_to_mask
 
 
+class FrequencyMask(Mask):
+    def __init__(self, mask_token, num_of_masks: int = None, prop_masked: float = None) -> None:
+        """This masking scheme uses the most frequent tokens PER text
+        this is different from FrequencyBasedMask."""
+        assert (num_of_masks is not None and prop_masked is None) or (
+            num_of_masks is None and prop_masked is not None
+        )
+        super().__init__(mask_token)
+        self.num_of_masks = num_of_masks
+        self.prop_masked = prop_masked
+
+    def mask(self, X: Union[List[str], List[List[str]]]) -> Union[List[str], List[List[str]]]:
+        """X is a list of lists of strings, a string represents one token
+        Can also be a list of strings in which case the method does an extra tokenization
+        step"""
+        # make a copy of the data not to mess up the original
+        _X = copy.deepcopy(X)
+        _X = [x.split() if isinstance(x, str) else x for x in _X]
+        frequency_X = self.get_frequency(X=_X)
+        for i, tokenized_text in enumerate(_X):
+            num_masks = (
+                self.num_of_mask
+                if self.prop_masked is None
+                else int(len(tokenized_text) * self.prop_masked)
+            )
+            word_type_mask_list = frequency_X[i][:num_masks]
+            _X[i] = [
+                self.mask_token if token in word_type_mask_list else token
+                for token in tokenized_text
+            ]
+        # If used a list of strings as X, convert it back to this form
+        _X = [" ".join(x) for x in _X] if isinstance(X[0], str) else _X
+        return _X
+
+    def get_frequency(self, X: List[List[str]]) -> List[List[str]]:
+        """
+        Sorts the word types in each text by their weighted frequency.
+        """
+        frequency_X = [Counter(x) for x in X]
+        sorted_frequency_X = [
+            [word_type for word_type, _ in sorted(freq_X.items(), key=lambda x: x[1], reverse=True)]
+            for freq_X in frequency_X
+        ]
+        return sorted_frequency_X
+
+
 class WeightedFrequencyMask(Mask):
-    def __init__(self, num_of_masks, prop_masked, mask_token) -> None:
+    def __init__(self, mask_token, num_of_masks: int = None, prop_masked: float = None) -> None:
         """This masking scheme wights the frequency of each token by its length."""
         assert (num_of_masks is not None and prop_masked is None) or (
             num_of_masks is None and prop_masked is not None
         )
+        super().__init__(mask_token)
         self.num_of_masks = num_of_masks
         self.prop_masked = prop_masked
-        self.mask_token = mask_token
 
     def mask(self, X: Union[List[str], List[List[str]]]) -> Union[List[str], List[List[str]]]:
         """X is a list of lists of strings, a string represents one token
@@ -324,11 +371,11 @@ class WeightedFrequencyMask(Mask):
 
 
 class StopwordMask(Mask):
-    def __init__(self, prop_masked, mask_token, random_seed=42) -> None:
+    def __init__(self, mask_token, prop_masked, random_seed=42) -> None:
         """Replace a the same proportion of stopwords in each text"""
+        super().__init__(mask_token)
         self.prop_masked = prop_masked
         self.random_seed = random_seed
-        self.mask_token = mask_token
 
     def mask(self, X: Union[List[str], List[List[str]]]) -> Union[List[str], List[List[str]]]:
         # make a copy of the data not to mess up the original
@@ -336,7 +383,7 @@ class StopwordMask(Mask):
         _X = [x.split() if isinstance(x, str) else x for x in _X]
         stopwords_list = stopwords.words("english")
         random.seed(self.random_seed)
-        for i, tokenized_text in _X:
+        for i, tokenized_text in enumerate(_X):
             _X[i] = [
                 self.mask_token
                 if token in stopwords_list and random.random() < self.prop_masked
@@ -349,16 +396,15 @@ class StopwordMask(Mask):
 
 
 class POSMask(Mask):
-    def __init__(self, pos_list, mask_token) -> None:
+    def __init__(self, mask_token, pos_list) -> None:
+        super().__init__(mask_token)
         self.pos_list = pos_list
-        self.mask_token = mask_token
 
     def mask(self, X: Union[List[str], List[List[str]]]) -> Union[List[str], List[List[str]]]:
         _X = copy.deepcopy(X)
         _X = [x.split() if isinstance(x, str) else x for x in _X]
-        pos_X = [nltk.pos_tag(x)[1] for x in _X]
+        pos_X = [[elt[1] for elt in nltk.pos_tag(x)] for x in _X]
         for i, (tokenized_text, pos_list) in enumerate(zip(_X, pos_X)):
-            print(pos_list)
             _X[i] = [
                 self.mask_token if token_pos in pos_list else token
                 for token, token_pos in zip(tokenized_text, pos_list)
@@ -370,5 +416,11 @@ class POSMask(Mask):
 
 class ProbabilisticMask(Mask):
     def __init__(self, mask_probas, mask_token) -> None:
+        super().__init__(mask_token)
         self.mask_probas = mask_probas
-        self.mask_token = mask_token
+
+
+if __name__ == "__main__":
+    a = Mask("_")
+    b = RandomMask("_", 0.1)
+    c = RandomWindowMask("_", 0.1, 0.2)

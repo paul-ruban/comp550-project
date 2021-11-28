@@ -2,6 +2,7 @@ import editdistance
 import os
 
 from pathlib import Path
+from typing import List
 from src.utils.compressor import Compressor
 from src.utils.file_metrics import FileMetrics
 
@@ -67,7 +68,12 @@ def harmonic_mean_score(
     """
     compression_acc = compression_accuracy(original_file_path, compressed_file_path)
     edit_distance_acc = edit_distance_accuracy(original_string, uncompressed_string)
-    return 2 / (1 / compression_acc + 1 / edit_distance_acc)
+    return harmonic_mean[compression_acc, edit_distance_acc]
+
+
+def harmonic_mean(x: List[float]) -> float:
+    """Computes the harmonic mean of a list of numbers"""
+    return len(x) / sum(1 / i for i in x)
 
 
 if __name__ == "__main__":

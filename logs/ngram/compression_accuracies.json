@@ -1,0 +1,29 @@
+{"mask_type": "RandomWindowMask", "prop_masked": 0.1, "window_size": 10, "compression_accuracy": 0.5037647126401189}
+{"mask_type": "RandomWindowMask", "prop_masked": 0.3, "window_size": 10, "compression_accuracy": 0.5687160480539963}
+{"mask_type": "RandomWindowMask", "prop_masked": 0.5, "window_size": 10, "compression_accuracy": 0.652597330084086}
+{"mask_type": "RandomWindowMask", "prop_masked": 0.7, "window_size": 10, "compression_accuracy": 0.7515821084003027}
+{"mask_type": "RandomWindowMask", "prop_masked": 0.9, "window_size": 10, "compression_accuracy": 0.8747033011668572}
+{"mask_type": "LengthWindowMask", "prop_masked": 0.1, "window_size": 10, "compression_accuracy": 0.5493384662528236}
+{"mask_type": "LengthWindowMask", "prop_masked": 0.3, "window_size": 10, "compression_accuracy": 0.6693519806777145}
+{"mask_type": "LengthWindowMask", "prop_masked": 0.5, "window_size": 10, "compression_accuracy": 0.7705528886703281}
+{"mask_type": "LengthWindowMask", "prop_masked": 0.7, "window_size": 10, "compression_accuracy": 0.8479426462969194}
+{"mask_type": "LengthWindowMask", "prop_masked": 0.9, "window_size": 10, "compression_accuracy": 0.9243149499407571}
+{"mask_type": "FrequencyMask", "prop_masked": 0.1, "compression_accuracy": 0.5877856120705879}
+{"mask_type": "FrequencyMask", "prop_masked": 0.3, "compression_accuracy": 0.7576689892246462}
+{"mask_type": "FrequencyMask", "prop_masked": 0.5, "compression_accuracy": 0.9291875468444333}
+{"mask_type": "FrequencyMask", "prop_masked": 0.7, "compression_accuracy": 0.9778694412743573}
+{"mask_type": "FrequencyMask", "prop_masked": 0.9, "compression_accuracy": 0.9781546122600497}
+{"mask_type": "WeightedFrequencyMask", "prop_masked": 0.1, "compression_accuracy": 0.5994142019952339}
+{"mask_type": "WeightedFrequencyMask", "prop_masked": 0.3, "compression_accuracy": 0.7870858569427152}
+{"mask_type": "WeightedFrequencyMask", "prop_masked": 0.5, "compression_accuracy": 0.9427558241266731}
+{"mask_type": "WeightedFrequencyMask", "prop_masked": 0.7, "compression_accuracy": 0.9779777346912303}
+{"mask_type": "WeightedFrequencyMask", "prop_masked": 0.9, "compression_accuracy": 0.9781546122600497}
+{"mask_type": "StopwordMask", "prop_masked": 0.1, "compression_accuracy": 0.48367117496156037}
+{"mask_type": "StopwordMask", "prop_masked": 0.3, "compression_accuracy": 0.49089222765424423}
+{"mask_type": "StopwordMask", "prop_masked": 0.5, "compression_accuracy": 0.5027771080117014}
+{"mask_type": "StopwordMask", "prop_masked": 0.7, "compression_accuracy": 0.517729193627926}
+{"mask_type": "StopwordMask", "prop_masked": 0.9, "compression_accuracy": 0.5365617938406818}
+{"mask_type": "POSMask", "pos_list": ["CC", "DT", "EX", "IN", "MD", "PDT", "PRP", "RP"], "compression_accuracy": 0.9781546122600497}
+{"mask_type": "POSMask", "pos_list": ["RB", "RBS", "RBR", "JJ", "JJR", "JJS"], "compression_accuracy": 0.9781546122600497}
+{"mask_type": "POSMask", "pos_list": ["NN", "NNP", "NNS"], "compression_accuracy": 0.9781546122600497}
+{"mask_type": "POSMask", "pos_list": ["VB", "VBD", "VBG", "VBN", "VBP", "VBZ"], "compression_accuracy": 0.9781546122600497}
