@@ -58,24 +58,36 @@ class NGramModel(Model):
         else:
             # The text has already been tokenized and separated by spaces.
             X_encoded = copy.deepcopy(X)
-            X_encoded = (
-                X_encoded if isinstance(X[0], list) else [x.split() for x in X_encoded]
-            )
+            X_encoded = X_encoded if isinstance(X[0], list) else [x.split() for x in X_encoded]
             X_decoded = []
-            if parallel:
-                with Pool() as pool:
-                    X_decoded = pool.map(
-                        partial(
-                            self._decode,
-                            masking_char=masking_char,
-                            random_seed=random_seed,
-                        ),
-                        X_encoded[:10],
-                    )
+            if self.n == 1:
+                # In this case it's more appropriate to generate ALL at the same time
+                num_words_to_decode = sum(
+                    [sum([int(x == masking_char) for x in x_encoded]) for x_encoded in X_encoded]
+                )
+                generated_tokens = self.lm.generate(
+                    num_words=num_words_to_decode, random_seed=random_seed, context=None
+                )
+                X_decoded = [
+                    [generated_tokens.pop() if x == masking_char else x for x in x_encoded]
+                    for x_encoded in X_encoded
+                ]
+
             else:
-                for x in X_encoded:
-                    x_decoded = self._decode(x, masking_char)
-                    X_decoded.append(x_decoded)
+                if parallel:
+                    with Pool() as pool:
+                        X_decoded = pool.map(
+                            partial(
+                                self._decode,
+                                masking_char=masking_char,
+                                random_seed=random_seed,
+                            ),
+                            X_encoded,
+                        )
+                else:
+                    for x in X_encoded:
+                        x_decoded = self._decode(x, masking_char)
+                        X_decoded.append(x_decoded)
             return X_decoded
 
     def _decode(
@@ -83,19 +95,9 @@ class NGramModel(Model):
     ) -> Union[str, List[str]]:
         x_decoded = list(pad_both_ends(x, n=self.n))
         indices_to_decode = [i for i, x in enumerate(x_decoded) if x == masking_char]
-        if self.n == 1:
-            decoded_words = self.lm.generate(
-                num_words=len(indices_to_decode),
-                random_seed=random_seed,
-                text_seed=None,
-            )
-            x_decoded = [decoded_words.pop()  if i in indices_to_decode else x for i, x in enumerate(x_decoded)]
-        else:
-            for i in indices_to_decode:
-                context = x_decoded[i - self.n + 1 : i]
-                x_decoded[i] = self.lm.generate(
-                    num_words=1, random_seed=random_seed, text_seed=context
-                )
+        for i in indices_to_decode:
+            context = x_decoded[i - self.n + 1 : i]
+            x_decoded[i] = self.lm.generate(num_words=1, random_seed=random_seed, text_seed=context)
         # Remove the padding
         x_decoded = x_decoded[self.n - 1 : -self.n + 1] if self.n > 1 else x_decoded
         x_decoded = x_decoded if isinstance(x, list) else " ".join(x_decoded)
