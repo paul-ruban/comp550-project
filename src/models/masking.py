@@ -1,7 +1,7 @@
 import copy
 import random
 from abc import abstractmethod
-from typing import List
+from typing import List, Tuple
 from collections import Counter
 
 
@@ -27,8 +27,11 @@ class RandomMask(Mask):
         """X is a list of lists of strings, a string represents one token"""
         # make a copy of the data not to mess up the orogonal
         _X = copy.deepcopy(X)
+        print('_X is', _X)
         for i in range(len(_X)):
-            for j in range(len(i)):
+            # print('i is', i)
+            for j in range(len(_X[i])):
+                # print('i is', i, 'j is', j)
                 proba = self.proba
                 # the probability of masking is adjusted by the token length, increasing probability of longer tokens
                 # Ex.
@@ -50,6 +53,7 @@ class LengthBasedMask(Mask):
         self.strategy = strategy
         self.mask_token = mask_token
     
+    # Takes into account randomly masking equally size tokens
     def mask(self, X: List[List[str]]) -> List[List[str]]:
         """X is a list of lists of strings, a string represents one token"""
         # make a copy of the data not to mess up the orogonal
@@ -61,17 +65,34 @@ class LengthBasedMask(Mask):
 
         for i in range(len(_X)):
             if self.strategy == "sentence":
-                min_masked_len, max_masked_count = self.get_masked_min_len_max_count(X=_X[i], ratio=self.ratio)
-            for j in range(len(i)):
-                if len(_X[i][j]) >= min_masked_len and masked < max_masked_count:
-                    _X[i][j] = self.mask_token
-                    masked += 1
+                min_masked_len, max_masked_count = self.get_masked_min_len_max_count(X=[_X[i]], ratio=self.ratio)
+                masked = 0
+
+            maskable_token_ids = {}
+
+            for idx, token in enumerate(_X[i]):
+                if len(token) >= min_masked_len:
+                    if (len(token) in maskable_token_ids):
+                        maskable_token_ids[len(token)].append(idx)
+                    else:
+                        maskable_token_ids[len(token)] = [idx]
+
+            for k in maskable_token_ids:
+                random.shuffle(maskable_token_ids[k])
+
+            while (masked < max_masked_count and maskable_token_ids):
+                len_to_mask = max(maskable_token_ids.keys())
+                id_to_mask = maskable_token_ids[len_to_mask].pop() if len(maskable_token_ids[len_to_mask]) > 1 else maskable_token_ids.pop(len_to_mask)[0]
+                
+                _X[i][id_to_mask] = self.mask_token
+                masked += 1
+
             if self.strategy == "sentence":
                 masked = 0
     
         return _X
 
-    def get_masked_min_len_max_count(X : List[List[str]], ratio : float) -> int, int:
+    def get_masked_min_len_max_count(self, X : List[List[str]], ratio : float) -> Tuple[int, int]:
         if any(isinstance(x, list) for x in X):
             # X is a List[List[str]], need to flatten it
             X = [t for x in X for t in x]
