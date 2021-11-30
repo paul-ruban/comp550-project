@@ -136,3 +136,8 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+# Job script
+job_script
+job_output.*
+job_error.*
