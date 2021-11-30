@@ -1,14 +1,15 @@
 import copy
+from functools import partial
+from multiprocessing import Pool
 from pathlib import Path
 from typing import List, Union
-from multiprocessing import Pool
-from functools import partial
-
 
 import dill as pickle
 import nltk.lm
-from nltk.lm.preprocessing import pad_both_ends
-from nltk.lm.preprocessing import padded_everygram_pipeline
+import numpy as np
+from nltk.lm.preprocessing import (flatten, pad_both_ends,
+                                   padded_everygram_pipeline)
+from nltk.util import ngrams
 from src.models.model import Model
 
 
@@ -28,6 +29,16 @@ class NGramModel(Model):
         self.lm.fit(train, vocab)
         return self.lm
 
+    def preprocess(self, X: List[str]) -> List[str]:
+        """
+        Preprocess the text to be used in the model.
+        """
+        train = [x.split() for x in X]
+        X = [pad_both_ends(x, n=self.n) for x in X]
+        X = [ngrams(x, n=self.n) for x in X]
+        vocab = set(flatten(X))
+        return train, vocab
+
     def load_model(self, pickle_model_path: str) -> nltk.lm:
         pickle_model_path = Path(pickle_model_path)
         assert pickle_model_path.suffix == ".pkl", "Must be a pickle file"
@@ -43,6 +54,16 @@ class NGramModel(Model):
         with open(pickle_model_path, "wb") as f:
             pickle.dump(self.lm, f)
 
+    def average_perplexity(self, X: Union[List[str], List[List[str]]]) -> float:
+        if self.lm is None:
+            raise ValueError("Must fit the model before computing average perplexity")
+        else:
+            _X = copy.deepcopy(X)
+            _X = _X if isinstance(X[0], list) else [x.split() for x in _X]
+            _X = [ngrams(pad_both_ends(x, n=self.n), self.n) for x in _X]
+            perplexities = np.array([self.lm.perplexity(x) for x in _X])
+            return perplexities.mean()
+
     def decode(
         self,
         X: Union[List[str], List[List[str]]],
@@ -56,7 +77,6 @@ class NGramModel(Model):
         if self.lm is None:
             raise ValueError("Must fit the model before decoding")
         else:
-            # The text has already been tokenized and separated by spaces.
             X_encoded = copy.deepcopy(X)
             X_encoded = X_encoded if isinstance(X[0], list) else [x.split() for x in X_encoded]
             X_decoded = []
@@ -65,14 +85,18 @@ class NGramModel(Model):
                 num_words_to_decode = sum(
                     [sum([int(x == masking_char) for x in x_encoded]) for x_encoded in X_encoded]
                 )
-                generated_tokens = self.lm.generate(
-                    num_words=num_words_to_decode, random_seed=random_seed, context=None
+                # lm_copy = copy.deepcopy(self.lm)
+                # lm_copy.vocab.counts = {k: v for k, v in self.lm.vocab.counts.items() if v > 5}
+                generated_tokens = self.l.generate(
+                    num_words=num_words_to_decode, random_seed=random_seed, text_seed=None
                 )
                 X_decoded = [
                     [generated_tokens.pop() if x == masking_char else x for x in x_encoded]
                     for x_encoded in X_encoded
                 ]
-
+                X_decoded = (
+                    X_decoded if isinstance(X[0], list) else [" ".join(x) for x in X_decoded]
+                )
             else:
                 if parallel:
                     with Pool() as pool:

@@ -69,13 +69,15 @@ def main():
     ]
     masking_grid_list = list(ParameterGrid(masking_grid))
     lm_grid = [
-        {"lm": [MLE], "n": [1, 2, 3, 4, 5]},
+        {"lm": [MLE], "n": [1, 2, 3]},
         {"lm": [Lidstone], "n": [1, 2, 3, 4, 5], "gamma": [0.1, 0.5, 0.7, 1, 2, 3]},
         {
             "lm": [KneserNeyInterpolated],
-            "n": [1, 2, 3, 4, 5],
-            "discount": [0.001, 0.01, 0.1, 0.5, 1, 2, 3],
+            "n": [2, 3, 4, 5],
+            "discount": [0.1, 0.3, 0.5, 0.7, 0.9],
         },
+        # StupidBackoff => Report that it gives infinity which makes sense because it's not smoothed
+        # only works for huge LM - equivalent to linear combination of the MLEs
     ]
     lm_grid_list = list(ParameterGrid(lm_grid))
     # Get train dataset
@@ -124,14 +126,16 @@ def main():
                 f.write("\n")
     # Train the language models
     evaluation_dict = {}
-    for i, params in enumerate(lm_grid_list):
-        print(f"Training n-gram language model with id = {i} with params : \n{params}")
+    perplexity_json_name = "average_perplexity.json"
+    for i, params in enumerate(lm_grid_list[33:], 108):
+        print(f"Training n-gram language model (version 3.6.5 ok KS) with id = {i} with params : \n{params}")
         pickle_path = os.path.join(cur_dir, "..", "src", "models", "pickle", "ngram", f"lm_{i}.pkl")
         model = NGramModel(n=params["n"])
+        kwargs = {k: v for k, v in params.items() if k != "lm" and k != "n"}
+        dict_to_log = {"id": i, "lm": params["lm"].__name__, "n": params["n"], **kwargs}
         if os.path.exists(pickle_path):
             model.load_model(pickle_path)
         else:
-            kwargs = {k: v for k, v in params.items() if k != "lm" and k != "n"}
             model.fit(X_train, lm=params["lm"], **kwargs)
             model.save_model(
                 pickle_model_path=os.path.join(
@@ -139,6 +143,12 @@ def main():
                 )
             )
         # Evaluate the model on each masking dataset
+        # Log the perplexity
+        dict_to_log["avg_perplexity"] = model.average_perplexity(X_val)
+        with open(os.path.join(LOG_DATA_PATH, perplexity_json_name), "a") as f:
+            json.dump(dict_to_log, f)
+            f.write("\n")
+        continue
         for key, X_masked in X_masked_dict.items():
             # This appears to be a time bottleneck
             import time
