@@ -85,9 +85,7 @@ class NGramModel(Model):
                 num_words_to_decode = sum(
                     [sum([int(x == masking_char) for x in x_encoded]) for x_encoded in X_encoded]
                 )
-                # lm_copy = copy.deepcopy(self.lm)
-                # lm_copy.vocab.counts = {k: v for k, v in self.lm.vocab.counts.items() if v > 5}
-                generated_tokens = self.l.generate(
+                generated_tokens = self.lm.generate(
                     num_words=num_words_to_decode, random_seed=random_seed, text_seed=None
                 )
                 X_decoded = [
