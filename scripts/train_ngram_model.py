@@ -18,20 +18,6 @@ from src.models.ngram_model import NGramModel
 from src.utils.eval_metrics import harmonic_mean
 
 
-def load_data(data_path: str) -> List[str]:
-    """
-    Loads data from the given path as list of strings. Each
-    string is a text.
-    """
-    data_path = Path(data_path)
-    file_paths = data_path.glob("**/*.txt")
-    data = []
-    for file_path in file_paths:
-        with open(file_path, "r") as f:
-            data.append(f.read())
-    return data
-
-
 def main():
     # Create grid of parameters to try
     masking_grid = [
@@ -124,7 +110,7 @@ def main():
                 f.write("\n")
     # Train the language models
     evaluation_dict = {}
-    for i, params in enumerate(lm_grid_list):
+    for i, params in enumerate(lm_grid_list[:1]):
         print(f"Training n-gram language model with id = {i} with params : \n{params}")
         pickle_path = os.path.join(cur_dir, "..", "src", "models", "pickle", "ngram", f"lm_{i}.pkl")
         model = NGramModel(n=params["n"])
@@ -143,22 +129,22 @@ def main():
             # This appears to be a time bottleneck
             import time
             start = time.time()
-            model.lm._cutoff = 5
-            X_decoded = model.decode(X_masked, parallel=True)
+            X_decoded = model.decode(X_masked[:5], parallel=True)
             print(time.time() - start)
-            import pdb
-            pdb.set_trace()
+            print(X_val[:5])
+            print(X_masked[:5])
+            print(X_decoded[:5])
             reconstruction_accuracy = model.accuracy_score(
                 masking_token=MASK_TOKEN,
-                X_original=X_val,
-                X_masked=X_masked,
-                X_decoded=X_decoded,
+                X_original=X_val[:5],
+                X_masked=X_masked[:5],
+                X_decoded=X_decoded[:5],
             )
             similarity_score = model.similarity_score(
                 masking_token=MASK_TOKEN,
-                X_original=X_val,
-                X_masked=X_masked,
-                X_decoded=X_decoded,
+                X_original=X_val[:5],
+                X_masked=X_masked[:5],
+                X_decoded=X_decoded[:5],
             )
             evaluation_dict[(f"lm_{i}", *key)] = {
                 "reconstruction_accuracy": reconstruction_accuracy,

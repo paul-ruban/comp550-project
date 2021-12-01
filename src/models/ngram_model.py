@@ -66,7 +66,7 @@ class NGramModel(Model):
                     [sum([int(x == masking_char) for x in x_encoded]) for x_encoded in X_encoded]
                 )
                 generated_tokens = self.lm.generate(
-                    num_words=num_words_to_decode, random_seed=random_seed, context=None
+                    num_words=num_words_to_decode, random_seed=random_seed, text_seed=None
                 )
                 X_decoded = [
                     [generated_tokens.pop() if x == masking_char else x for x in x_encoded]
