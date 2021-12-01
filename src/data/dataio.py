@@ -1,7 +1,9 @@
 import os
 import re
+import copy
 import torch
 from datasets import load_dataset
+from torch.utils import data
 
 DATASET_SCRIPT_PATH = os.path.join(os.path.dirname(os.path.realpath(__file__)), "dataset_script.py")
 
@@ -59,7 +61,7 @@ class Dataset(torch.utils.data.Dataset):
         return len(self.dataset)
 
     def map(self, *args, **kwargs):
-        self.dataset = self.dataset.map(*args, batched=True, **kwargs)
+        self.dataset = self.dataset.map(*args, **kwargs)
         return self
     
     def filter(self, *args, **kwargs):
@@ -100,10 +102,7 @@ def truncate_fn(dataset: Dataset, tokenizer, max_seq_length : int = 128, fill_to
             example = {feat : dataset[feat].pop(i) for feat in dataset}
             tokens = example["tokens"]
             chunks = [tokens[i:i+max_seq_length-2] for i in range(0, len(tokens), max_seq_length - 2)]
-            for j, chunk in enumerate(chunks):
-                dataset["file_id"].insert(i, example["file_id"])
-                dataset["line_id"].insert(i, example["line_id"])
-                dataset["subline_id"].insert(i, j)
+            for chunk in chunks:
                 dataset["tokens"].insert(i, chunk)
                 dataset["text"].insert(i, tokenizer.convert_tokens_to_string(dataset["tokens"][i]))
                 i += 1
@@ -114,8 +113,7 @@ def truncate_fn(dataset: Dataset, tokenizer, max_seq_length : int = 128, fill_to
 
                 # if concatenate lines, insert a separator token
                 # make sure lines come from the same file
-                if (current_tokens_len + next_tokens_len + 1 < max_seq_length - 2 and
-                    dataset["file_id"][i] == dataset["file_id"][i+1]):
+                if (current_tokens_len + next_tokens_len + 1 < max_seq_length - 2):
                     next_example = {feat : dataset[feat].pop(i+1) for feat in dataset}
                     
                     # join lines, but keep file, document, line ids the same
@@ -130,8 +128,16 @@ def truncate_fn(dataset: Dataset, tokenizer, max_seq_length : int = 128, fill_to
 
 
 def tokenize_fn(dataset : Dataset, tokenizer) -> Dataset:
-    """Tokenizes text feature and adds tokens feature to the Dataset."""
-    dataset["tokens"] = [tokenizer.tokenize(line) for line in dataset["text"]]
+    """Tokenize text feature and add tokens feature."""
+    processed = tokenizer(dataset["text"], padding=True)
+    dataset["input_ids"] = processed["input_ids"]
+
+    return dataset
+
+
+def convert_tokens_to_ids_fn(dataset : Dataset, tokenizer) -> Dataset:
+    """Convert tokens to input_ids."""
+    dataset["input_ids"] = [tokenizer.convert_tokens_to_ids(line) for line in dataset["tokens"]]
 
     return dataset
 
@@ -146,7 +152,6 @@ def recover_mask_fn(dataset : Dataset, tokenizer, mask_char='A') -> Dataset:
     1. "I 'm enjoying A." -> I 'm enjoying <mask>.
     2. "I 'm 2A life." -> I 'm <mask><mask> life.
     """
-
     dataset["text"] = [
         re.sub(
             pattern=rf'(\d*)({mask_char})', 
@@ -154,5 +159,11 @@ def recover_mask_fn(dataset : Dataset, tokenizer, mask_char='A') -> Dataset:
             string=line) 
         for line in dataset["text"]
     ]
+
+    return dataset
+
+
+def prepare_for_rnn(dataset: Dataset) -> Dataset:
+    dataset["labels"] = dataset["text"]
 
     return dataset
