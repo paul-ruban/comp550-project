@@ -2,6 +2,7 @@ import json
 import os
 import pickle
 import argparse
+from tqdm import tqdm
 from pathlib import Path
 
 from sklearn.model_selection import ParameterGrid
@@ -130,7 +131,8 @@ def main():
         }
     )
     # Mask with each paradigm
-    for masking in masking_grid_list:
+    print("Masking texts :)")
+    for masking in tqdm(masking_grid_list):
         kwargs = {k: v for k, v in masking.items() if k != "mask_type"}
         mask = masking["mask_type"](mask_token=MASK_TOKEN, **kwargs)
         masking_key = (mask.__class__.__name__, *tuple(kwargs.items()))
