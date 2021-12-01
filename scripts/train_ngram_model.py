@@ -66,8 +66,6 @@ def main():
         # only works for huge LM - equivalent to linear combination of the MLEs
     ]
     lm_grid_list = list(ParameterGrid(lm_grid))
-    print("sup")
-    return
     # Get train dataset
     cur_dir = os.path.dirname(os.path.abspath(__file__))
     TRAINING_DATA_PATH = os.path.join(cur_dir, "..", "data", "clean", "training")
