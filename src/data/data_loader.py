@@ -8,7 +8,7 @@ def load_data(data_path: str) -> List[str]:
     string is a text.
     """
     data_path = Path(data_path)
-    file_paths = data_path.glob("**/*.txt")
+    file_paths = sorted(data_path.glob("**/*.txt"))
     data = []
     for file_path in file_paths:
         with open(file_path, "r") as f:

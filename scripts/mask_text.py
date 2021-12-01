@@ -9,6 +9,7 @@ from src.data.data_loader import load_data
 from src.models.masking import (
     FrequencyMask,
     LengthWindowMask,
+    Mask,
     POSMask,
     RandomWindowMask,
     StopwordMask,
@@ -57,7 +58,7 @@ def parse_args():
         "--log_file_path",
         required=False,
         help="Output path to the log file (json).",
-        default=log_file_path
+        default=log_file_path,
     )
     # Parse arguments
     args = parser.parse_args()
@@ -120,6 +121,15 @@ def main():
     MASK_TOKEN = "_"
     X_masked_dict = {}
     compression_score = []
+    # Baseline of no masking just gzip
+    no_mask = Mask()
+    compression_score.append(
+        {
+            "mask_type": "no_mask",
+            "compression_accuracy": no_mask.compression_score(X_val, X_val)
+        }
+    )
+    # Mask with each paradigm
     for masking in masking_grid_list:
         kwargs = {k: v for k, v in masking.items() if k != "mask_type"}
         mask = masking["mask_type"](mask_token=MASK_TOKEN, **kwargs)

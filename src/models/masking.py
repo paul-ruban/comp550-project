@@ -406,7 +406,7 @@ class POSMask(Mask):
         pos_X = [[elt[1] for elt in nltk.pos_tag(x)] for x in _X]
         for i, (tokenized_text, pos_list) in enumerate(zip(_X, pos_X)):
             _X[i] = [
-                self.mask_token if token_pos in pos_list else token
+                self.mask_token if token_pos in self.pos_list else token
                 for token, token_pos in zip(tokenized_text, pos_list)
             ]
         # If used a list of strings as X, convert it back to this form
@@ -418,9 +418,3 @@ class ProbabilisticMask(Mask):
     def __init__(self, mask_probas, mask_token) -> None:
         super().__init__(mask_token)
         self.mask_probas = mask_probas
-
-
-if __name__ == "__main__":
-    a = Mask("_")
-    b = RandomMask("_", 0.1)
-    c = RandomWindowMask("_", 0.1, 0.2)
