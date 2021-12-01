@@ -72,9 +72,9 @@ def parse_args():
         input_path.exists() and input_path.is_dir()
     ), "Input path does not exist or is not a directory."
     if not os.path.exists(pickle_file_path.parent):
-        os.mkdir(pickle_file_path.parent)
+        os.makedirs(pickle_file_path.parent)
     if not os.path.exists(log_file_path.parent):
-        os.mkdir(log_file_path.parent)
+        os.makedirs(log_file_path.parent)
     return input_path, pickle_file_path, log_file_path
 
 
