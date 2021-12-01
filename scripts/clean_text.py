@@ -1,7 +1,7 @@
 import argparse
 import os
 from pathlib import Path
-from nltk.tokenize import word_tokenize, sent_tokenize
+from nltk.tokenize import word_tokenize
 from tqdm import tqdm
 import re
 
@@ -44,14 +44,10 @@ def preprocess_texts(texts):
     preprocessed_texts = {}
     print("Preprocessing texts :)")
     for text_path, text in tqdm(texts.items()):
-        # # Tokenize on sentence level
-        # sentences = sent_tokenize(text)
-        # # Tokenize each sentence on word level
-        # tokenized_sentences = [word_tokenize(sent) for sent in sentences]
-        # # Join all tokenize words by spaces
-        # preprocessed_text = [" ".join(sent) for sent in tokenized_sentences]
         # Tokenize each text
         tokenized_text = word_tokenize(text)
+        # Lower case each text
+        tokenized_text = [token.lower() for token in tokenized_text]
         # Join all tokenize words by spaces
         preprocessed_text = " ".join(tokenized_text)
         preprocessed_texts[text_path] = preprocessed_text

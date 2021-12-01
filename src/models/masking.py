@@ -11,8 +11,6 @@ from nltk.corpus import stopwords
 from src.utils.compressor import Compressor
 from src.utils.eval_metrics import compression_accuracy
 
-nltk.download("all")
-
 
 class Mask:
     def __init__(self, mask_token: str = "_") -> None:
