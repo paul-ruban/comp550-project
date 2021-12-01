@@ -1,6 +1,8 @@
 import json
 import os
 import pickle
+import argparse
+from pathlib import Path
 
 from sklearn.model_selection import ParameterGrid
 from src.data.data_loader import load_data
@@ -14,11 +16,71 @@ from src.models.masking import (
 )
 
 
-def main():
-    # Load validation dataset
+def parse_args():
+    # Set up default arguments
     cur_dir = os.path.dirname(os.path.abspath(__file__))
-    VALIDATION_DATA_PATH = os.path.join(cur_dir, "..", "data", "clean", "validation")
-    X_val = load_data(VALIDATION_DATA_PATH)
+    # Input folder (that contains files to mask)
+    VALIDATION_FOLDER_DATA_PATH = os.path.join(
+        cur_dir, "..", "data", "clean", "validation"
+    )
+    # Pickler folder + file name that will contain the dictionary of masked data
+    # Where the key is the type of masking and the value is the list of masked texts
+    MASKING_PKL_FOLDER_DATA_PATH = os.path.join(
+        cur_dir, "..", "src", "models", "pickle", "masking"
+    )
+    masking_dict_name = "masking_dict.pkl"
+    masking_pkl_file_path = os.path.join(
+        cur_dir, MASKING_PKL_FOLDER_DATA_PATH, masking_dict_name
+    )
+    # Log folder + file name will contain the compression accuracies = 1 - compression ratio
+    LOG_DATA_FOLDER_PATH = os.path.join(cur_dir, "..", "logs", "masking")
+    compression_json_name = "compression_accuracies.json"
+    log_file_path = os.path.join(LOG_DATA_FOLDER_PATH, compression_json_name)
+    # Set up the command line parser
+    parser = argparse.ArgumentParser(description="Clean texts preprocessing script")
+    parser.add_argument(
+        "-i",
+        "--input_path",
+        required=False,
+        help="Path of text FOLDERS to mask.",
+        default=VALIDATION_FOLDER_DATA_PATH,
+    )
+    parser.add_argument(
+        "-p",
+        "--pickle_file_path",
+        required=False,
+        help="Output path to the pickle file (pkl).",
+        default=masking_pkl_file_path,
+    )
+    parser.add_argument(
+        "-l",
+        "--log_file_path",
+        required=False,
+        help="Output path to the log file (json).",
+        default=log_file_path
+    )
+    # Parse arguments
+    args = parser.parse_args()
+    input_path = Path(args.input_path)
+    pickle_file_path = Path(args.pickle_file_path)
+    log_file_path = Path(args.log_file_path)
+
+    # Do some checks on path
+    assert (
+        input_path.exists() and input_path.is_dir()
+    ), "Input path does not exist or is not a directory."
+    if not os.path.exists(pickle_file_path.parent):
+        os.mkdir(pickle_file_path.parent)
+    if not os.path.exists(log_file_path.parent):
+        os.mkdir(log_file_path.parent)
+    return input_path, pickle_file_path, log_file_path
+
+
+def main():
+    # Get path arguments
+    input_path, pickle_file_path, log_file_path = parse_args()
+    # Load test to mask
+    X_val = load_data(input_path)
     # Creating masking param grid
     masking_grid = [
         {
@@ -54,15 +116,6 @@ def main():
         },
     ]
     masking_grid_list = list(ParameterGrid(masking_grid))
-    # Create cache folders
-    MASKING_PKL_DATA_PATH = os.path.join(cur_dir, "..", "src", "models", "pickle", "masking")
-    if not os.path.exists(MASKING_PKL_DATA_PATH):
-        os.mkdir(MASKING_PKL_DATA_PATH)
-    LOG_DATA_PATH = os.path.join(cur_dir, "..", "logs", "masking")
-    if not os.path.exists(LOG_DATA_PATH):
-        os.mkdir(LOG_DATA_PATH)
-    masking_dict_name = "masking_dict.pkl"
-    compression_json_name = "compression_accuracies.json"
     # Create masking dataset, pickle it and log the accuracies to json
     MASK_TOKEN = "_"
     X_masked_dict = {}
@@ -81,10 +134,10 @@ def main():
                 ),
             }
         )
-    with open(os.path.join(MASKING_PKL_DATA_PATH, masking_dict_name), "wb") as f:
+    with open(pickle_file_path, "wb") as f:
         pickle.dump(X_masked_dict, f)
     # Log the compression metrics
-    with open(os.path.join(LOG_DATA_PATH, compression_json_name), "w") as f:
+    with open(log_file_path, "w") as f:
         for dict_ in compression_score:
             json.dump(dict_, f)
             f.write("\n")
