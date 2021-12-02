@@ -1,20 +1,12 @@
 import json
 import os
 
-import pickle
+from dill import pickle
 
 from nltk.lm import MLE, KneserNeyInterpolated, Lidstone
 from sklearn.model_selection import ParameterGrid
-from src.models.masking import (
-    FrequencyMask,
-    LengthWindowMask,
-    POSMask,
-    RandomWindowMask,
-    StopwordMask,
-    WeightedFrequencyMask,
-)
+
 from src.models.ngram_model import NGramModel
-from src.utils.eval_metrics import harmonic_mean
 from src.data.data_loader import load_data
 
 
@@ -38,16 +30,23 @@ def main():
     VALIDATION_DATA_PATH = os.path.join(cur_dir, "..", "data", "clean", "validation")
     X_val = load_data(VALIDATION_DATA_PATH)
     # Load the masked dataset
-    MASKED_DATA_PATH = os.path.join(cur_dir, "..", "src", "models", "pickle", "masking", "maskig")
-
+    MASKED_DATA_PATH = os.path.join(
+        cur_dir, "..", "src", "models", "pickle", "masking", "masking_dict.pkl"
+    )
+    X_masked_dict = {}
+    with open(MASKED_DATA_PATH, "rb") as f:
+        X_masked_dict = pickle.load(f)
+    # Log datapath
+    LOG_DATA_PATH = os.path.join(cur_dir, "..", "logs", "ngram", "ngram_log.json")
     # Train the language models
-    evaluation_dict = {}
+    MASK_TOKEN = "_"
     for i, params in enumerate(lm_grid_list[:1]):
         print(f"Training n-gram language model with id = {i} with params : \n{params}")
-        pickle_path = os.path.join(cur_dir, "..", "src", "models", "pickle", "ngram", f"lm_{i}.pkl")
+        pickle_path = os.path.join(
+            cur_dir, "..", "data", "temp", "pickle", "ngram", f"lm_{i}.pkl"
+        )
         model = NGramModel(n=params["n"])
         kwargs = {k: v for k, v in params.items() if k != "lm" and k != "n"}
-        dict_to_log = {"id": i, "lm": params["lm"].__name__, "n": params["n"], **kwargs}
         if os.path.exists(pickle_path):
             model.load_model(pickle_path)
         else:
@@ -57,13 +56,16 @@ def main():
                     cur_dir, "..", "src", "models", "pickle", "ngram", f"lm_{i}.pkl"
                 )
             )
+        # Log the parametrs
+        dict_to_log = {"id": i, "lm": params["lm"].__name__, "n": params["n"], **kwargs}
+        with open(LOG_DATA_PATH, "w") as f:
+            json.dump(dict_to_log, f)
+            f.write("\n")
         # Evaluate the model on each masking dataset
         for key, X_masked in X_masked_dict.items():
+            print(f"Generating for {key}")
             # This appears to be a time bottleneck
-            import time
-            start = time.time()
             X_decoded = model.decode(X_masked[:5], parallel=True)
-            print(time.time() - start)
             print(X_val[:5])
             print(X_masked[:5])
             print(X_decoded[:5])
@@ -79,18 +81,14 @@ def main():
                 X_masked=X_masked[:5],
                 X_decoded=X_decoded[:5],
             )
-            evaluation_dict[(f"lm_{i}", *key)] = {
+            metrics_dict = {
                 "reconstruction_accuracy": reconstruction_accuracy,
                 "similarity_score": similarity_score,
-                "compression_score": compression_score[key],
-                "harmonic_accuracy_compression": harmonic_mean(
-                    [reconstruction_accuracy, compression_score[key]]
-                ),
-                "harmonic_similarity_compression": harmonic_mean(
-                    [similarity_score, compression_score[key]]
-                ),
             }
-            print(evaluation_dict)
+            with open(LOG_DATA_PATH, "w") as f:
+                json.dump(metrics_dict, f)
+                f.write("\n")
+            return
 
 
 if __name__ == "__main__":
