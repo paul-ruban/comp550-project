@@ -8,16 +8,34 @@ from transformers import AutoTokenizer, AutoModelWithLMHead
 from src.aug.utils import hf_masked_encode, hf_reconstruction_prob_tok, fill_batch
 
 
-def gen_neighborhood(args):
+def gen_neighborhood(
+    shard=0,
+    num_shards=1,
+    seed=None,
+    model="bert-base-uncased",
+    tokenizer=None,
+    in_file=None,
+    label_file=None,
+    output_path=None,
+    noise_prob=0.15,
+    random_token_prob=0.1,
+    leave_unmasked_prob=0.1,
+    batch=8,
+    num_samples=4,
+    max_tries=10,
+    min_len=4,
+    max_len=512,
+    topk=-1,
+):
 
     # initialize seed
-    if args.seed is not None:
-        torch.manual_seed(args.seed)
-        np.random.seed(args.seed)
+    if seed is not None:
+        torch.manual_seed(seed)
+        np.random.seed(seed)
 
     # load model and tokenizer
-    r_model = AutoModelWithLMHead.from_pretrained(args.model)
-    tokenizer = AutoTokenizer.from_pretrained(args.tokenizer)
+    r_model = AutoModelWithLMHead.from_pretrained(model)
+    tokenizer = AutoTokenizer.from_pretrained(tokenizer)
     r_model.eval()
     if torch.cuda.is_available():
         r_model.cuda()
@@ -30,42 +48,39 @@ def gen_neighborhood(args):
             softmax_mask[v] = True
 
     # load the inputs and labels
-    lines = [tuple(s.strip().split("\t")) for s in open(args.in_file).readlines()]
+    lines = [tuple(s.strip().split("\t")) for s in open(in_file).readlines()]
     num_lines = len(lines)
     lines = [[[s] for s in s_list] for s_list in list(zip(*lines))]
 
     # load label file if it exists
-    if args.label_file:
-        labels = [s.strip() for s in open(args.label_file).readlines()]
+    if label_file:
+        labels = [s.strip() for s in open(label_file).readlines()]
         output_labels = True
     else:
         labels = [0] * num_lines
         output_labels = False
 
     # shard the input and labels
-    if args.num_shards > 0:
-        shard_start = (int(num_lines / args.num_shards) + 1) * args.shard
-        shard_end = (int(num_lines / args.num_shards) + 1) * (args.shard + 1)
+    if num_shards > 0:
+        shard_start = (int(num_lines / num_shards) + 1) * shard
+        shard_end = (int(num_lines / num_shards) + 1) * (shard + 1)
         lines = [s_list[shard_start:shard_end] for s_list in lines]
         labels = labels[shard_start:shard_end]
 
     # open output files
-    cur_dir = os.path.dirname(os.path.abspath(__file__))
-    if args.num_shards != 1:
-        output_text_path = os.path.join(
-            cur_dir, args.output_prefix + "_" + str(args.shard)
-        )
+    if num_shards != 1:
+        output_text_path = os.path.join(output_path + "_" + str(shard))
         s_rec_file = open(output_text_path, "w")
         if output_labels:
             ouput_label_path = os.path.join(
-                cur_dir, args.output_prefix + "_" + str(args.shard) + ".label"
+                output_path + "_" + str(shard) + ".label"
             )
             l_rec_file = open(ouput_label_path, "w")
     else:
-        output_text_path = os.path.join(cur_dir, args.output_prefix)
+        output_text_path = os.path.join(output_path)
         s_rec_file = open(output_text_path, "w")
         if output_labels:
-            ouput_label_path = os.path.join(cur_dir, args.output_prefix + ".label")
+            ouput_label_path = os.path.join(output_path + ".label")
             l_rec_file = open(ouput_label_path, "w")
 
     # sentences and labels to process
@@ -85,7 +100,9 @@ def gen_neighborhood(args):
     next_sent = 0
 
     sents, l, next_sent, num_gen, num_tries, gen_index = fill_batch(
-        args,
+        batch,
+        min_len,
+        max_len,
         tokenizer,
         sents,
         l,
@@ -102,7 +119,7 @@ def gen_neighborhood(args):
 
         # remove any sentences that are done generating and dump to file
         for i in range(len(num_gen))[::-1]:
-            if num_gen[i] == args.num_samples or num_tries[i] > args.max_tries:
+            if num_gen[i] == num_samples or num_tries[i] > max_tries:
 
                 # get sent info
                 gen_sents = sents.pop(i)
@@ -118,7 +135,9 @@ def gen_neighborhood(args):
 
         # fill batch
         sents, l, next_sent, num_gen, num_tries, gen_index = fill_batch(
-            args,
+            batch,
+            min_len,
+            max_len,
             tokenizer,
             sents,
             l,
@@ -143,9 +162,9 @@ def gen_neighborhood(args):
             tok, mask = hf_masked_encode(
                 tokenizer,
                 *s,
-                noise_prob=args.noise_prob,
-                random_token_prob=args.random_token_prob,
-                leave_unmasked_prob=args.leave_unmasked_prob,
+                noise_prob=noise_prob,
+                random_token_prob=random_token_prob,
+                leave_unmasked_prob=leave_unmasked_prob,
             )
             toks.append(tok)
             masks.append(mask)
@@ -177,7 +196,7 @@ def gen_neighborhood(args):
             r_model,
             softmax_mask,
             reconstruct=True,
-            topk=args.topk,
+            topk=topk,
         )
 
         # decode reconstructions and append to lists
@@ -274,10 +293,9 @@ if __name__ == "__main__":
 
     parser.add_argument(
         "-o",
-        "--output-prefix",
+        "--output-path",
         type=str,
-        help="Prefix path for output files, including augmentations and"
-        " preserved labels.",
+        help="Path for output files, including augmentations and" " preserved labels.",
     )
 
     parser.add_argument(
@@ -362,4 +380,22 @@ if __name__ == "__main__":
     if not args.tokenizer:
         args.tokenizer = args.model
 
-    gen_neighborhood(args)
+    gen_neighborhood(
+        shard=args.shard,
+        num_shards=args.num_shards,
+        seed=args.seed,
+        model=args.model,
+        tokenizer=args.tokenizer,
+        in_file=args.in_file,
+        label_file=args.label_file,
+        output_path=args.output_path,
+        noise_porb=args.noise_pron,
+        random_token_prob=args.random_token_prob,
+        leave_unmasked_prob=args.leave_unmasked_prob,
+        batch=args.batch,
+        num_samples=args.num_sample,
+        max_tries=args.max_tries,
+        min_len=args.min_len,
+        max_len=args.max_len,
+        topk=args.topk,
+    )

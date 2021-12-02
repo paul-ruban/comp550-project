@@ -164,12 +164,12 @@ def hf_reconstruction_prob_tok(
 
 
 def fill_batch(
-    args, tokenizer, sents, l, lines, labels, next_sent, num_gen, num_tries, gen_index
+    batch, min_len, max_len, tokenizer, sents, l, lines, labels, next_sent, num_gen, num_tries, gen_index
 ):
 
     # load sentences into batch until full
     # you do this by batch which has a fixed size
-    while len(sents) < args.batch:
+    while len(sents) < batch:
 
         # search for the next valid sentence
         while True:
@@ -180,7 +180,7 @@ def fill_batch(
             next_len = len(tokenizer.encode(*next_sents))
 
             # skip input if too short or long
-            if next_len > args.min_len and next_len < args.max_len:
+            if next_len > min_len and next_len < max_len:
                 break
             next_sent += 1
 
