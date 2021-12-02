@@ -12,6 +12,7 @@ from src.data.data_loader import load_data
 
 
 def main():
+    print("Starting training")
     # Create grid of parameters to try
     lm_grid = [
         {"lm": [MLE], "n": [1, 2, 3]},
@@ -41,6 +42,7 @@ def main():
     LOG_DATA_PATH = os.path.join(cur_dir, "..", "logs", "ngram", "ngram_log.json")
     # Train the language models
     MASK_TOKEN = "_"
+    print("Going through grid")
     for i, params in enumerate(lm_grid_list):
         print(f"Training n-gram language model with id = {i} with params : \n{params}")
         pickle_path = os.path.join(
