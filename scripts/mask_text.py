@@ -134,9 +134,9 @@ def main():
     print("Masking texts :)")
     for masking in tqdm(masking_grid_list):
         kwargs = {k: v for k, v in masking.items() if k != "mask_type"}
-        mask = masking["mask_type"](mask_token=MASK_TOKEN, **kwargs)
+        mask = masking["mask_type"](mask_token=MASK_TOKEN, use_pos_as_mask=True, **kwargs)
         masking_key = (mask.__class__.__name__, *tuple(kwargs.items()))
-        X_masked_dict[masking_key] = mask.mask(X_val)
+        X_masked_dict[masking_key] = mask.mask(X_val, X_val)
         compression_score.append(
             {
                 "mask_type": mask.__class__.__name__,

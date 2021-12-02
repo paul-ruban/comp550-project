@@ -88,9 +88,11 @@ class Mask:
 class RandomMask(Mask):
     """Implements random masking strategy."""
 
-    def __init__(self, mask_token, proba, adjust_by_length=False) -> None:
+    def __init__(
+        self, mask_token, proba, adjust_by_length=False, use_pos_as_mask=False
+    ) -> None:
         assert 0 < proba <= 1, "Masking probability proba must be > 0 and <= 1"
-        super().__init__(mask_token)
+        super().__init__(mask_token, use_pos_as_mask)
         self.proba = proba
         self.adjust_by_length = adjust_by_length
 
@@ -122,13 +124,13 @@ class RandomMask(Mask):
 
 
 class LengthBasedMask(Mask):
-    def __init__(self, mask_token, ratio, strategy) -> None:
+    def __init__(self, mask_token, ratio, strategy, use_pos_as_mask=False) -> None:
         assert 0 < ratio <= 1, "Masking ratio must be > 0 and <= 1"
         assert strategy in [
             "sentence",
             "all",
         ], "Masking strategy must be one of: [sent, all]"
-        super().__init__(mask_token)
+        super().__init__(mask_token, use_pos_as_mask)
         self.ratio = ratio
         self.strategy = strategy
 
@@ -186,11 +188,12 @@ class RandomWindowMask(Mask):
         num_of_masks: int = None,
         prop_masked: float = None,
         random_seed: int = 42,
+        use_pos_as_mask=False,
     ) -> None:
         assert (num_of_masks is not None and prop_masked is None) or (
             num_of_masks is None and prop_masked is not None
         ), "You must be either pass a fixed num of tokens to mask within a window or a proportion."
-        super().__init__(mask_token)
+        super().__init__(mask_token, use_pos_as_mask)
         self.window_size = window_size
         self.num_of_masks = num_of_masks
         self.prop_masked = prop_masked
@@ -251,11 +254,12 @@ class LengthWindowMask(Mask):
         window_size: int = 10,
         num_of_masks: int = None,
         prop_masked: float = None,
+        use_pos_as_mask=False,
     ):
         assert (num_of_masks is not None and prop_masked is None) or (
             num_of_masks is None and prop_masked is not None
         )
-        super().__init__(mask_token)
+        super().__init__(mask_token, use_pos_as_mask)
         self.window_size = window_size
         self.num_of_masks = num_of_masks
         self.prop_masked = prop_masked
@@ -312,9 +316,9 @@ class LengthWindowMask(Mask):
 
 
 class FrequencyBasedMask(Mask):
-    def __init__(self, mask_token, top_freq) -> None:
+    def __init__(self, mask_token, top_freq, use_pos_as_mask=False) -> None:
         assert top_freq > 0, "Top frequent must be positive"
-        super().__init__(mask_token)
+        super().__init__(mask_token, use_pos_as_mask)
         self.top_freq = top_freq
 
     def mask(
@@ -356,14 +360,18 @@ class FrequencyBasedMask(Mask):
 
 class FrequencyMask(Mask):
     def __init__(
-        self, mask_token, num_of_masks: int = None, prop_masked: float = None
+        self,
+        mask_token,
+        num_of_masks: int = None,
+        prop_masked: float = None,
+        use_pos_as_mask=False,
     ) -> None:
         """This masking scheme uses the most frequent tokens PER text
         this is different from FrequencyBasedMask."""
         assert (num_of_masks is not None and prop_masked is None) or (
             num_of_masks is None and prop_masked is not None
         )
-        super().__init__(mask_token)
+        super().__init__(mask_token, use_pos_as_mask)
         self.num_of_masks = num_of_masks
         self.prop_masked = prop_masked
 
@@ -418,13 +426,17 @@ class FrequencyMask(Mask):
 
 class WeightedFrequencyMask(Mask):
     def __init__(
-        self, mask_token, num_of_masks: int = None, prop_masked: float = None
+        self,
+        mask_token,
+        num_of_masks: int = None,
+        prop_masked: float = None,
+        use_pos_as_mask=False,
     ) -> None:
         """This masking scheme wights the frequency of each token by its length."""
         assert (num_of_masks is not None and prop_masked is None) or (
             num_of_masks is None and prop_masked is not None
         )
-        super().__init__(mask_token)
+        super().__init__(mask_token, use_pos_as_mask)
         self.num_of_masks = num_of_masks
         self.prop_masked = prop_masked
 
@@ -482,9 +494,11 @@ class WeightedFrequencyMask(Mask):
 
 
 class StopwordMask(Mask):
-    def __init__(self, mask_token, prop_masked, random_seed=42) -> None:
+    def __init__(
+        self, mask_token, prop_masked, random_seed=42, use_pos_as_mask=False
+    ) -> None:
         """Replace a the same proportion of stopwords in each text"""
-        super().__init__(mask_token)
+        super().__init__(mask_token, use_pos_as_mask)
         self.prop_masked = prop_masked
         self.random_seed = random_seed
 
@@ -516,8 +530,8 @@ class StopwordMask(Mask):
 
 
 class POSMask(Mask):
-    def __init__(self, mask_token, pos_list) -> None:
-        super().__init__(mask_token)
+    def __init__(self, mask_token, pos_list, use_pos_as_mask=False) -> None:
+        super().__init__(mask_token, use_pos_as_mask)
         self.pos_list = pos_list
 
     def mask(
@@ -526,7 +540,7 @@ class POSMask(Mask):
         X_original_cased: Union[List[str], List[List[str]]] = None,
     ) -> Union[List[str], List[List[str]]]:
         _X = copy.deepcopy(X)
-
+        _X = [x.split() if isinstance(x, str) else x for x in _X]
         pos_X = [[elt[1] for elt in nltk.pos_tag(x)] for x in _X]
         for i, (tokenized_text, pos_list) in enumerate(zip(_X, pos_X)):
             _X[i] = [
