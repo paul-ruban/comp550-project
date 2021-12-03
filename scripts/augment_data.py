@@ -5,10 +5,20 @@ from src.aug.ssmba import gen_neighborhood
 def main():
     # Get the augmentation path
     cur_dir = os.path.dirname(os.path.abspath(__file__))
-    pos_text_path = os.path.join(cur_dir, "..", "..", "data", "rt-polaritydata", "pos.txt")
-    neg_text_path = os.path.join(cur_dir, "..", "..", "data", "rt-polaritydata", "neg.txt")
+    polarity_path = os.path.join(cur_dir, "..", "data", "rt-polaritydata")
     # Augment data
-    gen_neighborhood()
+    # Strightforward for the sentiment analysis!
+    for aug_file in ["neg", "pos"]:
+        gen_neighborhood(
+            in_file=os.path.join(polarity_path, f"{aug_file}.txt"),
+            output_path=os.path.join(polarity_path, f"{aug_file}_augmented"),
+            model="bert-base-uncased",
+            tokenizer="bert-base-uncased",
+            num_samples=2,
+            noise_prob=0.15,
+            topk=10,
+            seed=42
+        )
 
 if __name__ == "__main__":
     main()
