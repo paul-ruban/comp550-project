@@ -1,2 +1,5 @@
 from setuptools import setup
-setup()
+
+setup(
+    name="comp-550-project",
+)
