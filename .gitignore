@@ -138,4 +138,5 @@ dmypy.json
 cython_debug/
 
 # Ignore vscode extensions
-.vscode/
+.vscode/*
+.vscode/launch.json

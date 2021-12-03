@@ -1,6 +1,6 @@
 import os
 
-from src.aug.ssmba import gen_neighborhood
+from src.augmentation.ssmba import gen_neighborhood
 
 def main():
     # Get the augmentation path

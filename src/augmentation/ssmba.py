@@ -5,7 +5,7 @@ import numpy as np
 import torch.nn as nn
 import torch.nn.functional as F
 from transformers import AutoTokenizer, AutoModelWithLMHead
-from src.aug.utils import hf_masked_encode, hf_reconstruction_prob_tok, fill_batch
+from src.augmentation.utils import hf_masked_encode, hf_reconstruction_prob_tok, fill_batch
 
 
 def gen_neighborhood(
