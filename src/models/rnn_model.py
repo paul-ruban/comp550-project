@@ -133,13 +133,13 @@ class RNNMaskedLM(RNNBaseLM):
 
         for epoch in range(n_epochs):
             for i, batch in enumerate(loader):
-                x = self.tokenizer.encode(batch["text"], add_special=True)
+                x = self.tokenizer(batch["text"], add_special=True)
                 # here we would mask some of the tokens
                 # TODO
                 x, pad_mask = self._pad_batch(x, batch_first=True, return_pad_mask=True)
                 x = x.to(device)
                 pad_mask = pad_mask.to(device)
-                y = self.tokenizer.encode(batch["text"], add_special=True)
+                y = self.tokenizer(batch["text"], add_special=True)
                 y = self._pad_batch(y, batch_first=True).to(device)
 
                 self.model.zero_grad()
@@ -161,7 +161,7 @@ class RNNMaskedLM(RNNBaseLM):
         loader = DataLoader(dataset=dataset, batch_size=1, shuffle=False)
         with torch.no_grad():
             for i, batch in enumerate(loader):
-                x = self.tokenizer.encode(batch["text"], add_special=True)
+                x = self.tokenizer(batch["text"], add_special=True)
                 x, pad_mask = self._pad_batch(x, batch_first=True, return_pad_mask=True)
                 x = x.to(device)
                 pad_mask = pad_mask.to(device)
@@ -199,11 +199,11 @@ class RNNLanguageModel(RNNBaseLM):
 
         for epoch in range(n_epochs):
             for i, batch in enumerate(loader):
-                x = self.tokenizer.encode(batch["text"], add_special=True)
+                x = self.tokenizer(batch["text"], add_special=True)
                 x, pad_mask = self._pad_batch(x, batch_first=True, return_pad_mask=True)
                 x = x.to(device)
                 pad_mask = pad_mask.to(device)
-                y = self.tokenizer.encode(batch["text"], add_special=True)
+                y = self.tokenizer(batch["text"], add_special=True)
                 y = self._shift_labels(y)
                 y = self._pad_batch(y, batch_first=True).to(device)
 

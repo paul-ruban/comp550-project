@@ -65,7 +65,7 @@ class Vocabulary:
         elif isinstance(i, str):
             return self.token2id[i]
         else:
-            raise ValueError("Invalid index type: must be int or str.")
+            raise ValueError(f"Invalid index type: must be int or str, got: {type(i)}.")
     
     def get(self, i: Union[int, str], default : Union[str, int] = None) -> Union[int, str]:
         # a safer version of getitem that returns default if i is not found
@@ -76,7 +76,7 @@ class Vocabulary:
             elif isinstance(i, str):
                 default = self[self.unk_token]
             else:
-                raise ValueError("Invalid index type: must be int or str.")
+                raise ValueError(f"Invalid index type: must be int or str, got: {type(i)}")
         try:
             return self[i]
         except KeyError:
@@ -129,28 +129,52 @@ class Vocabulary:
 class Tokenizer:
     def __init__(self, vocab : Vocabulary) -> None:
         self.vocab = vocab
+        self.pad_token = vocab.pad_token
+        self.bos_token = vocab.bos_token
+        self.eos_token = vocab.eos_token
+        self.mask_token = vocab.mask_token
+        self.unk_token = vocab.unk_token
+        self.pad_token_id = vocab.pad_token_id
+        self.bos_token_id = vocab.bos_token_id
+        self.eos_token_id = vocab.eos_token_id
+        self.mask_token_id = vocab.mask_token_id
+        self.unk_token_id = vocab.unk_token_id
+
     
-    def encode(self, data : List[str], add_special=False) -> List[List[int]]:
+    def encode(self, tokens : List[List[str]], add_special : bool = False) -> List[List[int]]:
         # encode list of normalized sentences: tokens are separated by space
-        ids = []
-        for s in data:
-            token_ids = [self.vocab.get(t) for t in s.split()]
+        encoded = []
+        for sent in tokens:
+            token_ids = [self.vocab.get(t) for t in sent]
             if add_special:
                 token_ids = [self.vocab[self.vocab.bos_token]] + token_ids + [self.vocab[self.vocab.eos_token]]
-            ids.append(token_ids)
+            encoded.append(token_ids)
         
-        return ids
+        return encoded
     
-    def decode(self, data : List[List[int]], remove_special=False) -> List[str]:
+    def tokenize(self, sequence : str) -> List[str]:
+        # The simples tokenization splitting by whitespace
+        return sequence.split()
+    
+    def decode(self, encoded : List[List[int]], remove_special=False) -> List[List[str]]:
         if remove_special:
             # remove speacial tokens, but keep UNK token
             special_tokens = set(self.vocab.special_token_dict(unk=False).keys())
-        sentences = []
-        for s in data:
-            tokens = [self.vocab.get(i) for i in s]
+        decoded = []
+        for sent in encoded:
+            tokens = [self.vocab.get(idx) for idx in sent]
             if remove_special:
                 tokens = [t for t in tokens if t not in special_tokens]
-            sentence = ' '.join(tokens)
-            sentences.append(sentence)
+            decoded.append(tokens)
         
-        return sentences
+        return decoded
+    
+    def convert_tokens_to_string(self, tokens : List[str]) -> str:
+        print(tokens)
+        return ' '.join(tokens)
+    
+    def __call__(self, sentences : List[str], add_special : bool = True) -> List[List[int]]:
+        tokenized = [self.tokenize(sequence=sent) for sent in sentences]
+        encoded = self.encode(tokens=tokenized, add_special=add_special)
+
+        return encoded
