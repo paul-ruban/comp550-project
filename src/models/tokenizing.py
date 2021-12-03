@@ -19,6 +19,11 @@ class Vocabulary:
         self.unk_token = unk_token
         self.id2token = self.build_vocab(data=data)
         self.token2id = {t : i for i, t in self.id2token.items()}
+        self.pad_token_id = self.token2id[pad_token]
+        self.bos_token_id = self.token2id[bos_token]
+        self.eos_token_id = self.token2id[eos_token]
+        self.mask_token_id = self.token2id[mask_token]
+        self.unk_token_id = self.token2id[unk_token]
     
     def build_vocab(self, data) -> None:
         data = [x.split() if isinstance(x, str) else x for x in data]
@@ -81,47 +86,21 @@ class Vocabulary:
         tokens = [t for t, i in sorted(self.token2id.items(), key=lambda x: x[-1])]
         with open(path, 'w') as f:
             f.writelines(f"{t}\n" for t in tokens)
-    
-    def encode(self, data : List[str], add_special=False) -> List[List[int]]:
-        # encode list of normalized sentences: tokens are separated by space
-        ids = []
-        for s in data:
-            token_ids = [self.get(t) for t in s.split()]
-            if add_special:
-                token_ids = [self[self.bos_token]] + token_ids + [self[self.eos_token]]
-            ids.append(token_ids)
-        
-        return ids
-    
+       
     def special_token_dict(self, pad : bool = True, bos : bool = True, eos : bool = True, mask : bool = True, unk : bool = True):
         dict = {}
         if pad:
-            dict[self.pad_token] = self[self.pad_token]
+            dict[self.pad_token] = self.pad_token_id
         if bos:
-            dict[self.bos_token] = self[self.bos_token]
+            dict[self.bos_token] = self.bos_token_id
         if eos:
-            dict[self.eos_token] = self[self.eos_token]
+            dict[self.eos_token] = self.eos_token_id
         if mask:
-            dict[self.mask_token] = self[self.mask_token]
+            dict[self.mask_token] = self.mask_token_id
         if unk:
-            dict[self.unk_token] = self[self.unk_token]
+            dict[self.unk_token] = self.unk_token_id
         
         return dict
-
-    def decode(self, data : List[List[int]], remove_special=False) -> List[str]:
-        if remove_special:
-            # remove speacial tokens, but keep UNK token
-            special_ids = set(self.special_token_dict(unk=False).values())
-        sentences = []
-        for s in data:
-            tokens = [self.get(i) for i in s]
-            if remove_special:
-                tokens = [t for t in tokens if t not in special_ids]
-            sentence = ' '.join(tokens)
-            sentences.append(sentence)
-        
-        return sentences
-
 
     @classmethod
     def from_file(
@@ -146,3 +125,32 @@ class Vocabulary:
             unk_token=unk_token
         )
 
+
+class Tokenizer:
+    def __init__(self, vocab : Vocabulary) -> None:
+        self.vocab = vocab
+    
+    def encode(self, data : List[str], add_special=False) -> List[List[int]]:
+        # encode list of normalized sentences: tokens are separated by space
+        ids = []
+        for s in data:
+            token_ids = [self.vocab.get(t) for t in s.split()]
+            if add_special:
+                token_ids = [self.vocab[self.vocab.bos_token]] + token_ids + [self.vocab[self.vocab.eos_token]]
+            ids.append(token_ids)
+        
+        return ids
+    
+    def decode(self, data : List[List[int]], remove_special=False) -> List[str]:
+        if remove_special:
+            # remove speacial tokens, but keep UNK token
+            special_tokens = set(self.vocab.special_token_dict(unk=False).keys())
+        sentences = []
+        for s in data:
+            tokens = [self.vocab.get(i) for i in s]
+            if remove_special:
+                tokens = [t for t in tokens if t not in special_tokens]
+            sentence = ' '.join(tokens)
+            sentences.append(sentence)
+        
+        return sentences
