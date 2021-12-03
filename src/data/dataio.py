@@ -117,8 +117,8 @@ def truncate_fn(dataset: Dataset, tokenizer, max_seq_length : int = 128, fill_to
                     next_example = {feat : dataset[feat].pop(i+1) for feat in dataset}
                     
                     # join lines, but keep file, document, line ids the same
-                    dataset["text"][i] += tokenizer.sep_token + next_example["text"]
-                    dataset["tokens"][i] += [tokenizer.sep_token] + next_example["tokens"]
+                    dataset["text"][i] += tokenizer.eos_token + next_example["text"]
+                    dataset["tokens"][i] += [tokenizer.eos_token] + next_example["tokens"]
                     continue
             i += 1
     # remove tokens feature as having them will result in errors when we iterate over batches
@@ -159,11 +159,5 @@ def recover_mask_fn(dataset : Dataset, tokenizer, mask_char='A') -> Dataset:
             string=line) 
         for line in dataset["text"]
     ]
-
-    return dataset
-
-
-def prepare_for_rnn(dataset: Dataset) -> Dataset:
-    dataset["labels"] = dataset["text"]
 
     return dataset
