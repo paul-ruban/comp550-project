@@ -27,6 +27,9 @@ def gen_neighborhood(
     max_len=512,
     topk=-1,
 ):
+    """
+    batch : # examples generated per input example
+    """
 
     # initialize seed
     if seed is not None:
@@ -99,6 +102,9 @@ def gen_neighborhood(
     # next sentence index to draw from
     next_sent = 0
 
+    # generated_sentences and labels, keep these for postprocessing 
+    # (to conserve the order )
+
     sents, l, next_sent, num_gen, num_tries, gen_index = fill_batch(
         batch,
         min_len,
@@ -128,6 +134,7 @@ def gen_neighborhood(
                 label = l.pop(i)
 
                 # write generated sentences
+                # don't dump the original sentence!
                 for sg in gen_sents[1:]:  # the dump is done here!
                     s_rec_file.write("\t".join([repr(val)[1:-1] for val in sg]) + "\n")
                     if output_labels:
@@ -389,11 +396,11 @@ if __name__ == "__main__":
         in_file=args.in_file,
         label_file=args.label_file,
         output_path=args.output_path,
-        noise_porb=args.noise_pron,
+        noise_prob=args.noise_prob,
         random_token_prob=args.random_token_prob,
         leave_unmasked_prob=args.leave_unmasked_prob,
         batch=args.batch,
-        num_samples=args.num_sample,
+        num_samples=args.num_samples,
         max_tries=args.max_tries,
         min_len=args.min_len,
         max_len=args.max_len,
