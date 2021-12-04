@@ -90,11 +90,12 @@ def clean_xml_file(input_data_path):
             X[i] = x[end_index:].strip()
     # Remove the footer and remove the **** strings
     X = [x.replace("[ report_end ]", "").replace("*", "") for x in X]
-    # Return as numpy arrays, because everyone loves numpy ;)
-    X = np.array(X)
-    y = np.array(y)
+    # Randomly shuffle and return as numpy arrays, because everyone loves numpy ;)
+    X, y = np.array(X), np.array(y)
     assert len(X.shape) == len(y.shape) == 1
     assert X.size == y.size
+    index_permutation = np.random.permutation(len(X))
+    X, y = X[index_permutation], y[index_permutation]
     return X, y
 
 
@@ -122,7 +123,7 @@ def write_train_to_output(X, y, number_of_folds, output_folder_path, random_seed
         # Write the validation
         write_to_json(X_val, y_val, output_folder_path, json_name="validation.json")
     else:
-        kf = KFold(n_splits=number_of_folds, random_state=random_seed)
+        kf = KFold(n_splits=number_of_folds)
         splits = kf.split(data_index_array)
         for k, (train_idx, val_idx) in enumerate(splits):
             k += 1
