@@ -143,3 +143,5 @@ cython_debug/
 
 # Ignore zip files
 *.zip
+*.gz
+*.bin
