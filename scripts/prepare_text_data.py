@@ -14,17 +14,9 @@ ARTICLES_LABELS = {
     "sport": 3,
     "tech": 4,
 }
-SMOKERS = {
-    "unknown": 0,
-    "non-smoker": 1,
-    "past-smoker": 2,
-    "smoker": 3,
-    "current-smoker": 4,
-}
 TYPES_DATA_DICT = {
     "polarity": POLARITY_LABELS,
     "articles": ARTICLES_LABELS,
-    "smokers": SMOKERS,
 }
 JSON_KEYS = ["id", "label", "text"]
 
