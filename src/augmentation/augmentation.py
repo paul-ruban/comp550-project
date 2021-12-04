@@ -1,9 +1,10 @@
 import os
-import torch
 from typing import Tuple
 
+import nlpaug
 import nlpaug.augmenter.word as naw
 import numpy as np
+import torch
 from src.utils.json_utils import append_json_lines, write_json_lines
 
 
@@ -210,9 +211,13 @@ class Augmentation:
             from_model_name="facebook/wmt19-en-de",
             to_model_name="facebook/wmt19-de-en",
             device="cuda" if torch.cuda.is_available() else "cpu",
-            max_length=len(X.max().strip())
+            max_length=len(X.max().strip()),
         )
         return self._augment(X, y, aug)
 
     def ssmba(self, X, y):
+        """TODO: Modify the paper's code slightly to make this work. Not using nlpaug because
+        we can test a few relaxing assumptions such as temperature and the use of a more closed/restrcited
+        space for augmentation.
+        """
         pass
