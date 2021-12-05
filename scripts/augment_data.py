@@ -12,7 +12,7 @@ cur_dir = os.path.dirname(os.path.abspath(__file__))
 
 DATA_TYPES = {"polarity", "articles", "smokers"}
 
-# TODO: Modify output_folder_path to mila cluster
+
 PATH_DICTS = {
     "polarity": {
         "input_training_text_path": os.path.join(
