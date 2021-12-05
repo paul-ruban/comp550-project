@@ -145,3 +145,6 @@ cython_debug/
 *.zip
 *.gz
 *.bin
+
+# Ignore temp
+data/temp/
