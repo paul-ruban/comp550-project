@@ -69,7 +69,8 @@ def clean_xml_file(input_data_path):
     for root in tree.getroot():
         for descendant in root.iter():
             if descendant.tag.lower() == "smoking":
-                y.append(descendant.attrib["STATUS"].lower().replace(" ", "-"))
+                y_i = descendant.attrib["STATUS"].lower().replace(" ", "-")
+                y.append(SMOKERS[y_i])
     # Then retrieve the text, replacing newlines as spaces
     X = []
     for root in tree.getroot():
