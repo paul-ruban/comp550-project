@@ -1,11 +1,13 @@
 import os
 from typing import Tuple
 
+import random
 import nlpaug
 import nlpaug.augmenter.word as naw
 import numpy as np
 import torch
 from src.utils.json_utils import append_json_lines, write_json_lines
+from pathlib import Path
 
 
 class Augmentation:
@@ -18,7 +20,9 @@ class Augmentation:
         "ssmba",
     ]
 
-    def __int__(self, augmentation_type: str, num_samples: int) -> None:
+    def __init__(
+        self, augmentation_type: str, num_samples: int, random_state: int = 42
+    ) -> None:
         """Augmentation module.
 
         Args:
@@ -30,6 +34,7 @@ class Augmentation:
         ), f"The augmentation type must be one of {Augmentation.AUGMENTATION_TYPES}"
         self.augmentation_type = augmentation_type
         self.num_samples = num_samples
+        self.random_state = random_state
 
     def augment(self, X: np.array, y: np.array, **kwargs) -> Tuple[np.array, np.array]:
         """Main augmentation function. Takes D = {(x_i, y_i) : i = 1 to N} and
@@ -51,7 +56,9 @@ class Augmentation:
 
         returns : The augmented input and label
         """
-        assert X.dim == y.dim == 1, "Both X and y should have dimension 1."
+        assert (
+            len(X.shape) == len(y.shape) == 1
+        ), "Both X and y should have dimension 1."
         assert X.size == y.size, "Both X and y should have the same size."
         # set kwargs for the logger
         self.kwargs = kwargs
@@ -74,12 +81,12 @@ class Augmentation:
 
     def to_json(
         self,
-        id: int,
         path_to_folder: str,
         X_initial: np.array,
         y_initial: np.array,
         X_aug: np.array,
         y_aug: np.array,
+        name: str = "training",
     ) -> str:
         """Method that will write the augmented dataset to json so that it has the same format as val and
         test.json. Should be saved as train_id.json and will have the following format:
@@ -87,7 +94,7 @@ class Augmentation:
         2.  {"id": 1, "is_original": False, "label": 1, "text": "This movie blowed"}
 
         Args:
-            id (int): Id to identify the training set (the user should specify this in an outside training loop)
+            id (str): Name to identify the saved training set (the user should specify this in an outside training loop)
             path_to_folder (str): Path to folder to store json folder
             X_initial (np.array): Initial non-augmented input array
             y_initial (np.array): Initial no-augmented label array
@@ -97,11 +104,13 @@ class Augmentation:
 
         returns : The path to the json (which is also recorded as an attribute)
         """
-        assert X_aug.dim == y_aug.dim == X_initial.dim == y_initial.dim == 1
+        assert X_aug.ndim == y_aug.ndim == X_initial.ndim == y_initial.ndim == 1
         assert X_initial.size == y_initial.size
         assert X_aug.size == y_aug.size
         assert X_aug.size == (self.num_samples * X_initial.size)
-        assert os.path.exists(path_to_folder), f"{path_to_folder} doesn't exist!"
+        if not os.path.exists(path_to_folder):
+            print(f"{path_to_folder} doesn't exist, making it.")
+            os.makedirs(path_to_folder)
         list_of_dict_to_write = []
         # Might need to do something different here for the medical texts
         for i, (x_i, y_i) in enumerate(zip(X_initial, y_initial)):
@@ -125,19 +134,20 @@ class Augmentation:
                 }
                 list_of_dict_to_write.append(dict_to_write)
         # Actually do the writing! Set this as an attribute to use for the logger
-        self.path_to_json = os.path.join(path_to_folder, f"training_{id}.json")
+        self.path_to_json = os.path.join(path_to_folder, f"{name}.json")
         write_json_lines(
-            list_to_write=list_of_dict_to_write, output_path=self.path_to_json, indent=4
+            list_to_write=list_of_dict_to_write, output_path=self.path_to_json
         )
         return self.path_to_json
 
-    def log_to_json(self, id: int, path_to_json_log: str) -> None:
+    def log_to_json(self, id: int, time_now: str, path_to_json_log: str) -> None:
         """Method that will record the id, augmentation features and path to the augmented dataset into
         a json file. The point of this is so that training on the different datasets can be seamless.
 
         The format should be:
         {
             "augmented_dataset_id": id,
+            "time_now": time_now,
             "augmentation_features": {
                 "num_sample": self.number_samples,
                 "augmentation_type": self.augmentation_type
@@ -154,9 +164,13 @@ class Augmentation:
             raise ValueError(
                 "Cannot log the augmentation if the dataset hasn't been saved!"
             )
-        assert os.path.exists(path_to_json_log), f"{path_to_json_log} does not exist!"
+        path_to_json_log = Path(path_to_json_log)
+        if not path_to_json_log.parent.exists():
+            print(f"{path_to_json_log.parent} folder does not exist, creating it")
+            os.makedirs(path_to_json_log.parent)
         dict_to_write = {
             "augmented_dataset_id": id,
+            "time_now": time_now,
             "augmentation_features": {
                 "num_samples": self.num_samples,
                 "augmentation_type": self.augmentation_type,
@@ -164,12 +178,18 @@ class Augmentation:
             },
             "path_to_agumented_dataset": self.path_to_json,
         }
-        append_json_lines([dict_to_write], output_path=path_to_json_log, indent=4)
+        append_json_lines([dict_to_write], output_path=path_to_json_log)
 
     def _augment(self, X: np.array, y: np.array, aug: nlpaug.augmenter.word):
+        random.seed(self.random_state)
         X_aug = []
         for x in X:
-            X_aug += aug.augment(x, n=self.num_samples, num_thread=self.num_samples)
+            if self.num_samples == 1:
+                X_aug += [
+                    aug.augment(x, n=self.num_samples, num_thread=self.num_samples)
+                ]
+            else:
+                X_aug += aug.augment(x, n=self.num_samples, num_thread=self.num_samples)
         X_aug = np.array(X_aug)
         y_aug = np.repeat(y, repeats=self.num_samples)
         return X_aug, y_aug
@@ -189,12 +209,13 @@ class Augmentation:
     def synonym_word2vec(
         self, X: np.array, y: np.array, aug_p: float, top_k: int, **kwargs
     ):
+        cur_dir = os.path.dirname(os.path.abspath(__file__))
         word2vec_bin_path = os.path.join(
-            "..", "..", "GoogleNews-vectors-negative300.bin"
+            cur_dir, "..", "..", "GoogleNews-vectors-negative300.bin"
         )
         assert os.path.exists(
             word2vec_bin_path
-        ), "You must donwnload and unzip the w2vec file."
+        ), "You must download and unzip the w2vec file and place it in the root directory of the repo."
         aug = naw.WordEmbsAug(
             model_type="word2vec",
             model_path=word2vec_bin_path,
@@ -205,15 +226,18 @@ class Augmentation:
         )
         return self._augment(X, y, aug)
 
-    def backtranslation(self, X, y):
+    def backtranslation(self, X: np.array, y: np.array):
         # Use the en -> de -> en translation
+        # Cut the input array to the max length
+        MAX_LEN = 1024
+        X_truncated = [x[:MAX_LEN] for x in X]
         aug = naw.BackTranslationAug(
             from_model_name="facebook/wmt19-en-de",
             to_model_name="facebook/wmt19-de-en",
             device="cuda" if torch.cuda.is_available() else "cpu",
-            max_length=len(X.max().strip()),
+            max_length=1024, # This is the model's max length
         )
-        return self._augment(X, y, aug)
+        return self._augment(X_truncated, y, aug)
 
     def ssmba(self, X, y):
         """TODO: Modify the paper's code slightly to make this work. Not using nlpaug because

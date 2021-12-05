@@ -18,7 +18,6 @@ def write_json_lines(list_to_write, output_path, indent=None):
 
 
 def append_json_lines(list_to_write, output_path, indent=None):
-    assert os.path.exists(output_path), f"Can't append {output_path} does not exist!"
     with open(output_path, "a") as f:
         for line in list_to_write:
             json.dump(line, f, indent=indent)
@@ -27,7 +26,7 @@ def append_json_lines(list_to_write, output_path, indent=None):
 
 def write_to_json(X, y, output_folder_path, json_name, indent=None):
     list_to_write = [
-        {"id": id, "label": label, "text": text}
+        {"id": id, "label": int(label), "text": text}
         for id, (text, label) in enumerate(zip(X, y))
     ]
     write_json_lines(
