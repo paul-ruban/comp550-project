@@ -148,3 +148,8 @@ cython_debug/
 
 # Ignore temp
 data/temp/
+
+# Ignore job files
+job_error.txt
+job_output.txt
+job_script
