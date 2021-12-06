@@ -98,12 +98,12 @@ AUGMENTATION_GRID = [
         "aug_p": [0.1, 0.2, 0.3, 0.4, 0.5],
         "stopwords_regex": [r".*[^a-zA-Z].*"] # skip non-alpha words
     },
-    # {
-    #     "augmentation_type": ["synonym_word2vec"],
-    #     "num_samples": [1, 3, 5],
-    #     "aug_p": [0.1, 0.2, 0.3, 0.4, 0.5],
-    #     "top_k": [10, 50, 100, None]
-    # },
+    {
+        "augmentation_type": ["synonym_word2vec"],
+        "num_samples": [1, 3, 5],
+        "aug_p": [0.1, 0.2, 0.3, 0.4, 0.5],
+        "top_k": [10, 50, 100, None]
+    },
     {
         "augmentation_type": ["backtranslation"],
         "num_samples": [1, 3, 5],
