@@ -16,7 +16,7 @@ SMOKERS = {
     "current-smoker": 4,
 }
 
-DATA_TYPE = {"training", "test"}
+DATA_TYPE = {"training", "test", "all"}
 
 
 def parse_args():
@@ -29,9 +29,7 @@ def parse_args():
         type=str,
         help="Input data path. Must be an xml file.",
     )
-    parser.add_argument(
-        "-t", "--data_type", type=str, help="Dataset type either training or test."
-    )
+    parser.add_argument("-t", "--data_type", type=str, help="Dataset type either training or test.")
     parser.add_argument(
         "-o",
         "--output_folder_path",
@@ -55,8 +53,10 @@ def parse_args():
     assert os.path.exists(input_data_path) and Path(input_data_path).suffix == ".xml"
     assert data_type in DATA_TYPE
     assert os.path.exists(output_folder_path)
-    assert (data_type == "test" and number_of_folds is None) or (
-        data_type == "training" and number_of_folds >= 1
+    assert (
+        (data_type == "all" and number_of_folds is None)
+        or (data_type == "test" and number_of_folds is None)
+        or (data_type == "training" and number_of_folds >= 1)
     )
     return input_data_path, data_type, output_folder_path, number_of_folds
 
@@ -94,7 +94,7 @@ def clean_xml_file(input_data_path):
     # Randomly shuffle and return as numpy arrays, because everyone loves numpy ;)
     X, y = np.array(X), np.array(y)
     assert len(X.shape) == len(y.shape) == 1
-    assert X.size == y.size
+    assert X.size == y.size, f"X.size: {X.size}, y.size: {y.size}"
     index_permutation = np.random.permutation(len(X))
     X, y = X[index_permutation], y[index_permutation]
     return X, y
@@ -135,24 +135,53 @@ def write_train_to_output(X, y, number_of_folds, output_folder_path, random_seed
                 y[val_idx],
             )
             # Write the split to output files
-            with open(
-                os.path.join(output_folder_path, f"training_fold_{k}_text.txt"), "w"
-            ) as f:
+            with open(os.path.join(output_folder_path, f"training_fold_{k}_text.txt"), "w") as f:
                 for txt in X_train:
                     f.write(f"{txt}\n")
-            with open(
-                os.path.join(output_folder_path, f"training_fold_{k}_labels.txt"), "w"
-            ) as f:
+            with open(os.path.join(output_folder_path, f"training_fold_{k}_labels.txt"), "w") as f:
                 for label in y_train:
                     f.write(f"{label}\n")
             # Write the validation
-            write_to_json(
-                X_val, y_val, output_folder_path, json_name=f"validation_fold_{k}.json"
-            )
+            write_to_json(X_val, y_val, output_folder_path, json_name=f"validation_fold_{k}.json")
 
 
 def write_test_to_output(X, y, output_folder_path):
     write_to_json(X, y, output_folder_path, json_name="test.json")
+
+
+def write_train_and_test_to_output(
+    X, y, output_folder_path, train_size=0.7, val_size=0.15, test_size=0.15, random_state=42
+):
+    assert X.ndim == y.ndim == 1
+    assert X.size == y.size
+    assert train_size + val_size + test_size == 1
+    # Do train-val-test split
+    data_index = np.arange(len(X))
+    train_idx, val_idx = train_test_split(
+        data_index, train_size=train_size, random_state=random_state
+    )
+    val_idx, test_idx = train_test_split(
+        val_idx, train_size=val_size / (1 - train_size), random_state=random_state
+    )
+    X_train, y_train, X_val, y_val, X_test, y_test = (
+        X[train_idx],
+        y[train_idx],
+        X[val_idx],
+        y[val_idx],
+        X[test_idx],
+        y[test_idx],
+    )
+    # Write the split to output files
+    with open(os.path.join(output_folder_path, "training_text.txt"), "w") as f:
+        for txt in X_train:
+            f.write(f"{txt}\n")
+    with open(os.path.join(output_folder_path, "training_labels.txt"), "w") as f:
+        for label in y_train:
+            f.write(f"{label}\n")
+    # Write the validation
+    write_to_json(X_val, y_val, output_folder_path, json_name="validation.json")
+    # Write the test
+    write_to_json(X_test, y_test, output_folder_path, json_name="test.json")
 
 
 def main():
@@ -166,6 +195,8 @@ def main():
         )
     elif data_type == "test":
         write_test_to_output(X, y, output_folder_path=output_folder_path)
+    elif data_type == "all":
+        write_train_and_test_to_output(X, y, output_folder_path=output_folder_path)
     else:
         raise ValueError("Unrecognized data type")
 
