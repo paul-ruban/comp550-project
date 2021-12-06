@@ -12,7 +12,7 @@ cur_dir = os.path.dirname(os.path.abspath(__file__))
 
 DATA_TYPES = {"polarity", "articles", "smokers"}
 
-# TODO: Modify output_folder_path to mila cluster
+
 PATH_DICTS = {
     "polarity": {
         "input_training_text_path": os.path.join(
@@ -31,8 +31,7 @@ PATH_DICTS = {
             "augmentation",
             "training_labels.txt",
         ),
-        # TODO: Modify this to the mila cluster
-        "output_folder_path": os.path.join(cur_dir, "..", "data", "temp", "polarity"),
+        "output_folder_path": "/home/mila/c/cesare.spinoso/scratch/datasets_550/polarity",
     },
     "articles": {
         "input_training_text_path": os.path.join(
@@ -46,8 +45,7 @@ PATH_DICTS = {
             "augmentation",
             "training_labels.txt",
         ),
-        # TODO: Modify this to the mila cluster
-        "output_folder_path": os.path.join(cur_dir, "..", "data", "temp", "articles"),
+        "output_folder_path": "/home/mila/c/cesare.spinoso/scratch/datasets_550/articles",
     },
     "smokers": {
         "input_training_text_path": [
@@ -73,7 +71,7 @@ PATH_DICTS = {
             for k in range(1, 6)
         ],
         # TODO: Modify this to the mila cluster
-        "output_folder_path": os.path.join(cur_dir, "..", "data", "temp", "smokers"),
+        "output_folder_path": "/home/mila/c/cesare.spinoso/scratch/datasets_550/smokers",
     },
 }
 
@@ -85,24 +83,24 @@ AUGMENTATION_GRID = [
     {
         "augmentation_type": ["random_swap"],
         "num_samples": [1, 3, 5],
-        "aug_p": [0.1, 0.2, 0.3, 0.4, 0.5],
+        "aug_p": [0.1, 0.25, 0.5, 0.75, 0.9],
     },
     {
         "augmentation_type": ["random_delete"],
         "num_samples": [1, 3, 5],
-        "aug_p": [0.1, 0.2, 0.3, 0.4, 0.5],
+        "aug_p": [0.1, 0.25, 0.5, 0.75, 0.9],
     },
     {
         "augmentation_type": ["synonym_wordnet"],
         "num_samples": [1, 3, 5],
-        "aug_p": [0.1, 0.2, 0.3, 0.4, 0.5],
+        "aug_p": [0.1, 0.25, 0.5, 0.75, 0.9],
         "stopwords_regex": [r".*[^a-zA-Z].*"] # skip non-alpha words
     },
     {
         "augmentation_type": ["synonym_word2vec"],
         "num_samples": [1, 3, 5],
-        "aug_p": [0.1, 0.2, 0.3, 0.4, 0.5],
-        "top_k": [10, 50, 100, None]
+        "aug_p": [0.1, 0.25, 0.5, 0.75, 0.9],
+        "top_k": [10, 100, None]
     },
     {
         "augmentation_type": ["backtranslation"],
@@ -150,6 +148,7 @@ def main():
         path_to_text=PATH_DICTS[data_type]["input_training_text_path"],
         path_to_label=PATH_DICTS[data_type]["input_training_label_path"],
     )
+    # TODO: Add a "No augmentation" option
     # Augment data
     # Use a time signature for the logger
     time_now = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
@@ -165,7 +164,6 @@ def main():
             if k != "augmentation_type" and k != "num_samples"
         }
         for i, (X, y) in enumerate(zip(X_list, y_list)):
-            X, y = X[:10], y[:10]
             X_aug, y_aug = aug.augment(X, y, **other_kwargs)
             aug.to_json(
                 path_to_folder=os.path.join(
