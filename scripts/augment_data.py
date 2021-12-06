@@ -102,7 +102,7 @@ AUGMENTATION_GRID = [
         "augmentation_type": ["synonym_word2vec"],
         "num_samples": [1, 3, 5],
         "aug_p": [0.1, 0.25, 0.5, 0.75, 0.9],
-        "top_k": [10, 100, None]
+        "top_k": [None]
     },
     {
         "augmentation_type": ["backtranslation"],
@@ -153,7 +153,7 @@ def main():
     # Augment data
     # Use a time signature for the logger
     time_now = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-    for aug_id, aug_kwargs in tqdm(enumerate(grid_list)):
+    for aug_id, aug_kwargs in enumerate(grid_list):
         print(f"Augmentation {data_type} with parameters {aug_kwargs}")
         aug = Augmentation(
             augmentation_type=aug_kwargs["augmentation_type"],
