@@ -155,12 +155,12 @@ class RNNMaskedLM(RNNBaseLM):
         
         return self
     
-    def predict(self, dataset : Dataset):
+    def predict(self, dataset : Dataset, batch_size : int = 32):
         output = []
         device = self._get_device()
-        loader = DataLoader(dataset=dataset, batch_size=1, shuffle=False)
+        loader = DataLoader(dataset=dataset, batch_size=batch_size, shuffle=False)
         with torch.no_grad():
-            for i, batch in enumerate(loader):
+            for batch in loader:
                 x = self.tokenizer(batch["text"], add_special=True)
                 x, pad_mask = self._pad_batch(x, batch_first=True, return_pad_mask=True)
                 x = x.to(device)
@@ -169,8 +169,6 @@ class RNNMaskedLM(RNNBaseLM):
                 log_probas = self.model(x)
                 out = (log_probas.detach().clone().argmax(dim=1) * pad_mask).tolist()
                 output.extend(self.tokenizer.decode(out, remove_special=True))
-                if i > 10:
-                    break
 
         return output
 
@@ -219,3 +217,30 @@ class RNNLanguageModel(RNNBaseLM):
                 optim.step()
         
         return self
+
+    def predict(self, dataset : Dataset):
+        mask_token_id = self.tokenizer.mask_token_id
+
+        device = self._get_device()
+        loader = DataLoader(dataset=dataset, batch_size=1, shuffle=False)
+
+        output = []
+        # since we do prediction sequentially we cannot have a batch size > 1
+        with torch.no_grad():
+            for batch in loader:
+                x = self.tokenizer(batch["text"], add_special=True)
+                masked_token_ids = [i for i in range(len(x[0])) if x[0][i] == self.tokenizer.mask_token_id]
+                print(x)
+                for masked_token_id in masked_token_ids:
+                    _x = [x[0][:masked_token_id]]
+                    _x = self._pad_batch(_x, batch_first=True)
+                    _x = _x.to(device)
+
+                    log_proba = self.model(_x)[0, -1] # take the last output of RNN
+                    predicted_token_id = log_proba.argmax().item()
+                    # replace mask token with predicted token
+                    x[0][masked_token_id] =  predicted_token_id
+
+                output.append(self.tokenizer.decode(x, remove_special=True)[0])
+
+        return output
