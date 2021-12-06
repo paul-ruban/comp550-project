@@ -1,0 +1,38 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Current file",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+        },
+        {
+            "name": "SSMBA",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "args": [
+                "--in-file",
+                "/home/c_spino/comp-550-copy/comp-550-project/src/aug/input.txt",
+                "--label",
+                "/home/c_spino/comp-550-copy/comp-550-project/src/aug/label.txt",
+                "--output-path",
+                "/home/c_spino/comp-550-copy/comp-550-project/src/aug/output",
+                "--noise-prob",
+                "0.25",
+                "--num-samples",
+                "2",
+                "--topk",
+                "10",
+                "--seed",
+                "42"
+            ]
+        }
+    ]
+}

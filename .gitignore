@@ -136,3 +136,20 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+# Ignore vscode extensions
+.vscode/*
+.vscode/launch.json
+
+# Ignore zip files
+*.zip
+*.gz
+*.bin
+
+# Ignore temp
+data/temp/
+
+# Ignore job files
+job_error.txt
+job_output.txt
+job_script
