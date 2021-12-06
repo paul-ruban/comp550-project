@@ -12,7 +12,7 @@ cur_dir = os.path.dirname(os.path.abspath(__file__))
 
 DATA_TYPES = {"polarity", "articles", "smokers"}
 
-# TODO: Modify output_folder_path to mila cluster
+
 PATH_DICTS = {
     "polarity": {
         "input_training_text_path": os.path.join(
@@ -31,7 +31,6 @@ PATH_DICTS = {
             "augmentation",
             "training_labels.txt",
         ),
-        # TODO: Modify this to the mila cluster
         "output_folder_path": "/home/mila/c/cesare.spinoso/scratch/datasets_550/polarity",
     },
     "articles": {
@@ -46,7 +45,6 @@ PATH_DICTS = {
             "augmentation",
             "training_labels.txt",
         ),
-        # TODO: Modify this to the mila cluster
         "output_folder_path": "/home/mila/c/cesare.spinoso/scratch/datasets_550/articles",
     },
     "smokers": {
@@ -150,6 +148,7 @@ def main():
         path_to_text=PATH_DICTS[data_type]["input_training_text_path"],
         path_to_label=PATH_DICTS[data_type]["input_training_label_path"],
     )
+    # TODO: Add a "No augmentation" option
     # Augment data
     # Use a time signature for the logger
     time_now = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
