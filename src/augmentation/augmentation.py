@@ -12,6 +12,7 @@ from pathlib import Path
 
 class Augmentation:
     AUGMENTATION_TYPES = [
+        "none",
         "random_swap",
         "random_delete",
         "synonym_wordnet",
@@ -21,7 +22,7 @@ class Augmentation:
     ]
 
     def __init__(
-        self, augmentation_type: str, num_samples: int, random_state: int = 42
+        self, augmentation_type: str, num_samples: int = 1, random_state: int = 42
     ) -> None:
         """Augmentation module.
 
@@ -64,7 +65,9 @@ class Augmentation:
         self.kwargs = kwargs
         # cast X to object type
         X = X.astype(dtype="object") if X.dtype != np.dtype("object") else X
-        if self.augmentation_type == "random_swap":
+        if self.augmentation_type == "none":
+            return np.array([]), np.array([])
+        elif self.augmentation_type == "random_swap":
             return self.random_swap_augment(X, y, **kwargs)
         elif self.augmentation_type == "random_delete":
             return self.random_delete_augment(X, y, **kwargs)
