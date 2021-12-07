@@ -11,9 +11,9 @@ from nltk.stem import WordNetLemmatizer
 from nltk.stem.porter import PorterStemmer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import classification_report
+from sklearn.metrics import classification_report, f1_score, make_scorer, confusion_matrix
 from sklearn.model_selection import GridSearchCV, PredefinedSplit
-from sklearn.neural_network import MLPClassifier
+from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
 from sklearn.svm import SVC
 from src.utils.json_utils import append_json_lines, read_json_lines
@@ -36,7 +36,8 @@ DATA_TYPE_DICT = {
             cur_dir, "..", "data", "rt-polaritydata", "augmentation", "test.json"
         ),
         "json_train_log_path": os.path.join(cur_dir, "..", "logs", "training", "polarity.json"),
-        "pickle_folder_path": os.path.join(cur_dir, "..", "temp", "training", "polarity"),
+        # Change to save to the augmentation
+        "pickle_folder_path": os.path.join(cur_dir, "..", "data", "temp", "training", "polarity"),
     },
     "articles": {
         "json_training_log_path": os.path.join(
@@ -49,7 +50,8 @@ DATA_TYPE_DICT = {
             cur_dir, "..", "data", "articles", "augmentation", "test.json"
         ),
         "json_train_log_path": os.path.join(cur_dir, "..", "logs", "training", "articles.json"),
-        "pickle_folder_path": os.path.join(cur_dir, "..", "temp", "training", "polarity"),
+        # Change to save to the augmentation
+        "pickle_folder_path": os.path.join(cur_dir, "..", "data", "temp", "training", "polarity"),
     },
     "smokers": {
         "json_training_log_path": os.path.join(
@@ -65,10 +67,11 @@ DATA_TYPE_DICT = {
             cur_dir, "..", "data", "smokers", "augmentation", "test.json"
         ),
         "json_train_log_path": os.path.join(cur_dir, "..", "logs", "training", "smokers.json"),
+        # Change to save to the augmentation
         "pickle_folder_path": os.path.join(cur_dir, "..", "temp", "training", "polarity"),
     },
 }
-MODELS = {"logistic", "svm", "mlp"}
+MODELS = ["nb", "logistic", "svm"]
 
 
 class WordTokenizer:
@@ -135,17 +138,21 @@ def prepare_train_and_val_data(training_json_path: str, validation_json_path: st
     training_data = read_json_lines(training_json_path)
     validation_data = read_json_lines(validation_json_path)
     # Convert to numpy arrays
+    # Sklearn requires the labels to be arrays of strings (categories)
     training_matrix = np.array([[dict_["text"], dict_["label"]] for dict_ in training_data])
     validation_matrix = np.array([[dict_["text"], dict_["label"]] for dict_ in validation_data])
     # Split into X and y
-    X_train, y_train = training_matrix[:, 0], training_matrix[:, 1]
-    X_val, y_val = validation_matrix[:, 0], validation_matrix[:, 1]
+    X_train, y_train = training_matrix[:, [0]], training_matrix[:, [1]]
+    # X_train, y_train = training_matrix[:100, [0]], training_matrix[:100, [1]]
+    X_val, y_val = validation_matrix[:, [0]], validation_matrix[:, [1]]
+    # X_val, y_val = validation_matrix[:100, [0]], validation_matrix[:100, [1]]
     # To use GridSearch format merge train and val and keep the split index
     # By convention training points are identified with -1 and validation points with 0
-    split_index = [-1] * len(X_train) + [0] * len(X_val)
-    X = np.vstack((X_train, X_val))
-    y = np.hstack((y_train, y_val))
-    return X, y, split_index
+    split_index = np.array([-1] * len(X_train) + [0] * len(X_val))
+    X = np.vstack([X_train, X_val])
+    y = np.vstack([y_train, y_val])
+    # Extra ravel is there to convert the shape from (n_samples, 1) to (n_samples,)
+    return X.ravel(), y.ravel(), split_index
 
 
 def get_test_data(test_json_path: str):
@@ -160,7 +167,7 @@ def create_pipeline(
 ) -> Pipeline:
     # Use the "meta" parameters to create the full sklearn pipeline, then use GridSearchCV
     # to find the best paramters (allows multithreading)
-    assert model_type in {"logistic", "svm", "mlp"}
+    assert model_type in MODELS
 
     # Pipeline will be a pipeline object with a counter and a model
     pipeline = []
@@ -168,25 +175,27 @@ def create_pipeline(
     vectorizer = TfidfVectorizer()
     pipeline.append(("vectorizer", vectorizer))
     # Pick the model
-    if model_type == "logistic":
+    if model_type == "nb":
+        model = MultinomialNB()
+    elif model_type == "logistic":
         model = LogisticRegression()
     elif model_type == "svm":
         model = SVC()
-    elif model_type == "mlp":
-        model = MLPClassifier()
     pipeline.append(("model", model))
     pipeline = Pipeline(pipeline)
     return pipeline
 
 
 def create_pipeline_grid(model_type: str = "logistic"):
-    assert model_type in {"logistic", "svm", "mlp"}
+    assert model_type in MODELS
     param_grid = {
         # Punctuation removal is on automatically
         "vectorizer__tokenizer": [WordTokenizer(), LemmaTokenizer(), StemmerTokenizer()],
-        "vectorizer__ngram_range": [(1, 1), (1, 2), (1, 3)],
+        "vectorizer__ngram_range": [(1, 1)],
     }
-    if model_type == "logistic":
+    if model_type == "nb":
+        model_grid = {"model__alpha": [0.1, 1.0, 10.0]}
+    elif model_type == "logistic":
         model_grid = {
             "model__penalty": ["l2"],
             "model__C": [0.01, 0.1, 1],
@@ -196,16 +205,8 @@ def create_pipeline_grid(model_type: str = "logistic"):
     elif model_type == "svm":
         model_grid = {
             "model__C": [0.01, 0.1, 1],
-            "model__kernel": ["poly", "rbf"],
+            "model__kernel": ["rbf"],
             "model__random_state": [42],
-        }
-    elif model_type == "mlp":
-        model_grid = {
-            "model__hidden_layer_sizes": [(100,), (100, 100), (100, 100, 100)],
-            "model__activation": ["relu"],
-            "model__solver": ["adam"],
-            "model__random_state": [42],
-            "model__tol": [1e-4],
         }
     pipeline_grid = {**param_grid, **model_grid}
     return pipeline_grid
@@ -217,27 +218,35 @@ def train_pipeline(
     # Use GridSearchCV to find the best paramters (allows multithreading)
     pds = PredefinedSplit(test_fold=split_index)
     grid_search = GridSearchCV(
-        estimator=pieline, param_grid=grid, cv=pds, scoring="f1", n_jobs=-1, verbosity=3
+        estimator=pieline,
+        param_grid=grid,
+        cv=pds,
+        scoring=make_scorer(f1_score, average="macro"),  # Use best macro averaged f1 score
+        n_jobs=1,
+        verbose=3,
     )
-    grid_search.fit(X, y, split_index)
+    grid_search.fit(X, y)
     return grid_search
 
 
-def log_grid_search_results(grid_search: GridSearchCV, X_test: np.ndarray, y_test: np.ndarray):
+def log_grid_search_results(
+    grid_search: GridSearchCV, X: np.ndarray, y: np.ndarray, split_index: np.ndarray
+):
     # Log the results of the grid search
-    logger.info("Results of the grid search for the model:")
-    logger.info("Grid search results:")
-    logger.info(f"{json.dumps(grid_search.cv_results_, indent=4)}")
-    logger.info("Best estimator:")
-    logger.info(f"{grid_search.best_estimator_}")
-    logger.info("Best parameters:")
-    logger.info(f"{grid_search.best_params_}")
-    logger.info("Best (f1) score:")
-    logger.info(f"{grid_search.best_score_}")
+    logger.debug("Results of the grid search for the model:")
+    logger.debug("Best estimator:")
+    logger.debug(f"{grid_search.best_estimator_}")
+    logger.debug("Best parameters:")
+    logger.debug(f"{grid_search.best_params_}")
+    logger.debug("Best (f1) score:")
+    logger.debug(f"{grid_search.best_score_}")
     # Evaluate on the test set
-    y_pred = grid_search.best_estimator_.predict(X_test)
-    logger.info("Test set results of the best classifier:")
-    logger.info(f"{classification_report(y_true=y_test, y_pred=y_pred)}")
+    best_estimator = grid_search.best_estimator_
+    best_estimator.fit(X=X[split_index == -1], y=y[split_index == -1])
+    y_pred = best_estimator.predict(X=X[split_index == 0])
+    logger.debug("Val set results of the best classifier:")
+    logger.debug(f"{classification_report(y_true=y[split_index == 0], y_pred=y_pred)}")
+    logger.debug(f"{confusion_matrix(y_true=y[split_index == 0], y_pred=y_pred)}")
 
 
 def save_grid_search_results(
@@ -249,6 +258,8 @@ def save_grid_search_results(
     json_file_path: str,
 ):
     # Pickle the grid search object
+    if not os.path.exists(pickle_folder_path):
+        os.makedirs(pickle_folder_path)
     grid_search_pickle_path = os.path.join(
         pickle_folder_path, f"grid_search_augmentation_{augmentation_id}_{model_type}.pkl"
     )
@@ -257,7 +268,7 @@ def save_grid_search_results(
     # Append the results of the grid search to the json file
     dict_to_write = [
         {
-            "augmentation_dataset_id": augmentation_id,
+            "augmented_dataset_id": augmentation_id,
             "augmentation_features": augmentation_features,
             "model_type": model_type,
             "score": grid_search.best_score_,
@@ -272,10 +283,10 @@ def main():
     data_type = parse_args()
     # Setup the logger
     logging.basicConfig(
-        level=logging.INFO,
+        level=logging.DEBUG,
         format="%(asctime)s [%(levelname)s] %(message)s",
         handlers=[
-            logging.FileHandler(os.path.join(LOGGER_FOLDER_PATH, f"{data_type}.json")),
+            logging.FileHandler(os.path.join(LOGGER_FOLDER_PATH, f"{data_type}.log")),
             logging.StreamHandler(),
         ],
     )
@@ -285,9 +296,9 @@ def main():
     # Get each dictionary in the json file
     augmentation_dicts = read_json_lines(augmentation_json_file_path)
     for augmentation_dict in augmentation_dicts:
-        logger.info("-" * 60)
+        logger.info("-" * 120)
         logger.info(
-            f"Starting training for {data_type} with augmentation {augmentation_dict['augmentation_dataset_id']}"
+            f"Starting training for {data_type} with augmentation {augmentation_dict['augmented_dataset_id']}"
         )
         logger.info(f"Augmentation features: {augmentation_dict['augmentation_features']}")
         # Get train, val, test paths
@@ -301,8 +312,7 @@ def main():
         X_test, y_test = get_test_data(test_json_path=test_json_path)
         # Train the different models
         for model_type in MODELS:
-            logger.info("-" * 60)
-            logger.info(f"Starting training for {model_type}")
+            logger.debug("-" * 15 + f"Starting training for {model_type}" + "-" * 15)
             # Create the pipeline
             pipeline = create_pipeline(model_type=model_type)
             # Create the grid
@@ -311,11 +321,12 @@ def main():
             grid_search = train_pipeline(
                 X=X, y=y, split_index=split_index, pieline=pipeline, grid=grid
             )
-            # Log the grid search results on the validation set and the test set
-            log_grid_search_results(grid_search=grid_search, X_test=X_test, y_test=y_test)
+            # Log the grid search results on the validation set and test set (DO NOT PICK
+            # THE BEST MODEL WITH TEST SET)
+            log_grid_search_results(grid_search=grid_search, X=X, y=y, split_index=split_index)
             # Save the results
             save_grid_search_results(
-                augmentation_id=augmentation_dict["augmentation_dataset_id"],
+                augmentation_id=augmentation_dict["augmented_dataset_id"],
                 augmentation_features=augmentation_dict["augmentation_features"],
                 model_type=model_type,
                 grid_search=grid_search,

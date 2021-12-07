@@ -18,7 +18,7 @@ class Augmentation:
         "synonym_wordnet",
         "synonym_word2vec",
         "backtranslation",
-        "ssmba",
+        "contextual_word_embeddings",
     ]
 
     def __init__(
@@ -77,8 +77,8 @@ class Augmentation:
             return self.synonym_word2vec(X, y, **kwargs)
         elif self.augmentation_type == "backtranslation":
             return self.backtranslation(X, y, **kwargs)
-        elif self.augmentation_type == "ssmba":
-            return self.ssmba(X, y, **kwargs)
+        elif self.augmentation_type == "contextual_word_embeddings":
+            return self.contextual_word_embeddings(X, y, **kwargs)
         else:
             raise ValueError("Augmentation type not supported")
 
@@ -242,9 +242,9 @@ class Augmentation:
         )
         return self._augment(X_truncated, y, aug)
 
-    def ssmba(self, X, y):
-        """TODO: Modify the paper's code slightly to make this work. Not using nlpaug because
-        we can test a few relaxing assumptions such as temperature and the use of a more closed/restrcited
-        space for augmentation.
-        """
-        pass
+    def contextual_word_embeddings(self, X: np.array, y: np.array, **kwargs):
+        """This is a variation of the SSMBA paper. Allows simpler implementation."""
+        aug = naw.context_word_embs.ContextualWordEmbsAug(
+            device="cuda" if torch.cuda.is_available() else "cpu", **kwargs
+        )
+        return self._augment(X, y, aug)

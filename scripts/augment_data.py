@@ -80,30 +80,36 @@ AUGMENTATION_GRID = [
     {"augmentation_type": ["none"], "num_samples": [0]},  # to bypass the assertion error ;)
     {
         "augmentation_type": ["random_swap"],
-        "num_samples": [1, 3, 5],
-        "aug_p": [0.1, 0.25, 0.5, 0.75, 0.9],
+        "num_samples": [5],
+        "aug_p": [0.25, 0.5, 0.75],
     },
     {
         "augmentation_type": ["random_delete"],
-        "num_samples": [1, 3, 5],
-        "aug_p": [0.1, 0.25, 0.5, 0.75, 0.9],
+        "num_samples": [5],
+        "aug_p": [0.25, 0.5, 0.75],
     },
     {
         "augmentation_type": ["synonym_wordnet"],
-        "num_samples": [1, 3, 5],
-        "aug_p": [0.1, 0.25, 0.5, 0.75, 0.9],
+        "num_samples": [5],
+        "aug_p": [0.25, 0.5, 0.75],
         "stopwords_regex": [r".*[^a-zA-Z].*"],  # skip non-alpha words
     },
-    {
-        "augmentation_type": ["synonym_word2vec"],
-        "num_samples": [1, 3, 5],
-        "aug_p": [0.1, 0.25, 0.5, 0.75, 0.9],
-        "top_k": [10, 100, None],
-    },
+    # {
+    #     "augmentation_type": ["synonym_word2vec"],
+    #     "num_samples": [1, 3, 5],
+    #     "aug_p": [0.1, 0.25, 0.5, 0.75, 0.9],
+    #     "top_k": [10, 100, None],
+    # },
     {
         "augmentation_type": ["backtranslation"],
-        "num_samples": [1, 3, 5],
+        "num_samples": [5],
     },
+    {
+        "augmentation_type": ["contextual_word_embeddings"],
+        "num_samples": [5],
+        "aug_p": [0.25, 0.5, 0.75],
+        "model_path": ["distilbert-base-uncased"]
+    }
 ]
 
 
@@ -128,6 +134,8 @@ def main():
     # Get data type
     data_type = parse_args()
     # Create augmentation grid
+    if data_type == "smokers": # Add PubMedBERT
+        AUGMENTATION_GRID[]
     grid_list = list(ParameterGrid(AUGMENTATION_GRID))
     # Fetch data
     X, y = load_data_set(
