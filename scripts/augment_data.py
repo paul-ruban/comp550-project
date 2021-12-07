@@ -31,8 +31,8 @@ PATH_DICTS = {
             "augmentation",
             "training_labels.txt",
         ),
-        "output_folder_path": "../data/temp/polarity",
-        # "output_folder_path": "/home/mila/c/cesare.spinoso/scratch/datasets_550/polarity",
+        # "output_folder_path": "../data/temp/polarity",
+        "output_folder_path": "/home/mila/c/cesare.spinoso/scratch/datasets_550/polarity",
     },
     "articles": {
         "input_training_text_path": os.path.join(
@@ -46,8 +46,8 @@ PATH_DICTS = {
             "augmentation",
             "training_labels.txt",
         ),
-        "output_folder_path": "../data/temp/articles",
-        # "output_folder_path": "/home/mila/c/cesare.spinoso/scratch/datasets_550/articles",
+        # "output_folder_path": "../data/temp/articles",
+        "output_folder_path": "/home/mila/c/cesare.spinoso/scratch/datasets_550/articles",
     },
     "smokers": {
         "input_training_text_path": os.path.join(
@@ -67,8 +67,8 @@ PATH_DICTS = {
             "training_labels.txt",
         ),
         # TODO: Modify this to the mila cluster
-        "output_folder_path": "../data/temp/smokers",
-        # "output_folder_path": "/home/mila/c/cesare.spinoso/scratch/datasets_550/smokers",
+        # "output_folder_path": "../data/temp/smokers",
+        "output_folder_path": "/home/mila/c/cesare.spinoso/scratch/datasets_550/smokers",
     },
 }
 
@@ -77,7 +77,10 @@ PATH_TO_LOGGER_FOLDER = os.path.join(cur_dir, "..", "logs", "augmentation")
 
 # TODO: Work on augmentation grid
 AUGMENTATION_GRID = [
-    {"augmentation_type": ["none"], "num_samples": [0]},  # to bypass the assertion error ;)
+    {
+        "augmentation_type": ["none"],
+        "num_samples": [0],
+    },  # to bypass the assertion error ;)
     {
         "augmentation_type": ["random_swap"],
         "num_samples": [5],
@@ -108,14 +111,16 @@ AUGMENTATION_GRID = [
         "augmentation_type": ["contextual_word_embeddings"],
         "num_samples": [5],
         "aug_p": [0.25, 0.5, 0.75],
-        "model_path": ["distilbert-base-uncased"]
-    }
+        "model_path": ["distilbert-base-uncased"],
+    },
 ]
 
 
 def parse_args():
     parser = argparse.ArgumentParser("Aguments the dataset of the passed data type")
-    parser.add_argument("-t", "--data_type", help=f"Data type must be one of {DATA_TYPES}")
+    parser.add_argument(
+        "-t", "--data_type", help=f"Data type must be one of {DATA_TYPES}"
+    )
     args = parser.parse_args()
     data_type = args.data_type
     assert data_type in DATA_TYPES
@@ -136,8 +141,16 @@ def main():
     # Create augmentation grid
     if data_type == "smokers":
         # Add PubMedBERT => Make sure it's in this directory
-        assert os.path.exists(".", "BiomedNLP-PubMedBERT-base-uncased-abstract-fulltext")
-        AUGMENTATION_GRID[-1]["model_path"].append("BiomedNLP-PubMedBERT-base-uncased-abstract-fulltext")
+        assert os.path.exists(
+            os.path.join(
+                cur_dir, "..", "BiomedNLP-PubMedBERT-base-uncased-abstract-fulltext"
+            )
+        )
+        AUGMENTATION_GRID[-1]["model_path"].append(
+            os.path.join(
+                cur_dir, "..", "BiomedNLP-PubMedBERT-base-uncased-abstract-fulltext"
+            )
+        )
     grid_list = list(ParameterGrid(AUGMENTATION_GRID))
     # Fetch data
     X, y = load_data_set(
@@ -147,14 +160,16 @@ def main():
     # Augment data
     # Use a time signature for the logger
     time_now = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-    for aug_id, aug_kwargs in enumerate(grid_list):
+    for aug_id, aug_kwargs in tqdm(enumerate(grid_list)):
         print(f"Augmentation {data_type} with parameters {aug_kwargs}")
         aug = Augmentation(
             augmentation_type=aug_kwargs["augmentation_type"],
             num_samples=aug_kwargs["num_samples"],
         )
         other_kwargs = {
-            k: v for k, v in aug_kwargs.items() if k != "augmentation_type" and k != "num_samples"
+            k: v
+            for k, v in aug_kwargs.items()
+            if k != "augmentation_type" and k != "num_samples"
         }
         X_aug, y_aug = aug.augment(X, y, **other_kwargs)
         aug.to_json(
@@ -173,7 +188,6 @@ def main():
             time_now=time_now,
             path_to_json_log=os.path.join(PATH_TO_LOGGER_FOLDER, f"{data_type}.json"),
         )
-        return
 
 
 if __name__ == "__main__":
