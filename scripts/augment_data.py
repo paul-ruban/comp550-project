@@ -147,7 +147,7 @@ def main():
     # Augment data
     # Use a time signature for the logger
     time_now = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-    for aug_id, aug_kwargs in tqdm(enumerate(grid_list)):
+    for aug_id, aug_kwargs in enumerate(grid_list):
         print(f"Augmentation {data_type} with parameters {aug_kwargs}")
         aug = Augmentation(
             augmentation_type=aug_kwargs["augmentation_type"],
