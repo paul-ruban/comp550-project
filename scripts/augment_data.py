@@ -134,8 +134,10 @@ def main():
     # Get data type
     data_type = parse_args()
     # Create augmentation grid
-    if data_type == "smokers": # Add PubMedBERT
-        AUGMENTATION_GRID[]
+    if data_type == "smokers":
+        # Add PubMedBERT => Make sure it's in this directory
+        assert os.path.exists(".", "BiomedNLP-PubMedBERT-base-uncased-abstract-fulltext")
+        AUGMENTATION_GRID[-1]["model_path"].append("BiomedNLP-PubMedBERT-base-uncased-abstract-fulltext")
     grid_list = list(ParameterGrid(AUGMENTATION_GRID))
     # Fetch data
     X, y = load_data_set(
