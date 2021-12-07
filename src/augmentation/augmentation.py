@@ -179,7 +179,7 @@ class Augmentation:
                 "augmentation_type": self.augmentation_type,
                 **self.kwargs,
             },
-            "path_to_agumented_dataset": self.path_to_json,
+            "path_to_augmented_dataset": self.path_to_json,
         }
         append_json_lines([dict_to_write], output_path=path_to_json_log)
 
@@ -238,7 +238,7 @@ class Augmentation:
             from_model_name="facebook/wmt19-en-de",
             to_model_name="facebook/wmt19-de-en",
             device="cuda" if torch.cuda.is_available() else "cpu",
-            max_length=1024, # This is the model's max length
+            max_length=1024,  # This is the model's max length
         )
         return self._augment(X_truncated, y, aug)
 

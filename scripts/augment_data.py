@@ -50,28 +50,22 @@ PATH_DICTS = {
         # "output_folder_path": "/home/mila/c/cesare.spinoso/scratch/datasets_550/articles",
     },
     "smokers": {
-        "input_training_text_path": [
-            os.path.join(
-                cur_dir,
-                "..",
-                "data",
-                "smokers",
-                "augmentation",
-                f"training_fold_{k}_text.txt",
-            )
-            for k in range(1, 6)
-        ],
-        "input_training_label_path": [
-            os.path.join(
-                cur_dir,
-                "..",
-                "data",
-                "smokers",
-                "augmentation",
-                f"training_fold_{k}_labels.txt",
-            )
-            for k in range(1, 6)
-        ],
+        "input_training_text_path": os.path.join(
+            cur_dir,
+            "..",
+            "data",
+            "smokers",
+            "augmentation",
+            "training_text.txt",
+        ),
+        "input_training_label_path": os.path.join(
+            cur_dir,
+            "..",
+            "data",
+            "smokers",
+            "augmentation",
+            "training_labels.txt",
+        ),
         # TODO: Modify this to the mila cluster
         "output_folder_path": "../data/temp/smokers",
         # "output_folder_path": "/home/mila/c/cesare.spinoso/scratch/datasets_550/smokers",
@@ -125,16 +119,8 @@ def parse_args():
 def load_data_set(
     path_to_text: Union[str, list], path_to_label: Union[str, list]
 ) -> List[np.array]:
-    X = (
-        [np.loadtxt(path_to_text, dtype="object", delimiter="\n")]
-        if isinstance(path_to_label, str)
-        else [np.loadtxt(path, dtype="object", delimiter="\n") for path in path_to_text]
-    )
-    y = (
-        [np.loadtxt(path_to_label, dtype="object", delimiter="\n")]
-        if isinstance(path_to_label, str)
-        else [np.loadtxt(path, dtype="object", delimiter="\n") for path in path_to_label]
-    )
+    X = np.loadtxt(path_to_text, dtype="object", delimiter="\n")
+    y = np.loadtxt(path_to_label, dtype="object", delimiter="\n")
     return X, y
 
 
@@ -144,7 +130,7 @@ def main():
     # Create augmentation grid
     grid_list = list(ParameterGrid(AUGMENTATION_GRID))
     # Fetch data
-    X_list, y_list = load_data_set(
+    X, y = load_data_set(
         path_to_text=PATH_DICTS[data_type]["input_training_text_path"],
         path_to_label=PATH_DICTS[data_type]["input_training_label_path"],
     )
@@ -160,25 +146,23 @@ def main():
         other_kwargs = {
             k: v for k, v in aug_kwargs.items() if k != "augmentation_type" and k != "num_samples"
         }
-        # TODO: Drop this when remove the folds for the medical data
-        for i, (X, y) in enumerate(zip(X_list, y_list)):
-            X_aug, y_aug = aug.augment(X, y, **other_kwargs)
-            aug.to_json(
-                path_to_folder=os.path.join(
-                    PATH_DICTS[data_type]["output_folder_path"],
-                    f"augmentation_{aug_id}",
-                ),
-                X_initial=X,
-                y_initial=y,
-                X_aug=X_aug,
-                y_aug=y_aug,
-                name="train" if len(X_list) == 1 else f"train_fold_{i+1}",
-            )
-            aug.log_to_json(
-                id=aug_id,
-                time_now=time_now,
-                path_to_json_log=os.path.join(PATH_TO_LOGGER_FOLDER, f"{data_type}.json"),
-            )
+        X_aug, y_aug = aug.augment(X, y, **other_kwargs)
+        aug.to_json(
+            path_to_folder=os.path.join(
+                PATH_DICTS[data_type]["output_folder_path"],
+                f"augmentation_{aug_id}",
+            ),
+            X_initial=X,
+            y_initial=y,
+            X_aug=X_aug,
+            y_aug=y_aug,
+            name="train",
+        )
+        aug.log_to_json(
+            id=aug_id,
+            time_now=time_now,
+            path_to_json_log=os.path.join(PATH_TO_LOGGER_FOLDER, f"{data_type}.json"),
+        )
         return
 
 
