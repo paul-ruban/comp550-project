@@ -153,3 +153,7 @@ data/temp/
 job_error.txt
 job_output.txt
 job_script
+
+# Ignore the bert download
+BiomedNLP-PubMedBERT-base-uncased-abstract-fulltext/
+scripts/BiomedNLP-PubMedBERT-base-uncased-abstract-fulltext/
