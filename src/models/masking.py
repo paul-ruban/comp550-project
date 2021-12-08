@@ -27,11 +27,8 @@ class RandomMask(Mask):
         """X is a list of lists of strings, a string represents one token"""
         # make a copy of the data not to mess up the orogonal
         _X = copy.deepcopy(X)
-        print('_X is', _X)
         for i in range(len(_X)):
-            # print('i is', i)
             for j in range(len(_X[i])):
-                # print('i is', i, 'j is', j)
                 proba = self.proba
                 # the probability of masking is adjusted by the token length, increasing probability of longer tokens
                 # Ex.
