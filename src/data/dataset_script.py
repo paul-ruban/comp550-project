@@ -47,14 +47,7 @@ class Text(datasets.ArrowBasedBuilder):
         return splits
 
     def _generate_tables(self, files):
-        schema = pa.schema(
-            {
-                "file_id": pa.int64(), 
-                "line_id": pa.int64(), 
-                "subline_id": pa.int64(), 
-                "text": pa.string()
-            }
-        )
+        schema = pa.schema({"text": pa.string()})
         for file_idx, file in enumerate(files):
             batch_idx = 0
             with open(file, "r", encoding=self.config.encoding) as f:
@@ -64,13 +57,7 @@ class Text(datasets.ArrowBasedBuilder):
                         break
                     batch += f.readline()  # finish current line
                     lines = batch.splitlines(keepends=self.config.keep_linebreaks)
-                    batch = [
-                        [file_idx]*len(lines), 
-                        list(range(len(lines))), 
-                        [0]*len(lines), 
-                        lines
-                    ]
-                    pa_table = pa.Table.from_arrays(batch, schema=schema)
+                    pa_table = pa.Table.from_arrays([lines], schema=schema)
                     # Uncomment for debugging (will print the Arrow table size and elements)
                     # logger.warning(f"pa_table: {pa_table} num rows: {pa_table.num_rows}")
                     # logger.warning('\n'.join(str(pa_table.slice(i, 1).to_pydict()) for i in range(pa_table.num_rows)))
