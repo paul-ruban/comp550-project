@@ -12,27 +12,16 @@
             "console": "integratedTerminal",
         },
         {
-            "name": "SSMBA",
+            "name": "augment_data",
             "type": "python",
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
             "args": [
-                "--in-file",
-                "/home/c_spino/comp-550-copy/comp-550-project/src/aug/input.txt",
-                "--label",
-                "/home/c_spino/comp-550-copy/comp-550-project/src/aug/label.txt",
-                "--output-path",
-                "/home/c_spino/comp-550-copy/comp-550-project/src/aug/output",
-                "--noise-prob",
-                "0.25",
-                "--num-samples",
-                "2",
-                "--topk",
-                "10",
-                "--seed",
-                "42"
+                "-t",
+                "polarity"
             ]
-        }
+        },
+
     ]
 }

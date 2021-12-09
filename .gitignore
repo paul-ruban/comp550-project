@@ -147,9 +147,13 @@ cython_debug/
 *.bin
 
 # Ignore temp
-data/temp/
+data/temp/*
 
 # Ignore job files
 job_error.txt
 job_output.txt
 job_script
+
+# Ignore the bert download
+BiomedNLP-PubMedBERT-base-uncased-abstract-fulltext/
+scripts/BiomedNLP-PubMedBERT-base-uncased-abstract-fulltext/
