@@ -1,0 +1,1019 @@
+2021-12-08 04:34:54,311 [INFO] Starting smokers training
+2021-12-08 04:34:54,324 [INFO] ------------------------------------------------------------------------------------------------------------------------
+2021-12-08 04:34:54,325 [INFO] Starting training for smokers with augmentation 0
+2021-12-08 04:34:54,326 [INFO] Augmentation features: {'num_samples': 0, 'augmentation_type': 'none'}
+2021-12-08 04:34:54,455 [DEBUG] ---------------Starting training for nb---------------
+2021-12-08 04:35:33,355 [DEBUG] Results of the grid search for the model:
+2021-12-08 04:35:33,356 [DEBUG] Best estimator:
+2021-12-08 04:35:33,363 [DEBUG] Pipeline(steps=[('vectorizer',
+                 TfidfVectorizer(tokenizer=<__main__.WordTokenizer object at 0x7f5fd5874820>)),
+                ('model', MultinomialNB(alpha=0.1))])
+2021-12-08 04:35:33,364 [DEBUG] Best parameters:
+2021-12-08 04:35:33,365 [DEBUG] {'model__alpha': 0.1, 'vectorizer__ngram_range': (1, 1), 'vectorizer__tokenizer': <__main__.WordTokenizer object at 0x7f5fb706fd60>}
+2021-12-08 04:35:33,365 [DEBUG] Best (f1) score:
+2021-12-08 04:35:33,366 [DEBUG] 0.15409836065573773
+2021-12-08 04:35:36,378 [DEBUG] Val set results of the best classifier:
+2021-12-08 04:35:36,535 [DEBUG]               precision    recall  f1-score   support
+
+           0       0.63      1.00      0.77        47
+           1       0.00      0.00      0.00        10
+           2       0.00      0.00      0.00         9
+           3       0.00      0.00      0.00         2
+           4       0.00      0.00      0.00         7
+
+    accuracy                           0.63        75
+   macro avg       0.13      0.20      0.15        75
+weighted avg       0.39      0.63      0.48        75
+
+2021-12-08 04:35:36,556 [DEBUG] [[47  0  0  0  0]
+ [10  0  0  0  0]
+ [ 9  0  0  0  0]
+ [ 2  0  0  0  0]
+ [ 7  0  0  0  0]]
+2021-12-08 04:35:36,571 [DEBUG] ---------------Starting training for logistic---------------
+2021-12-08 04:36:23,877 [DEBUG] Results of the grid search for the model:
+2021-12-08 04:36:23,878 [DEBUG] Best estimator:
+2021-12-08 04:36:23,882 [DEBUG] Pipeline(steps=[('vectorizer',
+                 TfidfVectorizer(ngram_range=(1, 2),
+                                 tokenizer=<__main__.WordTokenizer object at 0x7f5fd5874910>)),
+                ('model', LogisticRegression(C=1, n_jobs=-1, random_state=42))])
+2021-12-08 04:36:23,883 [DEBUG] Best parameters:
+2021-12-08 04:36:23,883 [DEBUG] {'model__C': 1, 'model__n_jobs': -1, 'model__penalty': 'l2', 'model__random_state': 42, 'model__solver': 'lbfgs', 'vectorizer__ngram_range': (1, 2), 'vectorizer__tokenizer': <__main__.WordTokenizer object at 0x7f5fb680e5b0>}
+2021-12-08 04:36:23,884 [DEBUG] Best (f1) score:
+2021-12-08 04:36:23,884 [DEBUG] 0.25029088558500323
+2021-12-08 04:36:31,094 [DEBUG] Val set results of the best classifier:
+2021-12-08 04:36:31,412 [DEBUG]               precision    recall  f1-score   support
+
+           0       0.65      1.00      0.79        47
+           1       1.00      0.30      0.46        10
+           2       0.00      0.00      0.00         9
+           3       0.00      0.00      0.00         2
+           4       0.00      0.00      0.00         7
+
+    accuracy                           0.67        75
+   macro avg       0.33      0.26      0.25        75
+weighted avg       0.54      0.67      0.56        75
+
+2021-12-08 04:36:31,452 [DEBUG] [[47  0  0  0  0]
+ [ 7  3  0  0  0]
+ [ 9  0  0  0  0]
+ [ 2  0  0  0  0]
+ [ 7  0  0  0  0]]
+2021-12-08 04:36:31,500 [INFO] ------------------------------------------------------------------------------------------------------------------------
+2021-12-08 04:36:31,501 [INFO] Starting training for smokers with augmentation 1
+2021-12-08 04:36:31,501 [INFO] Augmentation features: {'num_samples': 5, 'augmentation_type': 'random_swap', 'aug_p': 0.25}
+2021-12-08 04:36:32,127 [DEBUG] ---------------Starting training for nb---------------
+2021-12-08 04:39:22,692 [DEBUG] Results of the grid search for the model:
+2021-12-08 04:39:22,693 [DEBUG] Best estimator:
+2021-12-08 04:39:22,696 [DEBUG] Pipeline(steps=[('vectorizer',
+                 TfidfVectorizer(tokenizer=<__main__.WordTokenizer object at 0x7f5fd587ed30>)),
+                ('model', MultinomialNB(alpha=0.1))])
+2021-12-08 04:39:22,697 [DEBUG] Best parameters:
+2021-12-08 04:39:22,697 [DEBUG] {'model__alpha': 0.1, 'vectorizer__ngram_range': (1, 1), 'vectorizer__tokenizer': <__main__.WordTokenizer object at 0x7f5fb706fb20>}
+2021-12-08 04:39:22,698 [DEBUG] Best (f1) score:
+2021-12-08 04:39:22,698 [DEBUG] 0.2816585106786541
+2021-12-08 04:39:38,824 [DEBUG] Val set results of the best classifier:
+2021-12-08 04:39:38,971 [DEBUG]               precision    recall  f1-score   support
+
+           0       0.72      0.83      0.77        47
+           1       0.32      0.60      0.41        10
+           2       0.00      0.00      0.00         9
+           3       0.00      0.00      0.00         2
+           4       0.50      0.14      0.22         7
+
+    accuracy                           0.61        75
+   macro avg       0.31      0.31      0.28        75
+weighted avg       0.54      0.61      0.56        75
+
+2021-12-08 04:39:38,991 [DEBUG] [[39  7  0  0  1]
+ [ 4  6  0  0  0]
+ [ 6  3  0  0  0]
+ [ 2  0  0  0  0]
+ [ 3  3  0  0  1]]
+2021-12-08 04:39:39,004 [DEBUG] ---------------Starting training for logistic---------------
+2021-12-08 04:43:07,081 [DEBUG] Results of the grid search for the model:
+2021-12-08 04:43:07,082 [DEBUG] Best estimator:
+2021-12-08 04:43:07,086 [DEBUG] Pipeline(steps=[('vectorizer',
+                 TfidfVectorizer(ngram_range=(1, 2),
+                                 tokenizer=<__main__.WordTokenizer object at 0x7f5fd576c8e0>)),
+                ('model', LogisticRegression(C=1, n_jobs=-1, random_state=42))])
+2021-12-08 04:43:07,086 [DEBUG] Best parameters:
+2021-12-08 04:43:07,087 [DEBUG] {'model__C': 1, 'model__n_jobs': -1, 'model__penalty': 'l2', 'model__random_state': 42, 'model__solver': 'lbfgs', 'vectorizer__ngram_range': (1, 2), 'vectorizer__tokenizer': <__main__.WordTokenizer object at 0x7f5fb680e9d0>}
+2021-12-08 04:43:07,088 [DEBUG] Best (f1) score:
+2021-12-08 04:43:07,088 [DEBUG] 0.28005148005148006
+2021-12-08 04:43:35,108 [DEBUG] Val set results of the best classifier:
+2021-12-08 04:43:35,398 [DEBUG]               precision    recall  f1-score   support
+
+           0       0.72      0.98      0.83        47
+           1       0.55      0.60      0.57        10
+           2       0.00      0.00      0.00         9
+           3       0.00      0.00      0.00         2
+           4       0.00      0.00      0.00         7
+
+    accuracy                           0.69        75
+   macro avg       0.25      0.32      0.28        75
+weighted avg       0.52      0.69      0.60        75
+
+2021-12-08 04:43:35,435 [DEBUG] [[46  1  0  0  0]
+ [ 4  6  0  0  0]
+ [ 6  3  0  0  0]
+ [ 2  0  0  0  0]
+ [ 6  1  0  0  0]]
+2021-12-08 04:43:35,508 [INFO] ------------------------------------------------------------------------------------------------------------------------
+2021-12-08 04:43:35,508 [INFO] Starting training for smokers with augmentation 2
+2021-12-08 04:43:35,509 [INFO] Augmentation features: {'num_samples': 5, 'augmentation_type': 'random_swap', 'aug_p': 0.5}
+2021-12-08 04:43:36,128 [DEBUG] ---------------Starting training for nb---------------
+2021-12-08 04:46:28,024 [DEBUG] Results of the grid search for the model:
+2021-12-08 04:46:28,025 [DEBUG] Best estimator:
+2021-12-08 04:46:28,029 [DEBUG] Pipeline(steps=[('vectorizer',
+                 TfidfVectorizer(tokenizer=<__main__.WordTokenizer object at 0x7f5fb5e6b730>)),
+                ('model', MultinomialNB(alpha=0.1))])
+2021-12-08 04:46:28,029 [DEBUG] Best parameters:
+2021-12-08 04:46:28,030 [DEBUG] {'model__alpha': 0.1, 'vectorizer__ngram_range': (1, 1), 'vectorizer__tokenizer': <__main__.WordTokenizer object at 0x7f5fb706fca0>}
+2021-12-08 04:46:28,031 [DEBUG] Best (f1) score:
+2021-12-08 04:46:28,031 [DEBUG] 0.2816585106786541
+2021-12-08 04:46:44,030 [DEBUG] Val set results of the best classifier:
+2021-12-08 04:46:44,174 [DEBUG]               precision    recall  f1-score   support
+
+           0       0.72      0.83      0.77        47
+           1       0.32      0.60      0.41        10
+           2       0.00      0.00      0.00         9
+           3       0.00      0.00      0.00         2
+           4       0.50      0.14      0.22         7
+
+    accuracy                           0.61        75
+   macro avg       0.31      0.31      0.28        75
+weighted avg       0.54      0.61      0.56        75
+
+2021-12-08 04:46:44,194 [DEBUG] [[39  7  0  0  1]
+ [ 4  6  0  0  0]
+ [ 6  3  0  0  0]
+ [ 2  0  0  0  0]
+ [ 3  3  0  0  1]]
+2021-12-08 04:46:44,207 [DEBUG] ---------------Starting training for logistic---------------
+2021-12-08 04:50:17,949 [DEBUG] Results of the grid search for the model:
+2021-12-08 04:50:17,950 [DEBUG] Best estimator:
+2021-12-08 04:50:17,954 [DEBUG] Pipeline(steps=[('vectorizer',
+                 TfidfVectorizer(ngram_range=(1, 2),
+                                 tokenizer=<__main__.WordTokenizer object at 0x7f5fb680e3d0>)),
+                ('model', LogisticRegression(C=1, n_jobs=-1, random_state=42))])
+2021-12-08 04:50:17,955 [DEBUG] Best parameters:
+2021-12-08 04:50:17,956 [DEBUG] {'model__C': 1, 'model__n_jobs': -1, 'model__penalty': 'l2', 'model__random_state': 42, 'model__solver': 'lbfgs', 'vectorizer__ngram_range': (1, 2), 'vectorizer__tokenizer': <__main__.WordTokenizer object at 0x7f5fb5e6b400>}
+2021-12-08 04:50:17,956 [DEBUG] Best (f1) score:
+2021-12-08 04:50:17,957 [DEBUG] 0.28005148005148006
+2021-12-08 04:50:45,939 [DEBUG] Val set results of the best classifier:
+2021-12-08 04:50:46,233 [DEBUG]               precision    recall  f1-score   support
+
+           0       0.72      0.98      0.83        47
+           1       0.55      0.60      0.57        10
+           2       0.00      0.00      0.00         9
+           3       0.00      0.00      0.00         2
+           4       0.00      0.00      0.00         7
+
+    accuracy                           0.69        75
+   macro avg       0.25      0.32      0.28        75
+weighted avg       0.52      0.69      0.60        75
+
+2021-12-08 04:50:46,271 [DEBUG] [[46  1  0  0  0]
+ [ 4  6  0  0  0]
+ [ 6  3  0  0  0]
+ [ 2  0  0  0  0]
+ [ 6  1  0  0  0]]
+2021-12-08 04:50:46,331 [INFO] ------------------------------------------------------------------------------------------------------------------------
+2021-12-08 04:50:46,332 [INFO] Starting training for smokers with augmentation 3
+2021-12-08 04:50:46,332 [INFO] Augmentation features: {'num_samples': 5, 'augmentation_type': 'random_swap', 'aug_p': 0.75}
+2021-12-08 04:50:46,956 [DEBUG] ---------------Starting training for nb---------------
+2021-12-08 04:53:29,842 [DEBUG] Results of the grid search for the model:
+2021-12-08 04:53:29,843 [DEBUG] Best estimator:
+2021-12-08 04:53:29,846 [DEBUG] Pipeline(steps=[('vectorizer',
+                 TfidfVectorizer(tokenizer=<__main__.WordTokenizer object at 0x7f5fd58747f0>)),
+                ('model', MultinomialNB(alpha=0.1))])
+2021-12-08 04:53:29,847 [DEBUG] Best parameters:
+2021-12-08 04:53:29,847 [DEBUG] {'model__alpha': 0.1, 'vectorizer__ngram_range': (1, 1), 'vectorizer__tokenizer': <__main__.WordTokenizer object at 0x7f5fb680e880>}
+2021-12-08 04:53:29,848 [DEBUG] Best (f1) score:
+2021-12-08 04:53:29,849 [DEBUG] 0.2816585106786541
+2021-12-08 04:53:45,839 [DEBUG] Val set results of the best classifier:
+2021-12-08 04:53:45,983 [DEBUG]               precision    recall  f1-score   support
+
+           0       0.72      0.83      0.77        47
+           1       0.32      0.60      0.41        10
+           2       0.00      0.00      0.00         9
+           3       0.00      0.00      0.00         2
+           4       0.50      0.14      0.22         7
+
+    accuracy                           0.61        75
+   macro avg       0.31      0.31      0.28        75
+weighted avg       0.54      0.61      0.56        75
+
+2021-12-08 04:53:46,003 [DEBUG] [[39  7  0  0  1]
+ [ 4  6  0  0  0]
+ [ 6  3  0  0  0]
+ [ 2  0  0  0  0]
+ [ 3  3  0  0  1]]
+2021-12-08 04:53:46,020 [DEBUG] ---------------Starting training for logistic---------------
+2021-12-08 04:57:20,205 [DEBUG] Results of the grid search for the model:
+2021-12-08 04:57:20,206 [DEBUG] Best estimator:
+2021-12-08 04:57:20,210 [DEBUG] Pipeline(steps=[('vectorizer',
+                 TfidfVectorizer(ngram_range=(1, 2),
+                                 tokenizer=<__main__.WordTokenizer object at 0x7f5fd576cd00>)),
+                ('model', LogisticRegression(C=1, n_jobs=-1, random_state=42))])
+2021-12-08 04:57:20,211 [DEBUG] Best parameters:
+2021-12-08 04:57:20,211 [DEBUG] {'model__C': 1, 'model__n_jobs': -1, 'model__penalty': 'l2', 'model__random_state': 42, 'model__solver': 'lbfgs', 'vectorizer__ngram_range': (1, 2), 'vectorizer__tokenizer': <__main__.WordTokenizer object at 0x7f5fd5874d30>}
+2021-12-08 04:57:20,212 [DEBUG] Best (f1) score:
+2021-12-08 04:57:20,212 [DEBUG] 0.28005148005148006
+2021-12-08 04:57:47,880 [DEBUG] Val set results of the best classifier:
+2021-12-08 04:57:48,179 [DEBUG]               precision    recall  f1-score   support
+
+           0       0.72      0.98      0.83        47
+           1       0.55      0.60      0.57        10
+           2       0.00      0.00      0.00         9
+           3       0.00      0.00      0.00         2
+           4       0.00      0.00      0.00         7
+
+    accuracy                           0.69        75
+   macro avg       0.25      0.32      0.28        75
+weighted avg       0.52      0.69      0.60        75
+
+2021-12-08 04:57:48,218 [DEBUG] [[46  1  0  0  0]
+ [ 4  6  0  0  0]
+ [ 6  3  0  0  0]
+ [ 2  0  0  0  0]
+ [ 6  1  0  0  0]]
+2021-12-08 04:57:48,280 [INFO] ------------------------------------------------------------------------------------------------------------------------
+2021-12-08 04:57:48,280 [INFO] Starting training for smokers with augmentation 4
+2021-12-08 04:57:48,281 [INFO] Augmentation features: {'num_samples': 5, 'augmentation_type': 'random_delete', 'aug_p': 0.25}
+2021-12-08 04:57:48,896 [DEBUG] ---------------Starting training for nb---------------
+2021-12-08 05:00:30,908 [DEBUG] Results of the grid search for the model:
+2021-12-08 05:00:30,909 [DEBUG] Best estimator:
+2021-12-08 05:00:30,912 [DEBUG] Pipeline(steps=[('vectorizer',
+                 TfidfVectorizer(tokenizer=<__main__.WordTokenizer object at 0x7f5fd587ed30>)),
+                ('model', MultinomialNB(alpha=0.1))])
+2021-12-08 05:00:30,913 [DEBUG] Best parameters:
+2021-12-08 05:00:30,914 [DEBUG] {'model__alpha': 0.1, 'vectorizer__ngram_range': (1, 1), 'vectorizer__tokenizer': <__main__.WordTokenizer object at 0x7f5fb705ff40>}
+2021-12-08 05:00:30,914 [DEBUG] Best (f1) score:
+2021-12-08 05:00:30,915 [DEBUG] 0.2816585106786541
+2021-12-08 05:00:47,027 [DEBUG] Val set results of the best classifier:
+2021-12-08 05:00:47,171 [DEBUG]               precision    recall  f1-score   support
+
+           0       0.72      0.83      0.77        47
+           1       0.32      0.60      0.41        10
+           2       0.00      0.00      0.00         9
+           3       0.00      0.00      0.00         2
+           4       0.50      0.14      0.22         7
+
+    accuracy                           0.61        75
+   macro avg       0.31      0.31      0.28        75
+weighted avg       0.54      0.61      0.56        75
+
+2021-12-08 05:00:47,192 [DEBUG] [[39  7  0  0  1]
+ [ 4  6  0  0  0]
+ [ 6  3  0  0  0]
+ [ 2  0  0  0  0]
+ [ 3  3  0  0  1]]
+2021-12-08 05:00:47,206 [DEBUG] ---------------Starting training for logistic---------------
+2021-12-08 05:04:17,458 [DEBUG] Results of the grid search for the model:
+2021-12-08 05:04:17,459 [DEBUG] Best estimator:
+2021-12-08 05:04:17,463 [DEBUG] Pipeline(steps=[('vectorizer',
+                 TfidfVectorizer(ngram_range=(1, 2),
+                                 tokenizer=<__main__.WordTokenizer object at 0x7f5fb5655fa0>)),
+                ('model', LogisticRegression(C=1, n_jobs=-1, random_state=42))])
+2021-12-08 05:04:17,464 [DEBUG] Best parameters:
+2021-12-08 05:04:17,465 [DEBUG] {'model__C': 1, 'model__n_jobs': -1, 'model__penalty': 'l2', 'model__random_state': 42, 'model__solver': 'lbfgs', 'vectorizer__ngram_range': (1, 2), 'vectorizer__tokenizer': <__main__.WordTokenizer object at 0x7f5fb680e5b0>}
+2021-12-08 05:04:17,465 [DEBUG] Best (f1) score:
+2021-12-08 05:04:17,466 [DEBUG] 0.28005148005148006
+2021-12-08 05:04:44,581 [DEBUG] Val set results of the best classifier:
+2021-12-08 05:04:44,872 [DEBUG]               precision    recall  f1-score   support
+
+           0       0.72      0.98      0.83        47
+           1       0.55      0.60      0.57        10
+           2       0.00      0.00      0.00         9
+           3       0.00      0.00      0.00         2
+           4       0.00      0.00      0.00         7
+
+    accuracy                           0.69        75
+   macro avg       0.25      0.32      0.28        75
+weighted avg       0.52      0.69      0.60        75
+
+2021-12-08 05:04:44,911 [DEBUG] [[46  1  0  0  0]
+ [ 4  6  0  0  0]
+ [ 6  3  0  0  0]
+ [ 2  0  0  0  0]
+ [ 6  1  0  0  0]]
+2021-12-08 05:04:45,000 [INFO] ------------------------------------------------------------------------------------------------------------------------
+2021-12-08 05:04:45,000 [INFO] Starting training for smokers with augmentation 5
+2021-12-08 05:04:45,001 [INFO] Augmentation features: {'num_samples': 5, 'augmentation_type': 'random_delete', 'aug_p': 0.5}
+2021-12-08 05:04:45,616 [DEBUG] ---------------Starting training for nb---------------
+2021-12-08 05:07:33,173 [DEBUG] Results of the grid search for the model:
+2021-12-08 05:07:33,174 [DEBUG] Best estimator:
+2021-12-08 05:07:33,178 [DEBUG] Pipeline(steps=[('vectorizer',
+                 TfidfVectorizer(tokenizer=<__main__.WordTokenizer object at 0x7f5fd587e820>)),
+                ('model', MultinomialNB(alpha=0.1))])
+2021-12-08 05:07:33,178 [DEBUG] Best parameters:
+2021-12-08 05:07:33,179 [DEBUG] {'model__alpha': 0.1, 'vectorizer__ngram_range': (1, 1), 'vectorizer__tokenizer': <__main__.WordTokenizer object at 0x7f5fd5874be0>}
+2021-12-08 05:07:33,179 [DEBUG] Best (f1) score:
+2021-12-08 05:07:33,180 [DEBUG] 0.2816585106786541
+2021-12-08 05:07:48,945 [DEBUG] Val set results of the best classifier:
+2021-12-08 05:07:49,094 [DEBUG]               precision    recall  f1-score   support
+
+           0       0.72      0.83      0.77        47
+           1       0.32      0.60      0.41        10
+           2       0.00      0.00      0.00         9
+           3       0.00      0.00      0.00         2
+           4       0.50      0.14      0.22         7
+
+    accuracy                           0.61        75
+   macro avg       0.31      0.31      0.28        75
+weighted avg       0.54      0.61      0.56        75
+
+2021-12-08 05:07:49,115 [DEBUG] [[39  7  0  0  1]
+ [ 4  6  0  0  0]
+ [ 6  3  0  0  0]
+ [ 2  0  0  0  0]
+ [ 3  3  0  0  1]]
+2021-12-08 05:07:49,131 [DEBUG] ---------------Starting training for logistic---------------
+2021-12-08 05:11:18,893 [DEBUG] Results of the grid search for the model:
+2021-12-08 05:11:18,894 [DEBUG] Best estimator:
+2021-12-08 05:11:18,897 [DEBUG] Pipeline(steps=[('vectorizer',
+                 TfidfVectorizer(ngram_range=(1, 2),
+                                 tokenizer=<__main__.WordTokenizer object at 0x7f5fb5655a00>)),
+                ('model', LogisticRegression(C=1, n_jobs=-1, random_state=42))])
+2021-12-08 05:11:18,898 [DEBUG] Best parameters:
+2021-12-08 05:11:18,899 [DEBUG] {'model__C': 1, 'model__n_jobs': -1, 'model__penalty': 'l2', 'model__random_state': 42, 'model__solver': 'lbfgs', 'vectorizer__ngram_range': (1, 2), 'vectorizer__tokenizer': <__main__.WordTokenizer object at 0x7f5fb680ea30>}
+2021-12-08 05:11:18,899 [DEBUG] Best (f1) score:
+2021-12-08 05:11:18,900 [DEBUG] 0.28005148005148006
+2021-12-08 05:11:46,494 [DEBUG] Val set results of the best classifier:
+2021-12-08 05:11:46,788 [DEBUG]               precision    recall  f1-score   support
+
+           0       0.72      0.98      0.83        47
+           1       0.55      0.60      0.57        10
+           2       0.00      0.00      0.00         9
+           3       0.00      0.00      0.00         2
+           4       0.00      0.00      0.00         7
+
+    accuracy                           0.69        75
+   macro avg       0.25      0.32      0.28        75
+weighted avg       0.52      0.69      0.60        75
+
+2021-12-08 05:11:46,827 [DEBUG] [[46  1  0  0  0]
+ [ 4  6  0  0  0]
+ [ 6  3  0  0  0]
+ [ 2  0  0  0  0]
+ [ 6  1  0  0  0]]
+2021-12-08 05:11:46,886 [INFO] ------------------------------------------------------------------------------------------------------------------------
+2021-12-08 05:11:46,887 [INFO] Starting training for smokers with augmentation 6
+2021-12-08 05:11:46,887 [INFO] Augmentation features: {'num_samples': 5, 'augmentation_type': 'random_delete', 'aug_p': 0.75}
+2021-12-08 05:11:47,494 [DEBUG] ---------------Starting training for nb---------------
+2021-12-08 05:14:37,296 [DEBUG] Results of the grid search for the model:
+2021-12-08 05:14:37,297 [DEBUG] Best estimator:
+2021-12-08 05:14:37,300 [DEBUG] Pipeline(steps=[('vectorizer',
+                 TfidfVectorizer(tokenizer=<__main__.WordTokenizer object at 0x7f5fb706fbe0>)),
+                ('model', MultinomialNB(alpha=0.1))])
+2021-12-08 05:14:37,301 [DEBUG] Best parameters:
+2021-12-08 05:14:37,302 [DEBUG] {'model__alpha': 0.1, 'vectorizer__ngram_range': (1, 1), 'vectorizer__tokenizer': <__main__.WordTokenizer object at 0x7f5fd5874580>}
+2021-12-08 05:14:37,302 [DEBUG] Best (f1) score:
+2021-12-08 05:14:37,303 [DEBUG] 0.2816585106786541
+2021-12-08 05:14:53,101 [DEBUG] Val set results of the best classifier:
+2021-12-08 05:14:53,244 [DEBUG]               precision    recall  f1-score   support
+
+           0       0.72      0.83      0.77        47
+           1       0.32      0.60      0.41        10
+           2       0.00      0.00      0.00         9
+           3       0.00      0.00      0.00         2
+           4       0.50      0.14      0.22         7
+
+    accuracy                           0.61        75
+   macro avg       0.31      0.31      0.28        75
+weighted avg       0.54      0.61      0.56        75
+
+2021-12-08 05:14:53,264 [DEBUG] [[39  7  0  0  1]
+ [ 4  6  0  0  0]
+ [ 6  3  0  0  0]
+ [ 2  0  0  0  0]
+ [ 3  3  0  0  1]]
+2021-12-08 05:14:53,277 [DEBUG] ---------------Starting training for logistic---------------
+2021-12-08 05:18:23,793 [DEBUG] Results of the grid search for the model:
+2021-12-08 05:18:23,794 [DEBUG] Best estimator:
+2021-12-08 05:18:23,798 [DEBUG] Pipeline(steps=[('vectorizer',
+                 TfidfVectorizer(ngram_range=(1, 2),
+                                 tokenizer=<__main__.WordTokenizer object at 0x7f5fb680e820>)),
+                ('model', LogisticRegression(C=1, n_jobs=-1, random_state=42))])
+2021-12-08 05:18:23,798 [DEBUG] Best parameters:
+2021-12-08 05:18:23,799 [DEBUG] {'model__C': 1, 'model__n_jobs': -1, 'model__penalty': 'l2', 'model__random_state': 42, 'model__solver': 'lbfgs', 'vectorizer__ngram_range': (1, 2), 'vectorizer__tokenizer': <__main__.WordTokenizer object at 0x7f5fd587e580>}
+2021-12-08 05:18:23,799 [DEBUG] Best (f1) score:
+2021-12-08 05:18:23,800 [DEBUG] 0.28005148005148006
+2021-12-08 05:18:51,312 [DEBUG] Val set results of the best classifier:
+2021-12-08 05:18:51,617 [DEBUG]               precision    recall  f1-score   support
+
+           0       0.72      0.98      0.83        47
+           1       0.55      0.60      0.57        10
+           2       0.00      0.00      0.00         9
+           3       0.00      0.00      0.00         2
+           4       0.00      0.00      0.00         7
+
+    accuracy                           0.69        75
+   macro avg       0.25      0.32      0.28        75
+weighted avg       0.52      0.69      0.60        75
+
+2021-12-08 05:18:51,655 [DEBUG] [[46  1  0  0  0]
+ [ 4  6  0  0  0]
+ [ 6  3  0  0  0]
+ [ 2  0  0  0  0]
+ [ 6  1  0  0  0]]
+2021-12-08 05:18:51,711 [INFO] ------------------------------------------------------------------------------------------------------------------------
+2021-12-08 05:18:51,712 [INFO] Starting training for smokers with augmentation 7
+2021-12-08 05:18:51,712 [INFO] Augmentation features: {'num_samples': 5, 'augmentation_type': 'synonym_wordnet', 'aug_p': 0.25, 'stopwords_regex': '.*[^a-zA-Z].*'}
+2021-12-08 05:18:52,305 [DEBUG] ---------------Starting training for nb---------------
+2021-12-08 05:21:40,885 [DEBUG] Results of the grid search for the model:
+2021-12-08 05:21:40,886 [DEBUG] Best estimator:
+2021-12-08 05:21:40,889 [DEBUG] Pipeline(steps=[('vectorizer',
+                 TfidfVectorizer(tokenizer=<__main__.WordTokenizer object at 0x7f5fb5e6b430>)),
+                ('model', MultinomialNB(alpha=0.1))])
+2021-12-08 05:21:40,890 [DEBUG] Best parameters:
+2021-12-08 05:21:40,890 [DEBUG] {'model__alpha': 0.1, 'vectorizer__ngram_range': (1, 1), 'vectorizer__tokenizer': <__main__.WordTokenizer object at 0x7f5fd5874250>}
+2021-12-08 05:21:40,891 [DEBUG] Best (f1) score:
+2021-12-08 05:21:40,891 [DEBUG] 0.3528540305010893
+2021-12-08 05:21:56,795 [DEBUG] Val set results of the best classifier:
+2021-12-08 05:21:56,942 [DEBUG]               precision    recall  f1-score   support
+
+           0       0.76      0.89      0.82        47
+           1       0.41      0.70      0.52        10
+           2       1.00      0.11      0.20         9
+           3       0.00      0.00      0.00         2
+           4       0.50      0.14      0.22         7
+
+    accuracy                           0.68        75
+   macro avg       0.54      0.37      0.35        75
+weighted avg       0.70      0.68      0.63        75
+
+2021-12-08 05:21:56,962 [DEBUG] [[42  4  0  0  1]
+ [ 3  7  0  0  0]
+ [ 5  3  1  0  0]
+ [ 2  0  0  0  0]
+ [ 3  3  0  0  1]]
+2021-12-08 05:21:56,974 [DEBUG] ---------------Starting training for logistic---------------
+2021-12-08 05:25:23,968 [DEBUG] Results of the grid search for the model:
+2021-12-08 05:25:23,969 [DEBUG] Best estimator:
+2021-12-08 05:25:23,973 [DEBUG] Pipeline(steps=[('vectorizer',
+                 TfidfVectorizer(ngram_range=(1, 2),
+                                 tokenizer=<__main__.WordTokenizer object at 0x7f5fb5655220>)),
+                ('model', LogisticRegression(C=1, n_jobs=-1, random_state=42))])
+2021-12-08 05:25:23,973 [DEBUG] Best parameters:
+2021-12-08 05:25:23,974 [DEBUG] {'model__C': 1, 'model__n_jobs': -1, 'model__penalty': 'l2', 'model__random_state': 42, 'model__solver': 'lbfgs', 'vectorizer__ngram_range': (1, 2), 'vectorizer__tokenizer': <__main__.WordTokenizer object at 0x7f5fb5e6b340>}
+2021-12-08 05:25:23,975 [DEBUG] Best (f1) score:
+2021-12-08 05:25:23,975 [DEBUG] 0.27272727272727276
+2021-12-08 05:25:49,508 [DEBUG] Val set results of the best classifier:
+2021-12-08 05:25:49,810 [DEBUG]               precision    recall  f1-score   support
+
+           0       0.71      0.96      0.82        47
+           1       0.50      0.60      0.55        10
+           2       0.00      0.00      0.00         9
+           3       0.00      0.00      0.00         2
+           4       0.00      0.00      0.00         7
+
+    accuracy                           0.68        75
+   macro avg       0.24      0.31      0.27        75
+weighted avg       0.51      0.68      0.59        75
+
+2021-12-08 05:25:49,850 [DEBUG] [[45  2  0  0  0]
+ [ 4  6  0  0  0]
+ [ 6  3  0  0  0]
+ [ 2  0  0  0  0]
+ [ 6  1  0  0  0]]
+2021-12-08 05:25:49,900 [INFO] ------------------------------------------------------------------------------------------------------------------------
+2021-12-08 05:25:49,900 [INFO] Starting training for smokers with augmentation 8
+2021-12-08 05:25:49,901 [INFO] Augmentation features: {'num_samples': 5, 'augmentation_type': 'synonym_wordnet', 'aug_p': 0.5, 'stopwords_regex': '.*[^a-zA-Z].*'}
+2021-12-08 05:25:50,511 [DEBUG] ---------------Starting training for nb---------------
+2021-12-08 05:28:40,561 [DEBUG] Results of the grid search for the model:
+2021-12-08 05:28:40,562 [DEBUG] Best estimator:
+2021-12-08 05:28:40,565 [DEBUG] Pipeline(steps=[('vectorizer',
+                 TfidfVectorizer(tokenizer=<__main__.WordTokenizer object at 0x7f5fd576cd60>)),
+                ('model', MultinomialNB(alpha=0.1))])
+2021-12-08 05:28:40,565 [DEBUG] Best parameters:
+2021-12-08 05:28:40,566 [DEBUG] {'model__alpha': 0.1, 'vectorizer__ngram_range': (1, 1), 'vectorizer__tokenizer': <__main__.WordTokenizer object at 0x7f5fb5e6bee0>}
+2021-12-08 05:28:40,566 [DEBUG] Best (f1) score:
+2021-12-08 05:28:40,567 [DEBUG] 0.3528540305010893
+2021-12-08 05:28:56,313 [DEBUG] Val set results of the best classifier:
+2021-12-08 05:28:56,463 [DEBUG]               precision    recall  f1-score   support
+
+           0       0.76      0.89      0.82        47
+           1       0.41      0.70      0.52        10
+           2       1.00      0.11      0.20         9
+           3       0.00      0.00      0.00         2
+           4       0.50      0.14      0.22         7
+
+    accuracy                           0.68        75
+   macro avg       0.54      0.37      0.35        75
+weighted avg       0.70      0.68      0.63        75
+
+2021-12-08 05:28:56,484 [DEBUG] [[42  4  0  0  1]
+ [ 3  7  0  0  0]
+ [ 5  3  1  0  0]
+ [ 2  0  0  0  0]
+ [ 3  3  0  0  1]]
+2021-12-08 05:28:56,499 [DEBUG] ---------------Starting training for logistic---------------
+2021-12-08 05:32:21,047 [DEBUG] Results of the grid search for the model:
+2021-12-08 05:32:21,048 [DEBUG] Best estimator:
+2021-12-08 05:32:21,052 [DEBUG] Pipeline(steps=[('vectorizer',
+                 TfidfVectorizer(ngram_range=(1, 2),
+                                 tokenizer=<__main__.WordTokenizer object at 0x7f5fb5e6b2e0>)),
+                ('model', LogisticRegression(C=1, n_jobs=-1, random_state=42))])
+2021-12-08 05:32:21,052 [DEBUG] Best parameters:
+2021-12-08 05:32:21,053 [DEBUG] {'model__C': 1, 'model__n_jobs': -1, 'model__penalty': 'l2', 'model__random_state': 42, 'model__solver': 'lbfgs', 'vectorizer__ngram_range': (1, 2), 'vectorizer__tokenizer': <__main__.WordTokenizer object at 0x7f5fd576c7f0>}
+2021-12-08 05:32:21,053 [DEBUG] Best (f1) score:
+2021-12-08 05:32:21,054 [DEBUG] 0.27272727272727276
+2021-12-08 05:32:46,480 [DEBUG] Val set results of the best classifier:
+2021-12-08 05:32:46,777 [DEBUG]               precision    recall  f1-score   support
+
+           0       0.71      0.96      0.82        47
+           1       0.50      0.60      0.55        10
+           2       0.00      0.00      0.00         9
+           3       0.00      0.00      0.00         2
+           4       0.00      0.00      0.00         7
+
+    accuracy                           0.68        75
+   macro avg       0.24      0.31      0.27        75
+weighted avg       0.51      0.68      0.59        75
+
+2021-12-08 05:32:46,815 [DEBUG] [[45  2  0  0  0]
+ [ 4  6  0  0  0]
+ [ 6  3  0  0  0]
+ [ 2  0  0  0  0]
+ [ 6  1  0  0  0]]
+2021-12-08 05:32:46,876 [INFO] ------------------------------------------------------------------------------------------------------------------------
+2021-12-08 05:32:46,876 [INFO] Starting training for smokers with augmentation 9
+2021-12-08 05:32:46,877 [INFO] Augmentation features: {'num_samples': 5, 'augmentation_type': 'synonym_wordnet', 'aug_p': 0.75, 'stopwords_regex': '.*[^a-zA-Z].*'}
+2021-12-08 05:32:47,490 [DEBUG] ---------------Starting training for nb---------------
+2021-12-08 05:35:37,739 [DEBUG] Results of the grid search for the model:
+2021-12-08 05:35:37,739 [DEBUG] Best estimator:
+2021-12-08 05:35:37,743 [DEBUG] Pipeline(steps=[('vectorizer',
+                 TfidfVectorizer(tokenizer=<__main__.WordTokenizer object at 0x7f5fb5655c10>)),
+                ('model', MultinomialNB(alpha=0.1))])
+2021-12-08 05:35:37,743 [DEBUG] Best parameters:
+2021-12-08 05:35:37,744 [DEBUG] {'model__alpha': 0.1, 'vectorizer__ngram_range': (1, 1), 'vectorizer__tokenizer': <__main__.WordTokenizer object at 0x7f5fb680ebb0>}
+2021-12-08 05:35:37,745 [DEBUG] Best (f1) score:
+2021-12-08 05:35:37,745 [DEBUG] 0.3528540305010893
+2021-12-08 05:35:53,672 [DEBUG] Val set results of the best classifier:
+2021-12-08 05:35:53,822 [DEBUG]               precision    recall  f1-score   support
+
+           0       0.76      0.89      0.82        47
+           1       0.41      0.70      0.52        10
+           2       1.00      0.11      0.20         9
+           3       0.00      0.00      0.00         2
+           4       0.50      0.14      0.22         7
+
+    accuracy                           0.68        75
+   macro avg       0.54      0.37      0.35        75
+weighted avg       0.70      0.68      0.63        75
+
+2021-12-08 05:35:53,843 [DEBUG] [[42  4  0  0  1]
+ [ 3  7  0  0  0]
+ [ 5  3  1  0  0]
+ [ 2  0  0  0  0]
+ [ 3  3  0  0  1]]
+2021-12-08 05:35:53,856 [DEBUG] ---------------Starting training for logistic---------------
+2021-12-08 05:39:19,201 [DEBUG] Results of the grid search for the model:
+2021-12-08 05:39:19,202 [DEBUG] Best estimator:
+2021-12-08 05:39:19,206 [DEBUG] Pipeline(steps=[('vectorizer',
+                 TfidfVectorizer(ngram_range=(1, 2),
+                                 tokenizer=<__main__.WordTokenizer object at 0x7f5fb55d70d0>)),
+                ('model', LogisticRegression(C=1, n_jobs=-1, random_state=42))])
+2021-12-08 05:39:19,206 [DEBUG] Best parameters:
+2021-12-08 05:39:19,207 [DEBUG] {'model__C': 1, 'model__n_jobs': -1, 'model__penalty': 'l2', 'model__random_state': 42, 'model__solver': 'lbfgs', 'vectorizer__ngram_range': (1, 2), 'vectorizer__tokenizer': <__main__.WordTokenizer object at 0x7f5fd576cbb0>}
+2021-12-08 05:39:19,207 [DEBUG] Best (f1) score:
+2021-12-08 05:39:19,208 [DEBUG] 0.27272727272727276
+2021-12-08 05:39:45,061 [DEBUG] Val set results of the best classifier:
+2021-12-08 05:39:45,365 [DEBUG]               precision    recall  f1-score   support
+
+           0       0.71      0.96      0.82        47
+           1       0.50      0.60      0.55        10
+           2       0.00      0.00      0.00         9
+           3       0.00      0.00      0.00         2
+           4       0.00      0.00      0.00         7
+
+    accuracy                           0.68        75
+   macro avg       0.24      0.31      0.27        75
+weighted avg       0.51      0.68      0.59        75
+
+2021-12-08 05:39:45,405 [DEBUG] [[45  2  0  0  0]
+ [ 4  6  0  0  0]
+ [ 6  3  0  0  0]
+ [ 2  0  0  0  0]
+ [ 6  1  0  0  0]]
+2021-12-08 05:39:45,455 [INFO] ------------------------------------------------------------------------------------------------------------------------
+2021-12-08 05:39:45,456 [INFO] Starting training for smokers with augmentation 10
+2021-12-08 05:39:45,456 [INFO] Augmentation features: {'num_samples': 5, 'augmentation_type': 'backtranslation'}
+2021-12-08 05:39:46,038 [DEBUG] ---------------Starting training for nb---------------
+2021-12-08 05:40:58,613 [DEBUG] Results of the grid search for the model:
+2021-12-08 05:40:58,614 [DEBUG] Best estimator:
+2021-12-08 05:40:58,617 [DEBUG] Pipeline(steps=[('vectorizer',
+                 TfidfVectorizer(tokenizer=<__main__.WordTokenizer object at 0x7f5fb5e6b460>)),
+                ('model', MultinomialNB(alpha=0.1))])
+2021-12-08 05:40:58,618 [DEBUG] Best parameters:
+2021-12-08 05:40:58,619 [DEBUG] {'model__alpha': 0.1, 'vectorizer__ngram_range': (1, 1), 'vectorizer__tokenizer': <__main__.WordTokenizer object at 0x7f5fb680ebe0>}
+2021-12-08 05:40:58,619 [DEBUG] Best (f1) score:
+2021-12-08 05:40:58,620 [DEBUG] 0.25925925925925924
+2021-12-08 05:41:06,123 [DEBUG] Val set results of the best classifier:
+2021-12-08 05:41:06,266 [DEBUG]               precision    recall  f1-score   support
+
+           0       0.70      0.91      0.80        47
+           1       0.43      0.60      0.50        10
+           2       0.00      0.00      0.00         9
+           3       0.00      0.00      0.00         2
+           4       0.00      0.00      0.00         7
+
+    accuracy                           0.65        75
+   macro avg       0.23      0.30      0.26        75
+weighted avg       0.50      0.65      0.57        75
+
+2021-12-08 05:41:06,286 [DEBUG] [[43  4  0  0  0]
+ [ 4  6  0  0  0]
+ [ 8  1  0  0  0]
+ [ 1  1  0  0  0]
+ [ 5  2  0  0  0]]
+2021-12-08 05:41:06,298 [DEBUG] ---------------Starting training for logistic---------------
+2021-12-08 05:42:44,711 [DEBUG] Results of the grid search for the model:
+2021-12-08 05:42:44,712 [DEBUG] Best estimator:
+2021-12-08 05:42:44,715 [DEBUG] Pipeline(steps=[('vectorizer',
+                 TfidfVectorizer(tokenizer=<__main__.WordTokenizer object at 0x7f5fb5655cd0>)),
+                ('model', LogisticRegression(C=1, n_jobs=-1, random_state=42))])
+2021-12-08 05:42:44,716 [DEBUG] Best parameters:
+2021-12-08 05:42:44,716 [DEBUG] {'model__C': 1, 'model__n_jobs': -1, 'model__penalty': 'l2', 'model__random_state': 42, 'model__solver': 'lbfgs', 'vectorizer__ngram_range': (1, 1), 'vectorizer__tokenizer': <__main__.WordTokenizer object at 0x7f5fb5e6b730>}
+2021-12-08 05:42:44,717 [DEBUG] Best (f1) score:
+2021-12-08 05:42:44,717 [DEBUG] 0.27636363636363637
+2021-12-08 05:42:55,105 [DEBUG] Val set results of the best classifier:
+2021-12-08 05:42:55,411 [DEBUG]               precision    recall  f1-score   support
+
+           0       0.73      0.98      0.84        47
+           1       0.50      0.60      0.55        10
+           2       0.00      0.00      0.00         9
+           3       0.00      0.00      0.00         2
+           4       0.00      0.00      0.00         7
+
+    accuracy                           0.69        75
+   macro avg       0.25      0.32      0.28        75
+weighted avg       0.52      0.69      0.60        75
+
+2021-12-08 05:42:55,452 [DEBUG] [[46  1  0  0  0]
+ [ 4  6  0  0  0]
+ [ 6  3  0  0  0]
+ [ 1  1  0  0  0]
+ [ 6  1  0  0  0]]
+2021-12-08 05:42:55,466 [INFO] ------------------------------------------------------------------------------------------------------------------------
+2021-12-08 05:42:55,467 [INFO] Starting training for smokers with augmentation 11
+2021-12-08 05:42:55,467 [INFO] Augmentation features: {'num_samples': 5, 'augmentation_type': 'contextual_word_embeddings', 'aug_p': 0.25, 'model_path': 'distilbert-base-uncased'}
+2021-12-08 05:42:56,080 [DEBUG] ---------------Starting training for nb---------------
+2021-12-08 05:45:49,128 [DEBUG] Results of the grid search for the model:
+2021-12-08 05:45:49,129 [DEBUG] Best estimator:
+2021-12-08 05:45:49,132 [DEBUG] Pipeline(steps=[('vectorizer',
+                 TfidfVectorizer(tokenizer=<__main__.WordTokenizer object at 0x7f5fd56a1f10>)),
+                ('model', MultinomialNB(alpha=0.1))])
+2021-12-08 05:45:49,132 [DEBUG] Best parameters:
+2021-12-08 05:45:49,133 [DEBUG] {'model__alpha': 0.1, 'vectorizer__ngram_range': (1, 1), 'vectorizer__tokenizer': <__main__.WordTokenizer object at 0x7f5fb680e640>}
+2021-12-08 05:45:49,133 [DEBUG] Best (f1) score:
+2021-12-08 05:45:49,134 [DEBUG] 0.3164444444444444
+2021-12-08 05:46:05,471 [DEBUG] Val set results of the best classifier:
+2021-12-08 05:46:05,614 [DEBUG]               precision    recall  f1-score   support
+
+           0       0.72      0.89      0.80        47
+           1       0.47      0.70      0.56        10
+           2       0.00      0.00      0.00         9
+           3       0.00      0.00      0.00         2
+           4       0.50      0.14      0.22         7
+
+    accuracy                           0.67        75
+   macro avg       0.34      0.35      0.32        75
+weighted avg       0.56      0.67      0.60        75
+
+2021-12-08 05:46:05,633 [DEBUG] [[42  4  0  0  1]
+ [ 3  7  0  0  0]
+ [ 7  2  0  0  0]
+ [ 2  0  0  0  0]
+ [ 4  2  0  0  1]]
+2021-12-08 05:46:05,647 [DEBUG] ---------------Starting training for logistic---------------
+2021-12-08 05:49:31,595 [DEBUG] Results of the grid search for the model:
+2021-12-08 05:49:31,596 [DEBUG] Best estimator:
+2021-12-08 05:49:31,600 [DEBUG] Pipeline(steps=[('vectorizer',
+                 TfidfVectorizer(tokenizer=<__main__.WordTokenizer object at 0x7f5fd5687580>)),
+                ('model', LogisticRegression(C=1, n_jobs=-1, random_state=42))])
+2021-12-08 05:49:31,600 [DEBUG] Best parameters:
+2021-12-08 05:49:31,601 [DEBUG] {'model__C': 1, 'model__n_jobs': -1, 'model__penalty': 'l2', 'model__random_state': 42, 'model__solver': 'lbfgs', 'vectorizer__ngram_range': (1, 1), 'vectorizer__tokenizer': <__main__.WordTokenizer object at 0x7f5fb5e6bd30>}
+2021-12-08 05:49:31,601 [DEBUG] Best (f1) score:
+2021-12-08 05:49:31,602 [DEBUG] 0.2842857142857143
+2021-12-08 05:49:51,446 [DEBUG] Val set results of the best classifier:
+2021-12-08 05:49:51,757 [DEBUG]               precision    recall  f1-score   support
+
+           0       0.71      0.98      0.82        47
+           1       0.60      0.60      0.60        10
+           2       0.00      0.00      0.00         9
+           3       0.00      0.00      0.00         2
+           4       0.00      0.00      0.00         7
+
+    accuracy                           0.69        75
+   macro avg       0.26      0.32      0.28        75
+weighted avg       0.52      0.69      0.59        75
+
+2021-12-08 05:49:51,797 [DEBUG] [[46  1  0  0  0]
+ [ 4  6  0  0  0]
+ [ 6  3  0  0  0]
+ [ 2  0  0  0  0]
+ [ 7  0  0  0  0]]
+2021-12-08 05:49:51,811 [INFO] ------------------------------------------------------------------------------------------------------------------------
+2021-12-08 05:49:51,812 [INFO] Starting training for smokers with augmentation 12
+2021-12-08 05:49:51,812 [INFO] Augmentation features: {'num_samples': 5, 'augmentation_type': 'contextual_word_embeddings', 'aug_p': 0.25, 'model_path': '/home/mila/c/cesare.spinoso/comp-550-project/scripts/../BiomedNLP-PubMedBERT-base-uncased-abstract-fulltext'}
+2021-12-08 05:49:53,649 [DEBUG] ---------------Starting training for nb---------------
+2021-12-08 05:52:53,468 [DEBUG] Results of the grid search for the model:
+2021-12-08 05:52:53,469 [DEBUG] Best estimator:
+2021-12-08 05:52:53,473 [DEBUG] Pipeline(steps=[('vectorizer',
+                 TfidfVectorizer(tokenizer=<__main__.LemmaTokenizer object at 0x7f5fd576c250>)),
+                ('model', MultinomialNB(alpha=0.1))])
+2021-12-08 05:52:53,473 [DEBUG] Best parameters:
+2021-12-08 05:52:53,474 [DEBUG] {'model__alpha': 0.1, 'vectorizer__ngram_range': (1, 1), 'vectorizer__tokenizer': <__main__.LemmaTokenizer object at 0x7f5fd5874850>}
+2021-12-08 05:52:53,475 [DEBUG] Best (f1) score:
+2021-12-08 05:52:53,475 [DEBUG] 0.2751207729468599
+2021-12-08 05:53:14,443 [DEBUG] Val set results of the best classifier:
+2021-12-08 05:53:14,595 [DEBUG]               precision    recall  f1-score   support
+
+           0       0.69      0.89      0.78        47
+           1       0.31      0.40      0.35        10
+           2       0.00      0.00      0.00         9
+           3       0.00      0.00      0.00         2
+           4       1.00      0.14      0.25         7
+
+    accuracy                           0.63        75
+   macro avg       0.40      0.29      0.28        75
+weighted avg       0.57      0.63      0.56        75
+
+2021-12-08 05:53:14,615 [DEBUG] [[42  5  0  0  0]
+ [ 6  4  0  0  0]
+ [ 6  3  0  0  0]
+ [ 2  0  0  0  0]
+ [ 5  1  0  0  1]]
+2021-12-08 05:53:14,628 [DEBUG] ---------------Starting training for logistic---------------
+2021-12-08 05:56:47,365 [DEBUG] Results of the grid search for the model:
+2021-12-08 05:56:47,367 [DEBUG] Best estimator:
+2021-12-08 05:56:47,371 [DEBUG] Pipeline(steps=[('vectorizer',
+                 TfidfVectorizer(ngram_range=(1, 2),
+                                 tokenizer=<__main__.WordTokenizer object at 0x7f5fd587e970>)),
+                ('model', LogisticRegression(C=1, n_jobs=-1, random_state=42))])
+2021-12-08 05:56:47,372 [DEBUG] Best parameters:
+2021-12-08 05:56:47,372 [DEBUG] {'model__C': 1, 'model__n_jobs': -1, 'model__penalty': 'l2', 'model__random_state': 42, 'model__solver': 'lbfgs', 'vectorizer__ngram_range': (1, 2), 'vectorizer__tokenizer': <__main__.WordTokenizer object at 0x7f5fd587e4f0>}
+2021-12-08 05:56:47,373 [DEBUG] Best (f1) score:
+2021-12-08 05:56:47,373 [DEBUG] 0.28005148005148006
+2021-12-08 05:57:16,246 [DEBUG] Val set results of the best classifier:
+2021-12-08 05:57:16,549 [DEBUG]               precision    recall  f1-score   support
+
+           0       0.72      0.98      0.83        47
+           1       0.55      0.60      0.57        10
+           2       0.00      0.00      0.00         9
+           3       0.00      0.00      0.00         2
+           4       0.00      0.00      0.00         7
+
+    accuracy                           0.69        75
+   macro avg       0.25      0.32      0.28        75
+weighted avg       0.52      0.69      0.60        75
+
+2021-12-08 05:57:16,589 [DEBUG] [[46  1  0  0  0]
+ [ 4  6  0  0  0]
+ [ 6  3  0  0  0]
+ [ 2  0  0  0  0]
+ [ 6  1  0  0  0]]
+2021-12-08 05:57:16,651 [INFO] ------------------------------------------------------------------------------------------------------------------------
+2021-12-08 05:57:16,651 [INFO] Starting training for smokers with augmentation 13
+2021-12-08 05:57:16,652 [INFO] Augmentation features: {'num_samples': 5, 'augmentation_type': 'contextual_word_embeddings', 'aug_p': 0.5, 'model_path': 'distilbert-base-uncased'}
+2021-12-08 05:57:17,267 [DEBUG] ---------------Starting training for nb---------------
+2021-12-08 06:00:03,552 [DEBUG] Results of the grid search for the model:
+2021-12-08 06:00:03,553 [DEBUG] Best estimator:
+2021-12-08 06:00:03,556 [DEBUG] Pipeline(steps=[('vectorizer',
+                 TfidfVectorizer(tokenizer=<__main__.WordTokenizer object at 0x7f5fd5874ca0>)),
+                ('model', MultinomialNB(alpha=0.1))])
+2021-12-08 06:00:03,557 [DEBUG] Best parameters:
+2021-12-08 06:00:03,557 [DEBUG] {'model__alpha': 0.1, 'vectorizer__ngram_range': (1, 1), 'vectorizer__tokenizer': <__main__.WordTokenizer object at 0x7f5fd56a11f0>}
+2021-12-08 06:00:03,558 [DEBUG] Best (f1) score:
+2021-12-08 06:00:03,558 [DEBUG] 0.2544905660377358
+2021-12-08 06:00:19,690 [DEBUG] Val set results of the best classifier:
+2021-12-08 06:00:19,840 [DEBUG]               precision    recall  f1-score   support
+
+           0       0.71      0.89      0.79        47
+           1       0.40      0.60      0.48        10
+           2       0.00      0.00      0.00         9
+           3       0.00      0.00      0.00         2
+           4       0.00      0.00      0.00         7
+
+    accuracy                           0.64        75
+   macro avg       0.22      0.30      0.25        75
+weighted avg       0.50      0.64      0.56        75
+
+2021-12-08 06:00:19,861 [DEBUG] [[42  4  0  0  1]
+ [ 4  6  0  0  0]
+ [ 6  3  0  0  0]
+ [ 2  0  0  0  0]
+ [ 5  2  0  0  0]]
+2021-12-08 06:00:19,875 [DEBUG] ---------------Starting training for logistic---------------
+2021-12-08 06:03:55,677 [DEBUG] Results of the grid search for the model:
+2021-12-08 06:03:55,678 [DEBUG] Best estimator:
+2021-12-08 06:03:55,682 [DEBUG] Pipeline(steps=[('vectorizer',
+                 TfidfVectorizer(ngram_range=(1, 2),
+                                 tokenizer=<__main__.WordTokenizer object at 0x7f5fb5e6b4f0>)),
+                ('model', LogisticRegression(C=1, n_jobs=-1, random_state=42))])
+2021-12-08 06:03:55,682 [DEBUG] Best parameters:
+2021-12-08 06:03:55,683 [DEBUG] {'model__C': 1, 'model__n_jobs': -1, 'model__penalty': 'l2', 'model__random_state': 42, 'model__solver': 'lbfgs', 'vectorizer__ngram_range': (1, 2), 'vectorizer__tokenizer': <__main__.WordTokenizer object at 0x7f5fd587e0a0>}
+2021-12-08 06:03:55,684 [DEBUG] Best (f1) score:
+2021-12-08 06:03:55,684 [DEBUG] 0.28005148005148006
+2021-12-08 06:04:24,676 [DEBUG] Val set results of the best classifier:
+2021-12-08 06:04:24,974 [DEBUG]               precision    recall  f1-score   support
+
+           0       0.72      0.98      0.83        47
+           1       0.55      0.60      0.57        10
+           2       0.00      0.00      0.00         9
+           3       0.00      0.00      0.00         2
+           4       0.00      0.00      0.00         7
+
+    accuracy                           0.69        75
+   macro avg       0.25      0.32      0.28        75
+weighted avg       0.52      0.69      0.60        75
+
+2021-12-08 06:04:25,014 [DEBUG] [[46  1  0  0  0]
+ [ 4  6  0  0  0]
+ [ 6  3  0  0  0]
+ [ 2  0  0  0  0]
+ [ 6  1  0  0  0]]
+2021-12-08 06:04:25,072 [INFO] ------------------------------------------------------------------------------------------------------------------------
+2021-12-08 06:04:25,072 [INFO] Starting training for smokers with augmentation 14
+2021-12-08 06:04:25,073 [INFO] Augmentation features: {'num_samples': 5, 'augmentation_type': 'contextual_word_embeddings', 'aug_p': 0.5, 'model_path': '/home/mila/c/cesare.spinoso/comp-550-project/scripts/../BiomedNLP-PubMedBERT-base-uncased-abstract-fulltext'}
+2021-12-08 06:04:25,687 [DEBUG] ---------------Starting training for nb---------------
+2021-12-08 06:07:34,698 [DEBUG] Results of the grid search for the model:
+2021-12-08 06:07:34,699 [DEBUG] Best estimator:
+2021-12-08 06:07:34,702 [DEBUG] Pipeline(steps=[('vectorizer',
+                 TfidfVectorizer(tokenizer=<__main__.StemmerTokenizer object at 0x7f5fd576c160>)),
+                ('model', MultinomialNB(alpha=0.1))])
+2021-12-08 06:07:34,703 [DEBUG] Best parameters:
+2021-12-08 06:07:34,703 [DEBUG] {'model__alpha': 0.1, 'vectorizer__ngram_range': (1, 1), 'vectorizer__tokenizer': <__main__.StemmerTokenizer object at 0x7f5fd58747f0>}
+2021-12-08 06:07:34,704 [DEBUG] Best (f1) score:
+2021-12-08 06:07:34,704 [DEBUG] 0.26082539682539685
+2021-12-08 06:08:09,006 [DEBUG] Val set results of the best classifier:
+2021-12-08 06:08:09,151 [DEBUG]               precision    recall  f1-score   support
+
+           0       0.69      0.85      0.76        47
+           1       0.27      0.40      0.32        10
+           2       0.00      0.00      0.00         9
+           3       0.00      0.00      0.00         2
+           4       0.50      0.14      0.22         7
+
+    accuracy                           0.60        75
+   macro avg       0.29      0.28      0.26        75
+weighted avg       0.51      0.60      0.54        75
+
+2021-12-08 06:08:09,171 [DEBUG] [[40  6  0  0  1]
+ [ 6  4  0  0  0]
+ [ 6  3  0  0  0]
+ [ 1  1  0  0  0]
+ [ 5  1  0  0  1]]
+2021-12-08 06:08:09,183 [DEBUG] ---------------Starting training for logistic---------------
+2021-12-08 06:11:44,922 [DEBUG] Results of the grid search for the model:
+2021-12-08 06:11:44,923 [DEBUG] Best estimator:
+2021-12-08 06:11:44,927 [DEBUG] Pipeline(steps=[('vectorizer',
+                 TfidfVectorizer(ngram_range=(1, 2),
+                                 tokenizer=<__main__.WordTokenizer object at 0x7f5fd576ce80>)),
+                ('model', LogisticRegression(C=1, n_jobs=-1, random_state=42))])
+2021-12-08 06:11:44,928 [DEBUG] Best parameters:
+2021-12-08 06:11:44,928 [DEBUG] {'model__C': 1, 'model__n_jobs': -1, 'model__penalty': 'l2', 'model__random_state': 42, 'model__solver': 'lbfgs', 'vectorizer__ngram_range': (1, 2), 'vectorizer__tokenizer': <__main__.WordTokenizer object at 0x7f5fb708b580>}
+2021-12-08 06:11:44,929 [DEBUG] Best (f1) score:
+2021-12-08 06:11:44,930 [DEBUG] 0.28005148005148006
+2021-12-08 06:12:13,750 [DEBUG] Val set results of the best classifier:
+2021-12-08 06:12:14,051 [DEBUG]               precision    recall  f1-score   support
+
+           0       0.72      0.98      0.83        47
+           1       0.55      0.60      0.57        10
+           2       0.00      0.00      0.00         9
+           3       0.00      0.00      0.00         2
+           4       0.00      0.00      0.00         7
+
+    accuracy                           0.69        75
+   macro avg       0.25      0.32      0.28        75
+weighted avg       0.52      0.69      0.60        75
+
+2021-12-08 06:12:14,091 [DEBUG] [[46  1  0  0  0]
+ [ 4  6  0  0  0]
+ [ 6  3  0  0  0]
+ [ 2  0  0  0  0]
+ [ 6  1  0  0  0]]
+2021-12-08 06:12:14,164 [INFO] ------------------------------------------------------------------------------------------------------------------------
+2021-12-08 06:12:14,165 [INFO] Starting training for smokers with augmentation 15
+2021-12-08 06:12:14,166 [INFO] Augmentation features: {'num_samples': 5, 'augmentation_type': 'contextual_word_embeddings', 'aug_p': 0.75, 'model_path': 'distilbert-base-uncased'}
+2021-12-08 06:12:14,780 [DEBUG] ---------------Starting training for nb---------------
+2021-12-08 06:15:27,241 [DEBUG] Results of the grid search for the model:
+2021-12-08 06:15:27,242 [DEBUG] Best estimator:
+2021-12-08 06:15:27,245 [DEBUG] Pipeline(steps=[('vectorizer',
+                 TfidfVectorizer(tokenizer=<__main__.StemmerTokenizer object at 0x7f5fd56a1d00>)),
+                ('model', MultinomialNB(alpha=0.1))])
+2021-12-08 06:15:27,246 [DEBUG] Best parameters:
+2021-12-08 06:15:27,246 [DEBUG] {'model__alpha': 0.1, 'vectorizer__ngram_range': (1, 1), 'vectorizer__tokenizer': <__main__.StemmerTokenizer object at 0x7f5fb6802f70>}
+2021-12-08 06:15:27,247 [DEBUG] Best (f1) score:
+2021-12-08 06:15:27,248 [DEBUG] 0.2699376947040498
+2021-12-08 06:16:01,602 [DEBUG] Val set results of the best classifier:
+2021-12-08 06:16:01,752 [DEBUG]               precision    recall  f1-score   support
+
+           0       0.68      0.87      0.77        47
+           1       0.29      0.40      0.33        10
+           2       0.00      0.00      0.00         9
+           3       0.00      0.00      0.00         2
+           4       1.00      0.14      0.25         7
+
+    accuracy                           0.61        75
+   macro avg       0.39      0.28      0.27        75
+weighted avg       0.56      0.61      0.55        75
+
+2021-12-08 06:16:01,773 [DEBUG] [[41  6  0  0  0]
+ [ 6  4  0  0  0]
+ [ 6  3  0  0  0]
+ [ 2  0  0  0  0]
+ [ 5  1  0  0  1]]
+2021-12-08 06:16:01,805 [DEBUG] ---------------Starting training for logistic---------------
+2021-12-08 06:19:37,055 [DEBUG] Results of the grid search for the model:
+2021-12-08 06:19:37,056 [DEBUG] Best estimator:
+2021-12-08 06:19:37,060 [DEBUG] Pipeline(steps=[('vectorizer',
+                 TfidfVectorizer(ngram_range=(1, 2),
+                                 tokenizer=<__main__.WordTokenizer object at 0x7f5fd5687940>)),
+                ('model', LogisticRegression(C=1, n_jobs=-1, random_state=42))])
+2021-12-08 06:19:37,061 [DEBUG] Best parameters:
+2021-12-08 06:19:37,061 [DEBUG] {'model__C': 1, 'model__n_jobs': -1, 'model__penalty': 'l2', 'model__random_state': 42, 'model__solver': 'lbfgs', 'vectorizer__ngram_range': (1, 2), 'vectorizer__tokenizer': <__main__.WordTokenizer object at 0x7f5fb708b5b0>}
+2021-12-08 06:19:37,062 [DEBUG] Best (f1) score:
+2021-12-08 06:19:37,063 [DEBUG] 0.28005148005148006
+2021-12-08 06:20:06,698 [DEBUG] Val set results of the best classifier:
+2021-12-08 06:20:07,000 [DEBUG]               precision    recall  f1-score   support
+
+           0       0.72      0.98      0.83        47
+           1       0.55      0.60      0.57        10
+           2       0.00      0.00      0.00         9
+           3       0.00      0.00      0.00         2
+           4       0.00      0.00      0.00         7
+
+    accuracy                           0.69        75
+   macro avg       0.25      0.32      0.28        75
+weighted avg       0.52      0.69      0.60        75
+
+2021-12-08 06:20:07,039 [DEBUG] [[46  1  0  0  0]
+ [ 4  6  0  0  0]
+ [ 6  3  0  0  0]
+ [ 2  0  0  0  0]
+ [ 6  1  0  0  0]]
+2021-12-08 06:20:07,103 [INFO] ------------------------------------------------------------------------------------------------------------------------
+2021-12-08 06:20:07,104 [INFO] Starting training for smokers with augmentation 16
+2021-12-08 06:20:07,104 [INFO] Augmentation features: {'num_samples': 5, 'augmentation_type': 'contextual_word_embeddings', 'aug_p': 0.75, 'model_path': '/home/mila/c/cesare.spinoso/comp-550-project/scripts/../BiomedNLP-PubMedBERT-base-uncased-abstract-fulltext'}
+2021-12-08 06:20:07,839 [DEBUG] ---------------Starting training for nb---------------
+2021-12-08 06:23:10,808 [DEBUG] Results of the grid search for the model:
+2021-12-08 06:23:10,809 [DEBUG] Best estimator:
+2021-12-08 06:23:10,812 [DEBUG] Pipeline(steps=[('vectorizer',
+                 TfidfVectorizer(tokenizer=<__main__.StemmerTokenizer object at 0x7f5fd58740a0>)),
+                ('model', MultinomialNB(alpha=0.1))])
+2021-12-08 06:23:10,813 [DEBUG] Best parameters:
+2021-12-08 06:23:10,813 [DEBUG] {'model__alpha': 0.1, 'vectorizer__ngram_range': (1, 1), 'vectorizer__tokenizer': <__main__.StemmerTokenizer object at 0x7f5fd587eb80>}
+2021-12-08 06:23:10,814 [DEBUG] Best (f1) score:
+2021-12-08 06:23:10,815 [DEBUG] 0.2620545073375262
+2021-12-08 06:23:45,284 [DEBUG] Val set results of the best classifier:
+2021-12-08 06:23:45,434 [DEBUG]               precision    recall  f1-score   support
+
+           0       0.68      0.85      0.75        47
+           1       0.29      0.40      0.33        10
+           2       0.00      0.00      0.00         9
+           3       0.00      0.00      0.00         2
+           4       0.50      0.14      0.22         7
+
+    accuracy                           0.60        75
+   macro avg       0.29      0.28      0.26        75
+weighted avg       0.51      0.60      0.54        75
+
+2021-12-08 06:23:45,456 [DEBUG] [[40  6  0  0  1]
+ [ 6  4  0  0  0]
+ [ 6  3  0  0  0]
+ [ 2  0  0  0  0]
+ [ 5  1  0  0  1]]
+2021-12-08 06:23:45,471 [DEBUG] ---------------Starting training for logistic---------------
+2021-12-08 06:27:22,232 [DEBUG] Results of the grid search for the model:
+2021-12-08 06:27:22,233 [DEBUG] Best estimator:
+2021-12-08 06:27:22,237 [DEBUG] Pipeline(steps=[('vectorizer',
+                 TfidfVectorizer(ngram_range=(1, 2),
+                                 tokenizer=<__main__.WordTokenizer object at 0x7f5fb5655f10>)),
+                ('model', LogisticRegression(C=1, n_jobs=-1, random_state=42))])
+2021-12-08 06:27:22,238 [DEBUG] Best parameters:
+2021-12-08 06:27:22,238 [DEBUG] {'model__C': 1, 'model__n_jobs': -1, 'model__penalty': 'l2', 'model__random_state': 42, 'model__solver': 'lbfgs', 'vectorizer__ngram_range': (1, 2), 'vectorizer__tokenizer': <__main__.WordTokenizer object at 0x7f5fd5874100>}
+2021-12-08 06:27:22,239 [DEBUG] Best (f1) score:
+2021-12-08 06:27:22,239 [DEBUG] 0.28005148005148006
+2021-12-08 06:27:51,327 [DEBUG] Val set results of the best classifier:
+2021-12-08 06:27:51,643 [DEBUG]               precision    recall  f1-score   support
+
+           0       0.72      0.98      0.83        47
+           1       0.55      0.60      0.57        10
+           2       0.00      0.00      0.00         9
+           3       0.00      0.00      0.00         2
+           4       0.00      0.00      0.00         7
+
+    accuracy                           0.69        75
+   macro avg       0.25      0.32      0.28        75
+weighted avg       0.52      0.69      0.60        75
+
+2021-12-08 06:27:51,684 [DEBUG] [[46  1  0  0  0]
+ [ 4  6  0  0  0]
+ [ 6  3  0  0  0]
+ [ 2  0  0  0  0]
+ [ 6  1  0  0  0]]
