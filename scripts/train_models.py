@@ -1,5 +1,6 @@
 import argparse
 import json
+from tqdm import tqdm
 import logging
 import os
 import pickle
@@ -14,6 +15,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report, f1_score, make_scorer, confusion_matrix
 from sklearn.model_selection import GridSearchCV, PredefinedSplit
 from sklearn.naive_bayes import MultinomialNB
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.pipeline import Pipeline
 from sklearn.svm import SVC
 from src.utils.json_utils import append_json_lines, read_json_lines
@@ -37,7 +39,7 @@ DATA_TYPE_DICT = {
         ),
         "json_train_log_path": os.path.join(cur_dir, "..", "logs", "training", "polarity.json"),
         # Change to save to the augmentation
-        "pickle_folder_path": os.path.join(cur_dir, "..", "data", "temp", "training", "polarity"),
+        "pickle_folder_path": "/home/mila/c/cesare.spinoso/scratch/datasets_550/polarity",
     },
     "articles": {
         "json_training_log_path": os.path.join(
@@ -51,27 +53,25 @@ DATA_TYPE_DICT = {
         ),
         "json_train_log_path": os.path.join(cur_dir, "..", "logs", "training", "articles.json"),
         # Change to save to the augmentation
-        "pickle_folder_path": os.path.join(cur_dir, "..", "data", "temp", "training", "polarity"),
+        "pickle_folder_path": "/home/mila/c/cesare.spinoso/scratch/datasets_550/articles",
     },
     "smokers": {
         "json_training_log_path": os.path.join(
             cur_dir, "..", "logs", "augmentation", "smokers.json"
         ),
-        "json_validation_path": [
-            os.path.join(
-                cur_dir, "..", "data", "smokers", "augmentation", f"validation_fold_{i+1}.json"
-            )
-            for i in range(1, 6)
-        ],
+        "json_validation_path": os.path.join(
+                cur_dir, "..", "data", "smokers", "augmentation", "validation.json"
+            ),
         "json_test_path": os.path.join(
             cur_dir, "..", "data", "smokers", "augmentation", "test.json"
         ),
         "json_train_log_path": os.path.join(cur_dir, "..", "logs", "training", "smokers.json"),
         # Change to save to the augmentation
-        "pickle_folder_path": os.path.join(cur_dir, "..", "temp", "training", "polarity"),
+        "pickle_folder_path": "/home/mila/c/cesare.spinoso/scratch/datasets_550/smokers",
     },
 }
-MODELS = ["nb", "logistic", "svm"]
+# Run nb and logistic for all, see if need to run more models later
+MODELS = ["nb", "logistic"]
 
 
 class WordTokenizer:
@@ -181,6 +181,8 @@ def create_pipeline(
         model = LogisticRegression()
     elif model_type == "svm":
         model = SVC()
+    elif model_type == "rf":
+        model = RandomForestClassifier()
     pipeline.append(("model", model))
     pipeline = Pipeline(pipeline)
     return pipeline
@@ -191,7 +193,7 @@ def create_pipeline_grid(model_type: str = "logistic"):
     param_grid = {
         # Punctuation removal is on automatically
         "vectorizer__tokenizer": [WordTokenizer(), LemmaTokenizer(), StemmerTokenizer()],
-        "vectorizer__ngram_range": [(1, 1)],
+        "vectorizer__ngram_range": [(1, 1), (1, 2)],
     }
     if model_type == "nb":
         model_grid = {"model__alpha": [0.1, 1.0, 10.0]}
@@ -201,12 +203,19 @@ def create_pipeline_grid(model_type: str = "logistic"):
             "model__C": [0.01, 0.1, 1],
             "model__solver": ["lbfgs"],
             "model__random_state": [42],
+            "model__n_jobs": [-1]
         }
     elif model_type == "svm":
         model_grid = {
             "model__C": [0.01, 0.1, 1],
             "model__kernel": ["rbf"],
             "model__random_state": [42],
+        }
+    elif model_type == "rf":
+        model_grid = {
+            "model__n_estimators": [100, 500],
+            "model__min_samples_split": [2, 5],
+            "model__n_jobs": [-1]
         }
     pipeline_grid = {**param_grid, **model_grid}
     return pipeline_grid
@@ -222,7 +231,7 @@ def train_pipeline(
         param_grid=grid,
         cv=pds,
         scoring=make_scorer(f1_score, average="macro"),  # Use best macro averaged f1 score
-        n_jobs=1,
+        n_jobs=-1,
         verbose=3,
     )
     grid_search.fit(X, y)
@@ -261,7 +270,7 @@ def save_grid_search_results(
     if not os.path.exists(pickle_folder_path):
         os.makedirs(pickle_folder_path)
     grid_search_pickle_path = os.path.join(
-        pickle_folder_path, f"grid_search_augmentation_{augmentation_id}_{model_type}.pkl"
+        pickle_folder_path, f"augmentation_{augmentation_id}", f"grid_search_augmentation_{augmentation_id}_{model_type}.pkl"
     )
     with open(grid_search_pickle_path, "wb") as f:
         pickle.dump(grid_search, f)
@@ -295,7 +304,7 @@ def main():
     augmentation_json_file_path = DATA_TYPE_DICT[data_type]["json_training_log_path"]
     # Get each dictionary in the json file
     augmentation_dicts = read_json_lines(augmentation_json_file_path)
-    for augmentation_dict in augmentation_dicts:
+    for augmentation_dict in tqdm(augmentation_dicts):
         logger.info("-" * 120)
         logger.info(
             f"Starting training for {data_type} with augmentation {augmentation_dict['augmented_dataset_id']}"
@@ -311,7 +320,7 @@ def main():
         )
         X_test, y_test = get_test_data(test_json_path=test_json_path)
         # Train the different models
-        for model_type in MODELS:
+        for model_type in tqdm(MODELS):
             logger.debug("-" * 15 + f"Starting training for {model_type}" + "-" * 15)
             # Create the pipeline
             pipeline = create_pipeline(model_type=model_type)
@@ -333,7 +342,6 @@ def main():
                 pickle_folder_path=DATA_TYPE_DICT[data_type]["pickle_folder_path"],
                 json_file_path=DATA_TYPE_DICT[data_type]["json_train_log_path"],
             )
-
 
 if __name__ == "__main__":
     main()
