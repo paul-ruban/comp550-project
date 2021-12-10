@@ -85,17 +85,20 @@ AUGMENTATION_GRID = [
         "augmentation_type": ["random_swap"],
         "num_samples": [5],
         "aug_p": [0.25, 0.5, 0.75],
+        "aug_max": [None]
     },
     {
         "augmentation_type": ["random_delete"],
         "num_samples": [5],
         "aug_p": [0.25, 0.5, 0.75],
+        "aug_max": [None]
     },
     {
         "augmentation_type": ["synonym_wordnet"],
         "num_samples": [5],
         "aug_p": [0.25, 0.5, 0.75],
         "stopwords_regex": [r".*[^a-zA-Z].*"],  # skip non-alpha words
+        "aug_max": [None]
     },
     # {
     #     "augmentation_type": ["synonym_word2vec"],
@@ -112,6 +115,7 @@ AUGMENTATION_GRID = [
         "num_samples": [5],
         "aug_p": [0.25, 0.5, 0.75],
         "model_path": ["distilbert-base-uncased"],
+        "aug_max": [None]
     },
 ]
 
