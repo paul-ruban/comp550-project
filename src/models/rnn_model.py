@@ -14,56 +14,67 @@ from transformers.tokenization_utils import PreTrainedTokenizer
 class RNN(nn.Module):
     def __init__(
         self, 
-        embeddings_layer : torch.nn.modules.sparse.Embedding = None,
-        vocab_size : int = 0, # ignored if embeddings_layer is not None, instead inferred from embeddings_layer
+        input_size : int = 30522, # ignored if embeddings_layer is not None, instead inferred from embeddings_layer
         embedding_dim : int = 768, # ignored if embeddings_layer is not None, instead inferred from embeddings_layer
+        output_size : int = 30522,
+        embeddings_layer : torch.nn.modules.sparse.Embedding = None,
         rnn_type : str = "lstm", 
         hidden_dim : int = 768, 
         num_layers : int = 1,
-        dropout : float = 0.1, 
-        bidirectional : bool = False, 
-        tie_weights : bool = True
+        dropout : float = 0.1,
+        bidirectional : bool = False,
+        tie_weights : bool = False
     ) -> None:
         super().__init__()
-        
         if embeddings_layer is not None:
-            vocab_size, embedding_dim = embeddings_layer.weight.shape
+            input_size, embedding_dim = embeddings_layer.weight.shape
             self.embeddings = embeddings_layer
         else:
-            assert (vocab_size > 0 and embedding_dim > 0), "Negative vocab_size or embedding_dim."
-            self.embeddings = nn.Embedding(vocab_size, embedding_dim)
+            assert (input_size > 0 and embedding_dim > 0), "Negative input_size or embedding_dim."
+            self.embeddings = nn.Embedding(num_embeddings=input_size, embedding_dim=embedding_dim)
 
         assert (rnn_type in ["lstm", "gru"]), "rnn_type can be one of: 'lstm', 'gru'."
+
+        if tie_weights:
+            assert (input_size == output_size), "If tie_weights=True, input_size must be equal to output_size."
+        self.tie_weights = tie_weights
+
         rnn_type = nn.LSTM if rnn_type == "lstm" else nn.GRU
+
+        self.dropout = nn.Dropout(p=dropout) if dropout > 0 else None
 
         self.rnn = rnn_type(
             input_size=embedding_dim, 
             hidden_size=hidden_dim,
             num_layers=num_layers,
-            dropout=dropout,
+            dropout=dropout if num_layers > 1 else 0, # prevents warning for 1 layer
             bidirectional=bidirectional,
             batch_first=True
         )
-        self.tie_weights = tie_weights
+        self.bidirectional = bidirectional
         if bidirectional:
             # create projection from 2 * hidden_dim to hidden_dim
             self.projection = nn.Linear(2 * hidden_dim, hidden_dim)
 
-        self.hidden2token = nn.Linear(in_features=hidden_dim, out_features=vocab_size)
+        self.dense = nn.Linear(in_features=hidden_dim, out_features=output_size)
         
         # tie input and output embedding weights
         if tie_weights:
-            self.hidden2token.weight = self.embeddings.weight
+            self.dense.weight = self.embeddings.weight
 
     def forward(self, x : torch.Tensor) -> torch.Tensor:
         x = self.embeddings(x)
         x, _ = self.rnn(x)
-        if self.rnn.bidirectional:
+        if self.bidirectional:
             x = self.projection(x)
-        x = self.hidden2token(x)
-        log_probas = F.log_softmax(x, dim=-1)
-        log_probas = log_probas.transpose(-1, 1)
-        return log_probas
+        if self.dropout:
+            x = self.dropout(x)
+        x = self.dense(x)
+        x = F.log_softmax(x, dim=-1)
+        print(x.shape)
+        x = x.transpose(-1, 1)
+        print(x.shape)
+        return x
 
 
 class RNNBaseLM(Model):
@@ -82,9 +93,10 @@ class RNNBaseLM(Model):
 
         self.tokenizer = tokenizer
         self.model = RNN(
-            embeddings_layer=embeddings_layer,
-            vocab_size=len(tokenizer.vocab),
+            input_size=len(tokenizer.vocab),
             embedding_dim=embedding_dim, 
+            output_size=len(tokenizer.vocab),
+            embeddings_layer=embeddings_layer,
             rnn_type=rnn_type,
             hidden_dim=hidden_dim, 
             num_layers=num_layers,
@@ -129,6 +141,7 @@ class RNNBaseLM(Model):
     @abstractmethod
     def predict():
         raise NotImplemented("Must implement predict() method.")
+
 
 class RNNMaskedLM(RNNBaseLM):
     def fit(
