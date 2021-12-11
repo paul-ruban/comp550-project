@@ -3,6 +3,9 @@ import os
 from typing import Union, List
 import datetime
 from tqdm import tqdm
+from nltk.corpus import wordnet as wn
+from nltk.corpus import stopwords
+from nltk.corpus.reader.wordnet import WordNetError
 
 import numpy as np
 from sklearn.model_selection import ParameterGrid
@@ -93,19 +96,20 @@ AUGMENTATION_GRID = [
         "aug_p": [0.25, 0.5, 0.75],
         "aug_max": [None]
     },
+    # {
+    #     "augmentation_type": ["synonym_wordnet"],
+    #     "num_samples": [5],
+    #     "aug_p": [0.25, 0.5, 0.75],
+    #     # "stopwords_regex": [r"^[^a-zA-Z]+$"],  # skip non-alpha words
+    #     "aug_max": [None]
+    # },
     {
-        "augmentation_type": ["synonym_wordnet"],
+        "augmentation_type": ["synonym_word2vec"],
         "num_samples": [5],
         "aug_p": [0.25, 0.5, 0.75],
-        "stopwords_regex": [r".*[^a-zA-Z].*"],  # skip non-alpha words
+        "top_k": [100],
         "aug_max": [None]
     },
-    # {
-    #     "augmentation_type": ["synonym_word2vec"],
-    #     "num_samples": [1, 3, 5],
-    #     "aug_p": [0.1, 0.25, 0.5, 0.75, 0.9],
-    #     "top_k": [10, 100, None],
-    # },
     {
         "augmentation_type": ["backtranslation"],
         "num_samples": [5],
@@ -114,6 +118,7 @@ AUGMENTATION_GRID = [
         "augmentation_type": ["contextual_word_embeddings"],
         "num_samples": [5],
         "aug_p": [0.25, 0.5, 0.75],
+        # "stopwords_regex": [r"^[^a-zA-Z]+$"],  # skip non-alpha words
         "model_path": ["distilbert-base-uncased"],
         "aug_max": [None]
     },
@@ -164,7 +169,10 @@ def main():
     # Augment data
     # Use a time signature for the logger
     time_now = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-    for aug_id, aug_kwargs in tqdm(enumerate(grid_list)):
+    n = 11 if data_type == "smokers" else 13
+    for aug_id, aug_kwargs in tqdm(enumerate(grid_list[n:], n)):
+        if aug_kwargs["augmentation_type"] == "backtranslation":
+            continue
         print(f"Augmentation {data_type} with parameters {aug_kwargs}")
         aug = Augmentation(
             augmentation_type=aug_kwargs["augmentation_type"],
@@ -192,7 +200,6 @@ def main():
             time_now=time_now,
             path_to_json_log=os.path.join(PATH_TO_LOGGER_FOLDER, f"{data_type}.json"),
         )
-
 
 if __name__ == "__main__":
     main()
