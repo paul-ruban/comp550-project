@@ -100,7 +100,7 @@ HYPERPARAMETER_GRID = {
     "num_layers": [1],
     "dropout": [0.2],
     "bidirectional": [True, False],
-    "max_length": [128]
+    "max_seq_length": [128]
 }
 
 OUTPUT_DIM = {
@@ -224,6 +224,7 @@ def train_models(data_type):
                 val_dataloader=val_dataloader,
                 logger=logger,
                 num_epochs=hyperparam["num_epochs"],
+                max_seq_length=hyperparam["max_seq_length"],
             )
             trainer.train()
             if trainer.best_f1_score > best_f1_score:
