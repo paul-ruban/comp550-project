@@ -200,7 +200,8 @@ class HighwayAugmenterTrainer:
         logger: logging.Logger,
         num_epochs: int,
         log_interval: int = 50,
-        early_stopping_threshold: int = 10
+        early_stopping_threshold: int = 10,
+        max_seq_length: int = 512
     ) -> None:
 
         self.model = model
@@ -212,6 +213,7 @@ class HighwayAugmenterTrainer:
         self.num_epochs = num_epochs
         self.log_interval = log_interval
         self.early_stopping_threshold = early_stopping_threshold
+        self.max_seq_length = max_seq_length
     
     def train(self):
         # Running variables
@@ -268,7 +270,7 @@ class HighwayAugmenterTrainer:
                 return_special_tokens_mask=True,
                 truncation=True,
                 return_tensors="pt",
-                # max_length=512 # adjust if appropriate
+                max_length=self.max_seq_length
             )
             input_ids = inputs["input_ids"].to(device)
             attention_mask = inputs["attention_mask"].to(device)
@@ -316,7 +318,7 @@ class HighwayAugmenterTrainer:
                     return_special_tokens_mask=True,
                     truncation=True,
                     return_tensors="pt",
-                    # max_length=512 # adjust if appropriate
+                    max_length=self.max_seq_length
                 )
                 input_ids = inputs["input_ids"].to(device)
                 attention_mask = inputs["attention_mask"].to(device)
@@ -359,7 +361,7 @@ class HighwayAugmenterTrainer:
                     return_special_tokens_mask=True,
                     truncation=True,
                     return_tensors="pt",
-                    # max_length=512 # adjust if appropriate
+                    max_length=model.max_seq_length
                 )
                 input_ids = inputs["input_ids"].to(device)
                 attention_mask = inputs["attention_mask"].to(device)
