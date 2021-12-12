@@ -46,13 +46,15 @@ class HighwayAugmenter(torch.nn.Module):
         tokenizer : PreTrainedTokenizer,
         masking_model : torch.nn.Module,
         unmasking_model : torch.nn.Module,
-        classifier : torch.nn.Module
+        classifier : torch.nn.Module,
+        max_seq_length : int = 512
     ) -> None:
 
         super().__init__()
         self.tokenizer = tokenizer
         self.masking_model = masking_model
         self.unmasking_model = unmasking_model
+        self.max_seq_length = max_seq_length
         # freeze all parameters of unmasking_model
         for p in self.unmasking_model.parameters():
             p.requires_grad = False
@@ -127,7 +129,6 @@ class HighwayAugmenterTrainer:
         num_epochs: int,
         log_interval: int = 50,
         early_stopping_threshold: int = 10,
-        max_seq_length: int = 512
     ) -> None:
 
         self.model = model
@@ -196,7 +197,7 @@ class HighwayAugmenterTrainer:
                 return_special_tokens_mask=True,
                 truncation=True,
                 return_tensors="pt",
-                max_length=self.max_seq_length
+                max_length=model.max_seq_length
             )
             input_ids = inputs["input_ids"].to(device)
             attention_mask = inputs["attention_mask"].to(device)
@@ -244,7 +245,7 @@ class HighwayAugmenterTrainer:
                     return_special_tokens_mask=True,
                     truncation=True,
                     return_tensors="pt",
-                    max_length=self.max_seq_length
+                    max_length=model.max_seq_length
                 )
                 input_ids = inputs["input_ids"].to(device)
                 attention_mask = inputs["attention_mask"].to(device)

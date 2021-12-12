@@ -230,7 +230,7 @@ def train_models(data_type):
             if trainer.best_f1_score > best_f1_score:
                 best_f1_score = trainer.best_f1_score
                 best_accuracy = trainer.best_valid_acc
-                best_rnn_state_dict = {
+                best_state_dict = {
                     "model": trainer.best_model,
                     "optimizer": trainer.best_optimizer,
                     "loss": trainer.best_loss,
@@ -241,13 +241,13 @@ def train_models(data_type):
         logger.info(f"Finished training model. Best hyperparameters: {best_hyperparam}")
         logger.info("Here is the validation results:")
         HighwayAugmenterTrainer.report_metrics(
-            model=best_rnn_state_dict["model"], dataloader=val_dataloader, logger=logger
+            model=best_state_dict["model"], dataloader=val_dataloader, logger=logger
         )
         logger.info(
             "Here is the test results (DO NOT USE THESE RESULTS FOR CHOOSING THE BEST AUGMENTATION):"
         )
         HighwayAugmenterTrainer.report_metrics(
-            model=best_rnn_state_dict["model"], dataloader=test_dataloader, logger=logger
+            model=best_state_dict["model"], dataloader=test_dataloader, logger=logger
         )
         # Save the best model
         model_save_folder = os.path.join(
@@ -262,9 +262,9 @@ def train_models(data_type):
             os.makedirs(model_save_folder)
         HighwayAugmenterTrainer.save_checkpoint(
             save_path=model_path,
-            model=best_rnn_state_dict["model"],
-            optimizer=best_rnn_state_dict["optimizer"],
-            loss=best_rnn_state_dict["loss"],
+            model=best_state_dict["model"],
+            optimizer=best_state_dict["optimizer"],
+            loss=best_state_dict["loss"],
         )
         # Log this to the json
         json_dict = {
