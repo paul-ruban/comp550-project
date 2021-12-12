@@ -7,7 +7,8 @@ from datasets import load_dataset
 from typing import List, Tuple, Union
 from transformers.tokenization_utils import PreTrainedTokenizer
 
-DATASET_SCRIPT_PATH = os.path.join(os.path.dirname(os.path.realpath(__file__)), "dataset_script.py")
+TEXT_SCRIPT_PATH = os.path.join(os.path.dirname(os.path.realpath(__file__)), "text.py")
+JSON_SCRIPT_PATH = os.path.join(os.path.dirname(os.path.realpath(__file__)), "json.py")
 
 
 class DataFiles:
@@ -47,10 +48,17 @@ class DataFiles:
 
 class Dataset(torch.utils.data.Dataset):
     """Represents an iterable dataset that wraps transformers dataset object"""
-    def __init__(self, data_files : DataFiles, split : str ="all") -> None:
+    def __init__(
+        self, 
+        data_files : DataFiles,
+        data_format : str = "txt",
+        split : str ="all"
+    ) -> None:
+
+        assert (data_format in ["txt", "json"]), "data_format bust be one of: ['txt', 'json']"
         self.data_files = data_files
         self.dataset = load_dataset(
-            path=DATASET_SCRIPT_PATH, 
+            path=TEXT_SCRIPT_PATH if data_format == "txt" else JSON_SCRIPT_PATH, 
             data_files=data_files, 
             split=split
         )
