@@ -2,7 +2,6 @@ import argparse
 import logging
 import os
 from copy import deepcopy
-from functools import partial
 import contextlib
 
 import torch
@@ -11,7 +10,7 @@ from torch import nn
 from src.data.dataio import Dataset
 from src.models.rnn_model import RNN
 from src.models.learned_masking import HighwayAugmenter, HighwayAugmenterTrainer, WeightedMaskClassificationLoss
-from src.utils.json_utils import append_json_lines, read_json_lines
+from src.utils.json_utils import append_json_lines
 from torch.utils.data import DataLoader
 from transformers import AutoModel, AutoTokenizer
 from sklearn.model_selection import ParameterGrid
@@ -101,6 +100,7 @@ HYPERPARAMETER_GRID = {
     "num_layers": [1],
     "dropout": [0.2],
     "bidirectional": [True, False],
+    "max_length": [128]
 }
 
 OUTPUT_DIM = {
