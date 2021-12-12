@@ -206,7 +206,8 @@ def train_models(data_type):
                         output_size=OUTPUT_DIM[data_type],
                         bidirectional=hyperparam["bidirectional"],
                         dropout=hyperparam["dropout"]
-                    )
+                    ),
+                    max_seq_length=hyperparam["max_seq_length"]
                 )
             logger.info(f"Model created...")
             optimizer = torch.optim.Adam(
@@ -224,7 +225,6 @@ def train_models(data_type):
                 val_dataloader=val_dataloader,
                 logger=logger,
                 num_epochs=hyperparam["num_epochs"],
-                max_seq_length=hyperparam["max_seq_length"],
             )
             trainer.train()
             if trainer.best_f1_score > best_f1_score:
