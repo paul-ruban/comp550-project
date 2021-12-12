@@ -83,7 +83,8 @@ class HighwayAugmenter(torch.nn.Module):
         # Decide what tokens to mask and mask them with [MASK] embeddings
         tokens_to_mask = (mask_log_probas.argmax(dim=1) * maskable_tokens).unsqueeze(dim=-1)
         mask_emb = self.unmasking_model.embeddings.word_embeddings.weight[self.tokenizer.mask_token_id]
-        mask_embeddings = torch.where(tokens_to_mask > 0, mask_embeddings, mask_emb)
+        # TODO return back
+        # mask_embeddings = torch.where(tokens_to_mask > 0, mask_embeddings, mask_emb)
 
         # Unmasking model: BERT
         unmasked_output = self.unmasking_model(inputs_embeds=mask_embeddings, attention_mask=attention_mask)
@@ -110,9 +111,9 @@ class WeightedMaskClassificationLoss(torch.nn.Module):
     
     def forward(self, mask_log_probas, mask_labels, cls_log_probas, cls_labels):
         mask_loss = self.lambda_mask * self.mask_loss(mask_log_probas, mask_labels)
-        print("mask_loss", mask_loss)
+        # print("mask_loss", mask_loss)
         cls_loss = self.lambda_cls * self.mask_loss(cls_log_probas, cls_labels)
-        print("cls_loss", cls_loss)
+        # print("cls_loss", cls_loss)
 
         return mask_loss + cls_loss
 
