@@ -22,7 +22,8 @@ class RNN(nn.Module):
         hidden_dim : int = 768, 
         num_layers : int = 1,
         dropout : float = 0.1,
-        bidirectional : bool = False
+        bidirectional : bool = False,
+        project_to_emb_dim : bool = False # whether to project output of RNN to the dimension of embeddings (useful for BERT downstream)
     ) -> None:
         super().__init__()
         if embeddings_layer is not None:
@@ -46,7 +47,13 @@ class RNN(nn.Module):
             bidirectional=bidirectional,
             batch_first=True
         )
-        self.dense = nn.Linear(in_features=hidden_dim * (2 if bidirectional else 1), out_features=output_size)
+        # project 
+        self.project_to_emb_dim = project_to_emb_dim
+        if project_to_emb_dim:
+            self.projection = nn.Linear(in_features=hidden_dim * (2 if bidirectional else 1), out_features=embedding_dim)
+            self.dense = nn.Linear(in_features=embedding_dim, out_features=output_size)
+        else:
+            self.dense = nn.Linear(in_features=hidden_dim * (2 if bidirectional else 1), out_features=output_size)
         
     def forward(
         self, 
@@ -62,6 +69,8 @@ class RNN(nn.Module):
         if self.dropout:
             x = self.dropout(x)
         # print("Pre-dense", x.shape)
+        if self.project_to_emb_dim:
+            x = self.projection(x)
         out = self.dense(x)
         out = F.log_softmax(out, dim=-1)
         # print("Post-dense", out.shape)

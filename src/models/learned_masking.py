@@ -154,6 +154,9 @@ class HighwayAugmenter(torch.nn.Module):
         # Decide what tokens to mask and mask them with [MASK] embeddings
         tokens_to_mask = (mask_log_probas.argmax(dim=1) * maskable_tokens).unsqueeze(dim=-1)
         mask_emb = self.unmasking_model.embeddings.word_embeddings.weight[self.tokenizer.mask_token_id]
+        print("tokens_to_mask.shape", tokens_to_mask.shape)
+        print("mask_embeddings.shape", mask_embeddings.shape)
+        print("mask_emb.shape", mask_emb.shape)
         mask_embeddings = torch.where(tokens_to_mask > 0, mask_embeddings, mask_emb)
 
         # Unmasking model: BERT
