@@ -75,7 +75,7 @@ class RNN(nn.Module):
             if self.dropout:
                 x = self.dropout(x)
         out = self.dense(x)
-        out = F.log_softmax(out, dim=-1)
+        # out = F.log_softmax(out, dim=-1)
         # print("Post-dense", out.shape)
         out = out.transpose(-1, 1)
         # print("Post-dense.T", out.shape)
