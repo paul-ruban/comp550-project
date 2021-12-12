@@ -225,7 +225,7 @@ class HighwayAugmenterTrainer:
             )
             loss.backward()
             optimizer.step()
-            total_acc += (cls_out.log_softmax(-1).argmax(-1) == cls_labels).sum().item()
+            total_acc += (cls_out.detach().clone().log_softmax(-1).argmax(-1) == cls_labels).sum().item()
             total_count += cls_labels.size(0)
             if idx % self.log_interval == 0 and idx > 0:
                 logger.info(
