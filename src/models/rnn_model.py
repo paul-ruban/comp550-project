@@ -22,8 +22,7 @@ class RNN(nn.Module):
         hidden_dim : int = 768, 
         num_layers : int = 1,
         dropout : float = 0.1,
-        bidirectional : bool = False,
-        tie_weights : bool = False
+        bidirectional : bool = False
     ) -> None:
         super().__init__()
         if embeddings_layer is not None:
@@ -34,10 +33,6 @@ class RNN(nn.Module):
             self.embeddings = nn.Embedding(num_embeddings=input_size, embedding_dim=embedding_dim)
 
         assert (rnn_type in ["lstm", "gru"]), "rnn_type can be one of: 'lstm', 'gru'."
-
-        if tie_weights:
-            assert (input_size == output_size), "If tie_weights=True, input_size must be equal to output_size."
-        self.tie_weights = tie_weights
 
         rnn_type = nn.LSTM if rnn_type == "lstm" else nn.GRU
 
@@ -51,17 +46,8 @@ class RNN(nn.Module):
             bidirectional=bidirectional,
             batch_first=True
         )
-        self.bidirectional = bidirectional
-        if bidirectional:
-            # create projection from 2 * hidden_dim to hidden_dim
-            self.projection = nn.Linear(2 * hidden_dim, hidden_dim)
-
-        self.dense = nn.Linear(in_features=hidden_dim, out_features=output_size)
+        self.dense = nn.Linear(in_features=hidden_dim * (2 if bidirectional else 1), out_features=output_size)
         
-        # tie input and output embedding weights
-        if tie_weights:
-            self.dense.weight = self.embeddings.weight
-
     def forward(
         self, 
         input_ids : torch.Tensor = None, # [B, L]
@@ -73,8 +59,6 @@ class RNN(nn.Module):
         if inputs_embeds is None:
             inputs_embeds = self.embeddings(input_ids)
         x, _ = self.rnn(inputs_embeds)
-        if self.bidirectional:
-            x = self.projection(x)
         if self.dropout:
             x = self.dropout(x)
         # print("Pre-dense", x.shape)
