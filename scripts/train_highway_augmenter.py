@@ -76,9 +76,7 @@ DATA_TYPE_DICT = {
 }
 
 MODELS = {
-    "polarity": [
-        "distilbert-base-uncased",
-    ],
+    "polarity": ["distilbert-base-uncased"],
     "articles": ["distilbert-base-uncased"],
     "smokers": [
         "distilbert-base-uncased",
@@ -150,8 +148,8 @@ def train_models(data_type):
         logger.info("~" * 75)
         logger.info(f"Starting training using the HuggingFace model {model_type}")
         # Get the model and tokenizer from huggingface
-        model = AutoModel.from_pretrained(pretrained_model_name_or_path=model_type)
-        tokenizer = AutoTokenizer.from_pretrained(pretrained_model_name_or_path=model_type)
+        bert_model = AutoModel.from_pretrained(model_type)
+        bert_tokenizer = AutoTokenizer.from_pretrained(model_type)
         # Get train, val, test paths
         training_json_path = DATA_TYPE_DICT[data_type]["json_train_path"]
         validation_json_path = DATA_TYPE_DICT[data_type]["json_validation_path"]
@@ -189,21 +187,19 @@ def train_models(data_type):
             )
             # Set up the model and its loss + optimizer
             with contextlib.redirect_stdout(None):
-                bert = AutoModel.from_pretrained(hyperparam["model_type"])
-
                 model = HighwayAugmenter(
-                    tokenizer=AutoTokenizer.from_pretrained(bert),
+                    tokenizer=bert_tokenizer,
                     masking_model=RNN(
-                        embeddings_layer=deepcopy(bert.embeddings.word_embeddings),
+                        embeddings_layer=deepcopy(bert_model.embeddings.word_embeddings),
                         hidden_dim=hyperparam["hidden_dim"],
                         num_layers=hyperparam["num_layers"],
                         output_size=2, 
                         bidirectional=hyperparam["bidirectional"],
                         dropout=hyperparam["dropout"]
                     ),
-                    unmasking_model=bert,
+                    unmasking_model=bert_model,
                     classifier=RNN(
-                        embeddings_layer=deepcopy(bert.embeddings.word_embeddings),
+                        embeddings_layer=deepcopy(bert_model.embeddings.word_embeddings),
                         hidden_dim=hyperparam["hidden_dim"],
                         num_layers=hyperparam["num_layers"],
                         output_size=OUTPUT_DIM[data_type],
@@ -211,7 +207,7 @@ def train_models(data_type):
                         dropout=hyperparam["dropout"]
                     )
                 )
-
+            logger.info(f"Model created...")
             optimizer = torch.optim.Adam(
                 params=[{"params": model.masking_model.parameters()},
                         {"params": model.classifier.parameters()}],
