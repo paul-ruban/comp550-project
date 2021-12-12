@@ -255,6 +255,7 @@ class HighwayAugmenterTrainer:
 
     def train_one_epoch(self, epoch, model, optimizer, criterion, dataloader, logger):
         model.train()
+        model = model.to(device)
         total_acc, total_count = 0, 0
         for idx, batch in enumerate(dataloader):
             inputs = self.model.tokenizer(
@@ -326,8 +327,8 @@ class HighwayAugmenterTrainer:
                 predicted_label = cls_log_probas.argmax(1)
                 y_pred.append(predicted_label)
                 y_true.append(batch["label"])
-        y_pred = torch.cat(y_pred)
-        y_true = torch.cat(y_true)
+        y_pred = torch.cat(y_pred).cpu()
+        y_true = torch.cat(y_true).cpu()
 
         accu_val = accuracy_score(y_true=y_true, y_pred=y_pred)
         f1_val = f1_score(y_true=y_true, y_pred=y_pred, average="micro")
