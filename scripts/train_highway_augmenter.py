@@ -162,7 +162,7 @@ def train_models(data_type):
         # Create the search grid
         hyperparam_grid = ParameterGrid(HYPERPARAMETER_GRID)
         # Running parameter to get the best model from the hyperparameters
-        best_rnn_state_dict = {}
+        best_state_dict = {}
         best_f1_score = 0.0
         best_accuracy = 0.0
         best_hyperparam = {}
@@ -268,8 +268,6 @@ def train_models(data_type):
         )
         # Log this to the json
         json_dict = {
-            "augmented_dataset_id": augmentation_dict["augmented_dataset_id"],
-            "augmentation_features": augmentation_dict["augmentation_features"],
             "huggingface_model": model_type,
             "f1_score": best_f1_score,
             "accuracy_score": best_accuracy,
