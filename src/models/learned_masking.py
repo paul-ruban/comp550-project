@@ -311,7 +311,7 @@ class HighwayAugmenterTrainer:
                     return_special_tokens_mask=True,
                     truncation=True,
                     return_tensors="pt",
-                    max_length=24
+                    # max_length=512 # adjust if appropriate
                 )
                 input_ids = inputs["input_ids"].to(device)
                 attention_mask = inputs["attention_mask"].to(device)
@@ -322,7 +322,7 @@ class HighwayAugmenterTrainer:
                     special_tokens_mask=special_tokens_mask
                 )
                 mask_labels = attention_mask * ~(special_tokens_mask > 0)
-
+                # TODO add logging of percentage of masked tokens
                 predicted_label = cls_log_probas.argmax(1)
                 y_pred.append(predicted_label)
                 y_true.append(batch["label"])
