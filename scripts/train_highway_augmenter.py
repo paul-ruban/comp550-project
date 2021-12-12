@@ -293,3 +293,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+# Usage: python train_highway_augmenter.py -t articles
