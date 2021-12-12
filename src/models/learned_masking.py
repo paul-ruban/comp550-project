@@ -287,7 +287,7 @@ class HighwayAugmenterTrainer:
             )
             loss.backward()
             optimizer.step()
-            total_acc += (cls_log_probas.argmax(1) == cls_labels).sum().item()
+            total_acc += (cls_log_probas.argmax(dim=1) == cls_labels).sum().item()
             total_count += cls_labels.size(0)
             if idx % self.log_interval == 0 and idx > 0:
                 logger.info(
@@ -325,7 +325,7 @@ class HighwayAugmenterTrainer:
                 )
                 mask_labels = attention_mask * ~(special_tokens_mask > 0)
                 # TODO add logging of percentage of masked tokens
-                predicted_label = cls_log_probas.argmax(1)
+                predicted_label = cls_log_probas.argmax(dim=1)
                 y_pred.append(predicted_label)
                 y_true.append(batch["label"])
         y_pred = torch.cat(y_pred).cpu() # back to cpu for sklearn
