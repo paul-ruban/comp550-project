@@ -65,80 +65,7 @@ class HighwayAugmenter(torch.nn.Module):
             {"params": self.masking_model.parameters()},
             {"params": self.classifier.parameters()}
         ]
-
-    # def train(
-    #     self,
-    #     dataset : Dataset,
-    #     n_epochs : int = 1, 
-    #     batch_size : int = 4, 
-    #     log_every : int = 1
-    # ):
-    #     loader = DataLoader(
-    #         dataset=dataset, 
-    #         batch_size=batch_size, 
-    #         shuffle=True)
-        
-    #     masking_loss_fn = torch.nn.CrossEntropyLoss(
-    #         ignore_index=self.tokenizer.pad_token_id)
-    #     cls_loss_fn = torch.nn.CrossEntropyLoss(
-    #         ignore_index=self.tokenizer.pad_token_id)
-    #     params = [
-    #         {"params": self.masking_model.parameters()},
-    #         {"params": self.classifier.parameters()}
-    #     ]
-    #     optimizer = torch.optim.Adam(params, lr=0.001)
-
-    #     for epoch in range(n_epochs):
-    #         for i, batch in enumerate(loader):
-    #             inputs = self.tokenizer(
-    #                 text=batch["text"],
-    #                 padding=True,
-    #                 return_attention_mask=True,
-    #                 return_special_tokens_mask=True,
-    #                 truncation=True,
-    #                 return_tensors="pt",
-    #                 max_length=512
-    #             )
-    #             input_ids = inputs["input_ids"]
-    #             attention_mask = inputs["attention_mask"]
-    #             special_tokens_mask = inputs["special_tokens_mask"]
-
-    #             optimizer.zero_grad()
-
-    #             # Masking model: RNN
-    #             log_probas, embeddings = self.masking_model(input_ids, ret_pre_dense=True)
-
-    #             # Compute masking loss
-    #             masked_targets = attention_mask * ~(special_tokens_mask > 0) 
-    #             mask_loss = masking_loss_fn(log_probas, masked_targets)
-
-    #             # Decide what tokens to mask and mask them with [MASK] embeddings
-    #             tokens_to_mask = (log_probas.argmax(dim=1) * masked_targets).unsqueeze(dim=-1)
-    #             mask_emb = self.unmasking_model.embeddings.word_embeddings.weight[self.tokenizer.mask_token_id]
-    #             embeddings = torch.where(tokens_to_mask > 0, embeddings, mask_emb)
-
-    #             # Unmasking model: BERT
-    #             bert_output = self.unmasking_model(inputs_embeds=embeddings, attention_mask=attention_mask)
-    #             embeddings = bert_output["last_hidden_state"]
-
-    #             # Classification
-    #             cls_out = self.classifier(inputs_embeds=embeddings)[:,:,-1]
-    #             cls_targets = batch["label"]
-    #             cls_loss = cls_loss_fn(cls_out, cls_targets)       
-
-    #             # if i and i % (log_every) == 0:
-    #             #     print(f"Step {i}: loss = {loss.item()}")
-    #             #     out = (log_probas.detach().clone().argmax(dim=1) * attention_mask).tolist()
-    #             #     print(out)
-                
-    #             loss = mask_loss + cls_loss
-    #             print(loss)
-
-    #             loss.backward()
-    #             optimizer.step()
-        
-    #     return self
-    
+   
     def forward(
         self,
         input_ids : torch.tensor = None,
@@ -181,7 +108,9 @@ class WeightedMaskClassificationLoss(torch.nn.Module):
     
     def forward(self, mask_log_probas, mask_labels, cls_log_probas, cls_labels):
         mask_loss = self.lambda_mask * self.mask_loss(mask_log_probas, mask_labels)
+        print("mask_loss", mask_loss)
         cls_loss = self.lambda_cls * self.mask_loss(cls_log_probas, cls_labels)
+        print("cls_loss", cls_loss)
 
         return mask_loss + cls_loss
 
@@ -326,6 +255,7 @@ class HighwayAugmenterTrainer:
                     special_tokens_mask=special_tokens_mask
                 )
                 mask_labels = attention_mask * ~(special_tokens_mask > 0)
+                
                 # TODO add logging of percentage of masked tokens
                 predicted_label = cls_log_probas.argmax(dim=1)
                 y_pred.append(predicted_label)
