@@ -557,7 +557,11 @@ class POSMask(Mask):
         return _X
 
 
-class ProbabilisticMask(Mask):
-    def __init__(self, mask_probas, mask_token) -> None:
+class LearnedMask(Mask):
+    def __init__(
+        self,
+        mask_model,
+        mask_token
+    ) -> None:
         super().__init__(mask_token)
-        self.mask_probas = mask_probas
+        self.mask_model = mask_model
