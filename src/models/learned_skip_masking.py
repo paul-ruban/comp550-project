@@ -89,12 +89,12 @@ class DeepSkipAugmenter(torch.nn.Module):
                 # Decide what to mask
                 # log_probas.detach().clone().argmax(dim=1) * attention_mask
                 special_tokens_mask = torch.gt(special_tokens_mask, 0)
+                print('special_tokens_mask is', special_tokens_mask)
                 mask_probas = log_probas.detach().clone().argmax(dim=1) * attention_mask
                 print('pre mask_probas is', mask_probas)
                 mask_probas = torch.where(special_tokens_mask, mask_probas, 0)
                 print('post mask_probas is', mask_probas)
 
-                print('special_tokens_mask is', special_tokens_mask)
                 mask_probas = torch.gt(mask_probas, 0)
                 # mask_probas = torch.where(special_tokens_mask, mask_probas, False)
                 print('input_ids is', input_ids)
