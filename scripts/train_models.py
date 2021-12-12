@@ -42,7 +42,7 @@ DATA_TYPE_DICT = {
     },
     "articles": {
         "json_training_log_path": os.path.join(
-            cur_dir, "..", "logs", "augmentation", "articles_copy.json"
+            cur_dir, "..", "logs", "augmentation", "articles.json"
         ),
         "json_validation_path": os.path.join(
             cur_dir, "..", "data", "articles", "augmentation", "validation.json"

@@ -93,7 +93,7 @@ LOSS = torch.nn.CrossEntropyLoss()
 HYPERPARAMETER_GRID = {
     "model_type": ["lstm"],
     "lr": [0.001],
-    "num_epochs": [10],
+    "num_epochs": [100],
     "batch_size": [32],
     "hidden_dim": [256],
     "num_layers": [1],
@@ -105,6 +105,12 @@ OUTPUT_DIM = {
     "polarity": 2,
     "articles": 5,
     "smokers": 3,
+}
+
+LOG_INTERVAL = {
+    "polarity": 50,
+    "articles": 10,
+    "smokers": 5
 }
 
 # Functions #
@@ -218,6 +224,7 @@ def train_models(data_type, augmentation_dicts):
                     val_dataloader=val_dataloader,
                     logger=logger,
                     num_epochs=hyperparam["num_epochs"],
+                    log_interval=LOG_INTERVAL[data_type]
                 )
                 rnn_trainer.train()
                 if rnn_trainer.best_f1_score > best_f1_score:
@@ -233,9 +240,6 @@ def train_models(data_type, augmentation_dicts):
             logger.info("=" * 60)
             logger.info(f"Finished training model. Best hyperparameters: {best_hyperparam}")
             logger.info("Here is the validation results:")
-            import pdb
-
-            pdb.set_trace()
             RNNTrainer.report_metrics(
                 model=best_rnn_state_dict["model"], dataloader=val_dataloader, logger=logger
             )
@@ -272,7 +276,7 @@ def train_models(data_type, augmentation_dicts):
                 "path_to_pickle": model_path,
             }
             append_json_lines(
-                json_dict, output_path=DATA_TYPE_DICT[data_type]["json_train_log_path"]
+                [json_dict], output_path=DATA_TYPE_DICT[data_type]["json_train_log_path"]
             )
 
 
@@ -284,6 +288,8 @@ def main():
     # Get augmentation dicts
     augmentation_dicts = get_augmentation_dict(data_type)
     # Train models for each augmentation dict
+    # NOTE: The training is non-deterministic to speed up computation
+    # This is why the model is saved and the TEST eval is measured at the same time
     logger.info("-" * 120)
     logger.info(f"Training models for {data_type}")
     train_models(data_type, augmentation_dicts)
