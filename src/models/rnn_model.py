@@ -37,8 +37,6 @@ class RNN(nn.Module):
 
         rnn_type = nn.LSTM if rnn_type == "lstm" else nn.GRU
 
-        self.dropout = nn.Dropout(p=dropout) if dropout > 0 else None
-
         self.rnn = rnn_type(
             input_size=embedding_dim, 
             hidden_size=hidden_dim,
@@ -47,6 +45,9 @@ class RNN(nn.Module):
             bidirectional=bidirectional,
             batch_first=True
         )
+
+        self.dropout = nn.Dropout(p=dropout) if dropout > 0 else None
+        
         # project 
         self.project_to_emb_dim = project_to_emb_dim
         if project_to_emb_dim:
@@ -71,6 +72,8 @@ class RNN(nn.Module):
         # print("Pre-dense", x.shape)
         if self.project_to_emb_dim:
             x = self.projection(x)
+            if self.dropout:
+                x = self.dropout(x)
         out = self.dense(x)
         out = F.log_softmax(out, dim=-1)
         # print("Post-dense", out.shape)
