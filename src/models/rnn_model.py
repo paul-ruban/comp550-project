@@ -69,16 +69,11 @@ class RNN(nn.Module):
         x, _ = self.rnn(inputs_embeds)
         if self.dropout:
             x = self.dropout(x)
-        # print("Pre-dense", x.shape)
         if self.project_to_emb_dim:
             x = self.projection(x)
             if self.dropout:
                 x = self.dropout(x)
         out = self.dense(x)
-        # out = F.log_softmax(out, dim=-1)
-        # print("Post-dense", out.shape)
-        out = out.transpose(-1, 1)
-        # print("Post-dense.T", out.shape)
         if ret_pre_dense:
             return out, x
         else:
