@@ -77,12 +77,14 @@ class HighwayAugmenter(torch.nn.Module):
     ) -> Tuple[torch.tensor, torch.tensor]:
 
         maskable_tokens = attention_mask * ~(special_tokens_mask > 0)
+        print("maskable_tokens", maskable_tokens)
 
         # Masking model: RNN
         mask_out, mask_embeddings = self.masking_model(input_ids, ret_pre_dense=True)
 
         # Decide what tokens to mask and mask them with [MASK] embeddings
-        tokens_to_mask = (F.log_softmax(mask_out, dim=-1).argmax(dim=-1) * maskable_tokens).unsqueeze(dim=-1)
+        tokens_to_mask = (mask_out.log_softmax(dim=-1).argmax(dim=-1) * maskable_tokens).unsqueeze(dim=-1)
+        print("tokens_to_mask", tokens_to_mask)
         mask_emb = self.unmasking_model.embeddings.word_embeddings.weight[self.tokenizer.mask_token_id]
         mask_embeddings = torch.where(tokens_to_mask > 0, mask_embeddings, mask_emb)
 
