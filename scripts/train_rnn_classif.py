@@ -34,8 +34,8 @@ DATA_TYPE_DICT = {
             cur_dir, "..", "logs", "training_rnn_classif", "polarity.json"
         ),
         # Change to save to the augmentation
-        "pickle_folder_path": "/home/mila/c/cesare.spinoso/scratch/datasets_550/polarity",
-        # "pickle_folder_path": "/home/c_spino/comp_550/comp-550-project/data/temp/polarity",
+        # "pickle_folder_path": "/home/mila/c/cesare.spinoso/scratch/datasets_550/polarity",
+        "pickle_folder_path": "/home/c_spino/comp_550/comp-550-project/data/temp/polarity",
     },
     "articles": {
         "json_training_log_path": os.path.join(
@@ -233,9 +233,6 @@ def train_models(data_type, augmentation_dicts):
             logger.info("=" * 60)
             logger.info(f"Finished training model. Best hyperparameters: {best_hyperparam}")
             logger.info("Here is the validation results:")
-            import pdb
-
-            pdb.set_trace()
             RNNTrainer.report_metrics(
                 model=best_rnn_state_dict["model"], dataloader=val_dataloader, logger=logger
             )
@@ -272,7 +269,7 @@ def train_models(data_type, augmentation_dicts):
                 "path_to_pickle": model_path,
             }
             append_json_lines(
-                json_dict, output_path=DATA_TYPE_DICT[data_type]["json_train_log_path"]
+                [json_dict], output_path=DATA_TYPE_DICT[data_type]["json_train_log_path"]
             )
 
 
