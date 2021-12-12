@@ -140,7 +140,6 @@ class HighwayAugmenterTrainer:
         self.num_epochs = num_epochs
         self.log_interval = log_interval
         self.early_stopping_threshold = early_stopping_threshold
-        self.max_seq_length = max_seq_length
     
     def train(self):
         # Running variables
