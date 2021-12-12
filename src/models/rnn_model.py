@@ -62,19 +62,27 @@ class RNN(nn.Module):
         if tie_weights:
             self.dense.weight = self.embeddings.weight
 
-    def forward(self, x : torch.Tensor, ret_pre_dense : bool = False) -> torch.Tensor:
-        x = self.embeddings(x)
-        x, _ = self.rnn(x)
+    def forward(
+        self, 
+        input_ids : torch.Tensor = None, # [B, L]
+        inputs_embeds : torch.Tensor = None, # [B, L, H]
+        ret_pre_dense : bool = False
+    ) -> torch.Tensor:
+
+        assert (input_ids is None or inputs_embeds is None), "Can take either input_ids or inputs_embeds, not both."
+        if inputs_embeds is None:
+            inputs_embeds = self.embeddings(input_ids)
+        x, _ = self.rnn(inputs_embeds)
         if self.bidirectional:
             x = self.projection(x)
         if self.dropout:
             x = self.dropout(x)
-        print("Pre-dense", x.shape)
+        # print("Pre-dense", x.shape)
         out = self.dense(x)
         out = F.log_softmax(out, dim=-1)
-        print("Post-dense", out.shape)
+        # print("Post-dense", out.shape)
         out = out.transpose(-1, 1)
-        print("Post-dense.T", out.shape)
+        # print("Post-dense.T", out.shape)
         if ret_pre_dense:
             return out, x
         else:
