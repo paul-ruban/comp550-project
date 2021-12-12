@@ -115,8 +115,9 @@ class WeightedMaskClassificationLoss(torch.nn.Module):
     def forward(self, mask_out, mask_labels, cls_out, cls_labels):
         # need to transpose (-2, -1) to mathc [B, C, H]
         mask_loss = self.lambda_mask * self.mask_loss(mask_out.transpose(-2, -1), mask_labels)
+        print("mask_loss", mask_loss)
         cls_loss = self.lambda_cls * self.mask_loss(cls_out, cls_labels)
-        # print("cls_loss", cls_loss)
+        print("cls_loss", cls_loss)
 
         return mask_loss + cls_loss
 
