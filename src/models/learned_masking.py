@@ -287,7 +287,7 @@ class HighwayAugmenterTrainer:
             )
             loss.backward()
             optimizer.step()
-            total_acc += (cls_log_probas.argmax(1) == cls_labels).sum().item()
+            total_acc += (cls_log_probas.argmax(dim=1) == cls_labels).sum().item()
             total_count += cls_labels.size(0)
             if idx % self.log_interval == 0 and idx > 0:
                 logger.info(
@@ -301,6 +301,7 @@ class HighwayAugmenterTrainer:
 
     def evaluate_one_epoch(self, epoch, model, dataloader, logger):
         model.eval()
+        model = model.to(device)
         y_pred = []
         y_true = []
         with torch.no_grad():
@@ -324,11 +325,11 @@ class HighwayAugmenterTrainer:
                 )
                 mask_labels = attention_mask * ~(special_tokens_mask > 0)
                 # TODO add logging of percentage of masked tokens
-                predicted_label = cls_log_probas.argmax(1)
+                predicted_label = cls_log_probas.argmax(dim=1)
                 y_pred.append(predicted_label)
                 y_true.append(batch["label"])
-        y_pred = torch.cat(y_pred).cpu()
-        y_true = torch.cat(y_true).cpu()
+        y_pred = torch.cat(y_pred).cpu() # back to cpu for sklearn
+        y_true = torch.cat(y_true).cpu() # back to cpu for sklearn
 
         accu_val = accuracy_score(y_true=y_true, y_pred=y_pred)
         f1_val = f1_score(y_true=y_true, y_pred=y_pred, average="micro")
@@ -343,16 +344,37 @@ class HighwayAugmenterTrainer:
 
     def report_metrics(model, dataloader, logger):
         model.eval()
-        y_pred = torch.tensor([])
-        y_true = torch.tensor([])
+        model = model.to(device)
+        y_pred = []
+        y_true = []
         with torch.no_grad():
-            for text, label in dataloader:
-                prediction = model(text)
-                predicted_label = prediction.argmax(1)
-                y_pred = torch.cat((y_pred, predicted_label))
-                y_true = torch.cat((y_true, label))
+            for batch in dataloader:
+                inputs = model.tokenizer(
+                    text=batch["text"],
+                    padding=True,
+                    return_attention_mask=True,
+                    return_special_tokens_mask=True,
+                    truncation=True,
+                    return_tensors="pt",
+                    # max_length=512 # adjust if appropriate
+                )
+                input_ids = inputs["input_ids"].to(device)
+                attention_mask = inputs["attention_mask"].to(device)
+                special_tokens_mask = inputs["special_tokens_mask"].to(device)
+                mask_log_probas, cls_log_probas = model(
+                    input_ids=input_ids,
+                    attention_mask=attention_mask,
+                    special_tokens_mask=special_tokens_mask
+                )
+                mask_labels = attention_mask * ~(special_tokens_mask > 0)
+                # TODO add logging of percentage of masked tokens
+                predicted_label = cls_log_probas.argmax(dim=1)
+                y_pred.append(predicted_label)
+                y_true.append(batch["label"])
+        y_pred = torch.cat(y_pred).cpu() # back to cpu for sklearn
+        y_true = torch.cat(y_true).cpu() # back to cpu for sklearn
         accu_val = accuracy_score(y_true=y_true, y_pred=y_pred)
-        f1_val = f1_score(y_true=y_true, y_pred=y_pred)
+        f1_val = f1_score(y_true=y_true, y_pred=y_pred, average="micro")
         logger.info("*" * 59)
         logger.info("|valid accuracy {:8.3f} and f1 score {:8.3f}".format(accu_val, f1_val))
         logger.info(classification_report(y_true=y_true, y_pred=y_pred))
