@@ -89,7 +89,7 @@ class HighwayAugmenter(torch.nn.Module):
 
         # Unmasking model: BERT
         with torch.no_grad():
-            unmasked_output = self.unmasking_model(input_ids=input_ids, attention_mask=attention_mask)
+            unmasked_output = self.unmasking_model(inputs_embeds=mask_embeddings, attention_mask=attention_mask)
             unmasked_embeddings = unmasked_output["last_hidden_state"]
 
 
@@ -110,17 +110,16 @@ class WeightedMaskClassificationLoss(torch.nn.Module):
         assert (lambda_mask >= 0 and lambda_cls >= 0)
         self.lambda_mask = lambda_mask
         self.lambda_cls = lambda_cls
-        self.mask_loss = torch.nn.CrossEntropyLoss(ignore_index=ignore_index)
+        self.mask_loss = torch.nn.BCELoss()
         self.cls_loss = torch.nn.CrossEntropyLoss(ignore_index=ignore_index)
     
     def forward(self, mask_out, mask_labels, cls_out, cls_labels):
-        # need to transpose (-2, -1) to mathc [B, C, H]
-        mask_loss = self.lambda_mask * self.mask_loss(mask_out.transpose(-2, -1), mask_labels)
-        # print("mask_loss", mask_loss)
-        cls_loss = self.lambda_cls * self.mask_loss(cls_out, cls_labels)
-        # print("cls_loss", cls_loss)
+        mask_loss = self.lambda_mask * self.mask_loss(
+            torch.sigmoid(mask_out.squeeze(dim=-1)), 
+            mask_labels.float()
+        )
+        cls_loss = self.lambda_cls * self.cls_loss(cls_out, cls_labels)
 
-        return cls_loss
         return mask_loss + cls_loss
 
 
