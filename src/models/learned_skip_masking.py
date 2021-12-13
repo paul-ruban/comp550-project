@@ -85,22 +85,22 @@ class DeepSkipAugmenter(torch.nn.Module):
         tokens_to_mask = (F.log_softmax(mask_out, dim=-1).argmax(dim=-1) * maskable_tokens).unsqueeze(dim=-1)
         # mask_emb = self.unmasking_model.embeddings.word_embeddings.weight[self.tokenizer.mask_token_id]
         # mask_embeddings = torch.where(tokens_to_mask > 0, mask_embeddings, mask_emb)
-        print(tokens_to_mask.shape)
-        print(input_ids.unsqueeze(2).shape)
-        print(self.tokenizer.mask_token_id)
+        # print(tokens_to_mask.shape)
+        # print(input_ids.unsqueeze(2).shape)
+        # print(self.tokenizer.mask_token_id)
         input_ids = torch.where(tokens_to_mask > 0, self.tokenizer.mask_token_id, input_ids.unsqueeze(2))
 
-        print(input_ids.shape)
+        # print(input_ids.shape)
         input_ids = input_ids.squeeze(-1)
-        print(input_ids.shape)
+        # print(input_ids.shape)
 
         # Unmasking model: BERT
         unmasked_output = self.unmasking_model(input_ids=input_ids, attention_mask=attention_mask)
-        print('unmasked_output is', unmasked_output)
-        unmasked_input_ids = unmasked_output["last_hidden_state"]
+        unmasked_token_ids = unmasked_output["logits"].argmax(dim=-1)
+        # print('unmasked_token_ids is', unmasked_token_ids)
 
         # Classification: take the last output value
-        cls_out = self.classifier(inputs_embeds=unmasked_input_ids)[:,-1,:]
+        cls_out = self.classifier(input_ids=unmasked_token_ids)[:,-1,:]
 
         return mask_out, cls_out
 
@@ -228,7 +228,7 @@ class DeepSkipAugmenterTrainer:
             )
             loss.backward()
             optimizer.step()
-            total_acc += (cls_log_probas.argmax(dim=1) == cls_labels).sum().item()
+            total_acc += (cls_out.detach().clone().log_softmax(-1).argmax(-1) == cls_labels).sum().item()
             total_count += cls_labels.size(0)
             if idx % self.log_interval == 0 and idx > 0:
                 logger.info(

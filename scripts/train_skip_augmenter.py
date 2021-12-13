@@ -149,6 +149,7 @@ def train_models(data_type):
         logger.info(f"Starting training using the HuggingFace model {model_type}")
         # Get the model and tokenizer from huggingface
         bert_model = AutoModelForMaskedLM.from_pretrained(model_type)
+        # print('bert_model is', bert_model)
         bert_tokenizer = AutoTokenizer.from_pretrained(model_type)
         # Get train, val, test paths
         training_json_path = DATA_TYPE_DICT[data_type]["json_train_path"]
@@ -190,7 +191,7 @@ def train_models(data_type):
                 model = DeepSkipAugmenter(
                     tokenizer=bert_tokenizer,
                     masking_model=RNN(
-                        embeddings_layer=deepcopy(bert_model.embeddings.word_embeddings),
+                        embeddings_layer=deepcopy(bert_model.distilbert.embeddings.word_embeddings),
                         hidden_dim=hyperparam["hidden_dim"],
                         num_layers=hyperparam["num_layers"],
                         output_size=2, 
@@ -200,7 +201,7 @@ def train_models(data_type):
                     ),
                     unmasking_model=bert_model,
                     classifier=RNN(
-                        embeddings_layer=deepcopy(bert_model.embeddings.word_embeddings),
+                        embeddings_layer=deepcopy(bert_model.distilbert.embeddings.word_embeddings),
                         hidden_dim=hyperparam["hidden_dim"],
                         num_layers=hyperparam["num_layers"],
                         output_size=OUTPUT_DIM[data_type],
