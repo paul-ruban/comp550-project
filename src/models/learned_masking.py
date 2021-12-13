@@ -3,6 +3,7 @@ import contextlib
 import copy
 import logging
 import torch
+import torch.nn.functional as F
 from typing import Tuple
 
 from nltk.text import TokenSearcher
@@ -78,22 +79,23 @@ class HighwayAugmenter(torch.nn.Module):
         maskable_tokens = attention_mask * ~(special_tokens_mask > 0)
 
         # Masking model: RNN
-        mask_log_probas, mask_embeddings = self.masking_model(input_ids, ret_pre_dense=True)
+        mask_out, mask_embeddings = self.masking_model(input_ids, ret_pre_dense=True)
+        print("mask_out.shape", mask_out.shape)
 
         # Decide what tokens to mask and mask them with [MASK] embeddings
-        tokens_to_mask = (mask_log_probas.argmax(dim=1) * maskable_tokens).unsqueeze(dim=-1)
+        tokens_to_mask = (F.log_softmax(mask_out, dim=-1).argmax(dim=-1) * maskable_tokens).unsqueeze(dim=-1)
         mask_emb = self.unmasking_model.embeddings.word_embeddings.weight[self.tokenizer.mask_token_id]
         # TODO return back
-        # mask_embeddings = torch.where(tokens_to_mask > 0, mask_embeddings, mask_emb)
+        mask_embeddings = torch.where(tokens_to_mask > 0, mask_embeddings, mask_emb)
 
         # Unmasking model: BERT
         unmasked_output = self.unmasking_model(inputs_embeds=mask_embeddings, attention_mask=attention_mask)
         unmasked_embeddings = unmasked_output["last_hidden_state"]
 
         # Classification: take the last output value
-        cls_log_probas = self.classifier(inputs_embeds=unmasked_embeddings)[:,:,-1]
+        cls_out = self.classifier(inputs_embeds=unmasked_embeddings)[:,:,-1]
 
-        return mask_log_probas, cls_log_probas
+        return mask_out, cls_out
 
 class WeightedMaskClassificationLoss(torch.nn.Module):
     def __init__(
