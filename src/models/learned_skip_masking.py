@@ -85,7 +85,14 @@ class DeepSkipAugmenter(torch.nn.Module):
         tokens_to_mask = (F.log_softmax(mask_out, dim=-1).argmax(dim=-1) * maskable_tokens).unsqueeze(dim=-1)
         # mask_emb = self.unmasking_model.embeddings.word_embeddings.weight[self.tokenizer.mask_token_id]
         # mask_embeddings = torch.where(tokens_to_mask > 0, mask_embeddings, mask_emb)
-        input_ids = torch.where(tokens_to_mask > 0, self.tokenizer.mask_token_id, input_ids)
+        print(tokens_to_mask.shape)
+        print(input_ids.unsqueeze(2).shape)
+        print(self.tokenizer.mask_token_id)
+        input_ids = torch.where(tokens_to_mask > 0, self.tokenizer.mask_token_id, input_ids.unsqueeze(2))
+
+        print(input_ids.shape)
+        input_ids = input_ids.squeeze(-1)
+        print(input_ids.shape)
 
         # Unmasking model: BERT
         unmasked_output = self.unmasking_model(input_ids=input_ids, attention_mask=attention_mask)

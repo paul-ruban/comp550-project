@@ -9,7 +9,7 @@ from torch import nn
 
 from src.data.dataio import Dataset
 from src.models.rnn_model import RNN
-from src.models.learned_masking import DeepSkipAugmenter, DeepSkipAugmenterTrainer, WeightedMaskClassificationLoss
+from src.models.learned_skip_masking import DeepSkipAugmenter, DeepSkipAugmenterTrainer, WeightedMaskClassificationLoss
 from src.utils.json_utils import append_json_lines
 from torch.utils.data import DataLoader
 from transformers import AutoModelForMaskedLM, AutoTokenizer
@@ -296,4 +296,4 @@ if __name__ == "__main__":
     main()
 
 
-# Usage: python train_deep_skip_augmenter.py -t articles
+# Usage: python train_skip_augmenter.py -t articles
