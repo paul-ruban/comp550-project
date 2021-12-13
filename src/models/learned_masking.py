@@ -210,8 +210,8 @@ class HighwayAugmenterTrainer:
                 attention_mask=attention_mask,
                 special_tokens_mask=special_tokens_mask
             )
-            print("mask_out.shape", mask_out.shape)
-            print("cls_out.shape", cls_out.shape)
+            # print("mask_out.shape", mask_out.shape)
+            # print("cls_out.shape", cls_out.shape)
             mask_labels = attention_mask * ~(special_tokens_mask > 0)
             cls_labels = batch["label"].to(device)
             loss = criterion(
@@ -222,7 +222,7 @@ class HighwayAugmenterTrainer:
             )
             loss.backward()
             optimizer.step()
-            total_acc += (cls_log_probas.argmax(dim=1) == cls_labels).sum().item()
+            total_acc += (cls_out.log_softmax(-1).argmax(-1) == cls_labels).sum().item()
             total_count += cls_labels.size(0)
             if idx % self.log_interval == 0 and idx > 0:
                 logger.info(
@@ -253,15 +253,17 @@ class HighwayAugmenterTrainer:
                 input_ids = inputs["input_ids"].to(device)
                 attention_mask = inputs["attention_mask"].to(device)
                 special_tokens_mask = inputs["special_tokens_mask"].to(device)
-                mask_log_probas, cls_log_probas = model(
+                mask_out, cls_out = model(
                     input_ids=input_ids,
                     attention_mask=attention_mask,
                     special_tokens_mask=special_tokens_mask
                 )
+                print("mask_out.shape", mask_out.shape)
+                print("cls_out.shape", cls_out.shape)
                 mask_labels = attention_mask * ~(special_tokens_mask > 0)
                 
                 # TODO add logging of percentage of masked tokens
-                predicted_label = cls_log_probas.argmax(dim=1)
+                predicted_label = cls_out.log_softmax(-1).argmax(-1)
                 y_pred.append(predicted_label)
                 y_true.append(batch["label"])
         y_pred = torch.cat(y_pred).cpu() # back to cpu for sklearn
