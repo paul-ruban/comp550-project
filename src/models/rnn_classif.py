@@ -31,8 +31,6 @@ class JsonDataset(Dataset):
                 "label": [json_dict["label"] for json_dict in json_lines],
             }
         )
-        # TODO: REMOVE
-        df = df.iloc[:50, :]
         if data_type == "smokers":
             df["label"] = df["label"].replace({2: 2, 3: 2, 4: 2})
         self.dataset = df
@@ -195,6 +193,7 @@ class RNNTrainer:
         self.best_valid_acc = best_valid_acc
 
     def train_one_epoch(self, epoch, model, optimizer, criterion, dataloader, logger):
+        model.to(device)
         model.train()
         total_acc, total_count = 0, 0
         for idx, (text_batch, label_batch) in enumerate(dataloader):
@@ -216,17 +215,20 @@ class RNNTrainer:
         return model, loss
 
     def evaluate_one_epoch(self, epoch, model, dataloader, logger):
+        model.to(device)
         model.eval()
-        y_pred = torch.tensor([])
-        y_true = torch.tensor([])
+        y_pred = torch.tensor([]).to(device)
+        y_true = torch.tensor([]).to(device)
         with torch.no_grad():
             for text, label in dataloader:
                 prediction = model(text)
                 predicted_label = prediction.argmax(1)
                 y_pred = torch.cat((y_pred, predicted_label))
                 y_true = torch.cat((y_true, label))
+        y_true = y_true.cpu().numpy()
+        y_pred = y_pred.cpu().numpy()
         accu_val = accuracy_score(y_true=y_true, y_pred=y_pred)
-        f1_val = f1_score(y_true=y_true, y_pred=y_pred)
+        f1_val = f1_score(y_true=y_true, y_pred=y_pred, average="macro")
         logger.info("*" * 59)
         logger.info(
             "| end of epoch {:3d} valid accuracy {:8.3f} and f1 score {:8.3f}".format(
@@ -237,17 +239,20 @@ class RNNTrainer:
         return accu_val, f1_val
 
     def report_metrics(model, dataloader, logger):
+        model.to(device)
         model.eval()
-        y_pred = torch.tensor([])
-        y_true = torch.tensor([])
+        y_pred = torch.tensor([]).to(device)
+        y_true = torch.tensor([]).to(device)
         with torch.no_grad():
             for text, label in dataloader:
                 prediction = model(text)
                 predicted_label = prediction.argmax(1)
                 y_pred = torch.cat((y_pred, predicted_label))
                 y_true = torch.cat((y_true, label))
+        y_true = y_true.cpu().numpy()
+        y_pred = y_pred.cpu().numpy()
         accu_val = accuracy_score(y_true=y_true, y_pred=y_pred)
-        f1_val = f1_score(y_true=y_true, y_pred=y_pred)
+        f1_val = f1_score(y_true=y_true, y_pred=y_pred, average="macro")
         logger.info("*" * 59)
         logger.info("|valid accuracy {:8.3f} and f1 score {:8.3f}".format(accu_val, f1_val))
         logger.info(classification_report(y_true=y_true, y_pred=y_pred))
