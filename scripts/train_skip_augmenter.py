@@ -12,7 +12,7 @@ from src.models.rnn_model import RNN
 from src.models.learned_masking import DeepSkipAugmenter, DeepSkipAugmenterTrainer, WeightedMaskClassificationLoss
 from src.utils.json_utils import append_json_lines
 from torch.utils.data import DataLoader
-from transformers import AutoModel, AutoTokenizer
+from transformers import AutoModelForMaskedLM, AutoTokenizer
 from sklearn.model_selection import ParameterGrid
 
 cur_dir = os.path.dirname(os.path.abspath(__file__))
@@ -148,7 +148,7 @@ def train_models(data_type):
         logger.info("~" * 75)
         logger.info(f"Starting training using the HuggingFace model {model_type}")
         # Get the model and tokenizer from huggingface
-        bert_model = AutoModel.from_pretrained(model_type)
+        bert_model = AutoModelForMaskedLM.from_pretrained(model_type)
         bert_tokenizer = AutoTokenizer.from_pretrained(model_type)
         # Get train, val, test paths
         training_json_path = DATA_TYPE_DICT[data_type]["json_train_path"]

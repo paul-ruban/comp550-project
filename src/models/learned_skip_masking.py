@@ -6,10 +6,12 @@ import torch
 import torch.nn.functional as F
 from typing import Tuple
 
+from nltk.text import TokenSearcher
 from torch.utils.data import DataLoader
+from transformers import AutoTokenizer, AutoModel
 from transformers.tokenization_utils import PreTrainedTokenizer
 
-from sklearn.metrics import accuracy_score, f1_score
+from sklearn.metrics import accuracy_score, f1_score, confusion_matrix, classification_report
 
 from src.models.rnn_model import RNN
 from src.data.dataio import Dataset
@@ -76,20 +78,22 @@ class DeepSkipAugmenter(torch.nn.Module):
 
         maskable_tokens = attention_mask * ~(special_tokens_mask > 0)
 
-        # Masking model: RNN
-        mask_out, mask_embeddings = self.masking_model(input_ids, ret_pre_dense=True)
+        # Masking model: RNN - TODO remove mask_embed
+        mask_out = self.masking_model(input_ids)
 
         # Decide what tokens to mask and mask them with [MASK] embeddings
         tokens_to_mask = (F.log_softmax(mask_out, dim=-1).argmax(dim=-1) * maskable_tokens).unsqueeze(dim=-1)
-        mask_emb = self.unmasking_model.embeddings.word_embeddings.weight[self.tokenizer.mask_token_id]
-        mask_embeddings = torch.where(tokens_to_mask > 0, mask_embeddings, mask_emb)
+        # mask_emb = self.unmasking_model.embeddings.word_embeddings.weight[self.tokenizer.mask_token_id]
+        # mask_embeddings = torch.where(tokens_to_mask > 0, mask_embeddings, mask_emb)
+        input_ids = torch.where(tokens_to_mask > 0, self.tokenizer.mask_token_id, input_ids)
 
         # Unmasking model: BERT
-        unmasked_output = self.unmasking_model(inputs_embeds=mask_embeddings, attention_mask=attention_mask)
-        unmasked_embeddings = unmasked_output["last_hidden_state"]
+        unmasked_output = self.unmasking_model(input_ids=input_ids, attention_mask=attention_mask)
+        print('unmasked_output is', unmasked_output)
+        unmasked_input_ids = unmasked_output["last_hidden_state"]
 
         # Classification: take the last output value
-        cls_out = self.classifier(inputs_embeds=unmasked_embeddings)[:,-1,:]
+        cls_out = self.classifier(inputs_embeds=unmasked_input_ids)[:,-1,:]
 
         return mask_out, cls_out
 
