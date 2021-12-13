@@ -77,10 +77,9 @@ class HighwayAugmenter(torch.nn.Module):
     ) -> Tuple[torch.tensor, torch.tensor]:
 
         maskable_tokens = attention_mask * ~(special_tokens_mask > 0)
-        # print("maskable_tokens", maskable_tokens)
 
         # Masking model: RNN
-        mask_out, mask_embeddings = self.masking_model(input_ids, ret_pre_dense=True)
+        mask_out, mask_embeddings = self.masking_model(input_ids=input_ids, ret_pre_dense=True)
 
         # Decide what tokens to mask and mask them with [MASK] embeddings
         tokens_to_mask = (mask_out.log_softmax(dim=-1).argmax(dim=-1) * maskable_tokens).unsqueeze(dim=-1)
@@ -90,7 +89,7 @@ class HighwayAugmenter(torch.nn.Module):
 
         # Unmasking model: BERT
         with torch.no_grad():
-            unmasked_output = self.unmasking_model(inputs_embeds=mask_embeddings, attention_mask=attention_mask)
+            unmasked_output = self.unmasking_model(input_ids=input_ids, attention_mask=attention_mask)
             unmasked_embeddings = unmasked_output["last_hidden_state"]
 
 
