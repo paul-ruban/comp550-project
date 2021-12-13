@@ -80,12 +80,10 @@ class HighwayAugmenter(torch.nn.Module):
 
         # Masking model: RNN
         mask_out, mask_embeddings = self.masking_model(input_ids, ret_pre_dense=True)
-        print("mask_out.shape", mask_out.shape)
 
         # Decide what tokens to mask and mask them with [MASK] embeddings
         tokens_to_mask = (F.log_softmax(mask_out, dim=-1).argmax(dim=-1) * maskable_tokens).unsqueeze(dim=-1)
         mask_emb = self.unmasking_model.embeddings.word_embeddings.weight[self.tokenizer.mask_token_id]
-        # TODO return back
         mask_embeddings = torch.where(tokens_to_mask > 0, mask_embeddings, mask_emb)
 
         # Unmasking model: BERT
@@ -93,9 +91,10 @@ class HighwayAugmenter(torch.nn.Module):
         unmasked_embeddings = unmasked_output["last_hidden_state"]
 
         # Classification: take the last output value
-        cls_out = self.classifier(inputs_embeds=unmasked_embeddings)[:,:,-1]
+        cls_out = self.classifier(inputs_embeds=unmasked_embeddings)
 
         return mask_out, cls_out
+
 
 class WeightedMaskClassificationLoss(torch.nn.Module):
     def __init__(
@@ -111,10 +110,10 @@ class WeightedMaskClassificationLoss(torch.nn.Module):
         self.mask_loss = torch.nn.CrossEntropyLoss(ignore_index=ignore_index)
         self.cls_loss = torch.nn.CrossEntropyLoss(ignore_index=ignore_index)
     
-    def forward(self, mask_log_probas, mask_labels, cls_log_probas, cls_labels):
-        mask_loss = self.lambda_mask * self.mask_loss(mask_log_probas, mask_labels)
+    def forward(self, mask_out, mask_labels, cls_out, cls_labels):
+        mask_loss = self.lambda_mask * self.mask_loss(mask_out, mask_labels)
         # print("mask_loss", mask_loss)
-        cls_loss = self.lambda_cls * self.mask_loss(cls_log_probas, cls_labels)
+        cls_loss = self.lambda_cls * self.mask_loss(cls_out, cls_labels)
         # print("cls_loss", cls_loss)
 
         return mask_loss + cls_loss
@@ -206,17 +205,19 @@ class HighwayAugmenterTrainer:
             special_tokens_mask = inputs["special_tokens_mask"].to(device)
 
             optimizer.zero_grad()
-            mask_log_probas, cls_log_probas = model(
+            mask_out, cls_out = model(
                 input_ids=input_ids,
                 attention_mask=attention_mask,
                 special_tokens_mask=special_tokens_mask
             )
+            print("mask_out.shape", mask_out.shape)
+            print("cls_out.shape", cls_out.shape)
             mask_labels = attention_mask * ~(special_tokens_mask > 0)
             cls_labels = batch["label"].to(device)
             loss = criterion(
-                mask_log_probas=mask_log_probas,
+                mask_out=mask_out,
                 mask_labels=mask_labels,
-                cls_log_probas=cls_log_probas,
+                cls_out=cls_out,
                 cls_labels=cls_labels
             )
             loss.backward()
