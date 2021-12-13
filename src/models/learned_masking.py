@@ -91,7 +91,7 @@ class HighwayAugmenter(torch.nn.Module):
         unmasked_embeddings = unmasked_output["last_hidden_state"]
 
         # Classification: take the last output value
-        cls_out = self.classifier(inputs_embeds=unmasked_embeddings)
+        cls_out = self.classifier(inputs_embeds=unmasked_embeddings)[:,-1,:]
 
         return mask_out, cls_out
 
@@ -111,8 +111,11 @@ class WeightedMaskClassificationLoss(torch.nn.Module):
         self.cls_loss = torch.nn.CrossEntropyLoss(ignore_index=ignore_index)
     
     def forward(self, mask_out, mask_labels, cls_out, cls_labels):
+        print("mask_out.shape", mask_out.shape)
+        print("mask_labels.shape", mask_labels.shape)
         mask_loss = self.lambda_mask * self.mask_loss(mask_out.transpose(-2, -1), mask_labels)
-        # print("mask_loss", mask_loss)
+        print("cls_out.shape", cls_out.shape)
+        print("cls_labels.shape", cls_labels.shape)
         cls_loss = self.lambda_cls * self.mask_loss(cls_out.transpose(-2, -1), cls_labels)
         # print("cls_loss", cls_loss)
 
