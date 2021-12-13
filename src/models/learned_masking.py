@@ -222,7 +222,7 @@ class HighwayAugmenterTrainer:
             )
             loss.backward()
             optimizer.step()
-            total_acc += (cls_log_probas.argmax(dim=1) == cls_labels).sum().item()
+            total_acc += (F.log_softmax(cls_out, dim=-1).argmax(dim=-1) == cls_labels).sum().item()
             total_count += cls_labels.size(0)
             if idx % self.log_interval == 0 and idx > 0:
                 logger.info(
