@@ -77,20 +77,22 @@ class HighwayAugmenter(torch.nn.Module):
     ) -> Tuple[torch.tensor, torch.tensor]:
 
         maskable_tokens = attention_mask * ~(special_tokens_mask > 0)
-        print("maskable_tokens", maskable_tokens)
+        # print("maskable_tokens", maskable_tokens)
 
         # Masking model: RNN
         mask_out, mask_embeddings = self.masking_model(input_ids, ret_pre_dense=True)
 
         # Decide what tokens to mask and mask them with [MASK] embeddings
         tokens_to_mask = (mask_out.log_softmax(dim=-1).argmax(dim=-1) * maskable_tokens).unsqueeze(dim=-1)
-        print("tokens_to_mask", tokens_to_mask)
+        # print("tokens_to_mask", tokens_to_mask)
         mask_emb = self.unmasking_model.embeddings.word_embeddings.weight[self.tokenizer.mask_token_id]
-        mask_embeddings = torch.where(tokens_to_mask > 0, mask_embeddings, mask_emb)
+        # mask_embeddings = torch.where(tokens_to_mask > 0, mask_embeddings, mask_emb)
 
         # Unmasking model: BERT
-        unmasked_output = self.unmasking_model(inputs_embeds=mask_embeddings, attention_mask=attention_mask)
-        unmasked_embeddings = unmasked_output["last_hidden_state"]
+        with torch.no_grad():
+            unmasked_output = self.unmasking_model(inputs_embeds=mask_embeddings, attention_mask=attention_mask)
+            unmasked_embeddings = unmasked_output["last_hidden_state"]
+
 
         # Classification: take the last output value
         cls_out = self.classifier(inputs_embeds=unmasked_embeddings)[:,-1,:]
@@ -115,10 +117,11 @@ class WeightedMaskClassificationLoss(torch.nn.Module):
     def forward(self, mask_out, mask_labels, cls_out, cls_labels):
         # need to transpose (-2, -1) to mathc [B, C, H]
         mask_loss = self.lambda_mask * self.mask_loss(mask_out.transpose(-2, -1), mask_labels)
-        print("mask_loss", mask_loss)
+        # print("mask_loss", mask_loss)
         cls_loss = self.lambda_cls * self.mask_loss(cls_out, cls_labels)
-        print("cls_loss", cls_loss)
+        # print("cls_loss", cls_loss)
 
+        return cls_loss
         return mask_loss + cls_loss
 
 
@@ -261,8 +264,8 @@ class HighwayAugmenterTrainer:
                     attention_mask=attention_mask,
                     special_tokens_mask=special_tokens_mask
                 )
-                print("mask_out.shape", mask_out.shape)
-                print("cls_out.shape", cls_out.shape)
+                # print("mask_out.shape", mask_out.shape)
+                # print("cls_out.shape", cls_out.shape)
                 mask_labels = attention_mask * ~(special_tokens_mask > 0)
                 
                 # TODO add logging of percentage of masked tokens
