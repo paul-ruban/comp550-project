@@ -79,13 +79,18 @@ class HighwayAugmenter(torch.nn.Module):
         maskable_tokens = attention_mask * ~(special_tokens_mask > 0)
 
         # Masking model: RNN
-        mask_out, mask_embeddings = self.masking_model(input_ids=input_ids, ret_pre_dense=True)
+        mask_out, _ = self.masking_model(input_ids=input_ids, ret_pre_dense=True)
+        with torch.no_grad():
+            mask_embeddings = self.unmasking_model.embeddings.word_embeddings(input_ids)
 
         # Decide what tokens to mask and mask them with [MASK] embeddings
-        tokens_to_mask = (mask_out.log_softmax(dim=-1).argmax(dim=-1) * maskable_tokens).unsqueeze(dim=-1)
-        # print("tokens_to_mask", tokens_to_mask)
+        # tokens_to_mask = F.gumbel_softmax(mask_out, hard=True).log_softmax[:,:,1] * maskable_tokens).unsqueeze(dim=-1)
+        tokens_to_mask = (F.gumbel_softmax(mask_out, hard=True)[:,:,1] * maskable_tokens).unsqueeze(dim=-1)
+        # print("tokens_to_mask.shape", tokens_to_mask.shape)
+        # print("mask_embeddings.shape", mask_embeddings.shape)
         mask_emb = self.unmasking_model.embeddings.word_embeddings.weight[self.tokenizer.mask_token_id]
-        # mask_embeddings = torch.where(tokens_to_mask > 0, mask_embeddings, mask_emb)
+        # print("mask_emb.shape", mask_emb.shape)
+        mask_embeddings = torch.where(tokens_to_mask > 0, mask_embeddings, mask_emb)
 
         # Unmasking model: BERT
         with torch.no_grad():
@@ -110,14 +115,16 @@ class WeightedMaskClassificationLoss(torch.nn.Module):
         assert (lambda_mask >= 0 and lambda_cls >= 0)
         self.lambda_mask = lambda_mask
         self.lambda_cls = lambda_cls
-        self.mask_loss = torch.nn.BCELoss()
-        self.cls_loss = torch.nn.CrossEntropyLoss(ignore_index=ignore_index)
+        # self.mask_loss = torch.nn.BCELoss()
+        self.mask_loss = torch.nn.CrossEntropyLoss(ignore_index=ignore_index)
+        self.cls_loss = torch.nn.CrossEntropyLoss()
     
     def forward(self, mask_out, mask_labels, cls_out, cls_labels):
-        mask_loss = self.lambda_mask * self.mask_loss(
-            torch.sigmoid(mask_out.squeeze(dim=-1)), 
-            mask_labels.float()
-        )
+        # mask_loss = self.lambda_mask * self.mask_loss(
+        #     torch.sigmoid(mask_out.squeeze(dim=-1)), 
+        #     mask_labels.float()
+        # )
+        mask_loss = self.lambda_mask * self.mask_loss(mask_out.transpose(-2, -1), mask_labels)
         cls_loss = self.lambda_cls * self.cls_loss(cls_out, cls_labels)
 
         return mask_loss + cls_loss
