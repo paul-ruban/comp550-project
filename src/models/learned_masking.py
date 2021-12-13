@@ -84,9 +84,7 @@ class HighwayAugmenter(torch.nn.Module):
         print("mask_out.shape", mask_out.shape)
         # Decide what tokens to mask and mask them with [MASK] embeddings
         # tokens_to_mask = F.gumbel_softmax(mask_out, hard=True).log_softmax[:,:,1] * maskable_tokens).unsqueeze(dim=-1)
-        tokens_to_mask = F.gumbel_softmax(mask_out, hard=True).log_softmax[:,:,1]
-        print(tokens_to_mask)
-        print("tokens_to_mask.shape", tokens_to_mask.shape)
+        tokens_to_mask = (F.gumbel_softmax(mask_out, hard=True)[:,:,1] * maskable_tokens).unsqueeze(dim=-1)
         # print("tokens_to_mask", tokens_to_mask)
         mask_emb = self.unmasking_model.embeddings.word_embeddings.weight[self.tokenizer.mask_token_id]
         # mask_embeddings = torch.where(tokens_to_mask > 0, mask_embeddings, mask_emb)
@@ -116,14 +114,14 @@ class WeightedMaskClassificationLoss(torch.nn.Module):
         self.lambda_cls = lambda_cls
         # self.mask_loss = torch.nn.BCELoss()
         self.mask_loss = torch.nn.CrossEntropyLoss(ignore_index=ignore_index)
-        self.cls_loss = torch.nn.CrossEntropyLoss(ignore_index=ignore_index)
+        self.cls_loss = torch.nn.CrossEntropyLoss()
     
     def forward(self, mask_out, mask_labels, cls_out, cls_labels):
         # mask_loss = self.lambda_mask * self.mask_loss(
         #     torch.sigmoid(mask_out.squeeze(dim=-1)), 
         #     mask_labels.float()
         # )
-        mask_loss = self.lambda_mask * self.mask_loss(cls_out.transpose(-2, -1), cls_labels)
+        mask_loss = self.lambda_mask * self.mask_loss(mask_out.transpose(-2, -1), mask_labels)
         cls_loss = self.lambda_cls * self.cls_loss(cls_out, cls_labels)
 
         return mask_loss + cls_loss
