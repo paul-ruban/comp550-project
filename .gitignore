@@ -158,3 +158,6 @@ job_*
 # Ignore the bert download
 BiomedNLP-PubMedBERT-base-uncased-abstract-fulltext/
 scripts/BiomedNLP-PubMedBERT-base-uncased-abstract-fulltext/
+
+# Ignore virtualenv from compute canada
+env_proj/*
