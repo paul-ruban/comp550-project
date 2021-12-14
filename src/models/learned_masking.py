@@ -163,7 +163,7 @@ class HighwayAugmenterTrainer:
         logger: logging.Logger,
         num_epochs: int,
         log_interval: int = 10,
-        early_stopping_threshold: int = 100,
+        early_stopping_threshold: int = 10,
     ) -> None:
 
         self.model = model
