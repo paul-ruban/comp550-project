@@ -98,13 +98,13 @@ LOSS = WeightedMaskClassificationLoss()
 HYPERPARAMETER_GRID = {
     "model_type": ["lstm"],
     "lr": [0.001],
-    "num_epochs": [1],
+    "num_epochs": [100],
     "batch_size": [32],
     "hidden_dim": [256],
     "num_layers": [1],
     "dropout": [0.2],
     "bidirectional": [True, False],
-    "max_seq_length": [256]
+    "max_seq_length": [64]
 }
 
 OUTPUT_DIM = {
@@ -211,7 +211,7 @@ def train_models(data_type):
                         output_size=OUTPUT_DIM[data_type],
                         bidirectional=hyperparam["bidirectional"],
                         dropout=hyperparam["dropout"],
-                        # inject_feat=True
+                        inject_feat=True
                     ),
                     max_seq_length=hyperparam["max_seq_length"]
                 )
