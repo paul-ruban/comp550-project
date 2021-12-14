@@ -190,16 +190,18 @@ def train_models(data_type):
                 model = HighwayAugmenter(
                     tokenizer=bert_tokenizer,
                     masking_model=RNN(
+                        rnn_type=hyperparam["model_type"],
                         embeddings_layer=deepcopy(bert_model.embeddings.word_embeddings),
                         hidden_dim=hyperparam["hidden_dim"],
                         num_layers=hyperparam["num_layers"],
                         output_size=2, 
                         bidirectional=hyperparam["bidirectional"],
                         dropout=hyperparam["dropout"],
-                        project_to_emb_dim=True
+                        many2one=False
                     ),
                     unmasking_model=bert_model,
                     classifier=RNN(
+                        rnn_type=hyperparam["model_type"],
                         embeddings_layer=deepcopy(bert_model.embeddings.word_embeddings),
                         hidden_dim=hyperparam["hidden_dim"],
                         num_layers=hyperparam["num_layers"],

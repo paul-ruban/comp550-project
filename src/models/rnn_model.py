@@ -13,32 +13,24 @@ from transformers.tokenization_utils import PreTrainedTokenizer
 
 class RNN(nn.Module):
     def __init__(
-        self, 
-        input_size : int = 30522, # ignored if embeddings_layer is not None, instead inferred from embeddings_layer
-        embedding_dim : int = 768, # ignored if embeddings_layer is not None, instead inferred from embeddings_layer
-        output_size : int = 30522,
-        embeddings_layer : torch.nn.modules.sparse.Embedding = None,
+        self,
         rnn_type : str = "lstm", 
+        embeddings_layer : torch.nn.modules.sparse.Embedding = None,
         hidden_dim : int = 768, 
         num_layers : int = 1,
-        dropout : float = 0.1,
+        output_size : int = 30522,
         bidirectional : bool = False,
-        project_to_emb_dim : bool = False # whether to project output of RNN to the dimension of embeddings (useful for BERT downstream)
+        dropout : float = 0.1,
+        many2one : bool = True # predict output the whole sequence
     ) -> None:
+
         super().__init__()
-        if embeddings_layer is not None:
-            input_size, embedding_dim = embeddings_layer.weight.shape
-            self.embeddings = embeddings_layer
-        else:
-            assert (input_size > 0 and embedding_dim > 0), "Negative input_size or embedding_dim."
-            self.embeddings = nn.Embedding(num_embeddings=input_size, embedding_dim=embedding_dim)
-
         assert (rnn_type in ["lstm", "gru"]), "rnn_type can be one of: 'lstm', 'gru'."
-
         rnn_type = nn.LSTM if rnn_type == "lstm" else nn.GRU
+        self.embeddings = embeddings_layer
 
         self.rnn = rnn_type(
-            input_size=embedding_dim, 
+            input_size=self.embeddings.embedding_dim, 
             hidden_size=hidden_dim,
             num_layers=num_layers,
             dropout=dropout if num_layers > 1 else 0, # prevents warning for 1 layer
@@ -47,14 +39,7 @@ class RNN(nn.Module):
         )
 
         self.dropout = nn.Dropout(p=dropout) if dropout > 0 else None
-        
-        # project 
-        self.project_to_emb_dim = project_to_emb_dim
-        if project_to_emb_dim:
-            self.projection = nn.Linear(in_features=hidden_dim * (2 if bidirectional else 1), out_features=embedding_dim)
-            self.dense = nn.Linear(in_features=embedding_dim, out_features=output_size)
-        else:
-            self.dense = nn.Linear(in_features=hidden_dim * (2 if bidirectional else 1), out_features=output_size)
+        self.dense = nn.Linear(in_features=hidden_dim * (2 if bidirectional else 1), out_features=output_size)
         
     def forward(
         self, 
@@ -66,18 +51,20 @@ class RNN(nn.Module):
         assert (input_ids is None or inputs_embeds is None), "Can take either input_ids or inputs_embeds, not both."
         if inputs_embeds is None:
             inputs_embeds = self.embeddings(input_ids)
-        x, _ = self.rnn(inputs_embeds)
+        
+        _, (h, _) = self.rnn(inputs_embeds)
+
         if self.dropout:
-            x = self.dropout(x)
-        if self.project_to_emb_dim:
-            x = self.projection(x)
-            if self.dropout:
-                x = self.dropout(x)
-        out = self.dense(x)
-        if ret_pre_dense:
-            return out, x
+            h = self.dropout(h)
+        if self.rnn.bidirectional:
+            h = torch.cat((h[-2, :, :], h[-1, :, :]), dim=1)
         else:
-            return out
+            h = h[-1, :, :]
+        print("h.shape", h.shape)
+        out = self.dense(h)
+
+        # print("x.shape", x.shape)
+        return out
 
 
 class RNNBaseLM(Model):

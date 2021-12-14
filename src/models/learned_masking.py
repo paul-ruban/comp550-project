@@ -64,6 +64,7 @@ class HighwayAugmenter(torch.nn.Module):
     
     def get_params(self):
         # get parameters of masking_model and classifier
+        return self.classifier.parameters()
         return [
             {"params": self.masking_model.parameters()},
             {"params": self.classifier.parameters()}
@@ -76,38 +77,40 @@ class HighwayAugmenter(torch.nn.Module):
         special_tokens_mask: torch.tensor = None
     ) -> Tuple[torch.tensor, torch.tensor]:
 
-        maskable_tokens = attention_mask * ~(special_tokens_mask > 0)
+        # maskable_tokens = attention_mask * ~(special_tokens_mask > 0)
 
-        # Masking model: RNN
-        mask_out = self.masking_model(input_ids=input_ids)
-        with torch.no_grad():
-            mask_embeddings = self.unmasking_model.embeddings.word_embeddings(input_ids)
+        # # Masking model: RNN
+        # mask_out = self.masking_model(input_ids=input_ids)
+        # with torch.no_grad():
+        #     mask_embeddings = self.unmasking_model.embeddings.word_embeddings(input_ids)
 
-        # Decide what tokens to mask and mask them with [MASK] embeddings
-        # gumbel_softmax is a differentiable argmax here
-        tokens_to_mask = (F.gumbel_softmax(mask_out, hard=True)[:,:,1] * maskable_tokens).unsqueeze(dim=-1)
-        # print("tokens_to_mask", tokens_to_mask.squeeze())
-        print("masked ratio:", (tokens_to_mask.squeeze(dim=-1).sum(dim=-1) / maskable_tokens.sum(dim=-1)).mean())
-        mask_emb = self.unmasking_model.embeddings.word_embeddings.weight[self.tokenizer.mask_token_id]
-        mask_embeddings = torch.where(tokens_to_mask > 0, mask_embeddings, mask_emb)
-        # print("mask_embeddings:", mask_embeddings)
+        # # Decide what tokens to mask and mask them with [MASK] embeddings
+        # # gumbel_softmax is a differentiable argmax here
+        # # tokens_to_mask = (F.gumbel_softmax(mask_out, hard=True)[:,:,1] * maskable_tokens).unsqueeze(dim=-1)
+        # # print("tokens_to_mask", tokens_to_mask.squeeze())
+        # # print("masked ratio:", (tokens_to_mask.squeeze(dim=-1).sum(dim=-1) / maskable_tokens.sum(dim=-1)).mean())
+        # # mask_emb = self.unmasking_model.embeddings.word_embeddings.weight[self.tokenizer.mask_token_id]
+        # # mask_embeddings = torch.where(tokens_to_mask > 0, mask_embeddings, mask_emb)
+        # # print("mask_embeddings:", mask_embeddings)
 
-        # Unmasking model: BERT
-        with torch.no_grad():
-            unmasked_output = self.unmasking_model(inputs_embeds=mask_embeddings, attention_mask=attention_mask)
-            unmasked_embeddings = unmasked_output["last_hidden_state"]
+        # # Unmasking model: BERT
+        # with torch.no_grad():
+        #     unmasked_output = self.unmasking_model(inputs_embeds=mask_embeddings, attention_mask=attention_mask)
+        #     unmasked_embeddings = unmasked_output["last_hidden_state"]
 
 
         # Classification: take the last output value
-        cls_out = self.classifier(inputs_embeds=unmasked_embeddings)[:,-1,:]
+        # cls_out = self.classifier(inputs_embeds=unmasked_embeddings)[:,-1,:]
+        cls_out = self.classifier(input_ids=input_ids)
 
-        return mask_out, cls_out
+        return cls_out
+        # return mask_out, cls_out
 
 
 class WeightedMaskClassificationLoss(torch.nn.Module):
     def __init__(
         self,
-        lambda_mask : float = .0,
+        lambda_mask : float = 1.0,
         lambda_cls : float = 1.0,
         ignore_index = 0
     ) -> None:
@@ -119,15 +122,17 @@ class WeightedMaskClassificationLoss(torch.nn.Module):
         self.mask_loss = torch.nn.CrossEntropyLoss(ignore_index=ignore_index)
         self.cls_loss = torch.nn.CrossEntropyLoss()
     
-    def forward(self, mask_out, mask_labels, cls_out, cls_labels):
+    # def forward(self, mask_out, mask_labels, cls_out, cls_labels):
+    def forward(self, cls_out, cls_labels):
         # mask_loss = self.lambda_mask * self.mask_loss(
         #     torch.sigmoid(mask_out.squeeze(dim=-1)), 
         #     mask_labels.float()
         # )
-        mask_loss = self.lambda_mask * self.mask_loss(mask_out.transpose(-2, -1), mask_labels)
+        # mask_loss = self.lambda_mask * self.mask_loss(mask_out.transpose(-2, -1), mask_labels)
         cls_loss = self.lambda_cls * self.cls_loss(cls_out, cls_labels)
 
-        return mask_loss + cls_loss
+        # return mask_loss + cls_loss
+        return cls_loss
 
 
 class HighwayAugmenterTrainer:
@@ -140,7 +145,7 @@ class HighwayAugmenterTrainer:
         val_dataloader: DataLoader,
         logger: logging.Logger,
         num_epochs: int,
-        log_interval: int = 50,
+        log_interval: int = 10,
         early_stopping_threshold: int = 10,
     ) -> None:
 
@@ -216,7 +221,7 @@ class HighwayAugmenterTrainer:
             special_tokens_mask = inputs["special_tokens_mask"].to(device)
 
             optimizer.zero_grad()
-            mask_out, cls_out = model(
+            cls_out = model(
                 input_ids=input_ids,
                 attention_mask=attention_mask,
                 special_tokens_mask=special_tokens_mask
@@ -226,8 +231,8 @@ class HighwayAugmenterTrainer:
             mask_labels = attention_mask * ~(special_tokens_mask > 0)
             cls_labels = batch["label"].to(device)
             loss = criterion(
-                mask_out=mask_out,
-                mask_labels=mask_labels,
+                # mask_out=mask_out,
+                # mask_labels=mask_labels,
                 cls_out=cls_out,
                 cls_labels=cls_labels
             )
@@ -264,7 +269,7 @@ class HighwayAugmenterTrainer:
                 input_ids = inputs["input_ids"].to(device)
                 attention_mask = inputs["attention_mask"].to(device)
                 special_tokens_mask = inputs["special_tokens_mask"].to(device)
-                mask_out, cls_out = model(
+                cls_out = model(
                     input_ids=input_ids,
                     attention_mask=attention_mask,
                     special_tokens_mask=special_tokens_mask
@@ -281,7 +286,7 @@ class HighwayAugmenterTrainer:
         y_true = torch.cat(y_true).cpu() # back to cpu for sklearn
 
         accu_val = accuracy_score(y_true=y_true, y_pred=y_pred)
-        f1_val = f1_score(y_true=y_true, y_pred=y_pred, average="micro")
+        f1_val = f1_score(y_true=y_true, y_pred=y_pred, average="macro")
         logger.info("*" * 59)
         logger.info(
             "| end of epoch {:3d} valid accuracy {:8.3f} and f1 score {:8.3f}".format(
@@ -323,7 +328,7 @@ class HighwayAugmenterTrainer:
         y_pred = torch.cat(y_pred).cpu() # back to cpu for sklearn
         y_true = torch.cat(y_true).cpu() # back to cpu for sklearn
         accu_val = accuracy_score(y_true=y_true, y_pred=y_pred)
-        f1_val = f1_score(y_true=y_true, y_pred=y_pred, average="micro")
+        f1_val = f1_score(y_true=y_true, y_pred=y_pred, average="macro")
         logger.info("*" * 59)
         logger.info("|valid accuracy {:8.3f} and f1 score {:8.3f}".format(accu_val, f1_val))
         logger.info(classification_report(y_true=y_true, y_pred=y_pred))
