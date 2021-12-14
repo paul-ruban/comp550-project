@@ -79,7 +79,7 @@ class DeepSkipAugmenter(torch.nn.Module):
         maskable_tokens = attention_mask * ~(special_tokens_mask > 0)
 
         # Masking model: RNN - TODO remove mask_embed
-        mask_out = self.masking_model(input_ids)
+        mask_out = self.masking_model(input_ids=input_ids)
 
         # Decide what tokens to mask and mask them with [MASK] embeddings
         tokens_to_mask = (F.log_softmax(mask_out, dim=-1).argmax(dim=-1) * maskable_tokens).unsqueeze(dim=-1)
@@ -95,9 +95,10 @@ class DeepSkipAugmenter(torch.nn.Module):
         # print(input_ids.shape)
 
         # Unmasking model: BERT
-        unmasked_output = self.unmasking_model(input_ids=input_ids, attention_mask=attention_mask)
-        unmasked_token_ids = unmasked_output["logits"].argmax(dim=-1)
-        # print('unmasked_token_ids is', unmasked_token_ids)
+        with torch.no_grad():
+            unmasked_output = self.unmasking_model(input_ids=input_ids, attention_mask=attention_mask)
+            unmasked_token_ids = unmasked_output["logits"].argmax(dim=-1)
+            # print('unmasked_token_ids is', unmasked_token_ids)
 
         # Classification: take the last output value
         cls_out = self.classifier(input_ids=unmasked_token_ids)[:,-1,:]
@@ -117,7 +118,7 @@ class WeightedMaskClassificationLoss(torch.nn.Module):
         self.lambda_mask = lambda_mask
         self.lambda_cls = lambda_cls
         self.mask_loss = torch.nn.CrossEntropyLoss(ignore_index=ignore_index)
-        self.cls_loss = torch.nn.CrossEntropyLoss(ignore_index=ignore_index)
+        self.cls_loss = torch.nn.CrossEntropyLoss()
     
     def forward(self, mask_out, mask_labels, cls_out, cls_labels):
         # need to transpose (-2, -1) to mathc [B, C, H]
@@ -283,3 +284,70 @@ class DeepSkipAugmenterTrainer:
         )
         logger.info("*" * 59)
         return accu_val, f1_val
+
+    def report_metrics(model, dataloader, logger):
+        model.eval()
+        model = model.to(device)
+        y_pred = []
+        y_true = []
+        with torch.no_grad():
+            for batch in dataloader:
+                inputs = model.tokenizer(
+                    text=batch["text"],
+                    padding=True,
+                    return_attention_mask=True,
+                    return_special_tokens_mask=True,
+                    truncation=True,
+                    return_tensors="pt",
+                    max_length=model.max_seq_length
+                )
+                input_ids = inputs["input_ids"].to(device)
+                attention_mask = inputs["attention_mask"].to(device)
+                special_tokens_mask = inputs["special_tokens_mask"].to(device)
+                mask_log_probas, cls_log_probas = model(
+                    input_ids=input_ids,
+                    attention_mask=attention_mask,
+                    special_tokens_mask=special_tokens_mask
+                )
+                mask_labels = attention_mask * ~(special_tokens_mask > 0)
+                # TODO add logging of percentage of masked tokens
+                predicted_label = cls_log_probas.argmax(dim=1)
+                y_pred.append(predicted_label)
+                y_true.append(batch["label"])
+        y_pred = torch.cat(y_pred).cpu() # back to cpu for sklearn
+        y_true = torch.cat(y_true).cpu() # back to cpu for sklearn
+        accu_val = accuracy_score(y_true=y_true, y_pred=y_pred)
+        f1_val = f1_score(y_true=y_true, y_pred=y_pred, average="micro")
+        logger.info("*" * 59)
+        logger.info("|valid accuracy {:8.3f} and f1 score {:8.3f}".format(accu_val, f1_val))
+        logger.info(classification_report(y_true=y_true, y_pred=y_pred))
+        logger.info(confusion_matrix(y_true=y_true, y_pred=y_pred))
+        logger.info("*" * 59)
+        return accu_val, f1_val
+
+    # Code from https://towardsdatascience.com/lstm-text-classification-using-pytorch-2c6c657f8fc0
+    def save_checkpoint(save_path, model, optimizer, loss):
+        if save_path is None:
+            return
+
+        state_dict = {
+            "model_state_dict": model.state_dict(),
+            "optimizer_state_dict": optimizer.state_dict(),
+            "loss": loss,
+        }
+
+        torch.save(state_dict, save_path)
+        logger.info(f"Model saved to ==> {save_path}")
+
+    def load_checkpoint(load_path, model, optimizer):
+        if load_path is None:
+            return
+
+        state_dict = torch.load(load_path, map_location=device)
+        logger.info(f"Model loaded from <== {load_path}")
+
+        model.load_state_dict(state_dict["model_state_dict"])
+        optimizer.load_state_dict(state_dict["optimizer_state_dict"])
+
+        return state_dict["valid_loss"]
+        
