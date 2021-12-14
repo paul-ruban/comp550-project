@@ -100,7 +100,7 @@ HYPERPARAMETER_GRID = {
     "lr": [0.001, 0.0001],
     "num_epochs": [100],
     "batch_size": [32],
-    "hidden_dim": [256],
+    "hidden_dim": [256, 512],
     "num_layers": [1, 2],
     "dropout": [0.2],
     "bidirectional": [True, False],
