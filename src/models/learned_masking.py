@@ -76,31 +76,32 @@ class HighwayAugmenter(torch.nn.Module):
         special_tokens_mask: torch.tensor = None
     ) -> Tuple[torch.tensor, torch.tensor]:
 
-        # maskable_tokens = attention_mask * ~(special_tokens_mask > 0)
+        maskable_tokens = attention_mask * ~(special_tokens_mask > 0)
 
         # # Masking model: RNN
         mask_out = self.masking_model(input_ids=input_ids)
-        # with torch.no_grad():
-        #     mask_embeddings = self.unmasking_model.embeddings.word_embeddings(input_ids)
+        # print("mask_out.shape", mask_out.shape)
 
-        # # Decide what tokens to mask and mask them with [MASK] embeddings
-        # # gumbel_softmax is a differentiable argmax here
-        # # tokens_to_mask = (F.gumbel_softmax(mask_out, hard=True)[:,:,1] * maskable_tokens).unsqueeze(dim=-1)
-        # # print("tokens_to_mask", tokens_to_mask.squeeze())
-        # # print("masked ratio:", (tokens_to_mask.squeeze(dim=-1).sum(dim=-1) / maskable_tokens.sum(dim=-1)).mean())
-        # # mask_emb = self.unmasking_model.embeddings.word_embeddings.weight[self.tokenizer.mask_token_id]
-        # # mask_embeddings = torch.where(tokens_to_mask > 0, mask_embeddings, mask_emb)
-        # # print("mask_embeddings:", mask_embeddings)
+        with torch.no_grad():
+            mask_embeddings = self.unmasking_model.embeddings(input_ids)
+        # Decide what tokens to mask and mask them with [MASK] embeddings
+        # gumbel_softmax is a differentiable argmax here
+        tokens_to_mask = (F.gumbel_softmax(mask_out, hard=True)[:,:,1] * maskable_tokens).unsqueeze(dim=-1)
+        # print("tokens_to_mask", tokens_to_mask.squeeze())
+        print("masked ratio:", (tokens_to_mask.squeeze(dim=-1).sum(dim=-1) / maskable_tokens.sum(dim=-1)).mean())
+        mask_emb = self.unmasking_model.embeddings.word_embeddings.weight[self.tokenizer.mask_token_id]
+        mask_embeddings = torch.where(tokens_to_mask > 0, mask_embeddings, mask_emb)
+        # print("mask_embeddings:", mask_embeddings)
 
         # # Unmasking model: BERT
-        # with torch.no_grad():
-        #     unmasked_output = self.unmasking_model(inputs_embeds=mask_embeddings, attention_mask=attention_mask)
-        #     unmasked_embeddings = unmasked_output["last_hidden_state"]
+        with torch.no_grad():
+            unmasked_output = self.unmasking_model(inputs_embeds=mask_embeddings, attention_mask=attention_mask)
+            unmasked_embeddings = unmasked_output["last_hidden_state"]
 
 
         # Classification: take the last output value
         # cls_out = self.classifier(inputs_embeds=unmasked_embeddings)[:,-1,:]
-        cls_out = self.classifier(input_ids=input_ids, seq2seq=False)
+        cls_out = self.classifier(inputs_embeds=unmasked_embeddings, seq2seq=False)
 
         return mask_out, cls_out
 

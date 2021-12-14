@@ -65,6 +65,7 @@ class RNN(nn.Module):
             else:
                 # Only use last hidden state
                 x = x[:,-1]
+        # print("x.shape", x.shape)
         if self.dropout:
             x = self.dropout(x)
         x = self.dense(x)

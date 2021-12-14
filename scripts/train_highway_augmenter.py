@@ -100,7 +100,7 @@ HYPERPARAMETER_GRID = {
     "num_layers": [1],
     "dropout": [0.2],
     "bidirectional": [True, False],
-    "max_seq_length": [128]
+    "max_seq_length": [64]
 }
 
 OUTPUT_DIM = {
