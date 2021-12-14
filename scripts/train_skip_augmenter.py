@@ -300,3 +300,4 @@ if __name__ == "__main__":
 # Usage:
 #   1. source installation.sh 
 #   2. python scripts/train_skip_augmenter.py -t articles
+#   3. nvidia-smi

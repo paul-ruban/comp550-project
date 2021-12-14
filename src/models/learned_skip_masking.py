@@ -284,3 +284,70 @@ class DeepSkipAugmenterTrainer:
         )
         logger.info("*" * 59)
         return accu_val, f1_val
+
+    def report_metrics(model, dataloader, logger):
+        model.eval()
+        model = model.to(device)
+        y_pred = []
+        y_true = []
+        with torch.no_grad():
+            for batch in dataloader:
+                inputs = model.tokenizer(
+                    text=batch["text"],
+                    padding=True,
+                    return_attention_mask=True,
+                    return_special_tokens_mask=True,
+                    truncation=True,
+                    return_tensors="pt",
+                    max_length=model.max_seq_length
+                )
+                input_ids = inputs["input_ids"].to(device)
+                attention_mask = inputs["attention_mask"].to(device)
+                special_tokens_mask = inputs["special_tokens_mask"].to(device)
+                mask_log_probas, cls_log_probas = model(
+                    input_ids=input_ids,
+                    attention_mask=attention_mask,
+                    special_tokens_mask=special_tokens_mask
+                )
+                mask_labels = attention_mask * ~(special_tokens_mask > 0)
+                # TODO add logging of percentage of masked tokens
+                predicted_label = cls_log_probas.argmax(dim=1)
+                y_pred.append(predicted_label)
+                y_true.append(batch["label"])
+        y_pred = torch.cat(y_pred).cpu() # back to cpu for sklearn
+        y_true = torch.cat(y_true).cpu() # back to cpu for sklearn
+        accu_val = accuracy_score(y_true=y_true, y_pred=y_pred)
+        f1_val = f1_score(y_true=y_true, y_pred=y_pred, average="micro")
+        logger.info("*" * 59)
+        logger.info("|valid accuracy {:8.3f} and f1 score {:8.3f}".format(accu_val, f1_val))
+        logger.info(classification_report(y_true=y_true, y_pred=y_pred))
+        logger.info(confusion_matrix(y_true=y_true, y_pred=y_pred))
+        logger.info("*" * 59)
+        return accu_val, f1_val
+
+    # Code from https://towardsdatascience.com/lstm-text-classification-using-pytorch-2c6c657f8fc0
+    def save_checkpoint(save_path, model, optimizer, loss):
+        if save_path is None:
+            return
+
+        state_dict = {
+            "model_state_dict": model.state_dict(),
+            "optimizer_state_dict": optimizer.state_dict(),
+            "loss": loss,
+        }
+
+        torch.save(state_dict, save_path)
+        logger.info(f"Model saved to ==> {save_path}")
+
+    def load_checkpoint(load_path, model, optimizer):
+        if load_path is None:
+            return
+
+        state_dict = torch.load(load_path, map_location=device)
+        logger.info(f"Model loaded from <== {load_path}")
+
+        model.load_state_dict(state_dict["model_state_dict"])
+        optimizer.load_state_dict(state_dict["optimizer_state_dict"])
+
+        return state_dict["valid_loss"]
+        
