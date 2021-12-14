@@ -20,8 +20,8 @@ logger = logging.getLogger()
 
 
 # CONSTANTS #
-
-LOGGER_FOLDER_PATH = os.path.join(cur_dir, "..", "logs", "training_highway_augmenter")
+EXP_NAME = "training_highway_augmenter"
+LOGGER_FOLDER_PATH = os.path.join(cur_dir, "..", "logs", EXP_NAME)
 DATA_TYPE_DICT = {
     "polarity": {
         "json_train_path": os.path.join(
@@ -34,7 +34,7 @@ DATA_TYPE_DICT = {
             cur_dir, "..", "data", "rt-polaritydata", "augmentation", "test.json"
         ),
         "json_train_log_path": os.path.join(
-            cur_dir, "..", "logs", "training_highway_augmenter", "polarity.json"
+            cur_dir, "..", "logs", EXP_NAME, "polarity.json"
         ),
         # Change to save to the augmentation
         # "pickle_folder_path": "/home/mila/c/cesare.spinoso/scratch/datasets_550/polarity",
@@ -52,7 +52,7 @@ DATA_TYPE_DICT = {
             cur_dir, "..", "data", "articles", "augmentation", "test.json"
         ),
         "json_train_log_path": os.path.join(
-            cur_dir, "..", "logs", "training_highway_augmenter", "articles.json"
+            cur_dir, "..", "logs", EXP_NAME, "articles.json"
         ),
         # Change to save to the augmentation
         # "pickle_folder_path": "/home/mila/c/cesare.spinoso/scratch/datasets_550/articles",
@@ -69,7 +69,7 @@ DATA_TYPE_DICT = {
             cur_dir, "..", "data", "smokers", "augmentation", "test.json"
         ),
         "json_train_log_path": os.path.join(
-            cur_dir, "..", "logs", "training_rnn_classif", "smokers.json"
+            cur_dir, "..", "logs", EXP_NAME, "smokers.json"
         ),
         # Change to save to the augmentation
         # "pickle_folder_path": "/home/mila/c/cesare.spinoso/scratch/datasets_550/smokers",
