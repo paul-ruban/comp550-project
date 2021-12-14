@@ -64,7 +64,6 @@ class HighwayAugmenter(torch.nn.Module):
     
     def get_params(self):
         # get parameters of masking_model and classifier
-        # return self.classifier.parameters()
         return [
             {"params": self.masking_model.parameters()},
             {"params": self.classifier.parameters()}
@@ -101,7 +100,7 @@ class HighwayAugmenter(torch.nn.Module):
 
         # Classification: take the last output value
         # cls_out = self.classifier(inputs_embeds=unmasked_embeddings)[:,-1,:]
-        cls_out = self.classifier(input_ids=input_ids)
+        cls_out = self.classifier(input_ids=input_ids, seq2seq=False)
 
         return mask_out, cls_out
 
@@ -128,8 +127,8 @@ class WeightedMaskClassificationLoss(torch.nn.Module):
         #     mask_labels.float()
         # )
         # mask_loss = self.lambda_mask * self.mask_loss(mask_out.transpose(-2, -1), mask_labels)
-        print("cls_out.shape", cls_out.shape)
-        print("cls_labels.shape", cls_labels.shape)
+        # print("cls_out.shape", cls_out.shape)
+        # print("cls_labels.shape", cls_labels.shape)
         cls_loss = self.lambda_cls * self.cls_loss(cls_out, cls_labels)
 
         # return mask_loss + cls_loss
@@ -270,7 +269,7 @@ class HighwayAugmenterTrainer:
                 input_ids = inputs["input_ids"].to(device)
                 attention_mask = inputs["attention_mask"].to(device)
                 special_tokens_mask = inputs["special_tokens_mask"].to(device)
-                cls_out = model(
+                mask_out, cls_out = model(
                     input_ids=input_ids,
                     attention_mask=attention_mask,
                     special_tokens_mask=special_tokens_mask

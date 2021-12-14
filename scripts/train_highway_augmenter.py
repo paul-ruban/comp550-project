@@ -94,7 +94,7 @@ LOSS = WeightedMaskClassificationLoss()
 HYPERPARAMETER_GRID = {
     "model_type": ["lstm"],
     "lr": [0.001],
-    "num_epochs": [10],
+    "num_epochs": [50],
     "batch_size": [32],
     "hidden_dim": [256],
     "num_layers": [1],
