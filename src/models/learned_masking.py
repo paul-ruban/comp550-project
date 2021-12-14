@@ -100,7 +100,6 @@ class HighwayAugmenter(torch.nn.Module):
 
 
         # Classification: take the last output value
-        # cls_out = self.classifier(inputs_embeds=unmasked_embeddings)[:,-1,:]
         cls_out = self.classifier(inputs_embeds=unmasked_embeddings, seq2seq=False)
 
         return mask_out, cls_out
@@ -117,23 +116,27 @@ class WeightedMaskClassificationLoss(torch.nn.Module):
         assert (lambda_mask >= 0 and lambda_cls >= 0)
         self.lambda_mask = lambda_mask
         self.lambda_cls = lambda_cls
-        # self.mask_loss = torch.nn.BCELoss()
-        self.mask_loss = torch.nn.CrossEntropyLoss(ignore_index=ignore_index)
+        self.mask_loss = torch.nn.CrossEntropyLoss()
         self.cls_loss = torch.nn.CrossEntropyLoss()
     
-    def forward(self, mask_out, mask_labels, cls_out, cls_labels):
-    # def forward(self, cls_out, cls_labels):
-        # mask_loss = self.lambda_mask * self.mask_loss(
-        #     torch.sigmoid(mask_out.squeeze(dim=-1)), 
-        #     mask_labels.float()
-        # )
-        # mask_loss = self.lambda_mask * self.mask_loss(mask_out.transpose(-2, -1), mask_labels)
+    def forward(
+        self, 
+        mask_out: torch.tensor = None, # [B, L, C]
+        mask_labels: torch.tensor = None, # [B, L]
+        cls_out: torch.tensor = None, # [B, C]
+        cls_labels: torch.tensor = None # [B]
+    ):
+        # print("mask_out.shape", mask_out.shape)
+        # print("mask_labels.shape", mask_labels.shape)
+        # print("cls_out.shape", cls_out.shape)
+        # print("cls_labels.shape", cls_labels.shape)
+        # Have to transpose mask out as CrossEntropyLoss requires it to be [B, C, L]
+        mask_loss = self.lambda_mask * self.mask_loss(mask_out.transpose(-2, -1), mask_labels)
         # print("cls_out.shape", cls_out.shape)
         # print("cls_labels.shape", cls_labels.shape)
         cls_loss = self.lambda_cls * self.cls_loss(cls_out, cls_labels)
 
-        # return mask_loss + cls_loss
-        return cls_loss
+        return mask_loss + cls_loss
 
 
 class HighwayAugmenterTrainer:
