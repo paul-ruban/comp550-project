@@ -196,8 +196,7 @@ def train_models(data_type):
                         num_layers=hyperparam["num_layers"],
                         output_size=2, 
                         bidirectional=hyperparam["bidirectional"],
-                        dropout=hyperparam["dropout"],
-                        many2one=False
+                        dropout=hyperparam["dropout"]
                     ),
                     unmasking_model=bert_model,
                     classifier=RNN(

@@ -101,7 +101,7 @@ class DeepSkipAugmenter(torch.nn.Module):
             # print('unmasked_token_ids is', unmasked_token_ids)
 
         # Classification: take the last output value
-        cls_out = self.classifier(input_ids=unmasked_token_ids)[:,-1,:]
+        cls_out = self.classifier(input_ids=unmasked_token_ids, seq2seq=False)
 
         return mask_out, cls_out
 

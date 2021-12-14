@@ -64,7 +64,7 @@ class HighwayAugmenter(torch.nn.Module):
     
     def get_params(self):
         # get parameters of masking_model and classifier
-        return self.classifier.parameters()
+        # return self.classifier.parameters()
         return [
             {"params": self.masking_model.parameters()},
             {"params": self.classifier.parameters()}
