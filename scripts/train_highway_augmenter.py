@@ -20,7 +20,8 @@ logger = logging.getLogger()
 
 
 # CONSTANTS #
-EXP_NAME = "training_highway_augmenter"
+EXP_NAME = os.path.basename(__file__).split('.')[0] # get it from script name
+PICKLE_CKPT_DESTINATION = "/content/models/"
 LOGGER_FOLDER_PATH = os.path.join(cur_dir, "..", "logs", EXP_NAME)
 DATA_TYPE_DICT = {
     "polarity": {
@@ -39,7 +40,7 @@ DATA_TYPE_DICT = {
         # Change to save to the augmentation
         # "pickle_folder_path": "/home/mila/c/cesare.spinoso/scratch/datasets_550/polarity",
         # "pickle_folder_path": "/home/c_spino/comp_550/comp-550-project/data/temp/polarity",
-        "pickle_folder_path": "/content/models/polarity",
+        "pickle_folder_path": os.path.join(PICKLE_CKPT_DESTINATION, "polarity"),
     },
     "articles": {
         "json_train_path": os.path.join(
@@ -56,7 +57,7 @@ DATA_TYPE_DICT = {
         ),
         # Change to save to the augmentation
         # "pickle_folder_path": "/home/mila/c/cesare.spinoso/scratch/datasets_550/articles",
-        "pickle_folder_path": "/content/models/articles",
+        "pickle_folder_path": os.path.join(PICKLE_CKPT_DESTINATION, "articles"),
     },
     "smokers": {
         "json_train_path": os.path.join(
@@ -73,7 +74,7 @@ DATA_TYPE_DICT = {
         ),
         # Change to save to the augmentation
         # "pickle_folder_path": "/home/mila/c/cesare.spinoso/scratch/datasets_550/smokers",
-        "pickle_folder_path": "/content/models/smokers",
+        "pickle_folder_path": os.path.join(PICKLE_CKPT_DESTINATION, "smokers"),
     },
 }
 
