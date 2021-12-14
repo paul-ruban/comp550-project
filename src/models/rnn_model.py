@@ -18,16 +18,17 @@ class RNN(nn.Module):
         embeddings_layer : torch.nn.modules.sparse.Embedding = None,
         hidden_dim : int = 768, 
         num_layers : int = 1,
-        output_size : int = 30522,
+        output_size : int = 2,
         bidirectional : bool = False,
-        dropout : float = 0.1,
-        many2one : bool = True # predict output the whole sequence
+        dropout : float = 0.1
     ) -> None:
 
         super().__init__()
         assert (rnn_type in ["lstm", "gru"]), "rnn_type can be one of: 'lstm', 'gru'."
         rnn_type = nn.LSTM if rnn_type == "lstm" else nn.GRU
         self.embeddings = embeddings_layer
+        self.hidden_dim = hidden_dim
+        self.bidirectional = bidirectional
 
         self.rnn = rnn_type(
             input_size=self.embeddings.embedding_dim, 
@@ -45,26 +46,31 @@ class RNN(nn.Module):
         self, 
         input_ids : torch.Tensor = None, # [B, L]
         inputs_embeds : torch.Tensor = None, # [B, L, H]
-        ret_pre_dense : bool = False
+        seq2seq : bool = True # Whether to classify each token
     ) -> torch.Tensor:
 
         assert (input_ids is None or inputs_embeds is None), "Can take either input_ids or inputs_embeds, not both."
         if inputs_embeds is None:
             inputs_embeds = self.embeddings(input_ids)
         
-        _, (h, _) = self.rnn(inputs_embeds)
+        x, _ = self.rnn(inputs_embeds)
 
+        if not seq2seq:
+            # Classify each token
+            if self.bidirectional:
+                # Use last hidden states of BiLSTM
+                x = torch.cat(
+                    [x[:, -1, :self.hidden_dim], x[:, 0, self.hidden_dim:]],
+                    dim=-1)
+            else:
+                # Only use last hidden state
+                x = x[:,-1]
         if self.dropout:
-            h = self.dropout(h)
-        if self.rnn.bidirectional:
-            h = torch.cat((h[-2, :, :], h[-1, :, :]), dim=1)
-        else:
-            h = h[-1, :, :]
-        print("h.shape", h.shape)
-        out = self.dense(h)
+            x = self.dropout(x)
+        x = self.dense(x)
 
-        # print("x.shape", x.shape)
-        return out
+        print("x.shape", x.shape)
+        return x
 
 
 class RNNBaseLM(Model):
