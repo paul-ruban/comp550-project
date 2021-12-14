@@ -38,7 +38,8 @@ DATA_TYPE_DICT = {
         ),
         # Change to save to the augmentation
         # "pickle_folder_path": "/home/mila/c/cesare.spinoso/scratch/datasets_550/polarity",
-        "pickle_folder_path": "/home/c_spino/comp_550/comp-550-project/data/temp/polarity",
+        # "pickle_folder_path": "/home/c_spino/comp_550/comp-550-project/data/temp/polarity",
+        "pickle_folder_path": "/content/models/polarity",
     },
     "articles": {
         "json_train_path": os.path.join(
@@ -54,7 +55,8 @@ DATA_TYPE_DICT = {
             cur_dir, "..", "logs", "training_highway_augmenter", "articles.json"
         ),
         # Change to save to the augmentation
-        "pickle_folder_path": "/home/mila/c/cesare.spinoso/scratch/datasets_550/articles",
+        # "pickle_folder_path": "/home/mila/c/cesare.spinoso/scratch/datasets_550/articles",
+        "pickle_folder_path": "/content/models/articles",
     },
     "smokers": {
         "json_train_path": os.path.join(
@@ -70,7 +72,8 @@ DATA_TYPE_DICT = {
             cur_dir, "..", "logs", "training_rnn_classif", "smokers.json"
         ),
         # Change to save to the augmentation
-        "pickle_folder_path": "/home/mila/c/cesare.spinoso/scratch/datasets_550/smokers",
+        # "pickle_folder_path": "/home/mila/c/cesare.spinoso/scratch/datasets_550/smokers",
+        "pickle_folder_path": "/content/models/smokers",
     },
 }
 
@@ -94,7 +97,7 @@ LOSS = WeightedMaskClassificationLoss()
 HYPERPARAMETER_GRID = {
     "model_type": ["lstm"],
     "lr": [0.001],
-    "num_epochs": [50],
+    "num_epochs": [1],
     "batch_size": [32],
     "hidden_dim": [256],
     "num_layers": [1],
@@ -252,13 +255,10 @@ def train_models(data_type):
             model=best_state_dict["model"], dataloader=test_dataloader, logger=logger
         )
         # Save the best model
-        model_save_folder = os.path.join(
-            DATA_TYPE_DICT[data_type]["pickle_folder_path"],
-            f"augmentation_{augmentation_dict['augmented_dataset_id']}",
-        )
+        model_save_folder = DATA_TYPE_DICT[data_type]["pickle_folder_path"]
         model_path = os.path.join(
             model_save_folder,
-            f"rnn_classif_{MODEL_FILE_NAME[model_type]}.pt",
+            f"model_{MODEL_FILE_NAME[model_type]}.pt",
         )
         if not os.path.exists(model_save_folder):
             os.makedirs(model_save_folder)
