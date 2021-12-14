@@ -211,7 +211,7 @@ def train_models(data_type):
                         output_size=OUTPUT_DIM[data_type],
                         bidirectional=hyperparam["bidirectional"],
                         dropout=hyperparam["dropout"],
-                        inject_feat=True
+                        ext_feat_size=2
                     ),
                     max_seq_length=hyperparam["max_seq_length"]
                 )

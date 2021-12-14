@@ -77,17 +77,18 @@ class HighwayAugmenter(torch.nn.Module):
     ) -> Tuple[torch.tensor, torch.tensor]:
 
         maskable_tokens = attention_mask * ~(special_tokens_mask > 0)
-        # # Masking model: RNN
+
         with torch.no_grad():
             embeddings = self.unmasking_model.embeddings(input_ids)
 
+        # # Masking model: RNN
         mask_out = self.masking_model(inputs_embeds=embeddings)
         # print("self.masking_model.weight", self.masking_model.dense.weight)
 
-        # Only mask and unmask inputs during training
+        # Only mask and unmask embeddings during training
         if self.training:
-        # Decide what tokens to mask and mask them with [MASK] embeddings
-        # gumbel_softmax is a differentiable argmax here
+            # Decide what tokens to mask and mask them with [MASK] embeddings
+            # gumbel_softmax is a differentiable argmax here
             softmax = F.gumbel_softmax(mask_out, hard=True)[:,:,[1]]
 
             tokens_to_mask = softmax * (maskable_tokens).unsqueeze(dim=-1)
@@ -104,15 +105,14 @@ class HighwayAugmenter(torch.nn.Module):
             # print("input_ids AFTER", input_ids[0])
             # print("mask_embeddings:", mask_embeddings)
 
-        # # Unmasking model: BERT
+        # Unmasking model: BERT (NO BACKPROP)
         with torch.no_grad():
-            # output = self.unmasking_model(inputs_embeds=embeddings, attention_mask=attention_mask)
             output = self.unmasking_model(inputs_embeds=embeddings, attention_mask=attention_mask)
             embeddings = output["last_hidden_state"]
 
         # print("unmasked_embeddings.shape", unmasked_embeddings.shape)
 
-        # Concat mask_out with unmasked_embeddings as injected features
+        # Concat mask_out with unmasked_embeddings as external feature
         embeddings = torch.cat([embeddings, mask_out], dim=-1)
         # Classification: take the last output value
         cls_out = self.classifier(inputs_embeds=embeddings, seq2seq=False)

@@ -21,7 +21,7 @@ class RNN(nn.Module):
         output_size : int = 2,
         bidirectional : bool = False,
         dropout : float = 0.1,
-        inject_feat : bool = False
+        ext_feat_size : int = 0 # comes from outside and is concatenated to embeddings
     ) -> None:
 
         super().__init__()
@@ -32,7 +32,7 @@ class RNN(nn.Module):
         self.bidirectional = bidirectional
 
         self.rnn = rnn_type(
-            input_size=self.embeddings.embedding_dim + (2 if inject_feat else 0), 
+            input_size=self.embeddings.embedding_dim + ext_feat_size, 
             # input_size=self.embeddings.embedding_dim, 
             hidden_size=hidden_dim,
             num_layers=num_layers,
@@ -56,7 +56,6 @@ class RNN(nn.Module):
             inputs_embeds = self.embeddings(input_ids)
         
         x, _ = self.rnn(inputs_embeds)
-        # print("seq2seq", seq2seq)
         if not seq2seq:
             # Classify each token
             if self.bidirectional:
@@ -67,12 +66,9 @@ class RNN(nn.Module):
             else:
                 # Only use last hidden state
                 x = x[:,-1]
-        # print("x.shape", x.shape)
         if self.dropout:
             x = self.dropout(x)
         x = self.dense(x)
-
-        # print("x.shape", x.shape)
         return x
 
 
