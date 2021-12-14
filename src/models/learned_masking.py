@@ -88,7 +88,7 @@ class HighwayAugmenter(torch.nn.Module):
         # gumbel_softmax is a differentiable argmax here
         tokens_to_mask = (F.gumbel_softmax(mask_out, hard=True)[:,:,1] * maskable_tokens).unsqueeze(dim=-1)
         # print("tokens_to_mask", tokens_to_mask.squeeze())
-        print("masked ratio:", (tokens_to_mask.squeeze(dim=-1).sum(dim=-1) / maskable_tokens.sum(dim=-1)).mean())
+        # print("masked ratio:", (tokens_to_mask.squeeze(dim=-1).sum(dim=-1) / maskable_tokens.sum(dim=-1)).mean())
         mask_emb = self.unmasking_model.embeddings.word_embeddings.weight[self.tokenizer.mask_token_id]
         mask_embeddings = torch.where(tokens_to_mask > 0, mask_embeddings, mask_emb)
         # print("mask_embeddings:", mask_embeddings)
@@ -132,8 +132,6 @@ class WeightedMaskClassificationLoss(torch.nn.Module):
         # print("cls_labels.shape", cls_labels.shape)
         # Have to transpose mask out as CrossEntropyLoss requires it to be [B, C, L]
         mask_loss = self.lambda_mask * self.mask_loss(mask_out.transpose(-2, -1), mask_labels)
-        # print("cls_out.shape", cls_out.shape)
-        # print("cls_labels.shape", cls_labels.shape)
         cls_loss = self.lambda_cls * self.cls_loss(cls_out, cls_labels)
 
         return mask_loss + cls_loss
