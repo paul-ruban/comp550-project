@@ -97,14 +97,15 @@ LOSS = WeightedMaskClassificationLoss()
 
 HYPERPARAMETER_GRID = {
     "model_type": ["lstm"],
-    "lr": [0.001],
+    "lr": [0.001, 0.0001],
     "num_epochs": [100],
     "batch_size": [32],
     "hidden_dim": [256],
-    "num_layers": [1],
+    "num_layers": [1, 2],
     "dropout": [0.2],
     "bidirectional": [True, False],
-    "max_seq_length": [512]
+    "max_seq_length": [512],
+    "early_stopping_threshold": [25]
 }
 
 OUTPUT_DIM = {
@@ -231,6 +232,7 @@ def train_models(data_type):
                 val_dataloader=val_dataloader,
                 logger=logger,
                 num_epochs=hyperparam["num_epochs"],
+                early_stopping_threshold=hyperparam["early_stopping_threshold"]
             )
             trainer.train()
             if trainer.best_f1_score > best_f1_score:
