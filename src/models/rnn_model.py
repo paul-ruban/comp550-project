@@ -21,7 +21,7 @@ class RNN(nn.Module):
         output_size : int = 2,
         bidirectional : bool = False,
         dropout : float = 0.1,
-        inject_feat : bool = False
+        # inject_feat : bool = False
     ) -> None:
 
         super().__init__()
@@ -32,7 +32,8 @@ class RNN(nn.Module):
         self.bidirectional = bidirectional
 
         self.rnn = rnn_type(
-            input_size=self.embeddings.embedding_dim + (2 if inject_feat else 0), 
+            # input_size=self.embeddings.embedding_dim + (2 if inject_feat else 0), 
+            input_size=self.embeddings.embedding_dim, 
             hidden_size=hidden_dim,
             num_layers=num_layers,
             dropout=dropout if num_layers > 1 else 0, # prevents warning for 1 layer

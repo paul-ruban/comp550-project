@@ -76,7 +76,6 @@ class HighwayAugmenter(torch.nn.Module):
         special_tokens_mask: torch.tensor = None
     ) -> Tuple[torch.tensor, torch.tensor]:
 
-        print("train", train)
         maskable_tokens = attention_mask * ~(special_tokens_mask > 0)
 
         # # Masking model: RNN
@@ -92,7 +91,7 @@ class HighwayAugmenter(torch.nn.Module):
             softmax = F.gumbel_softmax(mask_out, hard=True)[:,:,[1]]
 
             tokens_to_mask = softmax * (maskable_tokens).unsqueeze(dim=-1)
-            print("masked ratio:", (tokens_to_mask.squeeze(dim=-1).sum(dim=-1) / maskable_tokens.sum(dim=-1)).mean())
+            # print("masked ratio:", (tokens_to_mask.squeeze(dim=-1).sum(dim=-1) / maskable_tokens.sum(dim=-1)).mean())
             mask_emb = self.unmasking_model.embeddings.word_embeddings.weight[self.tokenizer.mask_token_id]
             embeddings = torch.where(tokens_to_mask > 0, embeddings, mask_emb)
             # print("mask_embeddings:", mask_embeddings)
@@ -105,7 +104,7 @@ class HighwayAugmenter(torch.nn.Module):
         # print("unmasked_embeddings.shape", unmasked_embeddings.shape)
 
         # Concat mask_out with unmasked_embeddings as injected features
-        embeddings = torch.cat([embeddings, mask_out], dim=-1)
+        # embeddings = torch.cat([embeddings, mask_out], dim=-1)
         # Classification: take the last output value
         cls_out = self.classifier(inputs_embeds=embeddings, seq2seq=False)
 
