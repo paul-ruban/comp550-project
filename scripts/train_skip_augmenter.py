@@ -297,4 +297,6 @@ if __name__ == "__main__":
     main()
 
 
-# Usage: python train_skip_augmenter.py -t articles
+# Usage:
+#   1. source installation.sh 
+#   2. python scripts/train_skip_augmenter.py -t articles

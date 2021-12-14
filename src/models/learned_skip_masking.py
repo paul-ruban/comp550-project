@@ -79,7 +79,7 @@ class DeepSkipAugmenter(torch.nn.Module):
         maskable_tokens = attention_mask * ~(special_tokens_mask > 0)
 
         # Masking model: RNN - TODO remove mask_embed
-        mask_out = self.masking_model(input_ids)
+        mask_out = self.masking_model(input_ids=input_ids)
 
         # Decide what tokens to mask and mask them with [MASK] embeddings
         tokens_to_mask = (F.log_softmax(mask_out, dim=-1).argmax(dim=-1) * maskable_tokens).unsqueeze(dim=-1)
@@ -95,9 +95,10 @@ class DeepSkipAugmenter(torch.nn.Module):
         # print(input_ids.shape)
 
         # Unmasking model: BERT
-        unmasked_output = self.unmasking_model(input_ids=input_ids, attention_mask=attention_mask)
-        unmasked_token_ids = unmasked_output["logits"].argmax(dim=-1)
-        # print('unmasked_token_ids is', unmasked_token_ids)
+        with torch.no_grad():
+            unmasked_output = self.unmasking_model(input_ids=input_ids, attention_mask=attention_mask)
+            unmasked_token_ids = unmasked_output["logits"].argmax(dim=-1)
+            # print('unmasked_token_ids is', unmasked_token_ids)
 
         # Classification: take the last output value
         cls_out = self.classifier(input_ids=unmasked_token_ids)[:,-1,:]
@@ -117,7 +118,7 @@ class WeightedMaskClassificationLoss(torch.nn.Module):
         self.lambda_mask = lambda_mask
         self.lambda_cls = lambda_cls
         self.mask_loss = torch.nn.CrossEntropyLoss(ignore_index=ignore_index)
-        self.cls_loss = torch.nn.CrossEntropyLoss(ignore_index=ignore_index)
+        self.cls_loss = torch.nn.CrossEntropyLoss()
     
     def forward(self, mask_out, mask_labels, cls_out, cls_labels):
         # need to transpose (-2, -1) to mathc [B, C, H]
