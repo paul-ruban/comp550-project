@@ -109,7 +109,7 @@ HYPERPARAMETER_GRID = {
 OUTPUT_DIM = {
     "polarity": 2,
     "articles": 5,
-    "smokers": 3,
+    "smokers": 5,
 }
 
 # Functions #
