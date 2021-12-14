@@ -84,22 +84,22 @@ class HighwayAugmenter(torch.nn.Module):
         with torch.no_grad():
             embeddings = self.unmasking_model.embeddings(input_ids)
 
-        if self.training:
-            # Only mask and unmask inputs during training
-            # Decide what tokens to mask and mask them with [MASK] embeddings
-            # gumbel_softmax is a differentiable argmax here
-            softmax = F.gumbel_softmax(mask_out, hard=True)[:,:,[1]]
+        # Only mask and unmask inputs during training
+        # if self.training:
+        # Decide what tokens to mask and mask them with [MASK] embeddings
+        # gumbel_softmax is a differentiable argmax here
+        softmax = F.gumbel_softmax(mask_out, hard=True)[:,:,[1]]
 
-            tokens_to_mask = softmax * (maskable_tokens).unsqueeze(dim=-1)
-            # print("masked ratio:", (tokens_to_mask.squeeze(dim=-1).sum(dim=-1) / maskable_tokens.sum(dim=-1)).mean())
-            mask_emb = self.unmasking_model.embeddings.word_embeddings.weight[self.tokenizer.mask_token_id]
-            embeddings = torch.where(tokens_to_mask > 0, embeddings, mask_emb)
-            # print("mask_embeddings:", mask_embeddings)
+        tokens_to_mask = softmax * (maskable_tokens).unsqueeze(dim=-1)
+        # print("masked ratio:", (tokens_to_mask.squeeze(dim=-1).sum(dim=-1) / maskable_tokens.sum(dim=-1)).mean())
+        mask_emb = self.unmasking_model.embeddings.word_embeddings.weight[self.tokenizer.mask_token_id]
+        embeddings = torch.where(tokens_to_mask > 0, embeddings, mask_emb)
+        # print("mask_embeddings:", mask_embeddings)
 
-            # # Unmasking model: BERT
-            with torch.no_grad():
-                output = self.unmasking_model(inputs_embeds=embeddings, attention_mask=attention_mask)
-                embeddings = output["last_hidden_state"]
+        # # Unmasking model: BERT
+        with torch.no_grad():
+            output = self.unmasking_model(inputs_embeds=embeddings, attention_mask=attention_mask)
+            embeddings = output["last_hidden_state"]
 
         # print("unmasked_embeddings.shape", unmasked_embeddings.shape)
 
@@ -114,7 +114,7 @@ class HighwayAugmenter(torch.nn.Module):
 class WeightedMaskClassificationLoss(torch.nn.Module):
     def __init__(
         self,
-        lambda_mask : float = 0.0,
+        lambda_mask : float = 1.0,
         lambda_cls : float = 1.0,
         ignore_index = 0
     ) -> None:
