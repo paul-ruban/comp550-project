@@ -80,7 +80,7 @@ class HighwayAugmenter(torch.nn.Module):
         # maskable_tokens = attention_mask * ~(special_tokens_mask > 0)
 
         # # Masking model: RNN
-        # mask_out = self.masking_model(input_ids=input_ids)
+        mask_out = self.masking_model(input_ids=input_ids)
         # with torch.no_grad():
         #     mask_embeddings = self.unmasking_model.embeddings.word_embeddings(input_ids)
 
@@ -103,8 +103,7 @@ class HighwayAugmenter(torch.nn.Module):
         # cls_out = self.classifier(inputs_embeds=unmasked_embeddings)[:,-1,:]
         cls_out = self.classifier(input_ids=input_ids)
 
-        return cls_out
-        # return mask_out, cls_out
+        return mask_out, cls_out
 
 
 class WeightedMaskClassificationLoss(torch.nn.Module):
@@ -122,13 +121,15 @@ class WeightedMaskClassificationLoss(torch.nn.Module):
         self.mask_loss = torch.nn.CrossEntropyLoss(ignore_index=ignore_index)
         self.cls_loss = torch.nn.CrossEntropyLoss()
     
-    # def forward(self, mask_out, mask_labels, cls_out, cls_labels):
-    def forward(self, cls_out, cls_labels):
+    def forward(self, mask_out, mask_labels, cls_out, cls_labels):
+    # def forward(self, cls_out, cls_labels):
         # mask_loss = self.lambda_mask * self.mask_loss(
         #     torch.sigmoid(mask_out.squeeze(dim=-1)), 
         #     mask_labels.float()
         # )
         # mask_loss = self.lambda_mask * self.mask_loss(mask_out.transpose(-2, -1), mask_labels)
+        print("cls_out.shape", cls_out.shape)
+        print("cls_labels.shape", cls_labels.shape)
         cls_loss = self.lambda_cls * self.cls_loss(cls_out, cls_labels)
 
         # return mask_loss + cls_loss
@@ -221,7 +222,7 @@ class HighwayAugmenterTrainer:
             special_tokens_mask = inputs["special_tokens_mask"].to(device)
 
             optimizer.zero_grad()
-            cls_out = model(
+            mask_out, cls_out = model(
                 input_ids=input_ids,
                 attention_mask=attention_mask,
                 special_tokens_mask=special_tokens_mask
@@ -231,8 +232,8 @@ class HighwayAugmenterTrainer:
             mask_labels = attention_mask * ~(special_tokens_mask > 0)
             cls_labels = batch["label"].to(device)
             loss = criterion(
-                # mask_out=mask_out,
-                # mask_labels=mask_labels,
+                mask_out=mask_out,
+                mask_labels=mask_labels,
                 cls_out=cls_out,
                 cls_labels=cls_labels
             )

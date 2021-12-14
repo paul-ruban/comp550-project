@@ -54,7 +54,7 @@ class RNN(nn.Module):
             inputs_embeds = self.embeddings(input_ids)
         
         x, _ = self.rnn(inputs_embeds)
-
+        print("seq2seq", seq2seq)
         if not seq2seq:
             # Classify each token
             if self.bidirectional:
