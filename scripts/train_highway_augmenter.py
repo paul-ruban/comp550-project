@@ -21,7 +21,7 @@ logger = logging.getLogger()
 
 # CONSTANTS #
 
-LOGGER_FOLDER_PATH = os.path.join(cur_dir, "..", "logs", "training_rnn_classif")
+LOGGER_FOLDER_PATH = os.path.join(cur_dir, "..", "logs", "training_highway_augmenter")
 DATA_TYPE_DICT = {
     "polarity": {
         "json_train_path": os.path.join(
