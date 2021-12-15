@@ -300,3 +300,5 @@ if __name__ == "__main__":
 
 
 # Usage: python train_highway_augmenter.py -t articles
+# Usage: python train_highway_augmenter.py -t polarity
+# Usage: python train_highway_augmenter.py -t smokers
