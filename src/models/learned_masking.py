@@ -97,7 +97,7 @@ class HighwayAugmenter(torch.nn.Module):
             # print("masked ratio:", (tokens_to_mask.squeeze(dim=-1).sum(dim=-1) / maskable_tokens.sum(dim=-1)).mean())
             # print("input_ids BEFORE", input_ids[0])
             # mask_emb = self.unmasking_model.embeddings.word_embeddings.weight[self.tokenizer.mask_token_id].repeat(*input_ids.shape, 1)
-            mask_emb = self.unmasking_model.embeddings.word_embeddings.weight[self.tokenizer.mask_token_id]
+            mask_emb = self.unmasking_model.embeddings.word_embeddings.weight[self.tokenizer.mask_token_id] # [768] == [MASK]
             embeddings = torch.where(tokens_to_mask > 0, embeddings, mask_emb)
             # input_ids = torch.where(tokens_to_mask > 0, input_ids, self.tokenizer.mask_token_id)
             # embeddings = tokens_to_mask.int() * mask_emb + embeddings * ~(tokens_to_mask > 0)
@@ -113,7 +113,7 @@ class HighwayAugmenter(torch.nn.Module):
         # print("unmasked_embeddings.shape", unmasked_embeddings.shape)
 
         # Concat mask_out with unmasked_embeddings as external feature
-        embeddings = torch.cat([embeddings, mask_out], dim=-1)
+        embeddings = torch.cat([embeddings, mask_out], dim=-1) # 768 + 2 = 770
         # Classification: take the last output value
         cls_out = self.classifier(inputs_embeds=embeddings, seq2seq=False)
 
