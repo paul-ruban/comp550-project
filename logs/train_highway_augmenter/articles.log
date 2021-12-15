@@ -1,0 +1,719 @@
+2021-12-15 00:46:14,661 [INFO] ------------------------------------------------------------------------------------------------------------------------
+2021-12-15 00:46:14,661 [INFO] Training models for articles
+2021-12-15 00:46:14,661 [INFO] ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2021-12-15 00:46:14,661 [INFO] Starting training for articles with learning augmentation.
+2021-12-15 00:46:14,662 [INFO] ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2021-12-15 00:46:14,662 [INFO] Starting training using the HuggingFace model distilbert-base-uncased
+2021-12-15 00:46:25,694 [WARNING] Using custom data configuration default-1c2d68d39d674870
+2021-12-15 00:46:25,861 [WARNING] Using custom data configuration default-164b0c6d61c34eb0
+2021-12-15 00:46:25,995 [WARNING] Using custom data configuration default-5133f7adeac6b199
+2021-12-15 00:46:26,114 [INFO] Done loading all the datasets
+2021-12-15 00:46:26,115 [INFO] ============================================================
+2021-12-15 00:46:26,115 [INFO] Starting training with the following hyperparameters: {'batch_size': 32, 'bidirectional': True, 'dropout': 0.2, 'early_stopping_threshold': 10, 'hidden_dim': 256, 'lr': 0.001, 'max_seq_length': 512, 'model_type': 'lstm', 'num_epochs': 100, 'num_layers': 1}
+2021-12-15 00:46:26,198 [INFO] Model created...
+2021-12-15 00:46:26,199 [INFO] ===========================================================
+2021-12-15 00:46:26,200 [INFO] Training model HighwayAugmenter(
+  (masking_model): RNN(
+    (embeddings): Embedding(30522, 768, padding_idx=0)
+    (rnn): LSTM(768, 256, batch_first=True, bidirectional=True)
+    (dropout): Dropout(p=0.2, inplace=False)
+    (dense): Linear(in_features=512, out_features=2, bias=True)
+  )
+  (unmasking_model): DistilBertModel(
+    (embeddings): Embeddings(
+      (word_embeddings): Embedding(30522, 768, padding_idx=0)
+      (position_embeddings): Embedding(512, 768)
+      (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+      (dropout): Dropout(p=0.1, inplace=False)
+    )
+    (transformer): Transformer(
+      (layer): ModuleList(
+        (0): TransformerBlock(
+          (attention): MultiHeadSelfAttention(
+            (dropout): Dropout(p=0.1, inplace=False)
+            (q_lin): Linear(in_features=768, out_features=768, bias=True)
+            (k_lin): Linear(in_features=768, out_features=768, bias=True)
+            (v_lin): Linear(in_features=768, out_features=768, bias=True)
+            (out_lin): Linear(in_features=768, out_features=768, bias=True)
+          )
+          (sa_layer_norm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+          (ffn): FFN(
+            (dropout): Dropout(p=0.1, inplace=False)
+            (lin1): Linear(in_features=768, out_features=3072, bias=True)
+            (lin2): Linear(in_features=3072, out_features=768, bias=True)
+          )
+          (output_layer_norm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+        )
+        (1): TransformerBlock(
+          (attention): MultiHeadSelfAttention(
+            (dropout): Dropout(p=0.1, inplace=False)
+            (q_lin): Linear(in_features=768, out_features=768, bias=True)
+            (k_lin): Linear(in_features=768, out_features=768, bias=True)
+            (v_lin): Linear(in_features=768, out_features=768, bias=True)
+            (out_lin): Linear(in_features=768, out_features=768, bias=True)
+          )
+          (sa_layer_norm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+          (ffn): FFN(
+            (dropout): Dropout(p=0.1, inplace=False)
+            (lin1): Linear(in_features=768, out_features=3072, bias=True)
+            (lin2): Linear(in_features=3072, out_features=768, bias=True)
+          )
+          (output_layer_norm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+        )
+        (2): TransformerBlock(
+          (attention): MultiHeadSelfAttention(
+            (dropout): Dropout(p=0.1, inplace=False)
+            (q_lin): Linear(in_features=768, out_features=768, bias=True)
+            (k_lin): Linear(in_features=768, out_features=768, bias=True)
+            (v_lin): Linear(in_features=768, out_features=768, bias=True)
+            (out_lin): Linear(in_features=768, out_features=768, bias=True)
+          )
+          (sa_layer_norm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+          (ffn): FFN(
+            (dropout): Dropout(p=0.1, inplace=False)
+            (lin1): Linear(in_features=768, out_features=3072, bias=True)
+            (lin2): Linear(in_features=3072, out_features=768, bias=True)
+          )
+          (output_layer_norm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+        )
+        (3): TransformerBlock(
+          (attention): MultiHeadSelfAttention(
+            (dropout): Dropout(p=0.1, inplace=False)
+            (q_lin): Linear(in_features=768, out_features=768, bias=True)
+            (k_lin): Linear(in_features=768, out_features=768, bias=True)
+            (v_lin): Linear(in_features=768, out_features=768, bias=True)
+            (out_lin): Linear(in_features=768, out_features=768, bias=True)
+          )
+          (sa_layer_norm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+          (ffn): FFN(
+            (dropout): Dropout(p=0.1, inplace=False)
+            (lin1): Linear(in_features=768, out_features=3072, bias=True)
+            (lin2): Linear(in_features=3072, out_features=768, bias=True)
+          )
+          (output_layer_norm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+        )
+        (4): TransformerBlock(
+          (attention): MultiHeadSelfAttention(
+            (dropout): Dropout(p=0.1, inplace=False)
+            (q_lin): Linear(in_features=768, out_features=768, bias=True)
+            (k_lin): Linear(in_features=768, out_features=768, bias=True)
+            (v_lin): Linear(in_features=768, out_features=768, bias=True)
+            (out_lin): Linear(in_features=768, out_features=768, bias=True)
+          )
+          (sa_layer_norm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+          (ffn): FFN(
+            (dropout): Dropout(p=0.1, inplace=False)
+            (lin1): Linear(in_features=768, out_features=3072, bias=True)
+            (lin2): Linear(in_features=3072, out_features=768, bias=True)
+          )
+          (output_layer_norm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+        )
+        (5): TransformerBlock(
+          (attention): MultiHeadSelfAttention(
+            (dropout): Dropout(p=0.1, inplace=False)
+            (q_lin): Linear(in_features=768, out_features=768, bias=True)
+            (k_lin): Linear(in_features=768, out_features=768, bias=True)
+            (v_lin): Linear(in_features=768, out_features=768, bias=True)
+            (out_lin): Linear(in_features=768, out_features=768, bias=True)
+          )
+          (sa_layer_norm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+          (ffn): FFN(
+            (dropout): Dropout(p=0.1, inplace=False)
+            (lin1): Linear(in_features=768, out_features=3072, bias=True)
+            (lin2): Linear(in_features=3072, out_features=768, bias=True)
+          )
+          (output_layer_norm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+        )
+      )
+    )
+  )
+  (classifier): RNN(
+    (embeddings): Embedding(30522, 768, padding_idx=0)
+    (rnn): LSTM(770, 256, batch_first=True, bidirectional=True)
+    (dropout): Dropout(p=0.2, inplace=False)
+    (dense): Linear(in_features=512, out_features=5, bias=True)
+  )
+)
+2021-12-15 00:46:26,200 [INFO] ***********************************************************
+2021-12-15 00:46:26,200 [INFO] Training epoch 0
+2021-12-15 00:46:42,187 [INFO] | epoch   0 |    10/   56 batches | training accuracy    0.429
+2021-12-15 00:46:46,990 [INFO] | epoch   0 |    20/   56 batches | training accuracy    0.700
+2021-12-15 00:46:51,785 [INFO] | epoch   0 |    30/   56 batches | training accuracy    0.713
+2021-12-15 00:46:56,567 [INFO] | epoch   0 |    40/   56 batches | training accuracy    0.728
+2021-12-15 00:47:01,347 [INFO] | epoch   0 |    50/   56 batches | training accuracy    0.812
+2021-12-15 00:47:06,054 [INFO] ***********************************************************
+2021-12-15 00:47:06,054 [INFO] | end of epoch   0 valid accuracy    0.495 and f1 score    0.416
+2021-12-15 00:47:06,054 [INFO] ***********************************************************
+2021-12-15 00:47:06,098 [INFO] ***********************************************************
+2021-12-15 00:47:06,099 [INFO] Training epoch 1
+2021-12-15 00:47:11,355 [INFO] | epoch   1 |    10/   56 batches | training accuracy    0.773
+2021-12-15 00:47:16,131 [INFO] | epoch   1 |    20/   56 batches | training accuracy    0.859
+2021-12-15 00:47:20,915 [INFO] | epoch   1 |    30/   56 batches | training accuracy    0.884
+2021-12-15 00:47:25,721 [INFO] | epoch   1 |    40/   56 batches | training accuracy    0.919
+2021-12-15 00:47:30,506 [INFO] | epoch   1 |    50/   56 batches | training accuracy    0.916
+2021-12-15 00:47:35,240 [INFO] ***********************************************************
+2021-12-15 00:47:35,240 [INFO] | end of epoch   1 valid accuracy    0.590 and f1 score    0.524
+2021-12-15 00:47:35,240 [INFO] ***********************************************************
+2021-12-15 00:47:35,280 [INFO] ***********************************************************
+2021-12-15 00:47:35,280 [INFO] Training epoch 2
+2021-12-15 00:47:40,536 [INFO] | epoch   2 |    10/   56 batches | training accuracy    0.915
+2021-12-15 00:47:45,285 [INFO] | epoch   2 |    20/   56 batches | training accuracy    0.881
+2021-12-15 00:47:50,035 [INFO] | epoch   2 |    30/   56 batches | training accuracy    0.916
+2021-12-15 00:47:54,827 [INFO] | epoch   2 |    40/   56 batches | training accuracy    0.912
+2021-12-15 00:47:59,606 [INFO] | epoch   2 |    50/   56 batches | training accuracy    0.912
+2021-12-15 00:48:04,291 [INFO] ***********************************************************
+2021-12-15 00:48:04,291 [INFO] | end of epoch   2 valid accuracy    0.716 and f1 score    0.692
+2021-12-15 00:48:04,291 [INFO] ***********************************************************
+2021-12-15 00:48:04,330 [INFO] ***********************************************************
+2021-12-15 00:48:04,330 [INFO] Training epoch 3
+2021-12-15 00:48:09,604 [INFO] | epoch   3 |    10/   56 batches | training accuracy    0.952
+2021-12-15 00:48:14,367 [INFO] | epoch   3 |    20/   56 batches | training accuracy    0.947
+2021-12-15 00:48:19,164 [INFO] | epoch   3 |    30/   56 batches | training accuracy    0.953
+2021-12-15 00:48:23,943 [INFO] | epoch   3 |    40/   56 batches | training accuracy    0.947
+2021-12-15 00:48:28,713 [INFO] | epoch   3 |    50/   56 batches | training accuracy    0.959
+2021-12-15 00:48:33,430 [INFO] ***********************************************************
+2021-12-15 00:48:33,431 [INFO] | end of epoch   3 valid accuracy    0.770 and f1 score    0.760
+2021-12-15 00:48:33,431 [INFO] ***********************************************************
+2021-12-15 00:48:33,468 [INFO] ***********************************************************
+2021-12-15 00:48:33,469 [INFO] Training epoch 4
+2021-12-15 00:48:38,747 [INFO] | epoch   4 |    10/   56 batches | training accuracy    0.969
+2021-12-15 00:48:43,538 [INFO] | epoch   4 |    20/   56 batches | training accuracy    0.944
+2021-12-15 00:48:48,320 [INFO] | epoch   4 |    30/   56 batches | training accuracy    0.938
+2021-12-15 00:48:53,115 [INFO] | epoch   4 |    40/   56 batches | training accuracy    0.963
+2021-12-15 00:48:57,891 [INFO] | epoch   4 |    50/   56 batches | training accuracy    0.963
+2021-12-15 00:49:02,602 [INFO] ***********************************************************
+2021-12-15 00:49:02,602 [INFO] | end of epoch   4 valid accuracy    0.703 and f1 score    0.689
+2021-12-15 00:49:02,602 [INFO] ***********************************************************
+2021-12-15 00:49:02,604 [INFO] ***********************************************************
+2021-12-15 00:49:02,604 [INFO] Training epoch 5
+2021-12-15 00:49:07,852 [INFO] | epoch   5 |    10/   56 batches | training accuracy    0.980
+2021-12-15 00:49:12,658 [INFO] | epoch   5 |    20/   56 batches | training accuracy    0.963
+2021-12-15 00:49:17,441 [INFO] | epoch   5 |    30/   56 batches | training accuracy    0.944
+2021-12-15 00:49:22,231 [INFO] | epoch   5 |    40/   56 batches | training accuracy    0.959
+2021-12-15 00:49:26,994 [INFO] | epoch   5 |    50/   56 batches | training accuracy    0.963
+2021-12-15 00:49:31,701 [INFO] ***********************************************************
+2021-12-15 00:49:31,701 [INFO] | end of epoch   5 valid accuracy    0.748 and f1 score    0.743
+2021-12-15 00:49:31,701 [INFO] ***********************************************************
+2021-12-15 00:49:31,703 [INFO] ***********************************************************
+2021-12-15 00:49:31,704 [INFO] Training epoch 6
+2021-12-15 00:49:36,942 [INFO] | epoch   6 |    10/   56 batches | training accuracy    0.949
+2021-12-15 00:49:41,734 [INFO] | epoch   6 |    20/   56 batches | training accuracy    0.969
+2021-12-15 00:49:46,525 [INFO] | epoch   6 |    30/   56 batches | training accuracy    0.978
+2021-12-15 00:49:51,309 [INFO] | epoch   6 |    40/   56 batches | training accuracy    0.978
+2021-12-15 00:49:56,091 [INFO] | epoch   6 |    50/   56 batches | training accuracy    0.972
+2021-12-15 00:50:00,802 [INFO] ***********************************************************
+2021-12-15 00:50:00,803 [INFO] | end of epoch   6 valid accuracy    0.847 and f1 score    0.843
+2021-12-15 00:50:00,803 [INFO] ***********************************************************
+2021-12-15 00:50:00,845 [INFO] ***********************************************************
+2021-12-15 00:50:00,845 [INFO] Training epoch 7
+2021-12-15 00:50:06,093 [INFO] | epoch   7 |    10/   56 batches | training accuracy    0.972
+2021-12-15 00:50:10,886 [INFO] | epoch   7 |    20/   56 batches | training accuracy    0.972
+2021-12-15 00:50:15,670 [INFO] | epoch   7 |    30/   56 batches | training accuracy    0.953
+2021-12-15 00:50:20,440 [INFO] | epoch   7 |    40/   56 batches | training accuracy    0.984
+2021-12-15 00:50:25,214 [INFO] | epoch   7 |    50/   56 batches | training accuracy    0.978
+2021-12-15 00:50:29,935 [INFO] ***********************************************************
+2021-12-15 00:50:29,935 [INFO] | end of epoch   7 valid accuracy    0.775 and f1 score    0.764
+2021-12-15 00:50:29,935 [INFO] ***********************************************************
+2021-12-15 00:50:29,937 [INFO] ***********************************************************
+2021-12-15 00:50:29,937 [INFO] Training epoch 8
+2021-12-15 00:50:35,181 [INFO] | epoch   8 |    10/   56 batches | training accuracy    0.986
+2021-12-15 00:50:39,938 [INFO] | epoch   8 |    20/   56 batches | training accuracy    0.966
+2021-12-15 00:50:44,691 [INFO] | epoch   8 |    30/   56 batches | training accuracy    0.984
+2021-12-15 00:50:49,488 [INFO] | epoch   8 |    40/   56 batches | training accuracy    0.978
+2021-12-15 00:50:54,269 [INFO] | epoch   8 |    50/   56 batches | training accuracy    0.991
+2021-12-15 00:50:58,966 [INFO] ***********************************************************
+2021-12-15 00:50:58,967 [INFO] | end of epoch   8 valid accuracy    0.847 and f1 score    0.843
+2021-12-15 00:50:58,967 [INFO] ***********************************************************
+2021-12-15 00:50:59,008 [INFO] ***********************************************************
+2021-12-15 00:50:59,008 [INFO] Training epoch 9
+2021-12-15 00:51:04,253 [INFO] | epoch   9 |    10/   56 batches | training accuracy    0.994
+2021-12-15 00:51:09,011 [INFO] | epoch   9 |    20/   56 batches | training accuracy    0.994
+2021-12-15 00:51:13,813 [INFO] | epoch   9 |    30/   56 batches | training accuracy    0.988
+2021-12-15 00:51:18,594 [INFO] | epoch   9 |    40/   56 batches | training accuracy    0.984
+2021-12-15 00:51:23,345 [INFO] | epoch   9 |    50/   56 batches | training accuracy    0.981
+2021-12-15 00:51:28,032 [INFO] ***********************************************************
+2021-12-15 00:51:28,032 [INFO] | end of epoch   9 valid accuracy    0.856 and f1 score    0.854
+2021-12-15 00:51:28,032 [INFO] ***********************************************************
+2021-12-15 00:51:28,070 [INFO] ***********************************************************
+2021-12-15 00:51:28,070 [INFO] Training epoch 10
+2021-12-15 00:51:33,303 [INFO] | epoch  10 |    10/   56 batches | training accuracy    0.991
+2021-12-15 00:51:38,046 [INFO] | epoch  10 |    20/   56 batches | training accuracy    0.984
+2021-12-15 00:51:42,806 [INFO] | epoch  10 |    30/   56 batches | training accuracy    0.994
+2021-12-15 00:51:47,586 [INFO] | epoch  10 |    40/   56 batches | training accuracy    0.991
+2021-12-15 00:51:52,390 [INFO] | epoch  10 |    50/   56 batches | training accuracy    0.994
+2021-12-15 00:51:57,073 [INFO] ***********************************************************
+2021-12-15 00:51:57,074 [INFO] | end of epoch  10 valid accuracy    0.860 and f1 score    0.859
+2021-12-15 00:51:57,074 [INFO] ***********************************************************
+2021-12-15 00:51:57,117 [INFO] ***********************************************************
+2021-12-15 00:51:57,117 [INFO] Training epoch 11
+2021-12-15 00:52:02,356 [INFO] | epoch  11 |    10/   56 batches | training accuracy    0.994
+2021-12-15 00:52:07,137 [INFO] | epoch  11 |    20/   56 batches | training accuracy    0.997
+2021-12-15 00:52:11,905 [INFO] | epoch  11 |    30/   56 batches | training accuracy    0.994
+2021-12-15 00:52:16,686 [INFO] | epoch  11 |    40/   56 batches | training accuracy    1.000
+2021-12-15 00:52:21,460 [INFO] | epoch  11 |    50/   56 batches | training accuracy    0.994
+2021-12-15 00:52:26,182 [INFO] ***********************************************************
+2021-12-15 00:52:26,182 [INFO] | end of epoch  11 valid accuracy    0.905 and f1 score    0.905
+2021-12-15 00:52:26,182 [INFO] ***********************************************************
+2021-12-15 00:52:26,220 [INFO] ***********************************************************
+2021-12-15 00:52:26,220 [INFO] Training epoch 12
+2021-12-15 00:52:31,489 [INFO] | epoch  12 |    10/   56 batches | training accuracy    0.991
+2021-12-15 00:52:36,266 [INFO] | epoch  12 |    20/   56 batches | training accuracy    0.988
+2021-12-15 00:52:41,061 [INFO] | epoch  12 |    30/   56 batches | training accuracy    0.988
+2021-12-15 00:52:45,871 [INFO] | epoch  12 |    40/   56 batches | training accuracy    0.994
+2021-12-15 00:52:50,648 [INFO] | epoch  12 |    50/   56 batches | training accuracy    0.994
+2021-12-15 00:52:55,370 [INFO] ***********************************************************
+2021-12-15 00:52:55,370 [INFO] | end of epoch  12 valid accuracy    0.869 and f1 score    0.870
+2021-12-15 00:52:55,370 [INFO] ***********************************************************
+2021-12-15 00:52:55,371 [INFO] ***********************************************************
+2021-12-15 00:52:55,371 [INFO] Training epoch 13
+2021-12-15 00:53:00,629 [INFO] | epoch  13 |    10/   56 batches | training accuracy    1.000
+2021-12-15 00:53:05,418 [INFO] | epoch  13 |    20/   56 batches | training accuracy    1.000
+2021-12-15 00:53:10,207 [INFO] | epoch  13 |    30/   56 batches | training accuracy    1.000
+2021-12-15 00:53:15,012 [INFO] | epoch  13 |    40/   56 batches | training accuracy    0.997
+2021-12-15 00:53:19,788 [INFO] | epoch  13 |    50/   56 batches | training accuracy    0.997
+2021-12-15 00:53:24,503 [INFO] ***********************************************************
+2021-12-15 00:53:24,504 [INFO] | end of epoch  13 valid accuracy    0.905 and f1 score    0.906
+2021-12-15 00:53:24,504 [INFO] ***********************************************************
+2021-12-15 00:53:24,542 [INFO] ***********************************************************
+2021-12-15 00:53:24,543 [INFO] Training epoch 14
+2021-12-15 00:53:29,763 [INFO] | epoch  14 |    10/   56 batches | training accuracy    1.000
+2021-12-15 00:53:34,563 [INFO] | epoch  14 |    20/   56 batches | training accuracy    1.000
+2021-12-15 00:53:39,343 [INFO] | epoch  14 |    30/   56 batches | training accuracy    0.997
+2021-12-15 00:53:44,135 [INFO] | epoch  14 |    40/   56 batches | training accuracy    0.994
+2021-12-15 00:53:48,899 [INFO] | epoch  14 |    50/   56 batches | training accuracy    1.000
+2021-12-15 00:53:53,617 [INFO] ***********************************************************
+2021-12-15 00:53:53,618 [INFO] | end of epoch  14 valid accuracy    0.887 and f1 score    0.890
+2021-12-15 00:53:53,618 [INFO] ***********************************************************
+2021-12-15 00:53:53,619 [INFO] ***********************************************************
+2021-12-15 00:53:53,619 [INFO] Training epoch 15
+2021-12-15 00:53:58,876 [INFO] | epoch  15 |    10/   56 batches | training accuracy    1.000
+2021-12-15 00:54:03,665 [INFO] | epoch  15 |    20/   56 batches | training accuracy    0.997
+2021-12-15 00:54:08,424 [INFO] | epoch  15 |    30/   56 batches | training accuracy    1.000
+2021-12-15 00:54:13,197 [INFO] | epoch  15 |    40/   56 batches | training accuracy    1.000
+2021-12-15 00:54:17,978 [INFO] | epoch  15 |    50/   56 batches | training accuracy    1.000
+2021-12-15 00:54:22,687 [INFO] ***********************************************************
+2021-12-15 00:54:22,687 [INFO] | end of epoch  15 valid accuracy    0.905 and f1 score    0.908
+2021-12-15 00:54:22,687 [INFO] ***********************************************************
+2021-12-15 00:54:22,729 [INFO] ***********************************************************
+2021-12-15 00:54:22,730 [INFO] Training epoch 16
+2021-12-15 00:54:27,990 [INFO] | epoch  16 |    10/   56 batches | training accuracy    1.000
+2021-12-15 00:54:32,774 [INFO] | epoch  16 |    20/   56 batches | training accuracy    1.000
+2021-12-15 00:54:37,536 [INFO] | epoch  16 |    30/   56 batches | training accuracy    1.000
+2021-12-15 00:54:42,285 [INFO] | epoch  16 |    40/   56 batches | training accuracy    1.000
+2021-12-15 00:54:47,056 [INFO] | epoch  16 |    50/   56 batches | training accuracy    1.000
+2021-12-15 00:54:51,735 [INFO] ***********************************************************
+2021-12-15 00:54:51,735 [INFO] | end of epoch  16 valid accuracy    0.905 and f1 score    0.908
+2021-12-15 00:54:51,735 [INFO] ***********************************************************
+2021-12-15 00:54:51,774 [INFO] ***********************************************************
+2021-12-15 00:54:51,775 [INFO] Training epoch 17
+2021-12-15 00:54:57,000 [INFO] | epoch  17 |    10/   56 batches | training accuracy    1.000
+2021-12-15 00:55:01,787 [INFO] | epoch  17 |    20/   56 batches | training accuracy    1.000
+2021-12-15 00:55:06,560 [INFO] | epoch  17 |    30/   56 batches | training accuracy    1.000
+2021-12-15 00:55:11,326 [INFO] | epoch  17 |    40/   56 batches | training accuracy    1.000
+2021-12-15 00:55:16,093 [INFO] | epoch  17 |    50/   56 batches | training accuracy    1.000
+2021-12-15 00:55:20,781 [INFO] ***********************************************************
+2021-12-15 00:55:20,782 [INFO] | end of epoch  17 valid accuracy    0.910 and f1 score    0.911
+2021-12-15 00:55:20,782 [INFO] ***********************************************************
+2021-12-15 00:55:20,823 [INFO] ***********************************************************
+2021-12-15 00:55:20,823 [INFO] Training epoch 18
+2021-12-15 00:55:26,052 [INFO] | epoch  18 |    10/   56 batches | training accuracy    1.000
+2021-12-15 00:55:30,821 [INFO] | epoch  18 |    20/   56 batches | training accuracy    1.000
+2021-12-15 00:55:35,588 [INFO] | epoch  18 |    30/   56 batches | training accuracy    1.000
+2021-12-15 00:55:40,352 [INFO] | epoch  18 |    40/   56 batches | training accuracy    1.000
+2021-12-15 00:55:45,143 [INFO] | epoch  18 |    50/   56 batches | training accuracy    1.000
+2021-12-15 00:55:49,850 [INFO] ***********************************************************
+2021-12-15 00:55:49,850 [INFO] | end of epoch  18 valid accuracy    0.896 and f1 score    0.896
+2021-12-15 00:55:49,850 [INFO] ***********************************************************
+2021-12-15 00:55:49,851 [INFO] ***********************************************************
+2021-12-15 00:55:49,852 [INFO] Training epoch 19
+2021-12-15 00:55:55,133 [INFO] | epoch  19 |    10/   56 batches | training accuracy    1.000
+2021-12-15 00:55:59,917 [INFO] | epoch  19 |    20/   56 batches | training accuracy    1.000
+2021-12-15 00:56:04,693 [INFO] | epoch  19 |    30/   56 batches | training accuracy    1.000
+2021-12-15 00:56:09,474 [INFO] | epoch  19 |    40/   56 batches | training accuracy    1.000
+2021-12-15 00:56:14,266 [INFO] | epoch  19 |    50/   56 batches | training accuracy    1.000
+2021-12-15 00:56:18,976 [INFO] ***********************************************************
+2021-12-15 00:56:18,977 [INFO] | end of epoch  19 valid accuracy    0.905 and f1 score    0.904
+2021-12-15 00:56:18,977 [INFO] ***********************************************************
+2021-12-15 00:56:18,978 [INFO] ***********************************************************
+2021-12-15 00:56:18,978 [INFO] Training epoch 20
+2021-12-15 00:56:24,220 [INFO] | epoch  20 |    10/   56 batches | training accuracy    1.000
+2021-12-15 00:56:29,019 [INFO] | epoch  20 |    20/   56 batches | training accuracy    1.000
+2021-12-15 00:56:33,775 [INFO] | epoch  20 |    30/   56 batches | training accuracy    1.000
+2021-12-15 00:56:38,547 [INFO] | epoch  20 |    40/   56 batches | training accuracy    1.000
+2021-12-15 00:56:43,343 [INFO] | epoch  20 |    50/   56 batches | training accuracy    1.000
+2021-12-15 00:56:48,052 [INFO] ***********************************************************
+2021-12-15 00:56:48,053 [INFO] | end of epoch  20 valid accuracy    0.887 and f1 score    0.887
+2021-12-15 00:56:48,053 [INFO] ***********************************************************
+2021-12-15 00:56:48,054 [INFO] ***********************************************************
+2021-12-15 00:56:48,054 [INFO] Training epoch 21
+2021-12-15 00:56:53,301 [INFO] | epoch  21 |    10/   56 batches | training accuracy    0.983
+2021-12-15 00:56:58,094 [INFO] | epoch  21 |    20/   56 batches | training accuracy    0.991
+2021-12-15 00:57:02,872 [INFO] | epoch  21 |    30/   56 batches | training accuracy    0.978
+2021-12-15 00:57:07,698 [INFO] | epoch  21 |    40/   56 batches | training accuracy    0.997
+2021-12-15 00:57:12,483 [INFO] | epoch  21 |    50/   56 batches | training accuracy    0.984
+2021-12-15 00:57:17,219 [INFO] ***********************************************************
+2021-12-15 00:57:17,219 [INFO] | end of epoch  21 valid accuracy    0.820 and f1 score    0.819
+2021-12-15 00:57:17,219 [INFO] ***********************************************************
+2021-12-15 00:57:17,221 [INFO] ***********************************************************
+2021-12-15 00:57:17,221 [INFO] Training epoch 22
+2021-12-15 00:57:22,492 [INFO] | epoch  22 |    10/   56 batches | training accuracy    0.997
+2021-12-15 00:57:27,278 [INFO] | epoch  22 |    20/   56 batches | training accuracy    0.991
+2021-12-15 00:57:32,089 [INFO] | epoch  22 |    30/   56 batches | training accuracy    0.978
+2021-12-15 00:57:36,870 [INFO] | epoch  22 |    40/   56 batches | training accuracy    0.994
+2021-12-15 00:57:41,656 [INFO] | epoch  22 |    50/   56 batches | training accuracy    0.984
+2021-12-15 00:57:46,353 [INFO] ***********************************************************
+2021-12-15 00:57:46,353 [INFO] | end of epoch  22 valid accuracy    0.847 and f1 score    0.844
+2021-12-15 00:57:46,353 [INFO] ***********************************************************
+2021-12-15 00:57:46,355 [INFO] ***********************************************************
+2021-12-15 00:57:46,355 [INFO] Training epoch 23
+2021-12-15 00:57:51,591 [INFO] | epoch  23 |    10/   56 batches | training accuracy    0.997
+2021-12-15 00:57:56,381 [INFO] | epoch  23 |    20/   56 batches | training accuracy    0.997
+2021-12-15 00:58:01,128 [INFO] | epoch  23 |    30/   56 batches | training accuracy    0.994
+2021-12-15 00:58:05,876 [INFO] | epoch  23 |    40/   56 batches | training accuracy    1.000
+2021-12-15 00:58:10,651 [INFO] | epoch  23 |    50/   56 batches | training accuracy    0.994
+2021-12-15 00:58:15,329 [INFO] ***********************************************************
+2021-12-15 00:58:15,329 [INFO] | end of epoch  23 valid accuracy    0.869 and f1 score    0.872
+2021-12-15 00:58:15,329 [INFO] ***********************************************************
+2021-12-15 00:58:15,330 [INFO] ***********************************************************
+2021-12-15 00:58:15,330 [INFO] Training epoch 24
+2021-12-15 00:58:20,594 [INFO] | epoch  24 |    10/   56 batches | training accuracy    1.000
+2021-12-15 00:58:25,364 [INFO] | epoch  24 |    20/   56 batches | training accuracy    0.994
+2021-12-15 00:58:30,107 [INFO] | epoch  24 |    30/   56 batches | training accuracy    1.000
+2021-12-15 00:58:34,880 [INFO] | epoch  24 |    40/   56 batches | training accuracy    1.000
+2021-12-15 00:58:39,638 [INFO] | epoch  24 |    50/   56 batches | training accuracy    1.000
+2021-12-15 00:58:44,345 [INFO] ***********************************************************
+2021-12-15 00:58:44,346 [INFO] | end of epoch  24 valid accuracy    0.860 and f1 score    0.862
+2021-12-15 00:58:44,346 [INFO] ***********************************************************
+2021-12-15 00:58:44,347 [INFO] ***********************************************************
+2021-12-15 00:58:44,347 [INFO] Training epoch 25
+2021-12-15 00:58:49,610 [INFO] | epoch  25 |    10/   56 batches | training accuracy    1.000
+2021-12-15 00:58:54,382 [INFO] | epoch  25 |    20/   56 batches | training accuracy    1.000
+2021-12-15 00:58:59,180 [INFO] | epoch  25 |    30/   56 batches | training accuracy    1.000
+2021-12-15 00:59:03,981 [INFO] | epoch  25 |    40/   56 batches | training accuracy    1.000
+2021-12-15 00:59:08,803 [INFO] | epoch  25 |    50/   56 batches | training accuracy    1.000
+2021-12-15 00:59:13,525 [INFO] ***********************************************************
+2021-12-15 00:59:13,525 [INFO] | end of epoch  25 valid accuracy    0.869 and f1 score    0.873
+2021-12-15 00:59:13,525 [INFO] ***********************************************************
+2021-12-15 00:59:13,527 [INFO] ***********************************************************
+2021-12-15 00:59:13,527 [INFO] Training epoch 26
+2021-12-15 00:59:18,780 [INFO] | epoch  26 |    10/   56 batches | training accuracy    1.000
+2021-12-15 00:59:23,558 [INFO] | epoch  26 |    20/   56 batches | training accuracy    1.000
+2021-12-15 00:59:28,324 [INFO] | epoch  26 |    30/   56 batches | training accuracy    1.000
+2021-12-15 00:59:33,101 [INFO] | epoch  26 |    40/   56 batches | training accuracy    1.000
+2021-12-15 00:59:37,874 [INFO] | epoch  26 |    50/   56 batches | training accuracy    1.000
+2021-12-15 00:59:42,585 [INFO] ***********************************************************
+2021-12-15 00:59:42,585 [INFO] | end of epoch  26 valid accuracy    0.883 and f1 score    0.886
+2021-12-15 00:59:42,585 [INFO] ***********************************************************
+2021-12-15 00:59:42,586 [INFO] ***********************************************************
+2021-12-15 00:59:42,586 [INFO] Training epoch 27
+2021-12-15 00:59:47,849 [INFO] | epoch  27 |    10/   56 batches | training accuracy    1.000
+2021-12-15 00:59:52,623 [INFO] | epoch  27 |    20/   56 batches | training accuracy    1.000
+2021-12-15 00:59:57,387 [INFO] | epoch  27 |    30/   56 batches | training accuracy    1.000
+2021-12-15 01:00:02,136 [INFO] | epoch  27 |    40/   56 batches | training accuracy    1.000
+2021-12-15 01:00:06,908 [INFO] | epoch  27 |    50/   56 batches | training accuracy    1.000
+2021-12-15 01:00:11,620 [INFO] ***********************************************************
+2021-12-15 01:00:11,620 [INFO] | end of epoch  27 valid accuracy    0.878 and f1 score    0.882
+2021-12-15 01:00:11,620 [INFO] ***********************************************************
+2021-12-15 01:00:11,622 [WARNING] The validation f1 score has not improved for 10 epochs. Stopping training early.
+2021-12-15 01:00:11,622 [INFO] ============================================================
+2021-12-15 01:00:11,622 [INFO] Starting training with the following hyperparameters: {'batch_size': 32, 'bidirectional': False, 'dropout': 0.2, 'early_stopping_threshold': 10, 'hidden_dim': 256, 'lr': 0.001, 'max_seq_length': 512, 'model_type': 'lstm', 'num_epochs': 100, 'num_layers': 1}
+2021-12-15 01:00:11,637 [INFO] Model created...
+2021-12-15 01:00:11,638 [INFO] ===========================================================
+2021-12-15 01:00:11,639 [INFO] Training model HighwayAugmenter(
+  (masking_model): RNN(
+    (embeddings): Embedding(30522, 768, padding_idx=0)
+    (rnn): LSTM(768, 256, batch_first=True)
+    (dropout): Dropout(p=0.2, inplace=False)
+    (dense): Linear(in_features=256, out_features=2, bias=True)
+  )
+  (unmasking_model): DistilBertModel(
+    (embeddings): Embeddings(
+      (word_embeddings): Embedding(30522, 768, padding_idx=0)
+      (position_embeddings): Embedding(512, 768)
+      (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+      (dropout): Dropout(p=0.1, inplace=False)
+    )
+    (transformer): Transformer(
+      (layer): ModuleList(
+        (0): TransformerBlock(
+          (attention): MultiHeadSelfAttention(
+            (dropout): Dropout(p=0.1, inplace=False)
+            (q_lin): Linear(in_features=768, out_features=768, bias=True)
+            (k_lin): Linear(in_features=768, out_features=768, bias=True)
+            (v_lin): Linear(in_features=768, out_features=768, bias=True)
+            (out_lin): Linear(in_features=768, out_features=768, bias=True)
+          )
+          (sa_layer_norm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+          (ffn): FFN(
+            (dropout): Dropout(p=0.1, inplace=False)
+            (lin1): Linear(in_features=768, out_features=3072, bias=True)
+            (lin2): Linear(in_features=3072, out_features=768, bias=True)
+          )
+          (output_layer_norm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+        )
+        (1): TransformerBlock(
+          (attention): MultiHeadSelfAttention(
+            (dropout): Dropout(p=0.1, inplace=False)
+            (q_lin): Linear(in_features=768, out_features=768, bias=True)
+            (k_lin): Linear(in_features=768, out_features=768, bias=True)
+            (v_lin): Linear(in_features=768, out_features=768, bias=True)
+            (out_lin): Linear(in_features=768, out_features=768, bias=True)
+          )
+          (sa_layer_norm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+          (ffn): FFN(
+            (dropout): Dropout(p=0.1, inplace=False)
+            (lin1): Linear(in_features=768, out_features=3072, bias=True)
+            (lin2): Linear(in_features=3072, out_features=768, bias=True)
+          )
+          (output_layer_norm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+        )
+        (2): TransformerBlock(
+          (attention): MultiHeadSelfAttention(
+            (dropout): Dropout(p=0.1, inplace=False)
+            (q_lin): Linear(in_features=768, out_features=768, bias=True)
+            (k_lin): Linear(in_features=768, out_features=768, bias=True)
+            (v_lin): Linear(in_features=768, out_features=768, bias=True)
+            (out_lin): Linear(in_features=768, out_features=768, bias=True)
+          )
+          (sa_layer_norm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+          (ffn): FFN(
+            (dropout): Dropout(p=0.1, inplace=False)
+            (lin1): Linear(in_features=768, out_features=3072, bias=True)
+            (lin2): Linear(in_features=3072, out_features=768, bias=True)
+          )
+          (output_layer_norm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+        )
+        (3): TransformerBlock(
+          (attention): MultiHeadSelfAttention(
+            (dropout): Dropout(p=0.1, inplace=False)
+            (q_lin): Linear(in_features=768, out_features=768, bias=True)
+            (k_lin): Linear(in_features=768, out_features=768, bias=True)
+            (v_lin): Linear(in_features=768, out_features=768, bias=True)
+            (out_lin): Linear(in_features=768, out_features=768, bias=True)
+          )
+          (sa_layer_norm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+          (ffn): FFN(
+            (dropout): Dropout(p=0.1, inplace=False)
+            (lin1): Linear(in_features=768, out_features=3072, bias=True)
+            (lin2): Linear(in_features=3072, out_features=768, bias=True)
+          )
+          (output_layer_norm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+        )
+        (4): TransformerBlock(
+          (attention): MultiHeadSelfAttention(
+            (dropout): Dropout(p=0.1, inplace=False)
+            (q_lin): Linear(in_features=768, out_features=768, bias=True)
+            (k_lin): Linear(in_features=768, out_features=768, bias=True)
+            (v_lin): Linear(in_features=768, out_features=768, bias=True)
+            (out_lin): Linear(in_features=768, out_features=768, bias=True)
+          )
+          (sa_layer_norm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+          (ffn): FFN(
+            (dropout): Dropout(p=0.1, inplace=False)
+            (lin1): Linear(in_features=768, out_features=3072, bias=True)
+            (lin2): Linear(in_features=3072, out_features=768, bias=True)
+          )
+          (output_layer_norm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+        )
+        (5): TransformerBlock(
+          (attention): MultiHeadSelfAttention(
+            (dropout): Dropout(p=0.1, inplace=False)
+            (q_lin): Linear(in_features=768, out_features=768, bias=True)
+            (k_lin): Linear(in_features=768, out_features=768, bias=True)
+            (v_lin): Linear(in_features=768, out_features=768, bias=True)
+            (out_lin): Linear(in_features=768, out_features=768, bias=True)
+          )
+          (sa_layer_norm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+          (ffn): FFN(
+            (dropout): Dropout(p=0.1, inplace=False)
+            (lin1): Linear(in_features=768, out_features=3072, bias=True)
+            (lin2): Linear(in_features=3072, out_features=768, bias=True)
+          )
+          (output_layer_norm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+        )
+      )
+    )
+  )
+  (classifier): RNN(
+    (embeddings): Embedding(30522, 768, padding_idx=0)
+    (rnn): LSTM(770, 256, batch_first=True)
+    (dropout): Dropout(p=0.2, inplace=False)
+    (dense): Linear(in_features=256, out_features=5, bias=True)
+  )
+)
+2021-12-15 01:00:11,639 [INFO] ***********************************************************
+2021-12-15 01:00:11,639 [INFO] Training epoch 0
+2021-12-15 01:00:16,268 [INFO] | epoch   0 |    10/   56 batches | training accuracy    0.412
+2021-12-15 01:00:20,501 [INFO] | epoch   0 |    20/   56 batches | training accuracy    0.637
+2021-12-15 01:00:24,707 [INFO] | epoch   0 |    30/   56 batches | training accuracy    0.709
+2021-12-15 01:00:28,938 [INFO] | epoch   0 |    40/   56 batches | training accuracy    0.719
+2021-12-15 01:00:33,159 [INFO] | epoch   0 |    50/   56 batches | training accuracy    0.709
+2021-12-15 01:00:37,487 [INFO] ***********************************************************
+2021-12-15 01:00:37,487 [INFO] | end of epoch   0 valid accuracy    0.518 and f1 score    0.496
+2021-12-15 01:00:37,487 [INFO] ***********************************************************
+2021-12-15 01:00:37,522 [INFO] ***********************************************************
+2021-12-15 01:00:37,522 [INFO] Training epoch 1
+2021-12-15 01:00:42,170 [INFO] | epoch   1 |    10/   56 batches | training accuracy    0.790
+2021-12-15 01:00:46,390 [INFO] | epoch   1 |    20/   56 batches | training accuracy    0.738
+2021-12-15 01:00:50,640 [INFO] | epoch   1 |    30/   56 batches | training accuracy    0.781
+2021-12-15 01:00:54,900 [INFO] | epoch   1 |    40/   56 batches | training accuracy    0.716
+2021-12-15 01:00:59,137 [INFO] | epoch   1 |    50/   56 batches | training accuracy    0.653
+2021-12-15 01:01:03,479 [INFO] ***********************************************************
+2021-12-15 01:01:03,479 [INFO] | end of epoch   1 valid accuracy    0.590 and f1 score    0.559
+2021-12-15 01:01:03,479 [INFO] ***********************************************************
+2021-12-15 01:01:03,523 [INFO] ***********************************************************
+2021-12-15 01:01:03,523 [INFO] Training epoch 2
+2021-12-15 01:01:08,202 [INFO] | epoch   2 |    10/   56 batches | training accuracy    0.250
+2021-12-15 01:01:12,422 [INFO] | epoch   2 |    20/   56 batches | training accuracy    0.278
+2021-12-15 01:01:16,622 [INFO] | epoch   2 |    30/   56 batches | training accuracy    0.259
+2021-12-15 01:01:20,843 [INFO] | epoch   2 |    40/   56 batches | training accuracy    0.309
+2021-12-15 01:01:25,051 [INFO] | epoch   2 |    50/   56 batches | training accuracy    0.369
+2021-12-15 01:01:29,524 [INFO] ***********************************************************
+2021-12-15 01:01:29,524 [INFO] | end of epoch   2 valid accuracy    0.622 and f1 score    0.598
+2021-12-15 01:01:29,524 [INFO] ***********************************************************
+2021-12-15 01:01:29,584 [INFO] ***********************************************************
+2021-12-15 01:01:29,585 [INFO] Training epoch 3
+2021-12-15 01:01:34,218 [INFO] | epoch   3 |    10/   56 batches | training accuracy    0.676
+2021-12-15 01:01:38,440 [INFO] | epoch   3 |    20/   56 batches | training accuracy    0.744
+2021-12-15 01:01:42,658 [INFO] | epoch   3 |    30/   56 batches | training accuracy    0.647
+2021-12-15 01:01:46,870 [INFO] | epoch   3 |    40/   56 batches | training accuracy    0.572
+2021-12-15 01:01:51,093 [INFO] | epoch   3 |    50/   56 batches | training accuracy    0.650
+2021-12-15 01:01:55,424 [INFO] ***********************************************************
+2021-12-15 01:01:55,424 [INFO] | end of epoch   3 valid accuracy    0.577 and f1 score    0.499
+2021-12-15 01:01:55,424 [INFO] ***********************************************************
+2021-12-15 01:01:55,426 [INFO] ***********************************************************
+2021-12-15 01:01:55,426 [INFO] Training epoch 4
+2021-12-15 01:02:00,069 [INFO] | epoch   4 |    10/   56 batches | training accuracy    0.648
+2021-12-15 01:02:04,273 [INFO] | epoch   4 |    20/   56 batches | training accuracy    0.675
+2021-12-15 01:02:08,507 [INFO] | epoch   4 |    30/   56 batches | training accuracy    0.778
+2021-12-15 01:02:12,740 [INFO] | epoch   4 |    40/   56 batches | training accuracy    0.703
+2021-12-15 01:02:17,045 [INFO] | epoch   4 |    50/   56 batches | training accuracy    0.838
+2021-12-15 01:02:21,500 [INFO] ***********************************************************
+2021-12-15 01:02:21,500 [INFO] | end of epoch   4 valid accuracy    0.586 and f1 score    0.499
+2021-12-15 01:02:21,500 [INFO] ***********************************************************
+2021-12-15 01:02:21,502 [INFO] ***********************************************************
+2021-12-15 01:02:21,502 [INFO] Training epoch 5
+2021-12-15 01:02:26,268 [INFO] | epoch   5 |    10/   56 batches | training accuracy    0.827
+2021-12-15 01:02:30,899 [INFO] | epoch   5 |    20/   56 batches | training accuracy    0.816
+2021-12-15 01:02:38,331 [INFO] | epoch   5 |    30/   56 batches | training accuracy    0.778
+2021-12-15 01:02:46,066 [INFO] | epoch   5 |    40/   56 batches | training accuracy    0.834
+2021-12-15 01:02:53,784 [INFO] | epoch   5 |    50/   56 batches | training accuracy    0.847
+2021-12-15 01:03:01,717 [INFO] ***********************************************************
+2021-12-15 01:03:01,717 [INFO] | end of epoch   5 valid accuracy    0.608 and f1 score    0.504
+2021-12-15 01:03:01,717 [INFO] ***********************************************************
+2021-12-15 01:03:01,719 [INFO] ***********************************************************
+2021-12-15 01:03:01,719 [INFO] Training epoch 6
+2021-12-15 01:03:10,300 [INFO] | epoch   6 |    10/   56 batches | training accuracy    0.810
+2021-12-15 01:03:18,031 [INFO] | epoch   6 |    20/   56 batches | training accuracy    0.778
+2021-12-15 01:03:25,736 [INFO] | epoch   6 |    30/   56 batches | training accuracy    0.828
+2021-12-15 01:03:33,500 [INFO] | epoch   6 |    40/   56 batches | training accuracy    0.863
+2021-12-15 01:03:41,456 [INFO] | epoch   6 |    50/   56 batches | training accuracy    0.822
+2021-12-15 01:03:49,369 [INFO] ***********************************************************
+2021-12-15 01:03:49,369 [INFO] | end of epoch   6 valid accuracy    0.523 and f1 score    0.415
+2021-12-15 01:03:49,370 [INFO] ***********************************************************
+2021-12-15 01:03:49,372 [INFO] ***********************************************************
+2021-12-15 01:03:49,373 [INFO] Training epoch 7
+2021-12-15 01:03:57,910 [INFO] | epoch   7 |    10/   56 batches | training accuracy    0.827
+2021-12-15 01:04:07,389 [INFO] | epoch   7 |    20/   56 batches | training accuracy    0.831
+2021-12-15 01:04:19,489 [INFO] | epoch   7 |    30/   56 batches | training accuracy    0.844
+2021-12-15 01:04:31,695 [INFO] | epoch   7 |    40/   56 batches | training accuracy    0.834
+2021-12-15 01:04:43,836 [INFO] | epoch   7 |    50/   56 batches | training accuracy    0.878
+2021-12-15 01:04:55,880 [INFO] ***********************************************************
+2021-12-15 01:04:55,881 [INFO] | end of epoch   7 valid accuracy    0.541 and f1 score    0.442
+2021-12-15 01:04:55,882 [INFO] ***********************************************************
+2021-12-15 01:04:55,884 [INFO] ***********************************************************
+2021-12-15 01:04:55,885 [INFO] Training epoch 8
+2021-12-15 01:05:09,335 [INFO] | epoch   8 |    10/   56 batches | training accuracy    0.801
+2021-12-15 01:05:21,151 [INFO] | epoch   8 |    20/   56 batches | training accuracy    0.834
+2021-12-15 01:05:33,233 [INFO] | epoch   8 |    30/   56 batches | training accuracy    0.856
+2021-12-15 01:05:45,238 [INFO] | epoch   8 |    40/   56 batches | training accuracy    0.872
+2021-12-15 01:05:57,511 [INFO] | epoch   8 |    50/   56 batches | training accuracy    0.884
+2021-12-15 01:06:09,806 [INFO] ***********************************************************
+2021-12-15 01:06:09,807 [INFO] | end of epoch   8 valid accuracy    0.644 and f1 score    0.560
+2021-12-15 01:06:09,807 [INFO] ***********************************************************
+2021-12-15 01:06:09,809 [INFO] ***********************************************************
+2021-12-15 01:06:09,810 [INFO] Training epoch 9
+2021-12-15 01:06:23,065 [INFO] | epoch   9 |    10/   56 batches | training accuracy    0.915
+2021-12-15 01:06:34,905 [INFO] | epoch   9 |    20/   56 batches | training accuracy    0.919
+2021-12-15 01:06:47,092 [INFO] | epoch   9 |    30/   56 batches | training accuracy    0.828
+2021-12-15 01:06:59,117 [INFO] | epoch   9 |    40/   56 batches | training accuracy    0.859
+2021-12-15 01:07:11,114 [INFO] | epoch   9 |    50/   56 batches | training accuracy    0.841
+2021-12-15 01:07:23,406 [INFO] ***********************************************************
+2021-12-15 01:07:23,407 [INFO] | end of epoch   9 valid accuracy    0.635 and f1 score    0.550
+2021-12-15 01:07:23,407 [INFO] ***********************************************************
+2021-12-15 01:07:23,409 [INFO] ***********************************************************
+2021-12-15 01:07:23,410 [INFO] Training epoch 10
+2021-12-15 01:07:36,723 [INFO] | epoch  10 |    10/   56 batches | training accuracy    0.866
+2021-12-15 01:07:48,643 [INFO] | epoch  10 |    20/   56 batches | training accuracy    0.881
+2021-12-15 01:08:00,742 [INFO] | epoch  10 |    30/   56 batches | training accuracy    0.878
+2021-12-15 01:08:12,739 [INFO] | epoch  10 |    40/   56 batches | training accuracy    0.863
+2021-12-15 01:08:24,976 [INFO] | epoch  10 |    50/   56 batches | training accuracy    0.841
+2021-12-15 01:08:37,336 [INFO] ***********************************************************
+2021-12-15 01:08:37,337 [INFO] | end of epoch  10 valid accuracy    0.617 and f1 score    0.547
+2021-12-15 01:08:37,337 [INFO] ***********************************************************
+2021-12-15 01:08:37,341 [INFO] ***********************************************************
+2021-12-15 01:08:37,341 [INFO] Training epoch 11
+2021-12-15 01:08:50,416 [INFO] | epoch  11 |    10/   56 batches | training accuracy    0.895
+2021-12-15 01:09:02,329 [INFO] | epoch  11 |    20/   56 batches | training accuracy    0.881
+2021-12-15 01:09:14,529 [INFO] | epoch  11 |    30/   56 batches | training accuracy    0.812
+2021-12-15 01:09:26,513 [INFO] | epoch  11 |    40/   56 batches | training accuracy    0.884
+2021-12-15 01:09:38,483 [INFO] | epoch  11 |    50/   56 batches | training accuracy    0.916
+2021-12-15 01:09:50,892 [INFO] ***********************************************************
+2021-12-15 01:09:50,893 [INFO] | end of epoch  11 valid accuracy    0.626 and f1 score    0.548
+2021-12-15 01:09:50,893 [INFO] ***********************************************************
+2021-12-15 01:09:50,895 [INFO] ***********************************************************
+2021-12-15 01:09:50,895 [INFO] Training epoch 12
+2021-12-15 01:10:04,363 [INFO] | epoch  12 |    10/   56 batches | training accuracy    0.915
+2021-12-15 01:10:16,305 [INFO] | epoch  12 |    20/   56 batches | training accuracy    0.909
+2021-12-15 01:10:28,319 [INFO] | epoch  12 |    30/   56 batches | training accuracy    0.925
+2021-12-15 01:10:40,407 [INFO] | epoch  12 |    40/   56 batches | training accuracy    0.938
+2021-12-15 01:10:52,607 [INFO] | epoch  12 |    50/   56 batches | training accuracy    0.931
+2021-12-15 01:11:04,867 [INFO] ***********************************************************
+2021-12-15 01:11:04,868 [INFO] | end of epoch  12 valid accuracy    0.653 and f1 score    0.572
+2021-12-15 01:11:04,868 [INFO] ***********************************************************
+2021-12-15 01:11:04,871 [WARNING] The validation f1 score has not improved for 10 epochs. Stopping training early.
+2021-12-15 01:11:04,871 [INFO] ============================================================
+2021-12-15 01:11:04,871 [INFO] Finished training model. Best hyperparameters: {'batch_size': 32, 'bidirectional': True, 'dropout': 0.2, 'early_stopping_threshold': 10, 'hidden_dim': 256, 'lr': 0.001, 'max_seq_length': 512, 'model_type': 'lstm', 'num_epochs': 100, 'num_layers': 1}
+2021-12-15 01:11:04,872 [INFO] Here is the validation results:
+2021-12-15 01:11:11,999 [INFO] ***********************************************************
+2021-12-15 01:11:11,999 [INFO] |valid accuracy    0.910 and f1 score    0.911
+2021-12-15 01:11:12,006 [INFO]               precision    recall  f1-score   support
+
+           0       0.98      0.77      0.86        56
+           1       0.94      0.92      0.93        36
+           2       0.75      0.95      0.84        40
+           3       0.98      0.96      0.97        54
+           4       0.92      1.00      0.96        36
+
+    accuracy                           0.91       222
+   macro avg       0.91      0.92      0.91       222
+weighted avg       0.92      0.91      0.91       222
+
+2021-12-15 01:11:12,010 [INFO] [[43  1  9  1  2]
+ [ 0 33  2  0  1]
+ [ 1  1 38  0  0]
+ [ 0  0  2 52  0]
+ [ 0  0  0  0 36]]
+2021-12-15 01:11:12,011 [INFO] ***********************************************************
+2021-12-15 01:11:12,014 [INFO] Here is the test results (DO NOT USE THESE RESULTS FOR CHOOSING THE BEST AUGMENTATION):
+2021-12-15 01:11:19,177 [INFO] ***********************************************************
+2021-12-15 01:11:19,178 [INFO] |valid accuracy    0.879 and f1 score    0.877
+2021-12-15 01:11:19,184 [INFO]               precision    recall  f1-score   support
+
+           0       0.98      0.76      0.86        59
+           1       0.91      0.83      0.87        36
+           2       0.69      0.94      0.80        36
+           3       0.96      0.96      0.96        48
+           4       0.87      0.93      0.90        44
+
+    accuracy                           0.88       223
+   macro avg       0.88      0.89      0.88       223
+weighted avg       0.90      0.88      0.88       223
+
+2021-12-15 01:11:19,185 [INFO] [[45  0 11  0  3]
+ [ 0 30  1  2  3]
+ [ 1  1 34  0  0]
+ [ 0  0  2 46  0]
+ [ 0  2  1  0 41]]
+2021-12-15 01:11:19,186 [INFO] ***********************************************************
+2021-12-15 01:11:20,736 [INFO] Model saved to ==> /content/models/articles/model_distilbert_base_uncased.pt
