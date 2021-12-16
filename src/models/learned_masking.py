@@ -437,6 +437,7 @@ class HighwayAugmenterTrainer:
         model.eval()
         model = model.to(device)
         original_token_ids = []
+        class_labels = []
         masked_tokens_bool = []
         n_remaining = n
         special_tokens = list(model.tokenizer.special_tokens_map.values())
@@ -466,6 +467,7 @@ class HighwayAugmenterTrainer:
 
                 original_token_ids.extend(input_ids[:n].tolist())
                 masked_tokens_bool.extend(tokens_to_mask[:n].tolist())
+                class_labels.extend(batch["label"][:n].tolist())
                 n_remaining = n - len(original_token_ids)
                 if n_remaining == 0:
                     break
@@ -484,8 +486,8 @@ class HighwayAugmenterTrainer:
                         masked_tokens.append(original_token)
                     else:
                         masked_tokens.append('_' * len(original_token))
-            logger.info("# {:2d} : ORIG : {}".format(i, ' '.join(original_tokens)))
-            logger.info("# {:2d} : MASK : {}".format(i, ' '.join(masked_tokens)))
+            logger.info("# {:2d} | ORIGINAL | CLASS {} | {}".format(i, class_labels[i], ' '.join(original_tokens)))
+            logger.info("# {:2d} |  MASKED  | CLASS {} | {}".format(i, class_labels[i], ' '.join(masked_tokens)))
             logger.info("*" * SEP_LINE_LEN)
         logger.info("*" * SEP_LINE_LEN)
 

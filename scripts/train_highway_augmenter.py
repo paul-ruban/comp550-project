@@ -98,8 +98,8 @@ LOSS = torch.nn.CrossEntropyLoss
 
 HYPERPARAMETER_GRID = {
     "lr": [0.001],
-    "num_epochs": [1],
-    "max_seq_length": [64],
+    "num_epochs": [20],
+    "max_seq_length": [512],
     "early_stopping_threshold": [25],
     "batch_size": [32],
     # h-params for masking RNN
