@@ -478,7 +478,7 @@ class HighwayAugmenterTrainer:
             masked_tokens = []
             for j in range(len(original_token_ids[i])):
                 original_token = model.tokenizer.convert_ids_to_tokens(original_token_ids[i][j])
-                if original token not in special_tokens:
+                if original_token not in special_tokens:
                     original_tokens.append(original_token)
                     if not masked_tokens_bool[i][j]:
                         masked_tokens.append(original_token)
