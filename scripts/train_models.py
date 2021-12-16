@@ -70,7 +70,7 @@ DATA_TYPE_DICT = {
     },
 }
 # Run nb and logistic for all, see if need to run more models later
-MODELS = ["nb", "logistic"]
+MODELS = ["nb", "logistic", "svm"]
 
 
 class WordTokenizer:
@@ -191,22 +191,27 @@ def create_pipeline_grid(model_type: str = "logistic"):
     assert model_type in MODELS
     param_grid = {
         # Punctuation removal is on automatically
-        "vectorizer__tokenizer": [WordTokenizer(), LemmaTokenizer(), StemmerTokenizer()],
-        "vectorizer__ngram_range": [(1, 1), (1, 2)],
+        # "vectorizer__tokenizer": [WordTokenizer(), LemmaTokenizer(), StemmerTokenizer()],
+        "vectorizer__tokenizer": [WordTokenizer()],
+        # "vectorizer__ngram_range": [(1, 1), (1, 2)],
+        "vectorizer__ngram_range": [(1, 2)],
     }
     if model_type == "nb":
-        model_grid = {"model__alpha": [0.1, 1.0, 10.0]}
+        # model_grid = {"model__alpha": [0.1, 1.0, 10.0]}
+        model_grid = {"model__alpha": [0.1]}
     elif model_type == "logistic":
         model_grid = {
             "model__penalty": ["l2"],
-            "model__C": [0.01, 0.1, 1],
+            # "model__C": [0.01, 0.1, 1],
+            "model__C": [1],
             "model__solver": ["lbfgs"],
             "model__random_state": [42],
             "model__n_jobs": [-1],
         }
     elif model_type == "svm":
         model_grid = {
-            "model__C": [0.01, 0.1, 1],
+            # "model__C": [0.01, 0.1, 1],
+            "model__C": [1],
             "model__kernel": ["rbf"],
             "model__random_state": [42],
         }
