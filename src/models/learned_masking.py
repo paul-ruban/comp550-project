@@ -439,6 +439,8 @@ class HighwayAugmenterTrainer:
         original_token_ids = []
         masked_tokens_bool = []
         n_remaining = n
+        special_tokens = list(tokenizer.special_tokens_map.values())
+
         with torch.no_grad():
             for batch in dataloader:
                 inputs = model.tokenizer(
@@ -476,13 +478,14 @@ class HighwayAugmenterTrainer:
             masked_tokens = []
             for j in range(len(original_token_ids[i])):
                 original_token = model.tokenizer.convert_ids_to_tokens(original_token_ids[i][j])
-                original_tokens.append(original_token)
-                if not masked_tokens[i][j]:
-                    masked_tokens.append(original_token)
-                else:
-                    masked_tokens.append('_' * len(original_token))
-            logger.info("# {:3d} : ORIG : {}".format(i, ' '.join(original_tokens)))
-            logger.info("# {:3d} : MASK : {}".format(i, ' '.join(masked_tokens)))
+                if original token not in special_tokens:
+                    original_tokens.append(original_token)
+                    if not masked_tokens_bool[i][j]:
+                        masked_tokens.append(original_token)
+                    else:
+                        masked_tokens.append('_' * len(original_token))
+            logger.info("# {:2d} : ORIG : {}".format(i, ' '.join(original_tokens)))
+            logger.info("# {:2d} : MASK : {}".format(i, ' '.join(masked_tokens)))
             logger.info("*" * SEP_LINE_LEN)
         logger.info("*" * SEP_LINE_LEN)
 
