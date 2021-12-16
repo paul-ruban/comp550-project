@@ -98,22 +98,22 @@ LOSS = torch.nn.CrossEntropyLoss
 
 HYPERPARAMETER_GRID = {
     "lr": [0.001],
-    "num_epochs": [20],
+    "num_epochs": [100],
     "max_seq_length": [512],
     "early_stopping_threshold": [25],
     "batch_size": [32],
     # h-params for masking RNN
     "masker_model_type": ["lstm"],
-    "masker_hidden_dim": [768],
+    "masker_hidden_dim": [256, 512, 768],
     "masker_num_layers": [1],
-    "masker_dropout": [0.2],
+    "masker_dropout": [0.2, 0.5],
     "masker_bidirectional": [True],
     # h-params for classifier RNN
     "cls_model_type": ["lstm"],
     "cls_hidden_dim": [256],
     "cls_num_layers": [1],
     "cls_dropout": [0.2],
-    "cls_bidirectional": [True],
+    "cls_bidirectional": [True]
 }
 
 OUTPUT_DIM = {
