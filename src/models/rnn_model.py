@@ -11,7 +11,7 @@ from typing import Union, List, Iterator, Tuple
 from transformers.tokenization_utils import PreTrainedTokenizer
 
 
-class RNN(nn.Module):
+class RNNClassifier(nn.Module):
     def __init__(
         self,
         rnn_type : str = "lstm", 
@@ -41,35 +41,30 @@ class RNN(nn.Module):
             batch_first=True
         )
 
-        self.dropout = nn.Dropout(p=dropout) if dropout > 0 else None
-        self.dense = nn.Linear(in_features=hidden_dim * (2 if bidirectional else 1), out_features=output_size)
+        self.dropout = nn.Dropout(p=dropout)
+        self.dense = nn.Linear(
+            in_features=hidden_dim * (2 if bidirectional else 1), 
+            out_features=output_size)
         
     def forward(
         self, 
         input_ids : torch.Tensor = None, # [B, L]
-        inputs_embeds : torch.Tensor = None, # [B, L, H]
-        seq2seq : bool = True # Whether to classify each token
+        inputs_embeds : torch.Tensor = None # [B, L, H]
     ) -> torch.Tensor:
-
         assert (input_ids is None or inputs_embeds is None), "Can take either input_ids or inputs_embeds, not both."
         if inputs_embeds is None:
             inputs_embeds = self.embeddings(input_ids)
         
-        x, _ = self.rnn(inputs_embeds)
-        if not seq2seq:
-            # Classify each token
-            if self.bidirectional:
-                # Use last hidden states of BiLSTM
-                x = torch.cat(
-                    [x[:, -1, :self.hidden_dim], x[:, 0, self.hidden_dim:]],
-                    dim=-1)
-            else:
-                # Only use last hidden state
-                x = x[:,-1]
-        if self.dropout:
-            x = self.dropout(x)
-        x = self.dense(x)
-        return x
+        _, (hidden, _) = self.rnn(inputs_embeds)
+        hidden = self.dropout(hidden)
+
+        if self.bidirectional:
+            hidden = torch.cat([hidden[-2], hidden[-1]], dim=-1)
+        else:
+            # Only use last hidden state
+            hidden = hidden[-1]
+        output = self.dense(hidden)
+        return output
 
 
 class RNNBaseLM(Model):

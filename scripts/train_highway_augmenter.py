@@ -8,8 +8,8 @@ import torch
 from torch import nn
 
 from src.data.dataio import Dataset
-from src.models.rnn_model import RNN
-from src.models.learned_masking import HighwayAugmenter, HighwayAugmenterTrainer, WeightedMaskClassificationLoss
+from src.models.rnn_model import RNNClassifier
+from src.models.learned_masking import HighwayAugmenter, HighwayAugmenterTrainer, RNNMasker
 from src.utils.json_utils import append_json_lines
 from torch.utils.data import DataLoader
 from transformers import AutoModel, AutoTokenizer
@@ -17,6 +17,7 @@ from sklearn.model_selection import ParameterGrid
 
 cur_dir = os.path.dirname(os.path.abspath(__file__))
 logger = logging.getLogger()
+SEP_LINE_LEN = 90
 
 
 # CONSTANTS #
@@ -93,25 +94,32 @@ MODEL_FILE_NAME = {
 }
 
 OPTIMIZER = torch.optim.Adam
-LOSS = WeightedMaskClassificationLoss()
+LOSS = torch.nn.CrossEntropyLoss
 
 HYPERPARAMETER_GRID = {
-    "model_type": ["lstm"],
     "lr": [0.001],
     "num_epochs": [100],
-    "batch_size": [32],
-    "hidden_dim": [256],
-    "num_layers": [1],
-    "dropout": [0.2],
-    "bidirectional": [True],
     "max_seq_length": [512],
-    "early_stopping_threshold": [25]
+    "early_stopping_threshold": [25],
+    "batch_size": [32],
+    # h-params for masking RNN
+    "masker_model_type": ["lstm"],
+    "masker_hidden_dim": [768],
+    "masker_num_layers": [1],
+    "masker_dropout": [0.2],
+    "masker_bidirectional": [True],
+    # h-params for classifier RNN
+    "cls_model_type": ["lstm"],
+    "cls_hidden_dim": [256],
+    "cls_num_layers": [1],
+    "cls_dropout": [0.2],
+    "cls_bidirectional": [True],
 }
 
 OUTPUT_DIM = {
     "polarity": 2,
     "articles": 5,
-    "smokers": 5,
+    "smokers": 3,
 }
 
 # Functions #
@@ -145,12 +153,12 @@ def setup_logger(data_type):
 
 
 def train_models(data_type):
-    logger.info("+" * 90)
+    logger.info("#" * SEP_LINE_LEN)
     logger.info(
         f"Starting training for {data_type} with learning augmentation."
     )
     for model_type in MODELS[data_type]:
-        logger.info("~" * 75)
+        logger.info("~" * SEP_LINE_LEN)
         logger.info(f"Starting training using the HuggingFace model {model_type}")
         # Get the model and tokenizer from huggingface
         bert_model = AutoModel.from_pretrained(model_type)
@@ -172,7 +180,7 @@ def train_models(data_type):
         best_accuracy = 0.0
         best_hyperparam = {}
         for hyperparam in hyperparam_grid:
-            logger.info("=" * 60)
+            logger.info("=" * SEP_LINE_LEN)
             logger.info(f"Starting training with the following hyperparameters: {hyperparam}")
             # Create the data loaders
             train_dataloader = DataLoader(
@@ -194,35 +202,34 @@ def train_models(data_type):
             with contextlib.redirect_stdout(None):
                 model = HighwayAugmenter(
                     tokenizer=bert_tokenizer,
-                    masking_model=RNN(
-                        rnn_type=hyperparam["model_type"],
-                        embeddings_layer=deepcopy(bert_model.embeddings.word_embeddings),
-                        hidden_dim=hyperparam["hidden_dim"],
-                        num_layers=hyperparam["num_layers"],
-                        output_size=2, 
-                        bidirectional=hyperparam["bidirectional"],
-                        dropout=hyperparam["dropout"]
+                    masker=RNNMasker(
+                        rnn_type=hyperparam["masker_model_type"],
+                        embeddings=deepcopy(bert_model.embeddings.word_embeddings),
+                        hidden_dim=hyperparam["masker_hidden_dim"],
+                        num_layers=hyperparam["masker_num_layers"],
+                        bidirectional=hyperparam["masker_bidirectional"],
+                        dropout=hyperparam["masker_dropout"]
                     ),
-                    unmasking_model=bert_model,
-                    classifier=RNN(
-                        rnn_type=hyperparam["model_type"],
+                    unmasker=bert_model,
+                    classifier=RNNClassifier(
+                        rnn_type=hyperparam["cls_model_type"],
                         embeddings_layer=deepcopy(bert_model.embeddings.word_embeddings),
-                        hidden_dim=hyperparam["hidden_dim"],
-                        num_layers=hyperparam["num_layers"],
+                        hidden_dim=hyperparam["cls_hidden_dim"],
+                        num_layers=hyperparam["cls_num_layers"],
                         output_size=OUTPUT_DIM[data_type],
-                        bidirectional=hyperparam["bidirectional"],
-                        dropout=hyperparam["dropout"],
-                        ext_feat_size=2
+                        bidirectional=hyperparam["cls_bidirectional"],
+                        dropout=hyperparam["cls_dropout"],
+                        ext_feat_size=1
                     ),
                     max_seq_length=hyperparam["max_seq_length"]
                 )
             logger.info(f"Model created...")
             optimizer = torch.optim.Adam(
-                params=[{"params": model.masking_model.parameters()},
+                params=[{"params": model.masker.parameters()},
                         {"params": model.classifier.parameters()}],
                 lr=hyperparam["lr"]       
             )
-            loss = WeightedMaskClassificationLoss()
+            loss = torch.nn.CrossEntropyLoss()
             # Train the model
             trainer = HighwayAugmenterTrainer(
                 model=model,
@@ -245,7 +252,7 @@ def train_models(data_type):
                 }
                 best_hyperparam = hyperparam
         # Log val and test results
-        logger.info("=" * 60)
+        logger.info("=" * SEP_LINE_LEN)
         logger.info(f"Finished training model. Best hyperparameters: {best_hyperparam}")
         logger.info("Here is the validation results:")
         HighwayAugmenterTrainer.report_metrics(
@@ -290,7 +297,7 @@ def main():
     setup_logger(data_type)
     # Get augmentation dicts
     # Train models for each augmentation dict
-    logger.info("-" * 120)
+    logger.info("-" * SEP_LINE_LEN)
     logger.info(f"Training models for {data_type}")
     train_models(data_type)
 
