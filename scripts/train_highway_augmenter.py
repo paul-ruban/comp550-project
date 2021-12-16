@@ -98,8 +98,8 @@ LOSS = torch.nn.CrossEntropyLoss
 
 HYPERPARAMETER_GRID = {
     "lr": [0.001],
-    "num_epochs": [100],
-    "max_seq_length": [512],
+    "num_epochs": [1],
+    "max_seq_length": [64],
     "early_stopping_threshold": [25],
     "batch_size": [32],
     # h-params for masking RNN
@@ -263,6 +263,10 @@ def train_models(data_type):
         )
         HighwayAugmenterTrainer.report_metrics(
             model=best_state_dict["model"], dataloader=test_dataloader, logger=logger
+        )
+        logger.info("Here is the FINAL masking of the training data:")
+        HighwayAugmenterTrainer.mask_data(
+            model=best_state_dict["model"], dataloader=train_dataloader, logger=logger, n=10
         )
         # Save the best model
         model_save_folder = DATA_TYPE_DICT[data_type]["pickle_folder_path"]

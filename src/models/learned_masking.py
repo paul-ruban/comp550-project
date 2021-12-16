@@ -133,7 +133,9 @@ class HighwayAugmenter(torch.nn.Module):
         self,
         input_ids: torch.tensor,
         attention_mask: torch.tensor,
-        special_tokens_mask: torch.tensor
+        special_tokens_mask: torch.tensor,
+        apply_mask : bool = False,
+        return_mask : bool = False
     ) -> Union[torch.tensor, Tuple[torch.tensor, torch.tensor]]:
 
         # Ignore speacial tokens: [CLS], [SEP], [PAD]
@@ -148,19 +150,16 @@ class HighwayAugmenter(torch.nn.Module):
         # Masker model: RNN
         masker_output, masker_embeddings = self.masker(
             inputs_embeds=embeddings, return_hidden=True)
-        # print("self.masker.weight", self.masker.dense.weight[0,:5])
-        # print("masker_output.shape", masker_output.shape)
-        # print("masker_embeddings.shape", masker_embeddings.shape)
 
-        # Only mask and unmask embeddings during training
-        if self.training:
-            # Apply sigmoid to masker_output to get masking probabilities
-            mask_probas = torch.sigmoid(masker_output) * maskable_tokens.unsqueeze(dim=-1)
-            # If probability of masking > 50%, replace with [MASK] embedding
-            tokens_to_mask = mask_probas > 0.5
-            # Get 768-dim embedding of [MASK] token from BERT
-            mask_embedding = deepcopy(
-                self.unmasker.embeddings.word_embeddings.weight[self.tokenizer.mask_token_id])
+        # Apply sigmoid to masker_output to get masking probabilities
+        mask_probas = torch.sigmoid(masker_output) * maskable_tokens.unsqueeze(dim=-1)
+        # If probability of masking > 50%, replace with [MASK] embedding
+        tokens_to_mask = mask_probas > 0.5 # [Batch, SeqLen, 1]
+        # Get 768-dim embedding of [MASK] token from BERT
+        mask_embedding = deepcopy(
+            self.unmasker.embeddings.word_embeddings.weight[self.tokenizer.mask_token_id])
+        
+        if apply_mask:
             # Replace appropriate emebddings with [MASK] embeddings
             embeddings = torch.where(tokens_to_mask, masker_embeddings, mask_embedding)
 
@@ -176,7 +175,7 @@ class HighwayAugmenter(torch.nn.Module):
         # Classification: take the last output value
         cls_out = self.classifier(inputs_embeds=embeddings)
 
-        if self.training:
+        if return_mask:
             return cls_out, tokens_to_mask
         else:
             return cls_out
@@ -184,7 +183,7 @@ class HighwayAugmenter(torch.nn.Module):
     def __str__(self):
         s = ""
         s += str(self.masker) + '\n'
-        s += "(BERTModel): " + self.unmasker.name_or_path + '\n'
+        s += "BERTModel - " + self.unmasker.name_or_path + '\n'
         s += str(self.classifier)
         return s
 
@@ -256,7 +255,7 @@ class HighwayAugmenterTrainer:
         for epoch in range(self.num_epochs):
             if epoch_counter >= self.early_stopping_threshold:
                 logger.warning(
-                    f"The validation f1 score has not improved for {epoch_counter} epochs. Stopping training early."
+                    f"The validation f1-score has not improved for {epoch_counter} epochs. Stopping training early."
                 )
                 break
             logger.info("*" * SEP_LINE_LEN)
@@ -310,26 +309,26 @@ class HighwayAugmenterTrainer:
             cls_out, tokens_to_mask = model(
                 input_ids=input_ids,
                 attention_mask=attention_mask,
-                special_tokens_mask=special_tokens_mask
+                special_tokens_mask=special_tokens_mask,
+                apply_mask=True,
+                return_mask=True
             )
-            # Compute micro-average masked token ratio
+            # Compute micro-average of NOT REALLY "masked" token ratio
             maskable_tokens = attention_mask * ~(special_tokens_mask > 0)
-            micro_average_masked = tokens_to_mask.sum() / maskable_tokens.sum()
-            # print("maskable_tokens.shape", maskable_tokens.shape)
+            masked_ratio = tokens_to_mask.sum() / maskable_tokens.sum()
 
-            # print("tokens_to_mask.shape", tokens_to_mask.shape)
             cls_labels = batch["label"].to(device)
             loss = criterion(cls_out, cls_labels)
             loss.backward()
             optimizer.step()
-            total_acc += (cls_out.detach().clone().log_softmax(-1).argmax(-1) == cls_labels).sum().item()
+            total_acc += (cls_out.detach().clone().argmax(dim=-1) == cls_labels).sum().item()
             total_count += cls_labels.size(0)
             if idx % self.log_interval == 0 and idx > 0:
                 logger.info(
-                    "| epoch {:3d} | {:5d}/{:5d} batches "
-                    "| training accuracy {:8.3f} "
-                    "| masked_ratio {:8.3f}".format(
-                        epoch, idx, len(dataloader), total_acc / total_count, micro_average_masked
+                    "| epoch {:3d} | {:3d}/{:3d} batches "
+                    "| training accuracy {:5.3f} "
+                    "| masked_ratio {:5.3f}".format(
+                        epoch, idx, len(dataloader), total_acc / total_count, masked_ratio
                     )
                 )
                 total_acc, total_count = 0, 0
@@ -340,6 +339,8 @@ class HighwayAugmenterTrainer:
         model = model.to(device)
         y_pred = []
         y_true = []
+        maskable_tokens = 0
+        masked_tokens = 0
         with torch.no_grad():
             for batch in dataloader:
                 inputs = self.model.tokenizer(
@@ -354,13 +355,19 @@ class HighwayAugmenterTrainer:
                 input_ids = inputs["input_ids"].to(device)
                 attention_mask = inputs["attention_mask"].to(device)
                 special_tokens_mask = inputs["special_tokens_mask"].to(device)
-                cls_out = model(
+                # DO NOT APPLY MASK, but return as if it could be maked
+                cls_out, tokens_to_mask = model(
                     input_ids=input_ids,
                     attention_mask=attention_mask,
-                    special_tokens_mask=special_tokens_mask
+                    special_tokens_mask=special_tokens_mask,
+                    apply_mask=False,
+                    return_mask=True
                 )
-                
-                predicted_label = cls_out.log_softmax(dim=-1).argmax(dim=-1)
+                # Compute micro-average masked token ratio
+                maskable_tokens += (attention_mask * ~(special_tokens_mask > 0)).sum().item()
+                masked_tokens += tokens_to_mask.sum().item()
+
+                predicted_label = cls_out.argmax(dim=-1)
                 y_pred.append(predicted_label)
                 y_true.append(batch["label"])
         y_pred = torch.cat(y_pred).cpu() # back to cpu for sklearn
@@ -370,8 +377,8 @@ class HighwayAugmenterTrainer:
         f1_val = f1_score(y_true=y_true, y_pred=y_pred, average="macro")
         logger.info("*" * SEP_LINE_LEN)
         logger.info(
-            "| end of epoch {:3d} valid accuracy {:8.3f} and f1 score {:8.3f}".format(
-                epoch, accu_val, f1_val
+            "| end of epoch {:3d} | valid accuracy {:5.3f} | f1-score {:5.3f} | masked_ratio {:5.3f}".format(
+                epoch, accu_val, f1_val, masked_tokens / maskable_tokens
             )
         )
         logger.info("*" * SEP_LINE_LEN)
@@ -382,6 +389,8 @@ class HighwayAugmenterTrainer:
         model = model.to(device)
         y_pred = []
         y_true = []
+        maskable_tokens = 0
+        masked_tokens = 0
         with torch.no_grad():
             for batch in dataloader:
                 inputs = model.tokenizer(
@@ -396,14 +405,18 @@ class HighwayAugmenterTrainer:
                 input_ids = inputs["input_ids"].to(device)
                 attention_mask = inputs["attention_mask"].to(device)
                 special_tokens_mask = inputs["special_tokens_mask"].to(device)
-                mask_log_probas, cls_log_probas = model(
+                cls_out, tokens_to_mask = model(
                     input_ids=input_ids,
                     attention_mask=attention_mask,
-                    special_tokens_mask=special_tokens_mask
+                    special_tokens_mask=special_tokens_mask,
+                    apply_mask=False,
+                    return_mask=True
                 )
-                mask_labels = attention_mask * ~(special_tokens_mask > 0)
+                # Compute micro-average masked token ratio
+                maskable_tokens += (attention_mask * ~(special_tokens_mask > 0)).sum().item()
+                masked_tokens += tokens_to_mask.sum().item()
                 # TODO add logging of percentage of masked tokens
-                predicted_label = cls_log_probas.argmax(dim=1)
+                predicted_label = cls_out.argmax(dim=1)
                 y_pred.append(predicted_label)
                 y_true.append(batch["label"])
         y_pred = torch.cat(y_pred).cpu() # back to cpu for sklearn
@@ -411,11 +424,68 @@ class HighwayAugmenterTrainer:
         accu_val = accuracy_score(y_true=y_true, y_pred=y_pred)
         f1_val = f1_score(y_true=y_true, y_pred=y_pred, average="macro")
         logger.info("*" * SEP_LINE_LEN)
-        logger.info("|valid accuracy {:8.3f} and f1 score {:8.3f}".format(accu_val, f1_val))
+        logger.info(
+            "|valid accuracy {:5.3f} | f1-score {:5.3f} | masked_ratio {:5.3f}".format(
+                accu_val, f1_val, masked_tokens / maskable_tokens)
+        )
         logger.info(classification_report(y_true=y_true, y_pred=y_pred))
         logger.info(confusion_matrix(y_true=y_true, y_pred=y_pred))
         logger.info("*" * SEP_LINE_LEN)
         return accu_val, f1_val
+
+    def mask_data(model, dataloader, logger, n=10):
+        model.eval()
+        model = model.to(device)
+        original_token_ids = []
+        masked_tokens_bool = []
+        n_remaining = n
+        with torch.no_grad():
+            for batch in dataloader:
+                inputs = model.tokenizer(
+                    text=batch["text"],
+                    padding=True,
+                    return_attention_mask=True,
+                    return_special_tokens_mask=True,
+                    truncation=True,
+                    return_tensors="pt",
+                    max_length=model.max_seq_length
+                )
+                input_ids = inputs["input_ids"].to(device)
+                attention_mask = inputs["attention_mask"].to(device)
+                special_tokens_mask = inputs["special_tokens_mask"].to(device)
+                _, tokens_to_mask = model(
+                    input_ids=input_ids,
+                    attention_mask=attention_mask,
+                    special_tokens_mask=special_tokens_mask,
+                    apply_mask=False,
+                    return_mask=True
+                ) 
+                tokens_to_mask = tokens_to_mask.squeeze(dim=-1) # [Batch, SeqLen]
+
+                original_token_ids.extend(input_ids[:n].to_list())
+                masked_tokens_bool.extend(tokens_to_mask[:n].to_list())
+                n_remaining = n - len(original_token_ids)
+                if n_remaining == 0:
+                    break
+
+        logger.info("*" * SEP_LINE_LEN)
+        logger.info("Masking Examples:")
+        logger.info("*" * SEP_LINE_LEN)
+        for i in range(len(original_token_ids)):
+            original_tokens = []
+            masked_tokens = []
+            for j in range(len(original_token_ids[i])):
+                original_token = model.tokenizer.convert_ids_to_tokens(original_token_ids[i][j])
+                original_tokens.append(original_token)
+                if not masked_tokens[i][j]:
+                    masked_tokens.append(original_token)
+                else:
+                    masked_tokens.append('_' * len(original_token))
+            logger.info("# {:3d} : ORIG : {}".format(i, ' '.join(original_tokens)))
+            logger.info("# {:3d} : MASK : {}".format(i, ' '.join(masked_tokens)))
+            logger.info("*" * SEP_LINE_LEN)
+        logger.info("*" * SEP_LINE_LEN)
+
 
     # Code from https://towardsdatascience.com/lstm-text-classification-using-pytorch-2c6c657f8fc0
     def save_checkpoint(save_path, model, optimizer, loss):
