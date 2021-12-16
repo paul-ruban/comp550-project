@@ -462,8 +462,8 @@ class HighwayAugmenterTrainer:
                 ) 
                 tokens_to_mask = tokens_to_mask.squeeze(dim=-1) # [Batch, SeqLen]
 
-                original_token_ids.extend(input_ids[:n].to_list())
-                masked_tokens_bool.extend(tokens_to_mask[:n].to_list())
+                original_token_ids.extend(input_ids[:n].tolist())
+                masked_tokens_bool.extend(tokens_to_mask[:n].tolist())
                 n_remaining = n - len(original_token_ids)
                 if n_remaining == 0:
                     break
