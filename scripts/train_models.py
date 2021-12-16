@@ -36,7 +36,7 @@ DATA_TYPE_DICT = {
         "json_test_path": os.path.join(
             cur_dir, "..", "data", "rt-polaritydata", "augmentation", "test.json"
         ),
-        "json_train_log_path": os.path.join(cur_dir, "..", "logs", "training", "polarity.json"),
+        "json_train_log_path": os.path.join(cur_dir, "..", "logs", "training", "polarity_constant.json"),
         # Change to save to the augmentation
         "pickle_folder_path": "/home/mila/c/cesare.spinoso/scratch/datasets_550/polarity",
     },
@@ -50,7 +50,7 @@ DATA_TYPE_DICT = {
         "json_test_path": os.path.join(
             cur_dir, "..", "data", "articles", "augmentation", "test.json"
         ),
-        "json_train_log_path": os.path.join(cur_dir, "..", "logs", "training", "articles.json"),
+        "json_train_log_path": os.path.join(cur_dir, "..", "logs", "training", "articles_constant.json"),
         # Change to save to the augmentation
         "pickle_folder_path": "/home/mila/c/cesare.spinoso/scratch/datasets_550/articles",
     },
@@ -64,7 +64,7 @@ DATA_TYPE_DICT = {
         "json_test_path": os.path.join(
             cur_dir, "..", "data", "smokers", "augmentation", "test.json"
         ),
-        "json_train_log_path": os.path.join(cur_dir, "..", "logs", "training", "smokers.json"),
+        "json_train_log_path": os.path.join(cur_dir, "..", "logs", "training", "smokers_constant.json"),
         # Change to save to the augmentation
         "pickle_folder_path": "/home/mila/c/cesare.spinoso/scratch/datasets_550/smokers",
     },
@@ -291,7 +291,7 @@ def save_grid_search_results(
     grid_search_pickle_path = os.path.join(
         pickle_folder_path,
         f"augmentation_{augmentation_id}",
-        f"grid_search_augmentation_{augmentation_id}_{model_type}.pkl",
+        f"grid_search_augmentation_{augmentation_id}_{model_type}_constant.pkl",
     )
     with open(grid_search_pickle_path, "wb") as f:
         pickle.dump(grid_search, f)
@@ -321,7 +321,7 @@ def main():
         level=logging.DEBUG,
         format="%(asctime)s [%(levelname)s] %(message)s",
         handlers=[
-            logging.FileHandler(os.path.join(LOGGER_FOLDER_PATH, f"{data_type}.log")),
+            logging.FileHandler(os.path.join(LOGGER_FOLDER_PATH, f"{data_type}_constant.log")),
             logging.StreamHandler(),
         ],
     )
