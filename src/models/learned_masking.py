@@ -439,7 +439,7 @@ class HighwayAugmenterTrainer:
         original_token_ids = []
         masked_tokens_bool = []
         n_remaining = n
-        special_tokens = list(tokenizer.special_tokens_map.values())
+        special_tokens = list(model.tokenizer.special_tokens_map.values())
 
         with torch.no_grad():
             for batch in dataloader:
