@@ -116,7 +116,8 @@ class HighwayAugmenter(torch.nn.Module):
         
         if apply_mask:
             # Replace appropriate emebddings with [MASK] embeddings
-            embeddings = torch.where(tokens_to_mask, masker_embeddings, mask_embedding)
+            # embeddings = torch.where(tokens_to_mask, masker_embeddings, mask_embedding) # if we use embeddings coming from the masker
+            embeddings = torch.where(tokens_to_mask, embeddings, mask_embedding) # if we use original embeddings
 
         # Unmasking model: BERT (NO BACKPROP)
         with torch.no_grad():
