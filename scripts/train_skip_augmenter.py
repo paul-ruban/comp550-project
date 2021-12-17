@@ -9,7 +9,7 @@ from torch import nn
 
 from src.data.dataio import Dataset
 from src.models.rnn_model import RNNClassifier, RNNMasker
-from src.models.learned_skip_masking import DeepSkipAugmenter, DeepSkipAugmenterTrainer
+from src.models.learned_skip_masking import DeepSkipAugmenter, DeepSkipAugmenterTrainer, WeightedMaskClassificationLoss
 from src.utils.json_utils import append_json_lines
 from torch.utils.data import DataLoader
 from transformers import AutoModel, AutoTokenizer
@@ -98,15 +98,15 @@ LOSS = torch.nn.CrossEntropyLoss
 
 HYPERPARAMETER_GRID = {
     "lr": [0.001],
-    "num_epochs": [100],
-    "max_seq_length": [512],
+    "num_epochs": [100], # 100
+    "max_seq_length": [512], # 512
     "early_stopping_threshold": [25],
     "batch_size": [32],
     # h-params for masking RNN
     "masker_model_type": ["lstm"],
-    "masker_hidden_dim": [256, 512, 768],
+    "masker_hidden_dim": [[256, 512, 768]], # [256, 512, 768]
     "masker_num_layers": [1],
-    "masker_dropout": [0.2, 0.5],
+    "masker_dropout": [0.2, 0.5], # [0.2, 0.5]
     "masker_bidirectional": [True],
     # h-params for classifier RNN
     "cls_model_type": ["lstm"],
@@ -218,8 +218,7 @@ def train_models(data_type):
                         num_layers=hyperparam["cls_num_layers"],
                         output_size=OUTPUT_DIM[data_type],
                         bidirectional=hyperparam["cls_bidirectional"],
-                        dropout=hyperparam["cls_dropout"],
-                        ext_feat_size=1
+                        dropout=hyperparam["cls_dropout"]
                     ),
                     max_seq_length=hyperparam["max_seq_length"]
                 )
@@ -229,7 +228,7 @@ def train_models(data_type):
                         {"params": model.classifier.parameters()}],
                 lr=hyperparam["lr"]       
             )
-            loss = torch.nn.CrossEntropyLoss()
+            loss = WeightedMaskClassificationLoss()
             # Train the model
             trainer = DeepSkipAugmenterTrainer(
                 model=model,

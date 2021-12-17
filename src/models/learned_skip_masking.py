@@ -1,6 +1,7 @@
 # Goal identify optimal token masking based on classification and demasking loss
 import torch
 import copy
+import random
 import logging
 import contextlib
 from copy import deepcopy
@@ -80,7 +81,7 @@ class DeepSkipAugmenter(torch.nn.Module):
         special_tokens_mask: torch.tensor,
         apply_mask : bool = False,
         return_mask : bool = False
-    ) -> Union[Tuple[torch.tensor, torch.tensor], Tuple[torch.tensor, torche.tensor, torch.tensor]]:
+    ) -> Union[Tuple[torch.tensor, torch.tensor], Tuple[torch.tensor, torch.tensor, torch.tensor]]:
 
         # Ignore speacial tokens: [CLS], [SEP], [PAD]
         maskable_tokens = attention_mask * ~(special_tokens_mask > 0) # [Batch, SeqLen]
@@ -106,8 +107,6 @@ class DeepSkipAugmenter(torch.nn.Module):
         if apply_mask:
             # Replace appropriate tokens with [MASK] token
             input_ids = torch.where(tokens_to_mask, input_ids, mask_token_id) # [32, 512]
-
-        print('1. input_ids.shape is', input_ids.shape)
 
         # Unmasking model: BERT (NO BACKPROP)
         with torch.no_grad():
@@ -154,7 +153,7 @@ class WeightedMaskClassificationLoss(torch.nn.Module):
     
     def forward(
         self, 
-        mask_out: torch.tensor, # [B, L, C]
+        mask_out: torch.tensor, # [B, L]
         mask_labels: torch.tensor, # [B, L]
         cls_out: torch.tensor, # [B, C]
         cls_labels: torch.tensor # [B]
@@ -263,12 +262,15 @@ class DeepSkipAugmenterTrainer:
                 apply_mask=True,
                 return_mask=True
             )
+            masker_output = masker_output.squeeze(dim= -1)
+            
             # Compute micro-average of NOT REALLY "masked" token ratio
             maskable_tokens = attention_mask * ~(special_tokens_mask > 0)
             masked_ratio = tokens_to_mask.sum() / maskable_tokens.sum()
+            mask_labels = ((torch.rand_like(masker_output) < random.random()) * maskable_tokens).float()
 
             cls_labels = batch["label"].to(device)
-            loss = criterion(cls_out, cls_labels)
+            loss = criterion(mask_out = masker_output, mask_labels = mask_labels, cls_out = cls_out, cls_labels = cls_labels)
             loss.backward()
             optimizer.step()
             total_acc += (cls_out.detach().clone().argmax(dim=-1) == cls_labels).sum().item()
@@ -306,7 +308,7 @@ class DeepSkipAugmenterTrainer:
                 attention_mask = inputs["attention_mask"].to(device)
                 special_tokens_mask = inputs["special_tokens_mask"].to(device)
                 # DO NOT APPLY MASK, but return as if it could be maked
-                cls_out, tokens_to_mask = model(
+                _, cls_out, tokens_to_mask = model(
                     input_ids=input_ids,
                     attention_mask=attention_mask,
                     special_tokens_mask=special_tokens_mask,
@@ -355,7 +357,7 @@ class DeepSkipAugmenterTrainer:
                 input_ids = inputs["input_ids"].to(device)
                 attention_mask = inputs["attention_mask"].to(device)
                 special_tokens_mask = inputs["special_tokens_mask"].to(device)
-                cls_out, tokens_to_mask = model(
+                _, cls_out, tokens_to_mask = model(
                     input_ids=input_ids,
                     attention_mask=attention_mask,
                     special_tokens_mask=special_tokens_mask,
@@ -406,7 +408,7 @@ class DeepSkipAugmenterTrainer:
                 input_ids = inputs["input_ids"].to(device)
                 attention_mask = inputs["attention_mask"].to(device)
                 special_tokens_mask = inputs["special_tokens_mask"].to(device)
-                _, tokens_to_mask = model(
+                _, _, tokens_to_mask = model(
                     input_ids=input_ids,
                     attention_mask=attention_mask,
                     special_tokens_mask=special_tokens_mask,
