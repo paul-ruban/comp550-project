@@ -4,18 +4,13 @@ import copy
 import logging
 import contextlib
 from copy import deepcopy
-import torch.nn.functional as F
 from typing import Tuple, Union
 
-from nltk.text import TokenSearcher
 from torch.utils.data import DataLoader
-from transformers import AutoTokenizer, AutoModel
 from transformers.tokenization_utils import PreTrainedTokenizer
 
 from sklearn.metrics import accuracy_score, f1_score, confusion_matrix, classification_report
 
-from src.models.rnn_model import RNNClassifier
-from src.data.dataio import Dataset
 
 logger = logging.getLogger()
 SEP_LINE_LEN = 90
@@ -43,61 +38,10 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 # Classification (RNN classifier, for the sequenece 1 target, look fpr those, get inspiration from Pual's RNN models, instead of hidden to token, should self.denseClassifier)
 
 
-class RNNMasker(torch.nn.Module):
-    def __init__(
-        self,
-        rnn_type : str = "lstm", 
-        embeddings : torch.nn.modules.sparse.Embedding = None,
-        hidden_dim : int = 768, 
-        num_layers : int = 1,
-        bidirectional : bool = False,
-        dropout : float = 0.1,
-    ) -> None:
-
+class Gate(torch.nn.Module):
+    def __init__(self, hidden_dim : int = 768, activation=None) -> None:
         super().__init__()
-        assert (rnn_type in ["lstm", "gru"]), "rnn_type can be one of: 'lstm', 'gru'."
-        rnn_type = torch.nn.LSTM if rnn_type == "lstm" else torch.nn.GRU
-        self.embeddings = embeddings
-        self.hidden_dim = hidden_dim
-        self.bidirectional = bidirectional
-
-        self.rnn = rnn_type(
-            input_size=embeddings.embedding_dim, 
-            hidden_size=hidden_dim,
-            num_layers=num_layers,
-            dropout=dropout if num_layers > 1 else 0, # prevents warning for 1 layer
-            bidirectional=bidirectional,
-            batch_first=True
-        )
-
-        self.dropout = torch.nn.Dropout(p=dropout)
-        if self.hidden_dim * (2 if bidirectional else 1) != embeddings.embedding_dim:
-            self.projection = torch.nn.Linear(
-                in_features=self.hidden_dim * (2 if bidirectional else 1),
-                out_features=embeddings.embedding_dim)
-        else:
-            self.projection = None
-        self.dense = torch.nn.Linear(in_features=embeddings.embedding_dim, out_features=1)
-        
-    def forward(
-        self, 
-        input_ids : torch.Tensor = None, # [Batch, SeqLen]
-        inputs_embeds : torch.Tensor = None, # [Batch, SeqLen, EmbDim]
-        return_hidden : bool = False
-    ) -> torch.Tensor:
-
-        assert (input_ids is None or inputs_embeds is None), "Can take either input_ids or inputs_embeds, not both."
-        if inputs_embeds is None:
-            inputs_embeds = self.embeddings(input_ids) # [Batch, SeqLen, EmbDim]
-        hidden, _ = self.rnn(inputs_embeds) # [Batch, SeqLen, HidDim * (2 if bidirectional else 1)]
-        if self.projection:
-            hidden = self.projection(hidden) # [Batch, SeqLen, EmbDim]
-        hidden = self.dropout(hidden) # [Batch, SeqLen, EmbDim]
-        output = self.dense(hidden) # [Batch, SeqLen, 1]
-        if return_hidden:
-            return output, hidden
-        else:
-            return output
+        pass
 
 
 class HighwayAugmenter(torch.nn.Module):
@@ -108,7 +52,7 @@ class HighwayAugmenter(torch.nn.Module):
         unmasker : torch.nn.Module,
         classifier : torch.nn.Module,
         max_seq_length : int = 512,
-
+        gate : torch.nn.Module = None
     ) -> None:
 
         super().__init__()
@@ -116,10 +60,10 @@ class HighwayAugmenter(torch.nn.Module):
         self.masker = masker
         self.unmasker = unmasker
         self.max_seq_length = max_seq_length
+        self.gate = gate
         # freeze all parameters of masker
         for p in self.unmasker.parameters():
             p.requires_grad = False
-
         self.classifier = classifier
     
     def get_params(self):
@@ -169,6 +113,9 @@ class HighwayAugmenter(torch.nn.Module):
                 inputs_embeds=embeddings, 
                 attention_mask=attention_mask
             )["last_hidden_state"]
+
+        if self.gate:
+            embeddings = self.gate(masker_embeddings=masker_embeddings, unmasker_embeddings=embeddings)
 
         # Concat mask_out with unmasked_embeddings as external feature
         embeddings = torch.cat([embeddings, masker_output], dim=-1) # 768 + 1 = 769

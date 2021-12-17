@@ -8,8 +8,8 @@ import torch
 from torch import nn
 
 from src.data.dataio import Dataset
-from src.models.rnn_model import RNNClassifier
-from src.models.learned_masking import HighwayAugmenter, HighwayAugmenterTrainer, RNNMasker
+from src.models.rnn_model import RNNClassifier, RNNMasker
+from src.models.learned_masking import HighwayAugmenter, HighwayAugmenterTrainer
 from src.utils.json_utils import append_json_lines
 from torch.utils.data import DataLoader
 from transformers import AutoModel, AutoTokenizer
