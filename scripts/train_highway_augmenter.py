@@ -9,7 +9,7 @@ from torch import nn
 
 from src.data.dataio import Dataset
 from src.models.rnn_model import RNNClassifier, RNNMasker
-from src.models.learned_masking import HighwayAugmenter, HighwayAugmenterTrainer
+from src.models.learned_masking import HighwayAugmenter, HighwayAugmenterTrainer, GLU
 from src.utils.json_utils import append_json_lines
 from torch.utils.data import DataLoader
 from transformers import AutoModel, AutoTokenizer
@@ -221,7 +221,10 @@ def train_models(data_type):
                         dropout=hyperparam["cls_dropout"],
                         ext_feat_size=1
                     ),
-                    max_seq_length=hyperparam["max_seq_length"]
+                    max_seq_length=hyperparam["max_seq_length"],
+                    glu=GLU(
+                            hidden_dim=bert_model.embeddings.word_embeddings.embedding_dim, 
+                            activation=torch.nn.Sigmoid())
                 )
             logger.info(f"Model created...")
             optimizer = torch.optim.Adam(

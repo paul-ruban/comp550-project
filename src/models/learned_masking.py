@@ -38,10 +38,17 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 # Classification (RNN classifier, for the sequenece 1 target, look fpr those, get inspiration from Pual's RNN models, instead of hidden to token, should self.denseClassifier)
 
 
-class Gate(torch.nn.Module):
-    def __init__(self, hidden_dim : int = 768, activation=None) -> None:
+class GLU(torch.nn.Module):
+    """ From https://arxiv.org/abs/2002.05202"""
+    def __init__(self, hidden_dim : int = 768, activation : torch.nn.Module = torch.nn.Identity) -> None:
         super().__init__()
-        pass
+        self.hidden_dim = hidden_dim
+        self.activation = activation
+        self.mask_proj = torch.nn.Linear(in_features=hidden_dim, out_features=hidden_dim)
+        self.embs_proj = torch.nn.Linear(in_features=hidden_dim, out_features=hidden_dim)
+    
+    def forward(self, mask_embs : torch.tensor, input_embs : torch.tensor):
+        return self.activation(self.mask_proj(mask_embs)) * self.embs_proj(input_embs)
 
 
 class HighwayAugmenter(torch.nn.Module):
@@ -52,7 +59,7 @@ class HighwayAugmenter(torch.nn.Module):
         unmasker : torch.nn.Module,
         classifier : torch.nn.Module,
         max_seq_length : int = 512,
-        gate : torch.nn.Module = None
+        glu : GLU = None
     ) -> None:
 
         super().__init__()
@@ -60,7 +67,7 @@ class HighwayAugmenter(torch.nn.Module):
         self.masker = masker
         self.unmasker = unmasker
         self.max_seq_length = max_seq_length
-        self.gate = gate
+        self.glu = glu
         # freeze all parameters of masker
         for p in self.unmasker.parameters():
             p.requires_grad = False
@@ -68,10 +75,14 @@ class HighwayAugmenter(torch.nn.Module):
     
     def get_params(self):
         # get parameters of masker and classifier
-        return [
+        params = [
             {"params": self.masker.parameters()},
             {"params": self.classifier.parameters()}
         ]
+        if self.glu:
+            params.append({"params": self.glu.parameters()})
+        
+        return params
    
     def forward(
         self,
@@ -114,8 +125,8 @@ class HighwayAugmenter(torch.nn.Module):
                 attention_mask=attention_mask
             )["last_hidden_state"]
 
-        if self.gate:
-            embeddings = self.gate(masker_embeddings=masker_embeddings, unmasker_embeddings=embeddings)
+        if self.glu:
+            embeddings = self.glu(mask_embs=masker_embeddings, input_embs=embeddings)
 
         # Concat mask_out with unmasked_embeddings as external feature
         embeddings = torch.cat([embeddings, masker_output], dim=-1) # 768 + 1 = 769
@@ -131,6 +142,8 @@ class HighwayAugmenter(torch.nn.Module):
         s = ""
         s += str(self.masker) + '\n'
         s += "BERTModel - " + self.unmasker.name_or_path + '\n'
+        if self.glu:
+            s += str(self.glu) + '\n'
         s += str(self.classifier)
         return s
 
