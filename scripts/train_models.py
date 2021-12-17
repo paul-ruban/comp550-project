@@ -330,7 +330,7 @@ def main():
     augmentation_json_file_path = DATA_TYPE_DICT[data_type]["json_training_log_path"]
     # Get each dictionary in the json file
     augmentation_dicts = read_json_lines(augmentation_json_file_path)
-    for augmentation_dict in tqdm(augmentation_dicts[3:]):
+    for augmentation_dict in tqdm(augmentation_dicts[11:]):
         logger.info("-" * 120)
         logger.info(
             f"Starting training for {data_type} with augmentation {augmentation_dict['augmented_dataset_id']}"
