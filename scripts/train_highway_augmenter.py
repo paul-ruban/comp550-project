@@ -222,9 +222,9 @@ def train_models(data_type):
                         ext_feat_size=1
                     ),
                     max_seq_length=hyperparam["max_seq_length"],
-                    glu=GLU(
-                            hidden_dim=bert_model.embeddings.word_embeddings.embedding_dim, 
-                            activation=torch.nn.Sigmoid())
+                    # glu=GLU(
+                    #         hidden_dim=bert_model.embeddings.word_embeddings.embedding_dim, 
+                    #         activation=torch.nn.Sigmoid())
                 )
             logger.info(f"Model created...")
             optimizer = torch.optim.Adam(
