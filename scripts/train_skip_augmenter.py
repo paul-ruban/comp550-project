@@ -8,20 +8,22 @@ import torch
 from torch import nn
 
 from src.data.dataio import Dataset
-from src.models.rnn_model import RNN
-from src.models.learned_skip_masking import DeepSkipAugmenter, DeepSkipAugmenterTrainer, WeightedMaskClassificationLoss
+from src.models.rnn_model import RNNClassifier, RNNMasker
+from src.models.learned_skip_masking import DeepSkipAugmenter, DeepSkipAugmenterTrainer
 from src.utils.json_utils import append_json_lines
 from torch.utils.data import DataLoader
-from transformers import AutoModelForMaskedLM, AutoTokenizer
+from transformers import AutoModel, AutoTokenizer
 from sklearn.model_selection import ParameterGrid
 
 cur_dir = os.path.dirname(os.path.abspath(__file__))
 logger = logging.getLogger()
+SEP_LINE_LEN = 90
 
 
 # CONSTANTS #
-
-LOGGER_FOLDER_PATH = os.path.join(cur_dir, "..", "logs", "training_rnn_classif")
+EXP_NAME = os.path.basename(__file__).split('.')[0] # get it from script name
+PICKLE_CKPT_DESTINATION = "/content/models/"
+LOGGER_FOLDER_PATH = os.path.join(cur_dir, "..", "logs", EXP_NAME)
 DATA_TYPE_DICT = {
     "polarity": {
         "json_train_path": os.path.join(
@@ -34,11 +36,12 @@ DATA_TYPE_DICT = {
             cur_dir, "..", "data", "rt-polaritydata", "augmentation", "test.json"
         ),
         "json_train_log_path": os.path.join(
-            cur_dir, "..", "logs", "training_deep_skip_augmenter", "polarity.json"
+            cur_dir, "..", "logs", EXP_NAME, "polarity.json"
         ),
         # Change to save to the augmentation
         # "pickle_folder_path": "/home/mila/c/cesare.spinoso/scratch/datasets_550/polarity",
-        "pickle_folder_path": "/home/c_spino/comp_550/comp-550-project/data/temp/polarity",
+        # "pickle_folder_path": "/home/c_spino/comp_550/comp-550-project/data/temp/polarity",
+        "pickle_folder_path": os.path.join(PICKLE_CKPT_DESTINATION, "polarity"),
     },
     "articles": {
         "json_train_path": os.path.join(
@@ -51,10 +54,11 @@ DATA_TYPE_DICT = {
             cur_dir, "..", "data", "articles", "augmentation", "test.json"
         ),
         "json_train_log_path": os.path.join(
-            cur_dir, "..", "logs", "training_deep_skip_augmenter", "articles.json"
+            cur_dir, "..", "logs", EXP_NAME, "articles.json"
         ),
         # Change to save to the augmentation
-        "pickle_folder_path": "/home/mila/c/cesare.spinoso/scratch/datasets_550/articles",
+        # "pickle_folder_path": "/home/mila/c/cesare.spinoso/scratch/datasets_550/articles",
+        "pickle_folder_path": os.path.join(PICKLE_CKPT_DESTINATION, "articles"),
     },
     "smokers": {
         "json_train_path": os.path.join(
@@ -67,10 +71,11 @@ DATA_TYPE_DICT = {
             cur_dir, "..", "data", "smokers", "augmentation", "test.json"
         ),
         "json_train_log_path": os.path.join(
-            cur_dir, "..", "logs", "training_rnn_classif", "smokers.json"
+            cur_dir, "..", "logs", EXP_NAME, "smokers.json"
         ),
         # Change to save to the augmentation
-        "pickle_folder_path": "/home/mila/c/cesare.spinoso/scratch/datasets_550/smokers",
+        # "pickle_folder_path": "/home/mila/c/cesare.spinoso/scratch/datasets_550/smokers",
+        "pickle_folder_path": os.path.join(PICKLE_CKPT_DESTINATION, "smokers"),
     },
 }
 
@@ -89,18 +94,26 @@ MODEL_FILE_NAME = {
 }
 
 OPTIMIZER = torch.optim.Adam
-LOSS = WeightedMaskClassificationLoss()
+LOSS = torch.nn.CrossEntropyLoss
 
 HYPERPARAMETER_GRID = {
-    "model_type": ["lstm"],
     "lr": [0.001],
-    "num_epochs": [10],
+    "num_epochs": [100],
+    "max_seq_length": [512],
+    "early_stopping_threshold": [25],
     "batch_size": [32],
-    "hidden_dim": [256],
-    "num_layers": [1],
-    "dropout": [0.2],
-    "bidirectional": [True, False],
-    "max_seq_length": [128]
+    # h-params for masking RNN
+    "masker_model_type": ["lstm"],
+    "masker_hidden_dim": [256, 512, 768],
+    "masker_num_layers": [1],
+    "masker_dropout": [0.2, 0.5],
+    "masker_bidirectional": [True],
+    # h-params for classifier RNN
+    "cls_model_type": ["lstm"],
+    "cls_hidden_dim": [256],
+    "cls_num_layers": [1],
+    "cls_dropout": [0.2],
+    "cls_bidirectional": [True]
 }
 
 OUTPUT_DIM = {
@@ -140,16 +153,15 @@ def setup_logger(data_type):
 
 
 def train_models(data_type):
-    logger.info("+" * 90)
+    logger.info("#" * SEP_LINE_LEN)
     logger.info(
         f"Starting training for {data_type} with learning augmentation."
     )
     for model_type in MODELS[data_type]:
-        logger.info("~" * 75)
+        logger.info("~" * SEP_LINE_LEN)
         logger.info(f"Starting training using the HuggingFace model {model_type}")
         # Get the model and tokenizer from huggingface
-        bert_model = AutoModelForMaskedLM.from_pretrained(model_type)
-        # print('bert_model is', bert_model)
+        bert_model = AutoModel.from_pretrained(model_type)
         bert_tokenizer = AutoTokenizer.from_pretrained(model_type)
         # Get train, val, test paths
         training_json_path = DATA_TYPE_DICT[data_type]["json_train_path"]
@@ -163,12 +175,12 @@ def train_models(data_type):
         # Create the search grid
         hyperparam_grid = ParameterGrid(HYPERPARAMETER_GRID)
         # Running parameter to get the best model from the hyperparameters
-        best_rnn_state_dict = {}
+        best_state_dict = {}
         best_f1_score = 0.0
         best_accuracy = 0.0
         best_hyperparam = {}
         for hyperparam in hyperparam_grid:
-            logger.info("=" * 60)
+            logger.info("=" * SEP_LINE_LEN)
             logger.info(f"Starting training with the following hyperparameters: {hyperparam}")
             # Create the data loaders
             train_dataloader = DataLoader(
@@ -190,33 +202,34 @@ def train_models(data_type):
             with contextlib.redirect_stdout(None):
                 model = DeepSkipAugmenter(
                     tokenizer=bert_tokenizer,
-                    masking_model=RNN(
-                        embeddings_layer=deepcopy(bert_model.distilbert.embeddings.word_embeddings),
-                        hidden_dim=hyperparam["hidden_dim"],
-                        num_layers=hyperparam["num_layers"],
-                        output_size=2, 
-                        bidirectional=hyperparam["bidirectional"],
-                        dropout=hyperparam["dropout"],
-                        project_to_emb_dim=True
+                    masker=RNNMasker(
+                        rnn_type=hyperparam["masker_model_type"],
+                        embeddings=deepcopy(bert_model.embeddings.word_embeddings),
+                        hidden_dim=hyperparam["masker_hidden_dim"],
+                        num_layers=hyperparam["masker_num_layers"],
+                        bidirectional=hyperparam["masker_bidirectional"],
+                        dropout=hyperparam["masker_dropout"]
                     ),
-                    unmasking_model=bert_model,
-                    classifier=RNN(
-                        embeddings_layer=deepcopy(bert_model.distilbert.embeddings.word_embeddings),
-                        hidden_dim=hyperparam["hidden_dim"],
-                        num_layers=hyperparam["num_layers"],
+                    unmasker=bert_model,
+                    classifier=RNNClassifier(
+                        rnn_type=hyperparam["cls_model_type"],
+                        embeddings_layer=deepcopy(bert_model.embeddings.word_embeddings),
+                        hidden_dim=hyperparam["cls_hidden_dim"],
+                        num_layers=hyperparam["cls_num_layers"],
                         output_size=OUTPUT_DIM[data_type],
-                        bidirectional=hyperparam["bidirectional"],
-                        dropout=hyperparam["dropout"]
+                        bidirectional=hyperparam["cls_bidirectional"],
+                        dropout=hyperparam["cls_dropout"],
+                        ext_feat_size=1
                     ),
                     max_seq_length=hyperparam["max_seq_length"]
                 )
             logger.info(f"Model created...")
             optimizer = torch.optim.Adam(
-                params=[{"params": model.masking_model.parameters()},
+                params=[{"params": model.masker.parameters()},
                         {"params": model.classifier.parameters()}],
                 lr=hyperparam["lr"]       
             )
-            loss = WeightedMaskClassificationLoss()
+            loss = torch.nn.CrossEntropyLoss()
             # Train the model
             trainer = DeepSkipAugmenterTrainer(
                 model=model,
@@ -226,6 +239,7 @@ def train_models(data_type):
                 val_dataloader=val_dataloader,
                 logger=logger,
                 num_epochs=hyperparam["num_epochs"],
+                early_stopping_threshold=hyperparam["early_stopping_threshold"]
             )
             trainer.train()
             if trainer.best_f1_score > best_f1_score:
@@ -238,7 +252,7 @@ def train_models(data_type):
                 }
                 best_hyperparam = hyperparam
         # Log val and test results
-        logger.info("=" * 60)
+        logger.info("=" * SEP_LINE_LEN)
         logger.info(f"Finished training model. Best hyperparameters: {best_hyperparam}")
         logger.info("Here is the validation results:")
         DeepSkipAugmenterTrainer.report_metrics(
@@ -250,14 +264,15 @@ def train_models(data_type):
         DeepSkipAugmenterTrainer.report_metrics(
             model=best_state_dict["model"], dataloader=test_dataloader, logger=logger
         )
-        # Save the best model
-        model_save_folder = os.path.join(
-            DATA_TYPE_DICT[data_type]["pickle_folder_path"],
-            f"augmentation_{augmentation_dict['augmented_dataset_id']}",
+        logger.info("Here is the FINAL masking of the training data:")
+        DeepSkipAugmenterTrainer.mask_data(
+            model=best_state_dict["model"], dataloader=train_dataloader, logger=logger, n=10
         )
+        # Save the best model
+        model_save_folder = DATA_TYPE_DICT[data_type]["pickle_folder_path"]
         model_path = os.path.join(
             model_save_folder,
-            f"rnn_classif_{MODEL_FILE_NAME[model_type]}.pt",
+            f"model_{MODEL_FILE_NAME[model_type]}.pt",
         )
         if not os.path.exists(model_save_folder):
             os.makedirs(model_save_folder)
@@ -269,8 +284,6 @@ def train_models(data_type):
         )
         # Log this to the json
         json_dict = {
-            "augmented_dataset_id": augmentation_dict["augmented_dataset_id"],
-            "augmentation_features": augmentation_dict["augmentation_features"],
             "huggingface_model": model_type,
             "f1_score": best_f1_score,
             "accuracy_score": best_accuracy,
@@ -288,7 +301,7 @@ def main():
     setup_logger(data_type)
     # Get augmentation dicts
     # Train models for each augmentation dict
-    logger.info("-" * 120)
+    logger.info("-" * SEP_LINE_LEN)
     logger.info(f"Training models for {data_type}")
     train_models(data_type)
 
@@ -296,8 +309,7 @@ def main():
 if __name__ == "__main__":
     main()
 
-
-# Usage:
-#   1. source installation.sh 
-#   2. python scripts/train_skip_augmenter.py -t articles
-#   3. nvidia-smi
+# Run first: source installation.sh
+# Usage: python scripts/train_skip_augmenter.py -t articles
+# Usage: python scripts/train_skip_augmenter.py -t polarity
+# Usage: python scripts/train_skip_augmenter.py -t smokers
