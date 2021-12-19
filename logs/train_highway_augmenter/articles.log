@@ -1,0 +1,1256 @@
+2021-12-19 22:17:32,645 [INFO] ------------------------------------------------------------------------------------------
+2021-12-19 22:17:32,645 [INFO] Training models for articles
+2021-12-19 22:17:32,645 [INFO] ##########################################################################################
+2021-12-19 22:17:32,645 [INFO] Starting training for articles with learning augmentation.
+2021-12-19 22:17:32,645 [INFO] ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2021-12-19 22:17:32,645 [INFO] Starting training using the HuggingFace model distilbert-base-uncased
+2021-12-19 22:17:36,538 [WARNING] Using custom data configuration default-dd5a3ddc8839237a
+2021-12-19 22:17:36,539 [WARNING] Reusing dataset json (/root/.cache/huggingface/datasets/json/default-dd5a3ddc8839237a/0.0.0/7334ed11270d48b1ef46b6251d4d612598d73f1cd0c2510f656d05a4ff0d849a)
+2021-12-19 22:17:36,547 [WARNING] Using custom data configuration default-0d65bcfa27385192
+2021-12-19 22:17:36,548 [WARNING] Reusing dataset json (/root/.cache/huggingface/datasets/json/default-0d65bcfa27385192/0.0.0/7334ed11270d48b1ef46b6251d4d612598d73f1cd0c2510f656d05a4ff0d849a)
+2021-12-19 22:17:36,555 [WARNING] Using custom data configuration default-d7c0e37feb64ca2c
+2021-12-19 22:17:36,556 [WARNING] Reusing dataset json (/root/.cache/huggingface/datasets/json/default-d7c0e37feb64ca2c/0.0.0/7334ed11270d48b1ef46b6251d4d612598d73f1cd0c2510f656d05a4ff0d849a)
+2021-12-19 22:17:36,557 [INFO] Done loading all the datasets
+2021-12-19 22:17:36,558 [INFO] ==========================================================================================
+2021-12-19 22:17:36,558 [INFO] Starting training with the following hyperparameters: {'batch_size': 32, 'cls_bidirectional': True, 'cls_dropout': 0.2, 'cls_hidden_dim': 256, 'cls_model_type': 'lstm', 'cls_num_layers': 1, 'early_stopping_threshold': 100, 'lr': 0.001, 'masker_bidirectional': True, 'masker_dropout': 0.5, 'masker_hidden_dim': 512, 'masker_model_type': 'lstm', 'masker_num_layers': 1, 'max_seq_length': 512, 'num_epochs': 100}
+2021-12-19 22:17:36,695 [INFO] Model created...
+2021-12-19 22:17:36,696 [INFO] ==========================================================================================
+2021-12-19 22:17:36,696 [INFO] Training model:
+RNNMasker(
+  (embeddings): Embedding(30522, 768, padding_idx=0)
+  (rnn): LSTM(768, 512, batch_first=True, bidirectional=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+  (projection): Linear(in_features=1024, out_features=768, bias=True)
+  (dense): Linear(in_features=768, out_features=1, bias=True)
+)
+BERTModel - distilbert-base-uncased
+RNNClassifier(
+  (embeddings): Embedding(30522, 768, padding_idx=0)
+  (rnn): LSTM(769, 256, batch_first=True, bidirectional=True)
+  (dropout): Dropout(p=0.2, inplace=False)
+  (dense): Linear(in_features=512, out_features=5, bias=True)
+)
+2021-12-19 22:17:36,696 [INFO] ******************************************************************************************
+2021-12-19 22:17:36,696 [INFO] Training epoch 0
+2021-12-19 22:17:46,146 [INFO] | epoch   0 |  10/ 56 batches | training accuracy 0.386 | masked_ratio 0.512
+2021-12-19 22:17:51,632 [INFO] | epoch   0 |  20/ 56 batches | training accuracy 0.366 | masked_ratio 0.000
+2021-12-19 22:17:57,104 [INFO] | epoch   0 |  30/ 56 batches | training accuracy 0.234 | masked_ratio 0.000
+2021-12-19 22:18:02,581 [INFO] | epoch   0 |  40/ 56 batches | training accuracy 0.266 | masked_ratio 0.000
+2021-12-19 22:18:08,047 [INFO] | epoch   0 |  50/ 56 batches | training accuracy 0.272 | masked_ratio 0.000
+2021-12-19 22:18:13,403 [INFO] ******************************************************************************************
+2021-12-19 22:18:13,403 [INFO] | end of epoch   0 | valid accuracy 0.243 | f1-score 0.137 | masked_ratio 0.000
+2021-12-19 22:18:13,403 [INFO] ******************************************************************************************
+2021-12-19 22:18:13,439 [INFO] ******************************************************************************************
+2021-12-19 22:18:13,439 [INFO] Training epoch 1
+2021-12-19 22:18:19,465 [INFO] | epoch   1 |  10/ 56 batches | training accuracy 0.278 | masked_ratio 0.000
+2021-12-19 22:18:24,954 [INFO] | epoch   1 |  20/ 56 batches | training accuracy 0.294 | masked_ratio 0.000
+2021-12-19 22:18:30,456 [INFO] | epoch   1 |  30/ 56 batches | training accuracy 0.291 | masked_ratio 0.000
+2021-12-19 22:18:35,951 [INFO] | epoch   1 |  40/ 56 batches | training accuracy 0.275 | masked_ratio 0.000
+2021-12-19 22:18:41,435 [INFO] | epoch   1 |  50/ 56 batches | training accuracy 0.284 | masked_ratio 0.000
+2021-12-19 22:18:46,778 [INFO] ******************************************************************************************
+2021-12-19 22:18:46,778 [INFO] | end of epoch   1 | valid accuracy 0.293 | f1-score 0.237 | masked_ratio 0.000
+2021-12-19 22:18:46,778 [INFO] ******************************************************************************************
+2021-12-19 22:18:46,818 [INFO] ******************************************************************************************
+2021-12-19 22:18:46,818 [INFO] Training epoch 2
+2021-12-19 22:18:52,844 [INFO] | epoch   2 |  10/ 56 batches | training accuracy 0.256 | masked_ratio 0.000
+2021-12-19 22:18:58,304 [INFO] | epoch   2 |  20/ 56 batches | training accuracy 0.278 | masked_ratio 0.000
+2021-12-19 22:19:03,781 [INFO] | epoch   2 |  30/ 56 batches | training accuracy 0.272 | masked_ratio 0.000
+2021-12-19 22:19:09,254 [INFO] | epoch   2 |  40/ 56 batches | training accuracy 0.250 | masked_ratio 0.000
+2021-12-19 22:19:14,728 [INFO] | epoch   2 |  50/ 56 batches | training accuracy 0.281 | masked_ratio 0.000
+2021-12-19 22:19:20,085 [INFO] ******************************************************************************************
+2021-12-19 22:19:20,085 [INFO] | end of epoch   2 | valid accuracy 0.243 | f1-score 0.137 | masked_ratio 0.000
+2021-12-19 22:19:20,085 [INFO] ******************************************************************************************
+2021-12-19 22:19:20,087 [INFO] ******************************************************************************************
+2021-12-19 22:19:20,087 [INFO] Training epoch 3
+2021-12-19 22:19:26,074 [INFO] | epoch   3 |  10/ 56 batches | training accuracy 0.244 | masked_ratio 0.000
+2021-12-19 22:19:31,560 [INFO] | epoch   3 |  20/ 56 batches | training accuracy 0.278 | masked_ratio 0.000
+2021-12-19 22:19:37,044 [INFO] | epoch   3 |  30/ 56 batches | training accuracy 0.269 | masked_ratio 0.000
+2021-12-19 22:19:42,531 [INFO] | epoch   3 |  40/ 56 batches | training accuracy 0.269 | masked_ratio 0.000
+2021-12-19 22:19:47,991 [INFO] | epoch   3 |  50/ 56 batches | training accuracy 0.297 | masked_ratio 0.000
+2021-12-19 22:19:53,341 [INFO] ******************************************************************************************
+2021-12-19 22:19:53,341 [INFO] | end of epoch   3 | valid accuracy 0.239 | f1-score 0.132 | masked_ratio 0.000
+2021-12-19 22:19:53,341 [INFO] ******************************************************************************************
+2021-12-19 22:19:53,343 [INFO] ******************************************************************************************
+2021-12-19 22:19:53,343 [INFO] Training epoch 4
+2021-12-19 22:19:59,354 [INFO] | epoch   4 |  10/ 56 batches | training accuracy 0.301 | masked_ratio 0.000
+2021-12-19 22:20:04,832 [INFO] | epoch   4 |  20/ 56 batches | training accuracy 0.312 | masked_ratio 0.000
+2021-12-19 22:20:10,325 [INFO] | epoch   4 |  30/ 56 batches | training accuracy 0.269 | masked_ratio 0.000
+2021-12-19 22:20:15,812 [INFO] | epoch   4 |  40/ 56 batches | training accuracy 0.275 | masked_ratio 0.000
+2021-12-19 22:20:21,300 [INFO] | epoch   4 |  50/ 56 batches | training accuracy 0.250 | masked_ratio 0.000
+2021-12-19 22:20:26,638 [INFO] ******************************************************************************************
+2021-12-19 22:20:26,639 [INFO] | end of epoch   4 | valid accuracy 0.342 | f1-score 0.287 | masked_ratio 0.000
+2021-12-19 22:20:26,639 [INFO] ******************************************************************************************
+2021-12-19 22:20:26,680 [INFO] ******************************************************************************************
+2021-12-19 22:20:26,680 [INFO] Training epoch 5
+2021-12-19 22:20:32,694 [INFO] | epoch   5 |  10/ 56 batches | training accuracy 0.264 | masked_ratio 0.000
+2021-12-19 22:20:38,164 [INFO] | epoch   5 |  20/ 56 batches | training accuracy 0.284 | masked_ratio 0.000
+2021-12-19 22:20:43,633 [INFO] | epoch   5 |  30/ 56 batches | training accuracy 0.331 | masked_ratio 0.000
+2021-12-19 22:20:49,096 [INFO] | epoch   5 |  40/ 56 batches | training accuracy 0.294 | masked_ratio 0.000
+2021-12-19 22:20:54,538 [INFO] | epoch   5 |  50/ 56 batches | training accuracy 0.287 | masked_ratio 0.000
+2021-12-19 22:20:59,885 [INFO] ******************************************************************************************
+2021-12-19 22:20:59,886 [INFO] | end of epoch   5 | valid accuracy 0.324 | f1-score 0.259 | masked_ratio 0.000
+2021-12-19 22:20:59,886 [INFO] ******************************************************************************************
+2021-12-19 22:20:59,887 [INFO] ******************************************************************************************
+2021-12-19 22:20:59,887 [INFO] Training epoch 6
+2021-12-19 22:21:05,885 [INFO] | epoch   6 |  10/ 56 batches | training accuracy 0.267 | masked_ratio 0.000
+2021-12-19 22:21:11,353 [INFO] | epoch   6 |  20/ 56 batches | training accuracy 0.259 | masked_ratio 0.000
+2021-12-19 22:21:16,834 [INFO] | epoch   6 |  30/ 56 batches | training accuracy 0.281 | masked_ratio 0.000
+2021-12-19 22:21:22,292 [INFO] | epoch   6 |  40/ 56 batches | training accuracy 0.303 | masked_ratio 0.000
+2021-12-19 22:21:27,756 [INFO] | epoch   6 |  50/ 56 batches | training accuracy 0.306 | masked_ratio 0.000
+2021-12-19 22:21:33,116 [INFO] ******************************************************************************************
+2021-12-19 22:21:33,116 [INFO] | end of epoch   6 | valid accuracy 0.293 | f1-score 0.205 | masked_ratio 0.000
+2021-12-19 22:21:33,116 [INFO] ******************************************************************************************
+2021-12-19 22:21:33,117 [INFO] ******************************************************************************************
+2021-12-19 22:21:33,117 [INFO] Training epoch 7
+2021-12-19 22:21:39,112 [INFO] | epoch   7 |  10/ 56 batches | training accuracy 0.298 | masked_ratio 0.000
+2021-12-19 22:21:44,598 [INFO] | epoch   7 |  20/ 56 batches | training accuracy 0.294 | masked_ratio 0.000
+2021-12-19 22:21:50,066 [INFO] | epoch   7 |  30/ 56 batches | training accuracy 0.316 | masked_ratio 0.000
+2021-12-19 22:21:55,549 [INFO] | epoch   7 |  40/ 56 batches | training accuracy 0.284 | masked_ratio 0.000
+2021-12-19 22:22:01,030 [INFO] | epoch   7 |  50/ 56 batches | training accuracy 0.272 | masked_ratio 0.000
+2021-12-19 22:22:06,383 [INFO] ******************************************************************************************
+2021-12-19 22:22:06,383 [INFO] | end of epoch   7 | valid accuracy 0.279 | f1-score 0.231 | masked_ratio 0.000
+2021-12-19 22:22:06,383 [INFO] ******************************************************************************************
+2021-12-19 22:22:06,384 [INFO] ******************************************************************************************
+2021-12-19 22:22:06,385 [INFO] Training epoch 8
+2021-12-19 22:22:12,392 [INFO] | epoch   8 |  10/ 56 batches | training accuracy 0.290 | masked_ratio 0.000
+2021-12-19 22:22:17,850 [INFO] | epoch   8 |  20/ 56 batches | training accuracy 0.241 | masked_ratio 0.000
+2021-12-19 22:22:23,319 [INFO] | epoch   8 |  30/ 56 batches | training accuracy 0.250 | masked_ratio 0.000
+2021-12-19 22:22:28,782 [INFO] | epoch   8 |  40/ 56 batches | training accuracy 0.309 | masked_ratio 0.000
+2021-12-19 22:22:34,249 [INFO] | epoch   8 |  50/ 56 batches | training accuracy 0.256 | masked_ratio 0.000
+2021-12-19 22:22:39,580 [INFO] ******************************************************************************************
+2021-12-19 22:22:39,581 [INFO] | end of epoch   8 | valid accuracy 0.239 | f1-score 0.132 | masked_ratio 0.000
+2021-12-19 22:22:39,581 [INFO] ******************************************************************************************
+2021-12-19 22:22:39,582 [INFO] ******************************************************************************************
+2021-12-19 22:22:39,583 [INFO] Training epoch 9
+2021-12-19 22:22:45,577 [INFO] | epoch   9 |  10/ 56 batches | training accuracy 0.278 | masked_ratio 0.000
+2021-12-19 22:22:51,051 [INFO] | epoch   9 |  20/ 56 batches | training accuracy 0.281 | masked_ratio 0.000
+2021-12-19 22:22:56,538 [INFO] | epoch   9 |  30/ 56 batches | training accuracy 0.266 | masked_ratio 0.000
+2021-12-19 22:23:02,018 [INFO] | epoch   9 |  40/ 56 batches | training accuracy 0.266 | masked_ratio 0.000
+2021-12-19 22:23:07,490 [INFO] | epoch   9 |  50/ 56 batches | training accuracy 0.253 | masked_ratio 0.000
+2021-12-19 22:23:12,855 [INFO] ******************************************************************************************
+2021-12-19 22:23:12,855 [INFO] | end of epoch   9 | valid accuracy 0.243 | f1-score 0.137 | masked_ratio 0.000
+2021-12-19 22:23:12,855 [INFO] ******************************************************************************************
+2021-12-19 22:23:12,857 [INFO] ******************************************************************************************
+2021-12-19 22:23:12,857 [INFO] Training epoch 10
+2021-12-19 22:23:18,861 [INFO] | epoch  10 |  10/ 56 batches | training accuracy 0.253 | masked_ratio 0.000
+2021-12-19 22:23:24,343 [INFO] | epoch  10 |  20/ 56 batches | training accuracy 0.275 | masked_ratio 0.000
+2021-12-19 22:23:29,829 [INFO] | epoch  10 |  30/ 56 batches | training accuracy 0.322 | masked_ratio 0.000
+2021-12-19 22:23:35,327 [INFO] | epoch  10 |  40/ 56 batches | training accuracy 0.381 | masked_ratio 0.000
+2021-12-19 22:23:40,804 [INFO] | epoch  10 |  50/ 56 batches | training accuracy 0.322 | masked_ratio 0.000
+2021-12-19 22:23:46,166 [INFO] ******************************************************************************************
+2021-12-19 22:23:46,166 [INFO] | end of epoch  10 | valid accuracy 0.302 | f1-score 0.207 | masked_ratio 0.000
+2021-12-19 22:23:46,166 [INFO] ******************************************************************************************
+2021-12-19 22:23:46,168 [INFO] ******************************************************************************************
+2021-12-19 22:23:46,168 [INFO] Training epoch 11
+2021-12-19 22:23:56,008 [INFO] ------------------------------------------------------------------------------------------
+2021-12-19 22:23:56,008 [INFO] Training models for articles
+2021-12-19 22:23:56,008 [INFO] ##########################################################################################
+2021-12-19 22:23:56,008 [INFO] Starting training for articles with learning augmentation.
+2021-12-19 22:23:56,009 [INFO] ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2021-12-19 22:23:56,009 [INFO] Starting training using the HuggingFace model distilbert-base-uncased
+2021-12-19 22:23:59,849 [WARNING] Using custom data configuration default-dd5a3ddc8839237a
+2021-12-19 22:23:59,850 [WARNING] Reusing dataset json (/root/.cache/huggingface/datasets/json/default-dd5a3ddc8839237a/0.0.0/7334ed11270d48b1ef46b6251d4d612598d73f1cd0c2510f656d05a4ff0d849a)
+2021-12-19 22:23:59,857 [WARNING] Using custom data configuration default-0d65bcfa27385192
+2021-12-19 22:23:59,857 [WARNING] Reusing dataset json (/root/.cache/huggingface/datasets/json/default-0d65bcfa27385192/0.0.0/7334ed11270d48b1ef46b6251d4d612598d73f1cd0c2510f656d05a4ff0d849a)
+2021-12-19 22:23:59,864 [WARNING] Using custom data configuration default-d7c0e37feb64ca2c
+2021-12-19 22:23:59,864 [WARNING] Reusing dataset json (/root/.cache/huggingface/datasets/json/default-d7c0e37feb64ca2c/0.0.0/7334ed11270d48b1ef46b6251d4d612598d73f1cd0c2510f656d05a4ff0d849a)
+2021-12-19 22:23:59,866 [INFO] Done loading all the datasets
+2021-12-19 22:23:59,866 [INFO] ==========================================================================================
+2021-12-19 22:23:59,866 [INFO] Starting training with the following hyperparameters: {'batch_size': 32, 'cls_bidirectional': True, 'cls_dropout': 0.2, 'cls_hidden_dim': 256, 'cls_model_type': 'lstm', 'cls_num_layers': 1, 'early_stopping_threshold': 100, 'lr': 0.001, 'masker_bidirectional': True, 'masker_dropout': 0.5, 'masker_hidden_dim': 512, 'masker_model_type': 'lstm', 'masker_num_layers': 1, 'max_seq_length': 512, 'num_epochs': 100}
+2021-12-19 22:23:59,972 [INFO] Model created...
+2021-12-19 22:23:59,972 [INFO] ==========================================================================================
+2021-12-19 22:23:59,973 [INFO] Training model:
+RNNMasker(
+  (embeddings): Embedding(30522, 768, padding_idx=0)
+  (rnn): LSTM(768, 512, batch_first=True, bidirectional=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+  (projection): Linear(in_features=1024, out_features=768, bias=True)
+  (dense): Linear(in_features=768, out_features=1, bias=True)
+)
+BERTModel - distilbert-base-uncased
+RNNClassifier(
+  (embeddings): Embedding(30522, 768, padding_idx=0)
+  (rnn): LSTM(769, 256, batch_first=True, bidirectional=True)
+  (dropout): Dropout(p=0.2, inplace=False)
+  (dense): Linear(in_features=512, out_features=5, bias=True)
+)
+2021-12-19 22:23:59,973 [INFO] ******************************************************************************************
+2021-12-19 22:23:59,973 [INFO] Training epoch 0
+2021-12-19 22:24:09,329 [INFO] | epoch   0 |  10/ 56 batches | training accuracy 0.310 | masked_ratio 0.677
+2021-12-19 22:24:14,790 [INFO] | epoch   0 |  20/ 56 batches | training accuracy 0.569 | masked_ratio 0.106
+2021-12-19 22:24:20,260 [INFO] | epoch   0 |  30/ 56 batches | training accuracy 0.400 | masked_ratio 0.023
+2021-12-19 22:24:25,729 [INFO] | epoch   0 |  40/ 56 batches | training accuracy 0.391 | masked_ratio 0.022
+2021-12-19 22:24:31,210 [INFO] | epoch   0 |  50/ 56 batches | training accuracy 0.537 | masked_ratio 0.021
+2021-12-19 22:24:36,553 [INFO] ******************************************************************************************
+2021-12-19 22:24:36,553 [INFO] | end of epoch   0 | valid accuracy 0.500 | f1-score 0.444 | masked_ratio 0.031
+2021-12-19 22:24:36,553 [INFO] ******************************************************************************************
+2021-12-19 22:24:36,590 [INFO] ******************************************************************************************
+2021-12-19 22:24:36,590 [INFO] Training epoch 1
+2021-12-19 22:24:42,597 [INFO] | epoch   1 |  10/ 56 batches | training accuracy 0.494 | masked_ratio 0.017
+2021-12-19 22:24:48,095 [INFO] | epoch   1 |  20/ 56 batches | training accuracy 0.487 | masked_ratio 0.026
+2021-12-19 22:24:53,564 [INFO] | epoch   1 |  30/ 56 batches | training accuracy 0.597 | masked_ratio 0.037
+2021-12-19 22:24:59,043 [INFO] | epoch   1 |  40/ 56 batches | training accuracy 0.675 | masked_ratio 0.051
+2021-12-19 22:25:04,528 [INFO] | epoch   1 |  50/ 56 batches | training accuracy 0.706 | masked_ratio 0.169
+2021-12-19 22:25:09,882 [INFO] ******************************************************************************************
+2021-12-19 22:25:09,882 [INFO] | end of epoch   1 | valid accuracy 0.572 | f1-score 0.497 | masked_ratio 0.313
+2021-12-19 22:25:09,883 [INFO] ******************************************************************************************
+2021-12-19 22:25:09,922 [INFO] ******************************************************************************************
+2021-12-19 22:25:09,922 [INFO] Training epoch 2
+2021-12-19 22:25:15,926 [INFO] | epoch   2 |  10/ 56 batches | training accuracy 0.705 | masked_ratio 0.092
+2021-12-19 22:25:21,399 [INFO] | epoch   2 |  20/ 56 batches | training accuracy 0.756 | masked_ratio 0.104
+2021-12-19 22:25:26,875 [INFO] | epoch   2 |  30/ 56 batches | training accuracy 0.759 | masked_ratio 0.073
+2021-12-19 22:25:32,344 [INFO] | epoch   2 |  40/ 56 batches | training accuracy 0.747 | masked_ratio 0.287
+2021-12-19 22:25:37,798 [INFO] | epoch   2 |  50/ 56 batches | training accuracy 0.709 | masked_ratio 0.585
+2021-12-19 22:25:43,160 [INFO] ******************************************************************************************
+2021-12-19 22:25:43,160 [INFO] | end of epoch   2 | valid accuracy 0.644 | f1-score 0.621 | masked_ratio 0.577
+2021-12-19 22:25:43,160 [INFO] ******************************************************************************************
+2021-12-19 22:25:43,199 [INFO] ******************************************************************************************
+2021-12-19 22:25:43,199 [INFO] Training epoch 3
+2021-12-19 22:25:49,214 [INFO] | epoch   3 |  10/ 56 batches | training accuracy 0.793 | masked_ratio 0.458
+2021-12-19 22:25:54,680 [INFO] | epoch   3 |  20/ 56 batches | training accuracy 0.881 | masked_ratio 0.468
+2021-12-19 22:26:00,169 [INFO] | epoch   3 |  30/ 56 batches | training accuracy 0.850 | masked_ratio 0.365
+2021-12-19 22:26:05,634 [INFO] | epoch   3 |  40/ 56 batches | training accuracy 0.844 | masked_ratio 0.503
+2021-12-19 22:26:11,127 [INFO] | epoch   3 |  50/ 56 batches | training accuracy 0.869 | masked_ratio 0.165
+2021-12-19 22:26:16,457 [INFO] ******************************************************************************************
+2021-12-19 22:26:16,457 [INFO] | end of epoch   3 | valid accuracy 0.770 | f1-score 0.756 | masked_ratio 0.153
+2021-12-19 22:26:16,457 [INFO] ******************************************************************************************
+2021-12-19 22:26:16,496 [INFO] ******************************************************************************************
+2021-12-19 22:26:16,496 [INFO] Training epoch 4
+2021-12-19 22:26:22,514 [INFO] | epoch   4 |  10/ 56 batches | training accuracy 0.903 | masked_ratio 0.209
+2021-12-19 22:26:27,990 [INFO] | epoch   4 |  20/ 56 batches | training accuracy 0.897 | masked_ratio 0.170
+2021-12-19 22:26:33,449 [INFO] | epoch   4 |  30/ 56 batches | training accuracy 0.887 | masked_ratio 0.101
+2021-12-19 22:26:38,946 [INFO] | epoch   4 |  40/ 56 batches | training accuracy 0.897 | masked_ratio 0.087
+2021-12-19 22:26:44,412 [INFO] | epoch   4 |  50/ 56 batches | training accuracy 0.919 | masked_ratio 0.129
+2021-12-19 22:26:49,765 [INFO] ******************************************************************************************
+2021-12-19 22:26:49,765 [INFO] | end of epoch   4 | valid accuracy 0.878 | f1-score 0.878 | masked_ratio 0.106
+2021-12-19 22:26:49,765 [INFO] ******************************************************************************************
+2021-12-19 22:26:49,810 [INFO] ******************************************************************************************
+2021-12-19 22:26:49,810 [INFO] Training epoch 5
+2021-12-19 22:26:55,814 [INFO] | epoch   5 |  10/ 56 batches | training accuracy 0.938 | masked_ratio 0.150
+2021-12-19 22:27:01,295 [INFO] | epoch   5 |  20/ 56 batches | training accuracy 0.925 | masked_ratio 0.119
+2021-12-19 22:27:06,771 [INFO] | epoch   5 |  30/ 56 batches | training accuracy 0.938 | masked_ratio 0.149
+2021-12-19 22:27:12,249 [INFO] | epoch   5 |  40/ 56 batches | training accuracy 0.950 | masked_ratio 0.078
+2021-12-19 22:27:17,725 [INFO] | epoch   5 |  50/ 56 batches | training accuracy 0.919 | masked_ratio 0.051
+2021-12-19 22:27:23,056 [INFO] ******************************************************************************************
+2021-12-19 22:27:23,057 [INFO] | end of epoch   5 | valid accuracy 0.851 | f1-score 0.852 | masked_ratio 0.077
+2021-12-19 22:27:23,057 [INFO] ******************************************************************************************
+2021-12-19 22:27:23,058 [INFO] ******************************************************************************************
+2021-12-19 22:27:23,058 [INFO] Training epoch 6
+2021-12-19 22:27:29,085 [INFO] | epoch   6 |  10/ 56 batches | training accuracy 0.957 | masked_ratio 0.098
+2021-12-19 22:27:34,556 [INFO] | epoch   6 |  20/ 56 batches | training accuracy 0.963 | masked_ratio 0.143
+2021-12-19 22:27:40,032 [INFO] | epoch   6 |  30/ 56 batches | training accuracy 0.966 | masked_ratio 0.492
+2021-12-19 22:27:45,501 [INFO] | epoch   6 |  40/ 56 batches | training accuracy 0.984 | masked_ratio 0.783
+2021-12-19 22:27:50,978 [INFO] | epoch   6 |  50/ 56 batches | training accuracy 0.984 | masked_ratio 0.801
+2021-12-19 22:27:56,329 [INFO] ******************************************************************************************
+2021-12-19 22:27:56,329 [INFO] | end of epoch   6 | valid accuracy 0.883 | f1-score 0.884 | masked_ratio 0.763
+2021-12-19 22:27:56,329 [INFO] ******************************************************************************************
+2021-12-19 22:27:56,372 [INFO] ******************************************************************************************
+2021-12-19 22:27:56,372 [INFO] Training epoch 7
+2021-12-19 22:28:02,422 [INFO] | epoch   7 |  10/ 56 batches | training accuracy 0.983 | masked_ratio 0.623
+2021-12-19 22:28:07,937 [INFO] | epoch   7 |  20/ 56 batches | training accuracy 0.969 | masked_ratio 0.632
+2021-12-19 22:28:13,422 [INFO] | epoch   7 |  30/ 56 batches | training accuracy 0.981 | masked_ratio 0.628
+2021-12-19 22:28:18,932 [INFO] | epoch   7 |  40/ 56 batches | training accuracy 0.984 | masked_ratio 0.596
+2021-12-19 22:28:24,404 [INFO] | epoch   7 |  50/ 56 batches | training accuracy 0.950 | masked_ratio 0.484
+2021-12-19 22:28:29,756 [INFO] ******************************************************************************************
+2021-12-19 22:28:29,756 [INFO] | end of epoch   7 | valid accuracy 0.901 | f1-score 0.898 | masked_ratio 0.573
+2021-12-19 22:28:29,756 [INFO] ******************************************************************************************
+2021-12-19 22:28:29,795 [INFO] ******************************************************************************************
+2021-12-19 22:28:29,795 [INFO] Training epoch 8
+2021-12-19 22:28:35,785 [INFO] | epoch   8 |  10/ 56 batches | training accuracy 0.974 | masked_ratio 0.443
+2021-12-19 22:28:41,245 [INFO] | epoch   8 |  20/ 56 batches | training accuracy 0.975 | masked_ratio 0.359
+2021-12-19 22:28:46,732 [INFO] | epoch   8 |  30/ 56 batches | training accuracy 0.978 | masked_ratio 0.551
+2021-12-19 22:28:52,196 [INFO] | epoch   8 |  40/ 56 batches | training accuracy 0.978 | masked_ratio 0.565
+2021-12-19 22:28:57,675 [INFO] | epoch   8 |  50/ 56 batches | training accuracy 0.978 | masked_ratio 0.646
+2021-12-19 22:29:03,003 [INFO] ******************************************************************************************
+2021-12-19 22:29:03,003 [INFO] | end of epoch   8 | valid accuracy 0.887 | f1-score 0.888 | masked_ratio 0.651
+2021-12-19 22:29:03,003 [INFO] ******************************************************************************************
+2021-12-19 22:29:03,005 [INFO] ******************************************************************************************
+2021-12-19 22:29:03,005 [INFO] Training epoch 9
+2021-12-19 22:29:09,038 [INFO] | epoch   9 |  10/ 56 batches | training accuracy 0.986 | masked_ratio 0.662
+2021-12-19 22:29:14,513 [INFO] | epoch   9 |  20/ 56 batches | training accuracy 0.988 | masked_ratio 0.486
+2021-12-19 22:29:19,972 [INFO] | epoch   9 |  30/ 56 batches | training accuracy 0.997 | masked_ratio 0.437
+2021-12-19 22:29:25,435 [INFO] | epoch   9 |  40/ 56 batches | training accuracy 0.997 | masked_ratio 0.734
+2021-12-19 22:29:30,902 [INFO] | epoch   9 |  50/ 56 batches | training accuracy 0.988 | masked_ratio 0.618
+2021-12-19 22:29:36,251 [INFO] ******************************************************************************************
+2021-12-19 22:29:36,251 [INFO] | end of epoch   9 | valid accuracy 0.919 | f1-score 0.919 | masked_ratio 0.554
+2021-12-19 22:29:36,251 [INFO] ******************************************************************************************
+2021-12-19 22:29:36,290 [INFO] ******************************************************************************************
+2021-12-19 22:29:36,291 [INFO] Training epoch 10
+2021-12-19 22:29:42,318 [INFO] | epoch  10 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.416
+2021-12-19 22:29:47,803 [INFO] | epoch  10 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.406
+2021-12-19 22:29:53,294 [INFO] | epoch  10 |  30/ 56 batches | training accuracy 0.997 | masked_ratio 0.555
+2021-12-19 22:29:58,759 [INFO] | epoch  10 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.478
+2021-12-19 22:30:04,253 [INFO] | epoch  10 |  50/ 56 batches | training accuracy 0.994 | masked_ratio 0.454
+2021-12-19 22:30:09,594 [INFO] ******************************************************************************************
+2021-12-19 22:30:09,595 [INFO] | end of epoch  10 | valid accuracy 0.914 | f1-score 0.914 | masked_ratio 0.583
+2021-12-19 22:30:09,595 [INFO] ******************************************************************************************
+2021-12-19 22:30:09,596 [INFO] ******************************************************************************************
+2021-12-19 22:30:09,597 [INFO] Training epoch 11
+2021-12-19 22:30:15,610 [INFO] | epoch  11 |  10/ 56 batches | training accuracy 0.991 | masked_ratio 0.514
+2021-12-19 22:30:21,107 [INFO] | epoch  11 |  20/ 56 batches | training accuracy 0.994 | masked_ratio 0.559
+2021-12-19 22:30:26,584 [INFO] | epoch  11 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.574
+2021-12-19 22:30:32,053 [INFO] | epoch  11 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.680
+2021-12-19 22:30:37,513 [INFO] | epoch  11 |  50/ 56 batches | training accuracy 0.994 | masked_ratio 0.545
+2021-12-19 22:30:42,826 [INFO] ******************************************************************************************
+2021-12-19 22:30:42,826 [INFO] | end of epoch  11 | valid accuracy 0.883 | f1-score 0.882 | masked_ratio 0.577
+2021-12-19 22:30:42,827 [INFO] ******************************************************************************************
+2021-12-19 22:30:42,828 [INFO] ******************************************************************************************
+2021-12-19 22:30:42,828 [INFO] Training epoch 12
+2021-12-19 22:30:48,841 [INFO] | epoch  12 |  10/ 56 batches | training accuracy 0.997 | masked_ratio 0.583
+2021-12-19 22:30:54,294 [INFO] | epoch  12 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.587
+2021-12-19 22:30:59,767 [INFO] | epoch  12 |  30/ 56 batches | training accuracy 0.991 | masked_ratio 0.462
+2021-12-19 22:31:05,246 [INFO] | epoch  12 |  40/ 56 batches | training accuracy 0.997 | masked_ratio 0.433
+2021-12-19 22:31:10,726 [INFO] | epoch  12 |  50/ 56 batches | training accuracy 0.994 | masked_ratio 0.547
+2021-12-19 22:31:16,066 [INFO] ******************************************************************************************
+2021-12-19 22:31:16,067 [INFO] | end of epoch  12 | valid accuracy 0.910 | f1-score 0.910 | masked_ratio 0.529
+2021-12-19 22:31:16,067 [INFO] ******************************************************************************************
+2021-12-19 22:31:16,069 [INFO] ******************************************************************************************
+2021-12-19 22:31:16,069 [INFO] Training epoch 13
+2021-12-19 22:31:22,090 [INFO] | epoch  13 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.572
+2021-12-19 22:31:27,553 [INFO] | epoch  13 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.452
+2021-12-19 22:31:33,056 [INFO] | epoch  13 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.547
+2021-12-19 22:31:38,541 [INFO] | epoch  13 |  40/ 56 batches | training accuracy 0.994 | masked_ratio 0.674
+2021-12-19 22:31:44,009 [INFO] | epoch  13 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.449
+2021-12-19 22:31:49,360 [INFO] ******************************************************************************************
+2021-12-19 22:31:49,360 [INFO] | end of epoch  13 | valid accuracy 0.905 | f1-score 0.906 | masked_ratio 0.537
+2021-12-19 22:31:49,360 [INFO] ******************************************************************************************
+2021-12-19 22:31:49,362 [INFO] ******************************************************************************************
+2021-12-19 22:31:49,362 [INFO] Training epoch 14
+2021-12-19 22:31:55,353 [INFO] | epoch  14 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.534
+2021-12-19 22:32:00,833 [INFO] | epoch  14 |  20/ 56 batches | training accuracy 0.997 | masked_ratio 0.608
+2021-12-19 22:32:06,281 [INFO] | epoch  14 |  30/ 56 batches | training accuracy 0.997 | masked_ratio 0.502
+2021-12-19 22:32:11,722 [INFO] | epoch  14 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.479
+2021-12-19 22:32:17,213 [INFO] | epoch  14 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.518
+2021-12-19 22:32:22,552 [INFO] ******************************************************************************************
+2021-12-19 22:32:22,552 [INFO] | end of epoch  14 | valid accuracy 0.919 | f1-score 0.920 | masked_ratio 0.548
+2021-12-19 22:32:22,553 [INFO] ******************************************************************************************
+2021-12-19 22:32:22,596 [INFO] ******************************************************************************************
+2021-12-19 22:32:22,597 [INFO] Training epoch 15
+2021-12-19 22:32:28,609 [INFO] | epoch  15 |  10/ 56 batches | training accuracy 0.997 | masked_ratio 0.482
+2021-12-19 22:32:34,092 [INFO] | epoch  15 |  20/ 56 batches | training accuracy 0.997 | masked_ratio 0.456
+2021-12-19 22:32:39,567 [INFO] | epoch  15 |  30/ 56 batches | training accuracy 0.991 | masked_ratio 0.623
+2021-12-19 22:32:45,055 [INFO] | epoch  15 |  40/ 56 batches | training accuracy 0.991 | masked_ratio 0.489
+2021-12-19 22:32:50,526 [INFO] | epoch  15 |  50/ 56 batches | training accuracy 0.972 | masked_ratio 0.442
+2021-12-19 22:32:55,851 [INFO] ******************************************************************************************
+2021-12-19 22:32:55,852 [INFO] | end of epoch  15 | valid accuracy 0.883 | f1-score 0.883 | masked_ratio 0.484
+2021-12-19 22:32:55,852 [INFO] ******************************************************************************************
+2021-12-19 22:32:55,853 [INFO] ******************************************************************************************
+2021-12-19 22:32:55,853 [INFO] Training epoch 16
+2021-12-19 22:33:01,887 [INFO] | epoch  16 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.367
+2021-12-19 22:33:07,382 [INFO] | epoch  16 |  20/ 56 batches | training accuracy 0.988 | masked_ratio 0.435
+2021-12-19 22:33:12,875 [INFO] | epoch  16 |  30/ 56 batches | training accuracy 0.997 | masked_ratio 0.490
+2021-12-19 22:33:18,365 [INFO] | epoch  16 |  40/ 56 batches | training accuracy 0.984 | masked_ratio 0.333
+2021-12-19 22:33:23,840 [INFO] | epoch  16 |  50/ 56 batches | training accuracy 0.994 | masked_ratio 0.481
+2021-12-19 22:33:29,180 [INFO] ******************************************************************************************
+2021-12-19 22:33:29,180 [INFO] | end of epoch  16 | valid accuracy 0.883 | f1-score 0.882 | masked_ratio 0.423
+2021-12-19 22:33:29,180 [INFO] ******************************************************************************************
+2021-12-19 22:33:29,182 [INFO] ******************************************************************************************
+2021-12-19 22:33:29,183 [INFO] Training epoch 17
+2021-12-19 22:33:35,190 [INFO] | epoch  17 |  10/ 56 batches | training accuracy 0.991 | masked_ratio 0.417
+2021-12-19 22:33:40,676 [INFO] | epoch  17 |  20/ 56 batches | training accuracy 0.994 | masked_ratio 0.462
+2021-12-19 22:33:46,145 [INFO] | epoch  17 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.501
+2021-12-19 22:33:51,612 [INFO] | epoch  17 |  40/ 56 batches | training accuracy 0.997 | masked_ratio 0.405
+2021-12-19 22:33:57,078 [INFO] | epoch  17 |  50/ 56 batches | training accuracy 0.997 | masked_ratio 0.407
+2021-12-19 22:34:02,415 [INFO] ******************************************************************************************
+2021-12-19 22:34:02,415 [INFO] | end of epoch  17 | valid accuracy 0.914 | f1-score 0.913 | masked_ratio 0.482
+2021-12-19 22:34:02,415 [INFO] ******************************************************************************************
+2021-12-19 22:34:02,417 [INFO] ******************************************************************************************
+2021-12-19 22:34:02,417 [INFO] Training epoch 18
+2021-12-19 22:34:08,448 [INFO] | epoch  18 |  10/ 56 batches | training accuracy 0.991 | masked_ratio 0.462
+2021-12-19 22:34:13,927 [INFO] | epoch  18 |  20/ 56 batches | training accuracy 0.997 | masked_ratio 0.440
+2021-12-19 22:34:19,376 [INFO] | epoch  18 |  30/ 56 batches | training accuracy 0.994 | masked_ratio 0.535
+2021-12-19 22:34:24,825 [INFO] | epoch  18 |  40/ 56 batches | training accuracy 0.988 | masked_ratio 0.510
+2021-12-19 22:34:30,303 [INFO] | epoch  18 |  50/ 56 batches | training accuracy 0.984 | masked_ratio 0.552
+2021-12-19 22:34:35,668 [INFO] ******************************************************************************************
+2021-12-19 22:34:35,668 [INFO] | end of epoch  18 | valid accuracy 0.892 | f1-score 0.887 | masked_ratio 0.527
+2021-12-19 22:34:35,668 [INFO] ******************************************************************************************
+2021-12-19 22:34:35,669 [INFO] ******************************************************************************************
+2021-12-19 22:34:35,669 [INFO] Training epoch 19
+2021-12-19 22:34:41,694 [INFO] | epoch  19 |  10/ 56 batches | training accuracy 0.994 | masked_ratio 0.570
+2021-12-19 22:34:47,174 [INFO] | epoch  19 |  20/ 56 batches | training accuracy 0.994 | masked_ratio 0.594
+2021-12-19 22:34:52,673 [INFO] | epoch  19 |  30/ 56 batches | training accuracy 0.997 | masked_ratio 0.612
+2021-12-19 22:34:58,189 [INFO] | epoch  19 |  40/ 56 batches | training accuracy 0.997 | masked_ratio 0.771
+2021-12-19 22:35:03,669 [INFO] | epoch  19 |  50/ 56 batches | training accuracy 0.991 | masked_ratio 0.850
+2021-12-19 22:35:09,006 [INFO] ******************************************************************************************
+2021-12-19 22:35:09,006 [INFO] | end of epoch  19 | valid accuracy 0.910 | f1-score 0.907 | masked_ratio 0.698
+2021-12-19 22:35:09,006 [INFO] ******************************************************************************************
+2021-12-19 22:35:09,007 [INFO] ******************************************************************************************
+2021-12-19 22:35:09,007 [INFO] Training epoch 20
+2021-12-19 22:35:15,020 [INFO] | epoch  20 |  10/ 56 batches | training accuracy 0.994 | masked_ratio 0.654
+2021-12-19 22:35:20,483 [INFO] | epoch  20 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.631
+2021-12-19 22:35:25,970 [INFO] | epoch  20 |  30/ 56 batches | training accuracy 0.997 | masked_ratio 0.671
+2021-12-19 22:35:31,420 [INFO] | epoch  20 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.647
+2021-12-19 22:35:36,912 [INFO] | epoch  20 |  50/ 56 batches | training accuracy 0.997 | masked_ratio 0.625
+2021-12-19 22:35:42,244 [INFO] ******************************************************************************************
+2021-12-19 22:35:42,245 [INFO] | end of epoch  20 | valid accuracy 0.919 | f1-score 0.919 | masked_ratio 0.689
+2021-12-19 22:35:42,245 [INFO] ******************************************************************************************
+2021-12-19 22:35:42,246 [INFO] ******************************************************************************************
+2021-12-19 22:35:42,246 [INFO] Training epoch 21
+2021-12-19 22:35:48,255 [INFO] | epoch  21 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.787
+2021-12-19 22:35:53,743 [INFO] | epoch  21 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.660
+2021-12-19 22:35:59,233 [INFO] | epoch  21 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.704
+2021-12-19 22:36:04,712 [INFO] | epoch  21 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.726
+2021-12-19 22:36:10,175 [INFO] | epoch  21 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.692
+2021-12-19 22:36:15,514 [INFO] ******************************************************************************************
+2021-12-19 22:36:15,514 [INFO] | end of epoch  21 | valid accuracy 0.901 | f1-score 0.897 | masked_ratio 0.669
+2021-12-19 22:36:15,514 [INFO] ******************************************************************************************
+2021-12-19 22:36:15,516 [INFO] ******************************************************************************************
+2021-12-19 22:36:15,516 [INFO] Training epoch 22
+2021-12-19 22:36:21,546 [INFO] | epoch  22 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.692
+2021-12-19 22:36:27,023 [INFO] | epoch  22 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.670
+2021-12-19 22:36:32,511 [INFO] | epoch  22 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.704
+2021-12-19 22:36:37,971 [INFO] | epoch  22 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.722
+2021-12-19 22:36:43,444 [INFO] | epoch  22 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.690
+2021-12-19 22:36:48,800 [INFO] ******************************************************************************************
+2021-12-19 22:36:48,800 [INFO] | end of epoch  22 | valid accuracy 0.914 | f1-score 0.913 | masked_ratio 0.673
+2021-12-19 22:36:48,800 [INFO] ******************************************************************************************
+2021-12-19 22:36:48,801 [INFO] ******************************************************************************************
+2021-12-19 22:36:48,802 [INFO] Training epoch 23
+2021-12-19 22:36:54,817 [INFO] | epoch  23 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.495
+2021-12-19 22:37:00,298 [INFO] | epoch  23 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.761
+2021-12-19 22:37:05,755 [INFO] | epoch  23 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.612
+2021-12-19 22:37:11,216 [INFO] | epoch  23 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.688
+2021-12-19 22:37:16,687 [INFO] | epoch  23 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.649
+2021-12-19 22:37:22,022 [INFO] ******************************************************************************************
+2021-12-19 22:37:22,022 [INFO] | end of epoch  23 | valid accuracy 0.919 | f1-score 0.918 | masked_ratio 0.672
+2021-12-19 22:37:22,022 [INFO] ******************************************************************************************
+2021-12-19 22:37:22,024 [INFO] ******************************************************************************************
+2021-12-19 22:37:22,024 [INFO] Training epoch 24
+2021-12-19 22:37:28,047 [INFO] | epoch  24 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.647
+2021-12-19 22:37:33,508 [INFO] | epoch  24 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.538
+2021-12-19 22:37:38,967 [INFO] | epoch  24 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.690
+2021-12-19 22:37:44,445 [INFO] | epoch  24 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.555
+2021-12-19 22:37:49,913 [INFO] | epoch  24 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.697
+2021-12-19 22:37:55,262 [INFO] ******************************************************************************************
+2021-12-19 22:37:55,262 [INFO] | end of epoch  24 | valid accuracy 0.914 | f1-score 0.913 | masked_ratio 0.673
+2021-12-19 22:37:55,262 [INFO] ******************************************************************************************
+2021-12-19 22:37:55,263 [INFO] ******************************************************************************************
+2021-12-19 22:37:55,264 [INFO] Training epoch 25
+2021-12-19 22:38:01,287 [INFO] | epoch  25 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.760
+2021-12-19 22:38:06,773 [INFO] | epoch  25 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.586
+2021-12-19 22:38:12,250 [INFO] | epoch  25 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.643
+2021-12-19 22:38:17,720 [INFO] | epoch  25 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.565
+2021-12-19 22:38:23,190 [INFO] | epoch  25 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.592
+2021-12-19 22:38:28,524 [INFO] ******************************************************************************************
+2021-12-19 22:38:28,524 [INFO] | end of epoch  25 | valid accuracy 0.914 | f1-score 0.913 | masked_ratio 0.672
+2021-12-19 22:38:28,524 [INFO] ******************************************************************************************
+2021-12-19 22:38:28,525 [INFO] ******************************************************************************************
+2021-12-19 22:38:28,525 [INFO] Training epoch 26
+2021-12-19 22:38:34,538 [INFO] | epoch  26 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.639
+2021-12-19 22:38:40,000 [INFO] | epoch  26 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.661
+2021-12-19 22:38:45,464 [INFO] | epoch  26 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.737
+2021-12-19 22:38:50,924 [INFO] | epoch  26 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.647
+2021-12-19 22:38:56,408 [INFO] | epoch  26 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.692
+2021-12-19 22:39:01,724 [INFO] ******************************************************************************************
+2021-12-19 22:39:01,724 [INFO] | end of epoch  26 | valid accuracy 0.914 | f1-score 0.913 | masked_ratio 0.672
+2021-12-19 22:39:01,724 [INFO] ******************************************************************************************
+2021-12-19 22:39:01,726 [INFO] ******************************************************************************************
+2021-12-19 22:39:01,726 [INFO] Training epoch 27
+2021-12-19 22:39:07,750 [INFO] | epoch  27 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.614
+2021-12-19 22:39:13,236 [INFO] | epoch  27 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.741
+2021-12-19 22:39:18,679 [INFO] | epoch  27 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.590
+2021-12-19 22:39:24,148 [INFO] | epoch  27 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.553
+2021-12-19 22:39:29,628 [INFO] | epoch  27 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.597
+2021-12-19 22:39:34,979 [INFO] ******************************************************************************************
+2021-12-19 22:39:34,979 [INFO] | end of epoch  27 | valid accuracy 0.910 | f1-score 0.907 | masked_ratio 0.672
+2021-12-19 22:39:34,980 [INFO] ******************************************************************************************
+2021-12-19 22:39:34,981 [INFO] ******************************************************************************************
+2021-12-19 22:39:34,982 [INFO] Training epoch 28
+2021-12-19 22:39:40,996 [INFO] | epoch  28 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.644
+2021-12-19 22:39:46,485 [INFO] | epoch  28 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.746
+2021-12-19 22:39:51,996 [INFO] | epoch  28 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.586
+2021-12-19 22:39:57,475 [INFO] | epoch  28 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.502
+2021-12-19 22:40:02,963 [INFO] | epoch  28 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.650
+2021-12-19 22:40:08,316 [INFO] ******************************************************************************************
+2021-12-19 22:40:08,316 [INFO] | end of epoch  28 | valid accuracy 0.910 | f1-score 0.907 | masked_ratio 0.672
+2021-12-19 22:40:08,316 [INFO] ******************************************************************************************
+2021-12-19 22:40:08,317 [INFO] ******************************************************************************************
+2021-12-19 22:40:08,318 [INFO] Training epoch 29
+2021-12-19 22:40:14,333 [INFO] | epoch  29 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.572
+2021-12-19 22:40:19,799 [INFO] | epoch  29 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.724
+2021-12-19 22:40:25,269 [INFO] | epoch  29 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.679
+2021-12-19 22:40:30,720 [INFO] | epoch  29 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.761
+2021-12-19 22:40:36,195 [INFO] | epoch  29 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.594
+2021-12-19 22:40:41,506 [INFO] ******************************************************************************************
+2021-12-19 22:40:41,506 [INFO] | end of epoch  29 | valid accuracy 0.910 | f1-score 0.907 | masked_ratio 0.672
+2021-12-19 22:40:41,506 [INFO] ******************************************************************************************
+2021-12-19 22:40:41,507 [INFO] ******************************************************************************************
+2021-12-19 22:40:41,507 [INFO] Training epoch 30
+2021-12-19 22:40:47,511 [INFO] | epoch  30 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.749
+2021-12-19 22:40:52,976 [INFO] | epoch  30 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.665
+2021-12-19 22:40:58,437 [INFO] | epoch  30 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.666
+2021-12-19 22:41:03,918 [INFO] | epoch  30 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.699
+2021-12-19 22:41:09,402 [INFO] | epoch  30 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.663
+2021-12-19 22:41:14,755 [INFO] ******************************************************************************************
+2021-12-19 22:41:14,755 [INFO] | end of epoch  30 | valid accuracy 0.910 | f1-score 0.907 | masked_ratio 0.668
+2021-12-19 22:41:14,755 [INFO] ******************************************************************************************
+2021-12-19 22:41:14,757 [INFO] ******************************************************************************************
+2021-12-19 22:41:14,757 [INFO] Training epoch 31
+2021-12-19 22:41:20,778 [INFO] | epoch  31 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.584
+2021-12-19 22:41:26,244 [INFO] | epoch  31 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.678
+2021-12-19 22:41:31,748 [INFO] | epoch  31 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.693
+2021-12-19 22:41:37,230 [INFO] | epoch  31 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.641
+2021-12-19 22:41:42,679 [INFO] | epoch  31 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.610
+2021-12-19 22:41:48,009 [INFO] ******************************************************************************************
+2021-12-19 22:41:48,009 [INFO] | end of epoch  31 | valid accuracy 0.910 | f1-score 0.907 | masked_ratio 0.668
+2021-12-19 22:41:48,010 [INFO] ******************************************************************************************
+2021-12-19 22:41:48,011 [INFO] ******************************************************************************************
+2021-12-19 22:41:48,011 [INFO] Training epoch 32
+2021-12-19 22:41:54,026 [INFO] | epoch  32 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.577
+2021-12-19 22:41:59,514 [INFO] | epoch  32 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.679
+2021-12-19 22:42:05,014 [INFO] | epoch  32 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.675
+2021-12-19 22:42:10,492 [INFO] | epoch  32 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.663
+2021-12-19 22:42:15,955 [INFO] | epoch  32 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.617
+2021-12-19 22:42:21,285 [INFO] ******************************************************************************************
+2021-12-19 22:42:21,285 [INFO] | end of epoch  32 | valid accuracy 0.910 | f1-score 0.907 | masked_ratio 0.668
+2021-12-19 22:42:21,285 [INFO] ******************************************************************************************
+2021-12-19 22:42:21,286 [INFO] ******************************************************************************************
+2021-12-19 22:42:21,286 [INFO] Training epoch 33
+2021-12-19 22:42:27,322 [INFO] | epoch  33 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.646
+2021-12-19 22:42:32,813 [INFO] | epoch  33 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.601
+2021-12-19 22:42:38,270 [INFO] | epoch  33 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.665
+2021-12-19 22:42:43,765 [INFO] | epoch  33 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.644
+2021-12-19 22:42:49,225 [INFO] | epoch  33 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.695
+2021-12-19 22:42:54,552 [INFO] ******************************************************************************************
+2021-12-19 22:42:54,553 [INFO] | end of epoch  33 | valid accuracy 0.910 | f1-score 0.908 | masked_ratio 0.655
+2021-12-19 22:42:54,553 [INFO] ******************************************************************************************
+2021-12-19 22:42:54,554 [INFO] ******************************************************************************************
+2021-12-19 22:42:54,554 [INFO] Training epoch 34
+2021-12-19 22:43:00,591 [INFO] | epoch  34 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.571
+2021-12-19 22:43:06,064 [INFO] | epoch  34 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.541
+2021-12-19 22:43:11,560 [INFO] | epoch  34 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.696
+2021-12-19 22:43:17,053 [INFO] | epoch  34 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.630
+2021-12-19 22:43:22,539 [INFO] | epoch  34 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.771
+2021-12-19 22:43:27,895 [INFO] ******************************************************************************************
+2021-12-19 22:43:27,895 [INFO] | end of epoch  34 | valid accuracy 0.910 | f1-score 0.908 | masked_ratio 0.664
+2021-12-19 22:43:27,895 [INFO] ******************************************************************************************
+2021-12-19 22:43:27,897 [INFO] ******************************************************************************************
+2021-12-19 22:43:27,897 [INFO] Training epoch 35
+2021-12-19 22:43:33,909 [INFO] | epoch  35 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.610
+2021-12-19 22:43:39,377 [INFO] | epoch  35 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.548
+2021-12-19 22:43:44,848 [INFO] | epoch  35 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.643
+2021-12-19 22:43:50,328 [INFO] | epoch  35 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.650
+2021-12-19 22:43:55,807 [INFO] | epoch  35 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.661
+2021-12-19 22:44:01,142 [INFO] ******************************************************************************************
+2021-12-19 22:44:01,142 [INFO] | end of epoch  35 | valid accuracy 0.910 | f1-score 0.907 | masked_ratio 0.673
+2021-12-19 22:44:01,142 [INFO] ******************************************************************************************
+2021-12-19 22:44:01,144 [INFO] ******************************************************************************************
+2021-12-19 22:44:01,144 [INFO] Training epoch 36
+2021-12-19 22:44:07,164 [INFO] | epoch  36 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.726
+2021-12-19 22:44:12,615 [INFO] | epoch  36 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.670
+2021-12-19 22:44:18,086 [INFO] | epoch  36 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.664
+2021-12-19 22:44:23,572 [INFO] | epoch  36 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.620
+2021-12-19 22:44:29,050 [INFO] | epoch  36 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.688
+2021-12-19 22:44:34,397 [INFO] ******************************************************************************************
+2021-12-19 22:44:34,398 [INFO] | end of epoch  36 | valid accuracy 0.905 | f1-score 0.902 | masked_ratio 0.671
+2021-12-19 22:44:34,398 [INFO] ******************************************************************************************
+2021-12-19 22:44:34,400 [INFO] ******************************************************************************************
+2021-12-19 22:44:34,400 [INFO] Training epoch 37
+2021-12-19 22:44:40,437 [INFO] | epoch  37 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.700
+2021-12-19 22:44:45,921 [INFO] | epoch  37 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.660
+2021-12-19 22:44:51,411 [INFO] | epoch  37 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.620
+2021-12-19 22:44:56,876 [INFO] | epoch  37 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.639
+2021-12-19 22:45:02,377 [INFO] | epoch  37 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.573
+2021-12-19 22:45:07,735 [INFO] ******************************************************************************************
+2021-12-19 22:45:07,735 [INFO] | end of epoch  37 | valid accuracy 0.905 | f1-score 0.902 | masked_ratio 0.671
+2021-12-19 22:45:07,735 [INFO] ******************************************************************************************
+2021-12-19 22:45:07,737 [INFO] ******************************************************************************************
+2021-12-19 22:45:07,737 [INFO] Training epoch 38
+2021-12-19 22:45:13,766 [INFO] | epoch  38 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.700
+2021-12-19 22:45:19,214 [INFO] | epoch  38 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.538
+2021-12-19 22:45:24,676 [INFO] | epoch  38 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.599
+2021-12-19 22:45:30,156 [INFO] | epoch  38 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.626
+2021-12-19 22:45:35,638 [INFO] | epoch  38 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.657
+2021-12-19 22:45:40,982 [INFO] ******************************************************************************************
+2021-12-19 22:45:40,982 [INFO] | end of epoch  38 | valid accuracy 0.910 | f1-score 0.908 | masked_ratio 0.671
+2021-12-19 22:45:40,982 [INFO] ******************************************************************************************
+2021-12-19 22:45:40,983 [INFO] ******************************************************************************************
+2021-12-19 22:45:40,984 [INFO] Training epoch 39
+2021-12-19 22:45:46,996 [INFO] | epoch  39 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.513
+2021-12-19 22:45:52,480 [INFO] | epoch  39 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.658
+2021-12-19 22:45:57,965 [INFO] | epoch  39 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.761
+2021-12-19 22:46:03,429 [INFO] | epoch  39 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.688
+2021-12-19 22:46:08,912 [INFO] | epoch  39 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.703
+2021-12-19 22:46:14,272 [INFO] ******************************************************************************************
+2021-12-19 22:46:14,273 [INFO] | end of epoch  39 | valid accuracy 0.905 | f1-score 0.903 | masked_ratio 0.676
+2021-12-19 22:46:14,273 [INFO] ******************************************************************************************
+2021-12-19 22:46:14,274 [INFO] ******************************************************************************************
+2021-12-19 22:46:14,274 [INFO] Training epoch 40
+2021-12-19 22:46:20,309 [INFO] | epoch  40 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.682
+2021-12-19 22:46:25,790 [INFO] | epoch  40 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.547
+2021-12-19 22:46:31,263 [INFO] | epoch  40 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.743
+2021-12-19 22:46:36,729 [INFO] | epoch  40 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.661
+2021-12-19 22:46:42,193 [INFO] | epoch  40 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.760
+2021-12-19 22:46:47,546 [INFO] ******************************************************************************************
+2021-12-19 22:46:47,546 [INFO] | end of epoch  40 | valid accuracy 0.905 | f1-score 0.903 | masked_ratio 0.676
+2021-12-19 22:46:47,546 [INFO] ******************************************************************************************
+2021-12-19 22:46:47,548 [INFO] ******************************************************************************************
+2021-12-19 22:46:47,548 [INFO] Training epoch 41
+2021-12-19 22:46:53,558 [INFO] | epoch  41 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.716
+2021-12-19 22:46:59,030 [INFO] | epoch  41 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.635
+2021-12-19 22:47:04,492 [INFO] | epoch  41 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.665
+2021-12-19 22:47:09,981 [INFO] | epoch  41 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.669
+2021-12-19 22:47:15,461 [INFO] | epoch  41 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.590
+2021-12-19 22:47:20,787 [INFO] ******************************************************************************************
+2021-12-19 22:47:20,787 [INFO] | end of epoch  41 | valid accuracy 0.905 | f1-score 0.903 | masked_ratio 0.672
+2021-12-19 22:47:20,787 [INFO] ******************************************************************************************
+2021-12-19 22:47:20,789 [INFO] ******************************************************************************************
+2021-12-19 22:47:20,789 [INFO] Training epoch 42
+2021-12-19 22:47:26,799 [INFO] | epoch  42 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.778
+2021-12-19 22:47:32,291 [INFO] | epoch  42 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.712
+2021-12-19 22:47:37,757 [INFO] | epoch  42 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.692
+2021-12-19 22:47:43,241 [INFO] | epoch  42 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.489
+2021-12-19 22:47:48,727 [INFO] | epoch  42 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.611
+2021-12-19 22:47:54,073 [INFO] ******************************************************************************************
+2021-12-19 22:47:54,074 [INFO] | end of epoch  42 | valid accuracy 0.910 | f1-score 0.908 | masked_ratio 0.672
+2021-12-19 22:47:54,074 [INFO] ******************************************************************************************
+2021-12-19 22:47:54,075 [INFO] ******************************************************************************************
+2021-12-19 22:47:54,075 [INFO] Training epoch 43
+2021-12-19 22:48:00,084 [INFO] | epoch  43 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.667
+2021-12-19 22:48:05,576 [INFO] | epoch  43 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.740
+2021-12-19 22:48:11,071 [INFO] | epoch  43 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.530
+2021-12-19 22:48:16,551 [INFO] | epoch  43 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.710
+2021-12-19 22:48:22,034 [INFO] | epoch  43 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.690
+2021-12-19 22:48:27,402 [INFO] ******************************************************************************************
+2021-12-19 22:48:27,403 [INFO] | end of epoch  43 | valid accuracy 0.910 | f1-score 0.908 | masked_ratio 0.673
+2021-12-19 22:48:27,403 [INFO] ******************************************************************************************
+2021-12-19 22:48:27,404 [INFO] ******************************************************************************************
+2021-12-19 22:48:27,405 [INFO] Training epoch 44
+2021-12-19 22:48:33,412 [INFO] | epoch  44 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.587
+2021-12-19 22:48:38,928 [INFO] | epoch  44 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.536
+2021-12-19 22:48:44,389 [INFO] | epoch  44 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.608
+2021-12-19 22:48:49,859 [INFO] | epoch  44 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.720
+2021-12-19 22:48:55,339 [INFO] | epoch  44 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.670
+2021-12-19 22:49:00,676 [INFO] ******************************************************************************************
+2021-12-19 22:49:00,676 [INFO] | end of epoch  44 | valid accuracy 0.910 | f1-score 0.907 | masked_ratio 0.673
+2021-12-19 22:49:00,676 [INFO] ******************************************************************************************
+2021-12-19 22:49:00,678 [INFO] ******************************************************************************************
+2021-12-19 22:49:00,678 [INFO] Training epoch 45
+2021-12-19 22:49:06,703 [INFO] | epoch  45 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.663
+2021-12-19 22:49:12,173 [INFO] | epoch  45 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.733
+2021-12-19 22:49:17,647 [INFO] | epoch  45 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.565
+2021-12-19 22:49:23,130 [INFO] | epoch  45 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.648
+2021-12-19 22:49:28,585 [INFO] | epoch  45 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.732
+2021-12-19 22:49:33,901 [INFO] ******************************************************************************************
+2021-12-19 22:49:33,902 [INFO] | end of epoch  45 | valid accuracy 0.905 | f1-score 0.902 | masked_ratio 0.673
+2021-12-19 22:49:33,902 [INFO] ******************************************************************************************
+2021-12-19 22:49:33,903 [INFO] ******************************************************************************************
+2021-12-19 22:49:33,903 [INFO] Training epoch 46
+2021-12-19 22:49:39,923 [INFO] | epoch  46 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.593
+2021-12-19 22:49:45,428 [INFO] | epoch  46 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.613
+2021-12-19 22:49:50,892 [INFO] | epoch  46 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.657
+2021-12-19 22:49:56,370 [INFO] | epoch  46 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.749
+2021-12-19 22:50:01,866 [INFO] | epoch  46 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.723
+2021-12-19 22:50:07,214 [INFO] ******************************************************************************************
+2021-12-19 22:50:07,214 [INFO] | end of epoch  46 | valid accuracy 0.905 | f1-score 0.902 | masked_ratio 0.673
+2021-12-19 22:50:07,214 [INFO] ******************************************************************************************
+2021-12-19 22:50:07,216 [INFO] ******************************************************************************************
+2021-12-19 22:50:07,216 [INFO] Training epoch 47
+2021-12-19 22:50:13,211 [INFO] | epoch  47 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.590
+2021-12-19 22:50:18,665 [INFO] | epoch  47 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.647
+2021-12-19 22:50:24,140 [INFO] | epoch  47 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.659
+2021-12-19 22:50:29,605 [INFO] | epoch  47 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.725
+2021-12-19 22:50:35,123 [INFO] | epoch  47 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.643
+2021-12-19 22:50:40,446 [INFO] ******************************************************************************************
+2021-12-19 22:50:40,446 [INFO] | end of epoch  47 | valid accuracy 0.905 | f1-score 0.902 | masked_ratio 0.670
+2021-12-19 22:50:40,446 [INFO] ******************************************************************************************
+2021-12-19 22:50:40,447 [INFO] ******************************************************************************************
+2021-12-19 22:50:40,447 [INFO] Training epoch 48
+2021-12-19 22:50:46,488 [INFO] | epoch  48 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.658
+2021-12-19 22:50:51,948 [INFO] | epoch  48 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.550
+2021-12-19 22:50:57,407 [INFO] | epoch  48 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.635
+2021-12-19 22:51:02,886 [INFO] | epoch  48 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.681
+2021-12-19 22:51:08,373 [INFO] | epoch  48 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.641
+2021-12-19 22:51:13,706 [INFO] ******************************************************************************************
+2021-12-19 22:51:13,706 [INFO] | end of epoch  48 | valid accuracy 0.905 | f1-score 0.902 | masked_ratio 0.669
+2021-12-19 22:51:13,706 [INFO] ******************************************************************************************
+2021-12-19 22:51:13,708 [INFO] ******************************************************************************************
+2021-12-19 22:51:13,708 [INFO] Training epoch 49
+2021-12-19 22:51:19,731 [INFO] | epoch  49 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.608
+2021-12-19 22:51:25,204 [INFO] | epoch  49 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.719
+2021-12-19 22:51:30,678 [INFO] | epoch  49 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.672
+2021-12-19 22:51:36,165 [INFO] | epoch  49 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.574
+2021-12-19 22:51:41,668 [INFO] | epoch  49 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.554
+2021-12-19 22:51:47,014 [INFO] ******************************************************************************************
+2021-12-19 22:51:47,015 [INFO] | end of epoch  49 | valid accuracy 0.914 | f1-score 0.912 | masked_ratio 0.677
+2021-12-19 22:51:47,015 [INFO] ******************************************************************************************
+2021-12-19 22:51:47,016 [INFO] ******************************************************************************************
+2021-12-19 22:51:47,016 [INFO] Training epoch 50
+2021-12-19 22:51:53,038 [INFO] | epoch  50 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.673
+2021-12-19 22:51:58,513 [INFO] | epoch  50 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.707
+2021-12-19 22:52:03,983 [INFO] | epoch  50 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.691
+2021-12-19 22:52:09,433 [INFO] | epoch  50 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.668
+2021-12-19 22:52:14,923 [INFO] | epoch  50 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.696
+2021-12-19 22:52:20,254 [INFO] ******************************************************************************************
+2021-12-19 22:52:20,254 [INFO] | end of epoch  50 | valid accuracy 0.910 | f1-score 0.908 | masked_ratio 0.675
+2021-12-19 22:52:20,255 [INFO] ******************************************************************************************
+2021-12-19 22:52:20,256 [INFO] ******************************************************************************************
+2021-12-19 22:52:20,256 [INFO] Training epoch 51
+2021-12-19 22:52:26,282 [INFO] | epoch  51 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.550
+2021-12-19 22:52:31,768 [INFO] | epoch  51 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.687
+2021-12-19 22:52:37,229 [INFO] | epoch  51 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.518
+2021-12-19 22:52:42,680 [INFO] | epoch  51 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.637
+2021-12-19 22:52:48,153 [INFO] | epoch  51 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.592
+2021-12-19 22:52:53,518 [INFO] ******************************************************************************************
+2021-12-19 22:52:53,518 [INFO] | end of epoch  51 | valid accuracy 0.910 | f1-score 0.908 | masked_ratio 0.674
+2021-12-19 22:52:53,518 [INFO] ******************************************************************************************
+2021-12-19 22:52:53,520 [INFO] ******************************************************************************************
+2021-12-19 22:52:53,520 [INFO] Training epoch 52
+2021-12-19 22:52:59,526 [INFO] | epoch  52 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.706
+2021-12-19 22:53:04,988 [INFO] | epoch  52 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.658
+2021-12-19 22:53:10,481 [INFO] | epoch  52 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.690
+2021-12-19 22:53:15,973 [INFO] | epoch  52 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.568
+2021-12-19 22:53:21,471 [INFO] | epoch  52 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.574
+2021-12-19 22:53:26,819 [INFO] ******************************************************************************************
+2021-12-19 22:53:26,820 [INFO] | end of epoch  52 | valid accuracy 0.914 | f1-score 0.912 | masked_ratio 0.674
+2021-12-19 22:53:26,820 [INFO] ******************************************************************************************
+2021-12-19 22:53:26,821 [INFO] ******************************************************************************************
+2021-12-19 22:53:26,821 [INFO] Training epoch 53
+2021-12-19 22:53:32,855 [INFO] | epoch  53 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.795
+2021-12-19 22:53:38,311 [INFO] | epoch  53 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.575
+2021-12-19 22:53:43,760 [INFO] | epoch  53 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.630
+2021-12-19 22:53:49,215 [INFO] | epoch  53 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.699
+2021-12-19 22:53:54,688 [INFO] | epoch  53 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.610
+2021-12-19 22:54:00,007 [INFO] ******************************************************************************************
+2021-12-19 22:54:00,007 [INFO] | end of epoch  53 | valid accuracy 0.910 | f1-score 0.908 | masked_ratio 0.674
+2021-12-19 22:54:00,007 [INFO] ******************************************************************************************
+2021-12-19 22:54:00,009 [INFO] ******************************************************************************************
+2021-12-19 22:54:00,009 [INFO] Training epoch 54
+2021-12-19 22:54:06,031 [INFO] | epoch  54 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.593
+2021-12-19 22:54:11,500 [INFO] | epoch  54 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.676
+2021-12-19 22:54:16,995 [INFO] | epoch  54 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.789
+2021-12-19 22:54:22,484 [INFO] | epoch  54 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.595
+2021-12-19 22:54:27,947 [INFO] | epoch  54 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.596
+2021-12-19 22:54:33,280 [INFO] ******************************************************************************************
+2021-12-19 22:54:33,280 [INFO] | end of epoch  54 | valid accuracy 0.910 | f1-score 0.908 | masked_ratio 0.674
+2021-12-19 22:54:33,280 [INFO] ******************************************************************************************
+2021-12-19 22:54:33,283 [INFO] ******************************************************************************************
+2021-12-19 22:54:33,283 [INFO] Training epoch 55
+2021-12-19 22:54:39,312 [INFO] | epoch  55 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.568
+2021-12-19 22:54:44,802 [INFO] | epoch  55 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.712
+2021-12-19 22:54:50,321 [INFO] | epoch  55 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.705
+2021-12-19 22:54:55,792 [INFO] | epoch  55 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.762
+2021-12-19 22:55:01,272 [INFO] | epoch  55 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.614
+2021-12-19 22:55:06,611 [INFO] ******************************************************************************************
+2021-12-19 22:55:06,612 [INFO] | end of epoch  55 | valid accuracy 0.905 | f1-score 0.902 | masked_ratio 0.668
+2021-12-19 22:55:06,612 [INFO] ******************************************************************************************
+2021-12-19 22:55:06,613 [INFO] ******************************************************************************************
+2021-12-19 22:55:06,613 [INFO] Training epoch 56
+2021-12-19 22:55:12,630 [INFO] | epoch  56 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.519
+2021-12-19 22:55:18,105 [INFO] | epoch  56 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.578
+2021-12-19 22:55:23,567 [INFO] | epoch  56 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.558
+2021-12-19 22:55:29,022 [INFO] | epoch  56 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.728
+2021-12-19 22:55:34,512 [INFO] | epoch  56 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.624
+2021-12-19 22:55:39,834 [INFO] ******************************************************************************************
+2021-12-19 22:55:39,834 [INFO] | end of epoch  56 | valid accuracy 0.905 | f1-score 0.902 | masked_ratio 0.667
+2021-12-19 22:55:39,834 [INFO] ******************************************************************************************
+2021-12-19 22:55:39,836 [INFO] ******************************************************************************************
+2021-12-19 22:55:39,837 [INFO] Training epoch 57
+2021-12-19 22:55:45,849 [INFO] | epoch  57 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.684
+2021-12-19 22:55:51,325 [INFO] | epoch  57 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.606
+2021-12-19 22:55:56,792 [INFO] | epoch  57 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.719
+2021-12-19 22:56:02,259 [INFO] | epoch  57 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.615
+2021-12-19 22:56:07,753 [INFO] | epoch  57 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.569
+2021-12-19 22:56:13,097 [INFO] ******************************************************************************************
+2021-12-19 22:56:13,098 [INFO] | end of epoch  57 | valid accuracy 0.905 | f1-score 0.902 | masked_ratio 0.667
+2021-12-19 22:56:13,098 [INFO] ******************************************************************************************
+2021-12-19 22:56:13,099 [INFO] ******************************************************************************************
+2021-12-19 22:56:13,099 [INFO] Training epoch 58
+2021-12-19 22:56:19,147 [INFO] | epoch  58 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.683
+2021-12-19 22:56:24,632 [INFO] | epoch  58 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.643
+2021-12-19 22:56:30,098 [INFO] | epoch  58 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.634
+2021-12-19 22:56:35,578 [INFO] | epoch  58 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.582
+2021-12-19 22:56:41,047 [INFO] | epoch  58 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.571
+2021-12-19 22:56:46,375 [INFO] ******************************************************************************************
+2021-12-19 22:56:46,375 [INFO] | end of epoch  58 | valid accuracy 0.905 | f1-score 0.902 | masked_ratio 0.667
+2021-12-19 22:56:46,375 [INFO] ******************************************************************************************
+2021-12-19 22:56:46,377 [INFO] ******************************************************************************************
+2021-12-19 22:56:46,377 [INFO] Training epoch 59
+2021-12-19 22:56:52,401 [INFO] | epoch  59 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.659
+2021-12-19 22:56:57,856 [INFO] | epoch  59 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.757
+2021-12-19 22:57:03,343 [INFO] | epoch  59 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.583
+2021-12-19 22:57:08,806 [INFO] | epoch  59 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.682
+2021-12-19 22:57:14,282 [INFO] | epoch  59 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.698
+2021-12-19 22:57:19,593 [INFO] ******************************************************************************************
+2021-12-19 22:57:19,593 [INFO] | end of epoch  59 | valid accuracy 0.905 | f1-score 0.902 | masked_ratio 0.666
+2021-12-19 22:57:19,593 [INFO] ******************************************************************************************
+2021-12-19 22:57:19,595 [INFO] ******************************************************************************************
+2021-12-19 22:57:19,595 [INFO] Training epoch 60
+2021-12-19 22:57:25,638 [INFO] | epoch  60 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.640
+2021-12-19 22:57:31,127 [INFO] | epoch  60 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.579
+2021-12-19 22:57:36,579 [INFO] | epoch  60 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.682
+2021-12-19 22:57:42,055 [INFO] | epoch  60 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.694
+2021-12-19 22:57:47,528 [INFO] | epoch  60 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.618
+2021-12-19 22:57:52,881 [INFO] ******************************************************************************************
+2021-12-19 22:57:52,881 [INFO] | end of epoch  60 | valid accuracy 0.910 | f1-score 0.907 | masked_ratio 0.669
+2021-12-19 22:57:52,882 [INFO] ******************************************************************************************
+2021-12-19 22:57:52,883 [INFO] ******************************************************************************************
+2021-12-19 22:57:52,883 [INFO] Training epoch 61
+2021-12-19 22:57:58,905 [INFO] | epoch  61 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.708
+2021-12-19 22:58:04,398 [INFO] | epoch  61 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.603
+2021-12-19 22:58:09,874 [INFO] | epoch  61 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.703
+2021-12-19 22:58:15,373 [INFO] | epoch  61 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.738
+2021-12-19 22:58:20,858 [INFO] | epoch  61 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.719
+2021-12-19 22:58:26,219 [INFO] ******************************************************************************************
+2021-12-19 22:58:26,220 [INFO] | end of epoch  61 | valid accuracy 0.914 | f1-score 0.912 | masked_ratio 0.668
+2021-12-19 22:58:26,220 [INFO] ******************************************************************************************
+2021-12-19 22:58:26,221 [INFO] ******************************************************************************************
+2021-12-19 22:58:26,222 [INFO] Training epoch 62
+2021-12-19 22:58:32,240 [INFO] | epoch  62 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.686
+2021-12-19 22:58:37,706 [INFO] | epoch  62 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.688
+2021-12-19 22:58:43,198 [INFO] | epoch  62 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.571
+2021-12-19 22:58:48,658 [INFO] | epoch  62 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.631
+2021-12-19 22:58:54,119 [INFO] | epoch  62 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.592
+2021-12-19 22:58:59,450 [INFO] ******************************************************************************************
+2021-12-19 22:58:59,450 [INFO] | end of epoch  62 | valid accuracy 0.914 | f1-score 0.912 | masked_ratio 0.667
+2021-12-19 22:58:59,450 [INFO] ******************************************************************************************
+2021-12-19 22:58:59,451 [INFO] ******************************************************************************************
+2021-12-19 22:58:59,451 [INFO] Training epoch 63
+2021-12-19 22:59:05,453 [INFO] | epoch  63 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.702
+2021-12-19 22:59:10,955 [INFO] | epoch  63 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.728
+2021-12-19 22:59:16,412 [INFO] | epoch  63 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.594
+2021-12-19 22:59:21,884 [INFO] | epoch  63 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.503
+2021-12-19 22:59:27,344 [INFO] | epoch  63 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.696
+2021-12-19 22:59:32,706 [INFO] ******************************************************************************************
+2021-12-19 22:59:32,706 [INFO] | end of epoch  63 | valid accuracy 0.914 | f1-score 0.912 | masked_ratio 0.666
+2021-12-19 22:59:32,706 [INFO] ******************************************************************************************
+2021-12-19 22:59:32,708 [INFO] ******************************************************************************************
+2021-12-19 22:59:32,708 [INFO] Training epoch 64
+2021-12-19 22:59:38,736 [INFO] | epoch  64 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.665
+2021-12-19 22:59:44,209 [INFO] | epoch  64 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.572
+2021-12-19 22:59:49,695 [INFO] | epoch  64 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.649
+2021-12-19 22:59:55,192 [INFO] | epoch  64 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.651
+2021-12-19 23:00:00,669 [INFO] | epoch  64 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.556
+2021-12-19 23:00:06,014 [INFO] ******************************************************************************************
+2021-12-19 23:00:06,014 [INFO] | end of epoch  64 | valid accuracy 0.914 | f1-score 0.912 | masked_ratio 0.665
+2021-12-19 23:00:06,014 [INFO] ******************************************************************************************
+2021-12-19 23:00:06,016 [INFO] ******************************************************************************************
+2021-12-19 23:00:06,016 [INFO] Training epoch 65
+2021-12-19 23:00:12,055 [INFO] | epoch  65 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.623
+2021-12-19 23:00:17,499 [INFO] | epoch  65 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.766
+2021-12-19 23:00:22,982 [INFO] | epoch  65 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.700
+2021-12-19 23:00:28,436 [INFO] | epoch  65 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.626
+2021-12-19 23:00:33,942 [INFO] | epoch  65 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.621
+2021-12-19 23:00:39,249 [INFO] ******************************************************************************************
+2021-12-19 23:00:39,249 [INFO] | end of epoch  65 | valid accuracy 0.914 | f1-score 0.912 | masked_ratio 0.664
+2021-12-19 23:00:39,249 [INFO] ******************************************************************************************
+2021-12-19 23:00:39,250 [INFO] ******************************************************************************************
+2021-12-19 23:00:39,250 [INFO] Training epoch 66
+2021-12-19 23:00:45,249 [INFO] | epoch  66 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.745
+2021-12-19 23:00:50,721 [INFO] | epoch  66 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.607
+2021-12-19 23:00:56,192 [INFO] | epoch  66 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.663
+2021-12-19 23:01:01,645 [INFO] | epoch  66 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.605
+2021-12-19 23:01:07,111 [INFO] | epoch  66 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.669
+2021-12-19 23:01:12,450 [INFO] ******************************************************************************************
+2021-12-19 23:01:12,450 [INFO] | end of epoch  66 | valid accuracy 0.914 | f1-score 0.912 | masked_ratio 0.664
+2021-12-19 23:01:12,450 [INFO] ******************************************************************************************
+2021-12-19 23:01:12,451 [INFO] ******************************************************************************************
+2021-12-19 23:01:12,451 [INFO] Training epoch 67
+2021-12-19 23:01:18,477 [INFO] | epoch  67 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.677
+2021-12-19 23:01:23,959 [INFO] | epoch  67 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.639
+2021-12-19 23:01:29,448 [INFO] | epoch  67 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.718
+2021-12-19 23:01:34,952 [INFO] | epoch  67 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.788
+2021-12-19 23:01:40,418 [INFO] | epoch  67 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.664
+2021-12-19 23:01:45,745 [INFO] ******************************************************************************************
+2021-12-19 23:01:45,745 [INFO] | end of epoch  67 | valid accuracy 0.914 | f1-score 0.912 | masked_ratio 0.663
+2021-12-19 23:01:45,745 [INFO] ******************************************************************************************
+2021-12-19 23:01:45,746 [INFO] ******************************************************************************************
+2021-12-19 23:01:45,746 [INFO] Training epoch 68
+2021-12-19 23:01:51,739 [INFO] | epoch  68 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.487
+2021-12-19 23:01:57,186 [INFO] | epoch  68 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.762
+2021-12-19 23:02:02,664 [INFO] | epoch  68 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.738
+2021-12-19 23:02:08,142 [INFO] | epoch  68 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.731
+2021-12-19 23:02:13,605 [INFO] | epoch  68 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.623
+2021-12-19 23:02:18,946 [INFO] ******************************************************************************************
+2021-12-19 23:02:18,946 [INFO] | end of epoch  68 | valid accuracy 0.914 | f1-score 0.912 | masked_ratio 0.663
+2021-12-19 23:02:18,946 [INFO] ******************************************************************************************
+2021-12-19 23:02:18,948 [INFO] ******************************************************************************************
+2021-12-19 23:02:18,948 [INFO] Training epoch 69
+2021-12-19 23:02:24,971 [INFO] | epoch  69 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.629
+2021-12-19 23:02:30,435 [INFO] | epoch  69 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.723
+2021-12-19 23:02:35,901 [INFO] | epoch  69 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.628
+2021-12-19 23:02:41,377 [INFO] | epoch  69 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.711
+2021-12-19 23:02:46,867 [INFO] | epoch  69 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.590
+2021-12-19 23:02:52,210 [INFO] ******************************************************************************************
+2021-12-19 23:02:52,210 [INFO] | end of epoch  69 | valid accuracy 0.914 | f1-score 0.912 | masked_ratio 0.663
+2021-12-19 23:02:52,210 [INFO] ******************************************************************************************
+2021-12-19 23:02:52,212 [INFO] ******************************************************************************************
+2021-12-19 23:02:52,212 [INFO] Training epoch 70
+2021-12-19 23:02:58,233 [INFO] | epoch  70 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.690
+2021-12-19 23:03:03,730 [INFO] | epoch  70 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.617
+2021-12-19 23:03:09,224 [INFO] | epoch  70 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.592
+2021-12-19 23:03:14,701 [INFO] | epoch  70 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.739
+2021-12-19 23:03:20,176 [INFO] | epoch  70 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.598
+2021-12-19 23:03:25,513 [INFO] ******************************************************************************************
+2021-12-19 23:03:25,513 [INFO] | end of epoch  70 | valid accuracy 0.914 | f1-score 0.912 | masked_ratio 0.663
+2021-12-19 23:03:25,513 [INFO] ******************************************************************************************
+2021-12-19 23:03:25,515 [INFO] ******************************************************************************************
+2021-12-19 23:03:25,516 [INFO] Training epoch 71
+2021-12-19 23:03:31,525 [INFO] | epoch  71 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.497
+2021-12-19 23:03:36,992 [INFO] | epoch  71 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.670
+2021-12-19 23:03:42,464 [INFO] | epoch  71 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.580
+2021-12-19 23:03:47,952 [INFO] | epoch  71 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.740
+2021-12-19 23:03:53,424 [INFO] | epoch  71 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.721
+2021-12-19 23:03:58,746 [INFO] ******************************************************************************************
+2021-12-19 23:03:58,746 [INFO] | end of epoch  71 | valid accuracy 0.914 | f1-score 0.912 | masked_ratio 0.663
+2021-12-19 23:03:58,747 [INFO] ******************************************************************************************
+2021-12-19 23:03:58,748 [INFO] ******************************************************************************************
+2021-12-19 23:03:58,748 [INFO] Training epoch 72
+2021-12-19 23:04:04,766 [INFO] | epoch  72 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.656
+2021-12-19 23:04:10,261 [INFO] | epoch  72 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.613
+2021-12-19 23:04:15,747 [INFO] | epoch  72 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.670
+2021-12-19 23:04:21,227 [INFO] | epoch  72 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.725
+2021-12-19 23:04:26,693 [INFO] | epoch  72 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.607
+2021-12-19 23:04:32,024 [INFO] ******************************************************************************************
+2021-12-19 23:04:32,025 [INFO] | end of epoch  72 | valid accuracy 0.914 | f1-score 0.912 | masked_ratio 0.662
+2021-12-19 23:04:32,025 [INFO] ******************************************************************************************
+2021-12-19 23:04:32,026 [INFO] ******************************************************************************************
+2021-12-19 23:04:32,026 [INFO] Training epoch 73
+2021-12-19 23:04:38,052 [INFO] | epoch  73 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.717
+2021-12-19 23:04:43,531 [INFO] | epoch  73 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.662
+2021-12-19 23:04:49,006 [INFO] | epoch  73 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.690
+2021-12-19 23:04:54,496 [INFO] | epoch  73 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.493
+2021-12-19 23:04:59,994 [INFO] | epoch  73 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.624
+2021-12-19 23:05:05,321 [INFO] ******************************************************************************************
+2021-12-19 23:05:05,321 [INFO] | end of epoch  73 | valid accuracy 0.914 | f1-score 0.912 | masked_ratio 0.662
+2021-12-19 23:05:05,321 [INFO] ******************************************************************************************
+2021-12-19 23:05:05,322 [INFO] ******************************************************************************************
+2021-12-19 23:05:05,322 [INFO] Training epoch 74
+2021-12-19 23:05:11,322 [INFO] | epoch  74 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.606
+2021-12-19 23:05:16,792 [INFO] | epoch  74 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.539
+2021-12-19 23:05:22,281 [INFO] | epoch  74 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.658
+2021-12-19 23:05:27,747 [INFO] | epoch  74 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.720
+2021-12-19 23:05:33,219 [INFO] | epoch  74 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.658
+2021-12-19 23:05:38,565 [INFO] ******************************************************************************************
+2021-12-19 23:05:38,565 [INFO] | end of epoch  74 | valid accuracy 0.905 | f1-score 0.901 | masked_ratio 0.647
+2021-12-19 23:05:38,566 [INFO] ******************************************************************************************
+2021-12-19 23:05:38,567 [INFO] ******************************************************************************************
+2021-12-19 23:05:38,567 [INFO] Training epoch 75
+2021-12-19 23:05:44,570 [INFO] | epoch  75 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.680
+2021-12-19 23:05:50,042 [INFO] | epoch  75 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.627
+2021-12-19 23:05:55,496 [INFO] | epoch  75 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.601
+2021-12-19 23:06:00,977 [INFO] | epoch  75 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.551
+2021-12-19 23:06:06,482 [INFO] | epoch  75 |  50/ 56 batches | training accuracy 0.994 | masked_ratio 0.587
+2021-12-19 23:06:11,813 [INFO] ******************************************************************************************
+2021-12-19 23:06:11,813 [INFO] | end of epoch  75 | valid accuracy 0.752 | f1-score 0.752 | masked_ratio 0.588
+2021-12-19 23:06:11,813 [INFO] ******************************************************************************************
+2021-12-19 23:06:11,815 [INFO] ******************************************************************************************
+2021-12-19 23:06:11,815 [INFO] Training epoch 76
+2021-12-19 23:06:17,825 [INFO] | epoch  76 |  10/ 56 batches | training accuracy 0.952 | masked_ratio 0.717
+2021-12-19 23:06:23,308 [INFO] | epoch  76 |  20/ 56 batches | training accuracy 0.906 | masked_ratio 0.685
+2021-12-19 23:06:28,786 [INFO] | epoch  76 |  30/ 56 batches | training accuracy 0.894 | masked_ratio 0.314
+2021-12-19 23:06:34,271 [INFO] | epoch  76 |  40/ 56 batches | training accuracy 0.903 | masked_ratio 0.120
+2021-12-19 23:06:39,757 [INFO] | epoch  76 |  50/ 56 batches | training accuracy 0.797 | masked_ratio 0.915
+2021-12-19 23:06:45,101 [INFO] ******************************************************************************************
+2021-12-19 23:06:45,101 [INFO] | end of epoch  76 | valid accuracy 0.829 | f1-score 0.813 | masked_ratio 0.968
+2021-12-19 23:06:45,101 [INFO] ******************************************************************************************
+2021-12-19 23:06:45,103 [INFO] ******************************************************************************************
+2021-12-19 23:06:45,103 [INFO] Training epoch 77
+2021-12-19 23:06:51,121 [INFO] | epoch  77 |  10/ 56 batches | training accuracy 0.935 | masked_ratio 0.987
+2021-12-19 23:06:56,583 [INFO] | epoch  77 |  20/ 56 batches | training accuracy 0.919 | masked_ratio 0.983
+2021-12-19 23:07:02,041 [INFO] | epoch  77 |  30/ 56 batches | training accuracy 0.972 | masked_ratio 0.937
+2021-12-19 23:07:07,502 [INFO] | epoch  77 |  40/ 56 batches | training accuracy 0.981 | masked_ratio 0.981
+2021-12-19 23:07:12,993 [INFO] | epoch  77 |  50/ 56 batches | training accuracy 0.984 | masked_ratio 0.976
+2021-12-19 23:07:18,335 [INFO] ******************************************************************************************
+2021-12-19 23:07:18,335 [INFO] | end of epoch  77 | valid accuracy 0.860 | f1-score 0.854 | masked_ratio 0.978
+2021-12-19 23:07:18,335 [INFO] ******************************************************************************************
+2021-12-19 23:07:18,336 [INFO] ******************************************************************************************
+2021-12-19 23:07:18,336 [INFO] Training epoch 78
+2021-12-19 23:07:24,343 [INFO] | epoch  78 |  10/ 56 batches | training accuracy 0.994 | masked_ratio 0.988
+2021-12-19 23:07:29,814 [INFO] | epoch  78 |  20/ 56 batches | training accuracy 0.984 | masked_ratio 0.980
+2021-12-19 23:07:35,285 [INFO] | epoch  78 |  30/ 56 batches | training accuracy 0.981 | masked_ratio 0.977
+2021-12-19 23:07:40,765 [INFO] | epoch  78 |  40/ 56 batches | training accuracy 0.972 | masked_ratio 0.975
+2021-12-19 23:07:46,224 [INFO] | epoch  78 |  50/ 56 batches | training accuracy 0.984 | masked_ratio 0.952
+2021-12-19 23:07:51,592 [INFO] ******************************************************************************************
+2021-12-19 23:07:51,592 [INFO] | end of epoch  78 | valid accuracy 0.896 | f1-score 0.895 | masked_ratio 0.964
+2021-12-19 23:07:51,592 [INFO] ******************************************************************************************
+2021-12-19 23:07:51,593 [INFO] ******************************************************************************************
+2021-12-19 23:07:51,594 [INFO] Training epoch 79
+2021-12-19 23:07:57,602 [INFO] | epoch  79 |  10/ 56 batches | training accuracy 0.997 | masked_ratio 0.937
+2021-12-19 23:08:03,095 [INFO] | epoch  79 |  20/ 56 batches | training accuracy 0.994 | masked_ratio 0.978
+2021-12-19 23:08:08,575 [INFO] | epoch  79 |  30/ 56 batches | training accuracy 0.997 | masked_ratio 0.946
+2021-12-19 23:08:14,056 [INFO] | epoch  79 |  40/ 56 batches | training accuracy 0.991 | masked_ratio 0.965
+2021-12-19 23:08:19,529 [INFO] | epoch  79 |  50/ 56 batches | training accuracy 0.994 | masked_ratio 0.967
+2021-12-19 23:08:24,885 [INFO] ******************************************************************************************
+2021-12-19 23:08:24,886 [INFO] | end of epoch  79 | valid accuracy 0.914 | f1-score 0.914 | masked_ratio 0.956
+2021-12-19 23:08:24,886 [INFO] ******************************************************************************************
+2021-12-19 23:08:24,887 [INFO] ******************************************************************************************
+2021-12-19 23:08:24,887 [INFO] Training epoch 80
+2021-12-19 23:08:30,922 [INFO] | epoch  80 |  10/ 56 batches | training accuracy 0.991 | masked_ratio 0.965
+2021-12-19 23:08:36,396 [INFO] | epoch  80 |  20/ 56 batches | training accuracy 0.997 | masked_ratio 0.965
+2021-12-19 23:08:41,843 [INFO] | epoch  80 |  30/ 56 batches | training accuracy 0.981 | masked_ratio 0.959
+2021-12-19 23:08:47,305 [INFO] | epoch  80 |  40/ 56 batches | training accuracy 0.984 | masked_ratio 0.943
+2021-12-19 23:08:52,759 [INFO] | epoch  80 |  50/ 56 batches | training accuracy 0.994 | masked_ratio 0.944
+2021-12-19 23:08:58,083 [INFO] ******************************************************************************************
+2021-12-19 23:08:58,084 [INFO] | end of epoch  80 | valid accuracy 0.901 | f1-score 0.897 | masked_ratio 0.958
+2021-12-19 23:08:58,084 [INFO] ******************************************************************************************
+2021-12-19 23:08:58,085 [INFO] ******************************************************************************************
+2021-12-19 23:08:58,085 [INFO] Training epoch 81
+2021-12-19 23:09:04,102 [INFO] | epoch  81 |  10/ 56 batches | training accuracy 0.997 | masked_ratio 0.951
+2021-12-19 23:09:09,573 [INFO] | epoch  81 |  20/ 56 batches | training accuracy 0.997 | masked_ratio 0.946
+2021-12-19 23:09:15,052 [INFO] | epoch  81 |  30/ 56 batches | training accuracy 0.994 | masked_ratio 0.961
+2021-12-19 23:09:20,536 [INFO] | epoch  81 |  40/ 56 batches | training accuracy 0.997 | masked_ratio 0.982
+2021-12-19 23:09:26,026 [INFO] | epoch  81 |  50/ 56 batches | training accuracy 0.997 | masked_ratio 0.915
+2021-12-19 23:09:31,360 [INFO] ******************************************************************************************
+2021-12-19 23:09:31,360 [INFO] | end of epoch  81 | valid accuracy 0.919 | f1-score 0.915 | masked_ratio 0.949
+2021-12-19 23:09:31,360 [INFO] ******************************************************************************************
+2021-12-19 23:09:31,361 [INFO] ******************************************************************************************
+2021-12-19 23:09:31,361 [INFO] Training epoch 82
+2021-12-19 23:09:37,397 [INFO] | epoch  82 |  10/ 56 batches | training accuracy 0.989 | masked_ratio 0.895
+2021-12-19 23:09:42,886 [INFO] | epoch  82 |  20/ 56 batches | training accuracy 0.988 | masked_ratio 0.938
+2021-12-19 23:09:48,387 [INFO] | epoch  82 |  30/ 56 batches | training accuracy 0.966 | masked_ratio 0.965
+2021-12-19 23:09:53,852 [INFO] | epoch  82 |  40/ 56 batches | training accuracy 0.988 | masked_ratio 0.962
+2021-12-19 23:09:59,337 [INFO] | epoch  82 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.966
+2021-12-19 23:10:04,696 [INFO] ******************************************************************************************
+2021-12-19 23:10:04,696 [INFO] | end of epoch  82 | valid accuracy 0.923 | f1-score 0.923 | masked_ratio 0.922
+2021-12-19 23:10:04,696 [INFO] ******************************************************************************************
+2021-12-19 23:10:04,735 [INFO] ******************************************************************************************
+2021-12-19 23:10:04,735 [INFO] Training epoch 83
+2021-12-19 23:10:10,728 [INFO] | epoch  83 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.941
+2021-12-19 23:10:16,223 [INFO] | epoch  83 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.927
+2021-12-19 23:10:21,698 [INFO] | epoch  83 |  30/ 56 batches | training accuracy 0.997 | masked_ratio 0.908
+2021-12-19 23:10:27,203 [INFO] | epoch  83 |  40/ 56 batches | training accuracy 0.991 | masked_ratio 0.911
+2021-12-19 23:10:32,690 [INFO] | epoch  83 |  50/ 56 batches | training accuracy 0.994 | masked_ratio 0.958
+2021-12-19 23:10:38,016 [INFO] ******************************************************************************************
+2021-12-19 23:10:38,017 [INFO] | end of epoch  83 | valid accuracy 0.923 | f1-score 0.924 | masked_ratio 0.908
+2021-12-19 23:10:38,017 [INFO] ******************************************************************************************
+2021-12-19 23:10:38,057 [INFO] ******************************************************************************************
+2021-12-19 23:10:38,057 [INFO] Training epoch 84
+2021-12-19 23:10:44,073 [INFO] | epoch  84 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.941
+2021-12-19 23:10:49,570 [INFO] | epoch  84 |  20/ 56 batches | training accuracy 0.997 | masked_ratio 0.943
+2021-12-19 23:10:55,068 [INFO] | epoch  84 |  30/ 56 batches | training accuracy 0.997 | masked_ratio 0.907
+2021-12-19 23:11:00,553 [INFO] | epoch  84 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.889
+2021-12-19 23:11:06,056 [INFO] | epoch  84 |  50/ 56 batches | training accuracy 0.997 | masked_ratio 0.924
+2021-12-19 23:11:11,417 [INFO] ******************************************************************************************
+2021-12-19 23:11:11,417 [INFO] | end of epoch  84 | valid accuracy 0.928 | f1-score 0.926 | masked_ratio 0.898
+2021-12-19 23:11:11,417 [INFO] ******************************************************************************************
+2021-12-19 23:11:11,457 [INFO] ******************************************************************************************
+2021-12-19 23:11:11,457 [INFO] Training epoch 85
+2021-12-19 23:11:17,478 [INFO] | epoch  85 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.887
+2021-12-19 23:11:22,971 [INFO] | epoch  85 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.817
+2021-12-19 23:11:28,457 [INFO] | epoch  85 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.924
+2021-12-19 23:11:33,912 [INFO] | epoch  85 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.923
+2021-12-19 23:11:39,401 [INFO] | epoch  85 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.908
+2021-12-19 23:11:44,766 [INFO] ******************************************************************************************
+2021-12-19 23:11:44,766 [INFO] | end of epoch  85 | valid accuracy 0.932 | f1-score 0.930 | masked_ratio 0.886
+2021-12-19 23:11:44,766 [INFO] ******************************************************************************************
+2021-12-19 23:11:44,808 [INFO] ******************************************************************************************
+2021-12-19 23:11:44,808 [INFO] Training epoch 86
+2021-12-19 23:11:50,859 [INFO] | epoch  86 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.893
+2021-12-19 23:11:56,343 [INFO] | epoch  86 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.873
+2021-12-19 23:12:01,802 [INFO] | epoch  86 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.926
+2021-12-19 23:12:07,296 [INFO] | epoch  86 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.901
+2021-12-19 23:12:12,769 [INFO] | epoch  86 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.903
+2021-12-19 23:12:18,096 [INFO] ******************************************************************************************
+2021-12-19 23:12:18,097 [INFO] | end of epoch  86 | valid accuracy 0.932 | f1-score 0.930 | masked_ratio 0.884
+2021-12-19 23:12:18,097 [INFO] ******************************************************************************************
+2021-12-19 23:12:18,138 [INFO] ******************************************************************************************
+2021-12-19 23:12:18,138 [INFO] Training epoch 87
+2021-12-19 23:12:24,139 [INFO] | epoch  87 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.909
+2021-12-19 23:12:29,603 [INFO] | epoch  87 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.882
+2021-12-19 23:12:35,069 [INFO] | epoch  87 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.855
+2021-12-19 23:12:40,512 [INFO] | epoch  87 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.896
+2021-12-19 23:12:46,007 [INFO] | epoch  87 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.891
+2021-12-19 23:12:51,362 [INFO] ******************************************************************************************
+2021-12-19 23:12:51,363 [INFO] | end of epoch  87 | valid accuracy 0.932 | f1-score 0.930 | masked_ratio 0.888
+2021-12-19 23:12:51,363 [INFO] ******************************************************************************************
+2021-12-19 23:12:51,364 [INFO] ******************************************************************************************
+2021-12-19 23:12:51,364 [INFO] Training epoch 88
+2021-12-19 23:12:57,419 [INFO] | epoch  88 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.856
+2021-12-19 23:13:02,896 [INFO] | epoch  88 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.907
+2021-12-19 23:13:08,375 [INFO] | epoch  88 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.958
+2021-12-19 23:13:13,856 [INFO] | epoch  88 |  40/ 56 batches | training accuracy 0.997 | masked_ratio 0.917
+2021-12-19 23:13:19,317 [INFO] | epoch  88 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.954
+2021-12-19 23:13:24,661 [INFO] ******************************************************************************************
+2021-12-19 23:13:24,661 [INFO] | end of epoch  88 | valid accuracy 0.923 | f1-score 0.923 | masked_ratio 0.913
+2021-12-19 23:13:24,661 [INFO] ******************************************************************************************
+2021-12-19 23:13:24,662 [INFO] ******************************************************************************************
+2021-12-19 23:13:24,662 [INFO] Training epoch 89
+2021-12-19 23:13:30,691 [INFO] | epoch  89 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.921
+2021-12-19 23:13:36,162 [INFO] | epoch  89 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.912
+2021-12-19 23:13:41,641 [INFO] | epoch  89 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.926
+2021-12-19 23:13:47,093 [INFO] | epoch  89 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.923
+2021-12-19 23:13:52,551 [INFO] | epoch  89 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.895
+2021-12-19 23:13:57,874 [INFO] ******************************************************************************************
+2021-12-19 23:13:57,875 [INFO] | end of epoch  89 | valid accuracy 0.919 | f1-score 0.918 | masked_ratio 0.905
+2021-12-19 23:13:57,875 [INFO] ******************************************************************************************
+2021-12-19 23:13:57,876 [INFO] ******************************************************************************************
+2021-12-19 23:13:57,876 [INFO] Training epoch 90
+2021-12-19 23:14:03,889 [INFO] | epoch  90 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.896
+2021-12-19 23:14:09,367 [INFO] | epoch  90 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.967
+2021-12-19 23:14:14,860 [INFO] | epoch  90 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.914
+2021-12-19 23:14:20,311 [INFO] | epoch  90 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.942
+2021-12-19 23:14:25,773 [INFO] | epoch  90 |  50/ 56 batches | training accuracy 0.997 | masked_ratio 0.937
+2021-12-19 23:14:31,124 [INFO] ******************************************************************************************
+2021-12-19 23:14:31,124 [INFO] | end of epoch  90 | valid accuracy 0.928 | f1-score 0.928 | masked_ratio 0.902
+2021-12-19 23:14:31,124 [INFO] ******************************************************************************************
+2021-12-19 23:14:31,125 [INFO] ******************************************************************************************
+2021-12-19 23:14:31,125 [INFO] Training epoch 91
+2021-12-19 23:14:37,153 [INFO] | epoch  91 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.918
+2021-12-19 23:14:42,613 [INFO] | epoch  91 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.845
+2021-12-19 23:14:48,089 [INFO] | epoch  91 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.817
+2021-12-19 23:14:53,572 [INFO] | epoch  91 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.837
+2021-12-19 23:14:59,063 [INFO] | epoch  91 |  50/ 56 batches | training accuracy 0.997 | masked_ratio 0.886
+2021-12-19 23:15:04,409 [INFO] ******************************************************************************************
+2021-12-19 23:15:04,409 [INFO] | end of epoch  91 | valid accuracy 0.923 | f1-score 0.927 | masked_ratio 0.913
+2021-12-19 23:15:04,409 [INFO] ******************************************************************************************
+2021-12-19 23:15:04,411 [INFO] ******************************************************************************************
+2021-12-19 23:15:04,411 [INFO] Training epoch 92
+2021-12-19 23:15:10,419 [INFO] | epoch  92 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.908
+2021-12-19 23:15:15,876 [INFO] | epoch  92 |  20/ 56 batches | training accuracy 0.997 | masked_ratio 0.898
+2021-12-19 23:15:21,336 [INFO] | epoch  92 |  30/ 56 batches | training accuracy 0.997 | masked_ratio 0.795
+2021-12-19 23:15:26,852 [INFO] | epoch  92 |  40/ 56 batches | training accuracy 0.997 | masked_ratio 0.886
+2021-12-19 23:15:32,332 [INFO] | epoch  92 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.882
+2021-12-19 23:15:37,647 [INFO] ******************************************************************************************
+2021-12-19 23:15:37,647 [INFO] | end of epoch  92 | valid accuracy 0.905 | f1-score 0.903 | masked_ratio 0.897
+2021-12-19 23:15:37,647 [INFO] ******************************************************************************************
+2021-12-19 23:15:37,649 [INFO] ******************************************************************************************
+2021-12-19 23:15:37,649 [INFO] Training epoch 93
+2021-12-19 23:15:43,657 [INFO] | epoch  93 |  10/ 56 batches | training accuracy 0.994 | masked_ratio 0.809
+2021-12-19 23:15:49,128 [INFO] | epoch  93 |  20/ 56 batches | training accuracy 0.997 | masked_ratio 0.890
+2021-12-19 23:15:54,617 [INFO] | epoch  93 |  30/ 56 batches | training accuracy 0.997 | masked_ratio 0.881
+2021-12-19 23:16:00,095 [INFO] | epoch  93 |  40/ 56 batches | training accuracy 0.994 | masked_ratio 0.850
+2021-12-19 23:16:05,550 [INFO] | epoch  93 |  50/ 56 batches | training accuracy 0.997 | masked_ratio 0.848
+2021-12-19 23:16:10,871 [INFO] ******************************************************************************************
+2021-12-19 23:16:10,872 [INFO] | end of epoch  93 | valid accuracy 0.905 | f1-score 0.902 | masked_ratio 0.873
+2021-12-19 23:16:10,872 [INFO] ******************************************************************************************
+2021-12-19 23:16:10,873 [INFO] ******************************************************************************************
+2021-12-19 23:16:10,873 [INFO] Training epoch 94
+2021-12-19 23:16:16,890 [INFO] | epoch  94 |  10/ 56 batches | training accuracy 0.991 | masked_ratio 0.837
+2021-12-19 23:16:22,393 [INFO] | epoch  94 |  20/ 56 batches | training accuracy 0.997 | masked_ratio 0.820
+2021-12-19 23:16:27,880 [INFO] | epoch  94 |  30/ 56 batches | training accuracy 0.994 | masked_ratio 0.825
+2021-12-19 23:16:33,387 [INFO] | epoch  94 |  40/ 56 batches | training accuracy 0.991 | masked_ratio 0.765
+2021-12-19 23:16:38,871 [INFO] | epoch  94 |  50/ 56 batches | training accuracy 0.991 | masked_ratio 0.770
+2021-12-19 23:16:44,216 [INFO] ******************************************************************************************
+2021-12-19 23:16:44,217 [INFO] | end of epoch  94 | valid accuracy 0.923 | f1-score 0.920 | masked_ratio 0.831
+2021-12-19 23:16:44,217 [INFO] ******************************************************************************************
+2021-12-19 23:16:44,218 [INFO] ******************************************************************************************
+2021-12-19 23:16:44,218 [INFO] Training epoch 95
+2021-12-19 23:16:50,246 [INFO] | epoch  95 |  10/ 56 batches | training accuracy 0.991 | masked_ratio 0.844
+2021-12-19 23:16:55,696 [INFO] | epoch  95 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.786
+2021-12-19 23:17:01,158 [INFO] | epoch  95 |  30/ 56 batches | training accuracy 0.994 | masked_ratio 0.885
+2021-12-19 23:17:06,658 [INFO] | epoch  95 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.863
+2021-12-19 23:17:12,152 [INFO] | epoch  95 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.915
+2021-12-19 23:17:17,490 [INFO] ******************************************************************************************
+2021-12-19 23:17:17,490 [INFO] | end of epoch  95 | valid accuracy 0.932 | f1-score 0.933 | masked_ratio 0.895
+2021-12-19 23:17:17,490 [INFO] ******************************************************************************************
+2021-12-19 23:17:17,533 [INFO] ******************************************************************************************
+2021-12-19 23:17:17,533 [INFO] Training epoch 96
+2021-12-19 23:17:23,562 [INFO] | epoch  96 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.822
+2021-12-19 23:17:29,048 [INFO] | epoch  96 |  20/ 56 batches | training accuracy 0.997 | masked_ratio 0.839
+2021-12-19 23:17:34,547 [INFO] | epoch  96 |  30/ 56 batches | training accuracy 0.997 | masked_ratio 0.876
+2021-12-19 23:17:40,025 [INFO] | epoch  96 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.913
+2021-12-19 23:17:45,516 [INFO] | epoch  96 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.919
+2021-12-19 23:17:50,832 [INFO] ******************************************************************************************
+2021-12-19 23:17:50,832 [INFO] | end of epoch  96 | valid accuracy 0.928 | f1-score 0.927 | masked_ratio 0.887
+2021-12-19 23:17:50,832 [INFO] ******************************************************************************************
+2021-12-19 23:17:50,833 [INFO] ******************************************************************************************
+2021-12-19 23:17:50,833 [INFO] Training epoch 97
+2021-12-19 23:17:56,843 [INFO] | epoch  97 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.897
+2021-12-19 23:18:02,331 [INFO] | epoch  97 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.900
+2021-12-19 23:18:07,816 [INFO] | epoch  97 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.839
+2021-12-19 23:18:13,315 [INFO] | epoch  97 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.889
+2021-12-19 23:18:18,821 [INFO] | epoch  97 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.853
+2021-12-19 23:18:24,180 [INFO] ******************************************************************************************
+2021-12-19 23:18:24,180 [INFO] | end of epoch  97 | valid accuracy 0.928 | f1-score 0.929 | masked_ratio 0.882
+2021-12-19 23:18:24,180 [INFO] ******************************************************************************************
+2021-12-19 23:18:24,182 [INFO] ******************************************************************************************
+2021-12-19 23:18:24,182 [INFO] Training epoch 98
+2021-12-19 23:18:30,183 [INFO] | epoch  98 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.811
+2021-12-19 23:18:35,660 [INFO] | epoch  98 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.926
+2021-12-19 23:18:41,134 [INFO] | epoch  98 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.860
+2021-12-19 23:18:46,622 [INFO] | epoch  98 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.876
+2021-12-19 23:18:52,110 [INFO] | epoch  98 |  50/ 56 batches | training accuracy 0.997 | masked_ratio 0.891
+2021-12-19 23:18:57,453 [INFO] ******************************************************************************************
+2021-12-19 23:18:57,453 [INFO] | end of epoch  98 | valid accuracy 0.932 | f1-score 0.933 | masked_ratio 0.878
+2021-12-19 23:18:57,453 [INFO] ******************************************************************************************
+2021-12-19 23:18:57,455 [INFO] ******************************************************************************************
+2021-12-19 23:18:57,455 [INFO] Training epoch 99
+2021-12-19 23:19:03,473 [INFO] | epoch  99 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.888
+2021-12-19 23:19:08,946 [INFO] | epoch  99 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.825
+2021-12-19 23:19:14,418 [INFO] | epoch  99 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.884
+2021-12-19 23:19:19,873 [INFO] | epoch  99 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.951
+2021-12-19 23:19:25,367 [INFO] | epoch  99 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.912
+2021-12-19 23:19:30,716 [INFO] ******************************************************************************************
+2021-12-19 23:19:30,716 [INFO] | end of epoch  99 | valid accuracy 0.932 | f1-score 0.933 | masked_ratio 0.878
+2021-12-19 23:19:30,716 [INFO] ******************************************************************************************
+2021-12-19 23:19:30,718 [INFO] ==========================================================================================
+2021-12-19 23:19:30,718 [INFO] Finished training model. Best hyperparameters: {'batch_size': 32, 'cls_bidirectional': True, 'cls_dropout': 0.2, 'cls_hidden_dim': 256, 'cls_model_type': 'lstm', 'cls_num_layers': 1, 'early_stopping_threshold': 100, 'lr': 0.001, 'masker_bidirectional': True, 'masker_dropout': 0.5, 'masker_hidden_dim': 512, 'masker_model_type': 'lstm', 'masker_num_layers': 1, 'max_seq_length': 512, 'num_epochs': 100}
+2021-12-19 23:19:30,718 [INFO] Here is the validation results:
+2021-12-19 23:19:33,463 [INFO] ******************************************************************************************
+2021-12-19 23:19:33,463 [INFO] |valid accuracy 0.932 | f1-score 0.933 | masked_ratio 0.895
+2021-12-19 23:19:33,468 [INFO]               precision    recall  f1-score   support
+
+           0       1.00      0.86      0.92        56
+           1       1.00      0.83      0.91        36
+           2       0.97      0.97      0.97        40
+           3       0.86      1.00      0.92        54
+           4       0.88      1.00      0.94        36
+
+    accuracy                           0.93       222
+   macro avg       0.94      0.93      0.93       222
+weighted avg       0.94      0.93      0.93       222
+
+2021-12-19 23:19:33,471 [INFO] [[48  0  0  4  4]
+ [ 0 30  1  4  1]
+ [ 0  0 39  1  0]
+ [ 0  0  0 54  0]
+ [ 0  0  0  0 36]]
+2021-12-19 23:19:33,471 [INFO] ******************************************************************************************
+2021-12-19 23:19:33,473 [INFO] Here is the test results (DO NOT USE THESE RESULTS FOR CHOOSING THE BEST AUGMENTATION):
+2021-12-19 23:19:36,223 [INFO] ******************************************************************************************
+2021-12-19 23:19:36,223 [INFO] |valid accuracy 0.888 | f1-score 0.881 | masked_ratio 0.879
+2021-12-19 23:19:36,227 [INFO]               precision    recall  f1-score   support
+
+           0       0.95      0.88      0.91        59
+           1       0.96      0.75      0.84        36
+           2       0.88      0.81      0.84        36
+           3       0.83      1.00      0.91        48
+           4       0.86      0.95      0.90        44
+
+    accuracy                           0.89       223
+   macro avg       0.89      0.88      0.88       223
+weighted avg       0.89      0.89      0.89       223
+
+2021-12-19 23:19:36,228 [INFO] [[52  0  0  4  3]
+ [ 0 27  4  2  3]
+ [ 3  1 29  2  1]
+ [ 0  0  0 48  0]
+ [ 0  0  0  2 42]]
+2021-12-19 23:19:36,228 [INFO] ******************************************************************************************
+2021-12-19 23:19:36,230 [INFO] Here is the FINAL masking of the training data:
+2021-12-19 23:19:36,632 [INFO] ******************************************************************************************
+2021-12-19 23:19:36,632 [INFO] Masking Examples:
+2021-12-19 23:19:36,632 [INFO] ******************************************************************************************
+2021-12-19 23:19:36,633 [INFO] #  0 | ORIGINAL | CLASS 2 | tory backing for id cards the tori ##es are to back controversial government plans to introduce id cards . the shadow cabinet revealed its support ahead of next week ' s commons vote on a bill to introduce compulsory id . the decision follows a ` ` tough meeting ' ' where some senior tori ##es argued vo ##ci ##fer ##ously against the move , party sources told the bbc . the bill , which ministers claim will tackle crime , terrorism and illegal immigration , is expected to be opposed by the liberal democrats . they have said the scheme is ` ` deeply flawed ' ' and a waste of money . sources within the conservative party told the bbc michael howard has always been in favour of id cards , and tried to introduce them when he was home secretary . the party has been ` ` ag ##nostic ' ' on the issue until now but had now decided to come off the fence , the tory source said . despite giving their backing to id cards , the conservatives insisted they would hold ministers to account over the precise purpose of the scheme . they said they would also press labour over whether objectives could be met and whether the home office would deliver them . and they pledged to assess the cost effectiveness of id cards and whether people ' s privacy would be properly protected . ` ` it is important to remember that this bill will take a decade to come into full effect , ' ' a spokesman said . ` ` it will do nothing to solve the immediate problems of rising crime and un ##con ##tro ##lled immigration . ' ' li ##b dem home affairs spokesman mark o ##ate ##n said : ` ` this has all the signs of michael howard over ##ru ##ling colleagues ' concerns over id cards . ` ` the tori ##es should have the courage to try and change public opinion not follow it . ' ' the new chairman of the bar council , guy mansfield qc warned there was a real risk that people on the ` ` margins of society ' ' would be driven into the hands of ex ##tre ##mist ##s . ` ` what is going to happen to young asian men when there has been a bomb gone off somewhere ? they are going to be stopped . if they have n ' t [ id cards ] they are going to be detained . ' '
+2021-12-19 23:19:36,633 [INFO] #  0 |  MASKED  | CLASS 2 | ____ _______ ___ __ _____ ___ ____ ____ ___ __ ____ _____________ __________ _____ __ _________ __ _____ _ ___ ______ _______ ________ ___ _______ _____ __ ____ ____ _ _ _______ ____ __ _ ____ __ _________ __________ __ _ ___ ________ _______ _ _ _ _____ _______ _ _ _____ ____ ______ ____ ____ ______ __ ____ _____ _______ _______ ___ ____ _ _____ _______ ____ ___ ___ _ ___ ____ _ _____ _________ _____ ____ ______ _____ _ _________ ___ _______ ___________ _ __ ________ __ __ _______ __ ___ _______ _________ _ ____ ____ ____ ___ ______ __ _ _ ______ ______ _ _ ___ _ _____ __ _____ _ _______ ______ ___ ____________ _____ ____ ___ ___ _______ ______ ___ ______ ____ __ ______ __ __ _____ _ ___ _____ __ _________ ____ ____ __ ___ ____ _________ _ ___ _____ ___ ____ _ _ __ ________ _ _ __ ___ _____ _____ ___ ___ ___ ___ _______ __ ____ ___ ___ _____ _ ___ ____ ______ ____ _ _______ ______ _____ _______ __ __ _____ _ ___ _____________ ________ ____ _____ ____ _________ __ _______ ____ ___ _______ _______ __ ___ ______ _ ____ ____ ____ _____ ____ _____ ______ ____ _______ __________ _____ __ ___ ___ _______ ___ ____ ______ _____ _______ ____ _ ___ ____ _______ __ ______ ___ ____ _____________ __ __ _____ ___ _______ ______ _ _ _______ _____ __ ________ _________ _ _ _ __ __ _________ __ ________ ____ ____ ____ ____ ____ _ ______ __ ____ ____ ____ ______ _ _ _ _ _________ ____ _ _ _ __ ____ __ _______ __ _____ ___ _________ ________ __ ______ _____ ___ __ _____ _____ ______ ___________ _ _ _ __ ___ ___ ____ _______ _________ ____ _ _____ ___ ____ _ _ _ ____ ___ ___ ___ _____ __ _______ ______ ____ ____ ______ __________ _ ________ ____ __ _____ _ _ _ ___ ____ ____ ______ ____ ___ _______ __ ___ ___ ______ ______ _______ ___ ______ __ _ _ _ ___ ___ ________ __ ___ ___ _______ _ ___ _________ __ ______ _____ ___ _ ____ ____ ____ ______ __ ___ _ _ _______ __ _______ _ _ _____ __ ______ ____ ___ _____ __ __ _____ ______ ___ _ _ _ ____ __ _____ __ ______ __ _____ _____ ___ ____ _____ ___ ____ _ ____ ____ ___ _________ _ ____ ___ _____ __ __ _______ _ __ ____ ____ _ _ _ _ __ _____ _ ____ ___ _____ __ __ ________ _ _ _
+2021-12-19 23:19:36,633 [INFO] ******************************************************************************************
+2021-12-19 23:19:36,635 [INFO] #  1 | ORIGINAL | CLASS 4 | broadband so ##ars in 2004 if broadband were a ju ##mbo jet , then 2003 would have seen it taxi ##ing down the runway , firing up its engines and preparing for take - off . but this year has seen it so ##ar . in the spring it literally took to the skies as lu ##ft ##han ##sa and british airways trial ##led it on flights . this perhaps said more about how ind ##is ##pen ##sable people were beginning to perceive the technology , rather than how useful sky - high broadband would actually be . it was flying high and by the autumn , five million brit ##ons had signed up for high - speed net access at home . such enthusiasm is unlikely to damp ##en any time soon and experts predict that by the end of next year the numbers will have risen to more than eight million , or more than 30 % of homes . the two key factors in w ##hett ##ing people ' s appetite were falling prices and a huge marketing push . when operators such as bt and tel ##ew ##est offered standard 512 ##k broadband for less than a ##£ ##20 at the beginning of the year , it was as if an invisible barrier had been breached - broadband had truly gone mass market . a feeding frenzy followed as firms vie ##d for eye ##balls in a price war reminiscent of that following the mass market take - up of dial - up . broadband for less than a ##£ ##10 was even to ##uted by some firms , although such a low price raised eyebrows among more established companies questioning how they are able to sustain such business models . for those who became broadband ##ers in 2004 there was no turning back and the days of waiting for the mode ##m to kick in began to seem as outdated an idea as a jungle without celebrities . the rest of the world was also falling in love with the benefits of fast internet access , to the tune of 100 million connections worldwide by april , prompting research firm point topic to declare it one of the fastest growing technologies ever . by september , the number of broadband connections in the uk finally overtook dial - up and in december bt announced that it was making a new broadband connection every 10 seconds . broadband was being mentioned on the 10 o ' clock news and in the tabloid ##s ; the sun even carried a cartoon joke about it . but two of the most significant pieces of news for broadband were items that did not make the headlines . in may , bt quietly announced that it was sha ##ving 70 % off the cost of allowing other operators access to its telephone exchanges , so - called local loop un ##bund ##ling . the vital local loop is the crucial link between telephone exchanges and homes . at the moment
+2021-12-19 23:19:36,635 [INFO] #  1 |  MASKED  | CLASS 4 | broadband so ##ars in 2004 if broadband ____ _ __ ##mbo ___ _ ____ ____ _____ ____ ____ __ ____ _____ ____ ___ ______ _ ______ __ ___ _______ ___ _________ ___ ____ _ ___ _ ___ ____ ____ ___ ____ __ __ ____ _ __ ___ ______ __ _________ ____ __ ___ _____ __ __ ____ _____ ____ ___ _______ _______ _____ _____ __ __ _______ _ ____ _______ ____ ____ _____ ___ ___ ____ _____ _______ ______ ____ _________ __ ________ ___ __________ _ ______ ____ ___ ______ ___ _ ____ _________ _____ ________ __ _ __ ___ ______ ____ ___ __ ___ ______ _ ____ _______ ____ _____ ___ ______ __ ___ ____ _ _____ ___ ______ __ ____ _ ____ __________ __ ________ __ ____ ____ ___ ____ ____ ___ _______ _______ ____ __ ___ ___ __ ____ ____ ___ _______ ____ ____ _____ __ ____ ____ _____ _______ _ __ ____ ____ __ _ __ _____ _ ___ ___ ___ _______ __ _ ______ _____ ______ _ _ ________ ____ _______ ______ ___ _ huge marketing ____ _ ____ _________ ____ __ __ ___ ___ ____ _____ _______ ________ ___ ___ _________ ___ ____ ____ _ ___ ____ __ ___ _________ __ ___ ____ _ __ ___ __ __ __ _________ _______ ___ ____ breached - broadband ___ _____ ____ ____ market _ _ _______ ______ ________ __ _____ ___ ___ ___ ___ _______ __ _ _____ ___ ___________ __ ____ _________ ___ ____ market ____ _ __ __ dial _ __ _ broadband ___ ____ ____ _ ___ ____ ___ ____ __ ______ __ ____ _____ _ ________ ____ _ ___ _____ ______ ________ _____ ____ ___________ _________ ___________ ___ ____ ___ ____ __ _______ ____ ________ ______ _ ___ _____ ___ ______ broadband _____ __ ____ _____ ___ __ _______ ____ ___ ___ ____ __ _______ ___ the mode ___ __ ____ __ _____ __ ____ as outdated __ ____ __ _ ______ _______ celebrities _ ___ ____ __ ___ _____ ___ also falling __ love with the benefits of fast internet ______ _ __ ___ ____ __ ___ _______ connections _________ __ _____ _ _________ ________ ____ _____ topic to _______ it one of the fastest growing technologies ever . by _________ , the number of broadband connections __ the uk _______ overtook dial - up and in december bt announced that it was making a new broadband __________ _____ __ _______ _ broadband ___ _____ _________ __ ___ __ _ _ _____ ____ ___ __ ___ _______ ___ _ ___ ___ ____ _______ _ _______ ____ _____ __ _ ___ ___ __ ___ ____ ___________ ______ __ ____ ___ broadband ____ _____ ____ ___ ___ ____ ___ _________ _ __ ___ _ __ _______ _________ ____ __ ___ ___ ______ __ _ ___ ___ ____ __ ________ _____ _________ ______ __ ___ _________ _________ _ __ _ ______ _____ ____ __ ______ ______ _ ___ _____ _____ ____ __ ___ _______ ____ _______ _________ _________ ___ _____ _ __ ___ ______
+2021-12-19 23:19:36,635 [INFO] ******************************************************************************************
+2021-12-19 23:19:36,636 [INFO] #  2 | ORIGINAL | CLASS 2 | mps to ##ut lords replacement plan a group of mps has tried to raise the pressure on tony blair over reform to the house of lords by publishing a detailed blue ##print for change . the cross - party group has unveiled a draft bill proposing a smaller second chamber in which 70 % of members would be elected . mps and peers have failed to agree on reform since 1999 when 600 here ##dit ##aries lost their seats . the group says it can win support for removing the last 92 here ##dit ##aries . the government postponed plans to remove the remaining hereditary peers because they said they were unlikely to succeed after opposition in the lords . tony blair has argued . there needs to be consensus on reforms . there have been suggestions there will be proposals for changing at least the powers of the lords in labour ' s manifesto . but the all - party group , including tori ##es ken clarke and sir george young , labour ' s robin cook and tony wright and liberal democrat paul tyler , is confident its plan would win support from a ` ` large majority ' ' . and they list former conservative leader william hague and former labour leader neil kin ##nock as supporters of the plans . the group says the british public and a clear majority of mps support replacing the lords with a largely - elected second chamber . their plan would see the house of lords being renamed the second chamber of parliament , and its members would be known as msc ##ps . there would be 385 msc ##ps , including 270 elected members , 87 appointed members and 16 bishops . they would serve for between 12 and 14 years . mr cook said holding elections for msc ##ps on the same day as those for mps might help mo ##tiv ##ate the electorate and increase voter turnout . he added : ` ` over the last year i have seen many statements from senior figures of this government insisting the public must have the right of choice . ` ` what could be more important than a choice of the people who sit in our parliament ? ' ' the group believes pressure is growing for change and the government ' s current position is un ##sus ##tain ##able . it wants all three main parties to include a commitment to a ` ` largely democratic ' ' second chamber in their manifesto ##s . mr clarke said the issue ` ` went to the heart of reforming the health of the british political system ' ' . and mr tyler said the prime minister ' s view that there was no agreement on the shape of the future of the lords was flawed . ` ` the problem , i think , in the prime minister ' s mind is there does n ' t appear to be a consensus that includes him , ' '
+2021-12-19 23:19:36,636 [INFO] #  2 |  MASKED  | CLASS 2 | ___ __ ____ _____ ___________ ____ _ _____ __ ___ ___ _____ __ _____ ___ ________ __ ____ _____ ____ ______ __ ___ _____ __ _____ __ __________ _ ________ ____ _______ ___ ______ _ ___ _____ _ _____ _____ ___ ________ _ _____ ____ _________ _ _______ ______ _______ __ _____ __ _ __ _______ _____ __ _______ _ ___ ___ _____ ____ ______ __ _____ __ ______ _____ ____ ____ ___ ____ _____ _______ ____ _____ _____ _ ___ _____ ____ __ ___ ___ _______ ___ ________ ___ ____ __ ____ _____ _______ _ ___ __________ _________ _____ __ ______ ___ _________ __________ _____ _______ ____ ____ ____ ____ ________ __ _______ _____ __________ __ ___ _____ _ ____ _____ ___ ______ _ _____ _____ __ __ _________ __ _______ _ _____ ____ ____ ___________ _____ ____ __ _________ ___ ________ __ _____ ___ ______ __ ___ _____ __ ______ _ _ _________ _ ___ ___ ___ _ _____ _____ _ _________ ____ ____ ___ ______ ___ ___ ______ _____ _ ______ _ _ _____ ____ ___ ____ ______ ___ _______ ________ ____ _____ _ __ _________ ___ ____ _____ ___ _______ ____ _ _ _ _____ ________ _ _ _ ___ ____ ____ ______ ____________ ______ _______ _____ ___ ______ ______ ______ ____ ___ ______ __ __________ __ ___ _____ _ ___ _____ ____ ___ _______ ______ ___ _ _____ ________ __ ___ _______ _________ ___ _____ ____ _ _______ _ _______ ______ _______ _ _____ ____ _____ ___ ___ _____ __ _____ _____ _______ ___ ______ _______ __ __________ _ ___ ___ _______ _____ __ _____ __ ___ ____ _ _____ _____ __ ___ ___ ____ _ _________ ___ _______ _______ _ __ _________ _______ ___ __ _______ _ ____ _____ _____ ___ _______ __ ___ __ _____ _ __ ____ ____ _______ _________ ___ ___ ____ __ ___ ____ ___ __ _____ ___ ___ _____ ____ __ _____ _____ ___ __________ ___ ________ _____ _______ _ __ _____ _ _ _ ____ ___ ____ ____ _ ____ ____ ____ __________ ____ ______ _______ __ ____ __________ _________ ___ ______ ____ ____ ___ _____ __ ______ _ _ _ ____ _____ __ ____ _________ ____ _ ______ __ ___ ______ ___ ___ __ ___ __________ _ _ _ ___ _____ ________ ________ __ _______ ___ ______ ___ ___ __________ _ _ _______ ________ __ __ _____ ______ ______ _ __ _____ ___ _____ ____ _______ __ _______ _ __________ __ _ _ _ _______ __________ _ _ ______ _______ __ _____ _________ ___ _ __ ______ ____ ___ _____ _ _ ____ __ ___ _____ __ _________ ___ ______ __ ___ _______ _________ ______ _ _ _ ___ __ _____ ____ ___ _____ ________ _ _ ____ ____ _____ ___ __ _________ __ ___ _____ __ ___ ______ __ ___ _____ ___ ______ _ _ _ ___ _______ _ _ _____ _ __ ___ _____ ________ _ _ ____ __ _____ ____ _ _ _ ______ __ __ _ _________ ____ ________ ___ _ _ _
+2021-12-19 23:19:36,636 [INFO] ******************************************************************************************
+2021-12-19 23:19:36,637 [INFO] #  3 | ORIGINAL | CLASS 0 | air passengers win new eu rights air passengers who are unable to board their flights because of over ##book ##ing , cancellation ##s or flight delays can now demand greater compensation . new eu rules set compensation at between 250 euros ( a ##£ ##17 ##3 ) and 600 euros , depending on the length of the flight . the new rules will apply to all scheduled and charter flights , including budget airlines . airlines have attacked the legislation saying they could be forced to push prices higher to cover the extra cost . the european commission is facing two legal challenges - one from the european low - fare airlines association ( el ##aa ) and the other from the international air transport association ( iata ) , which has attacked the package as a ` ` bad piece of legislation ' ' . previously , passengers could claim between 150 euros and 300 euros if they had been stopped from boarding . however , only scheduled flight operators were obliged to offer compensation in cases of over ##book ##ing and they did not have to offer compensation for flight cancellation ##s . the eu decided to increase passenger compensation in a bid to deter airlines from deliberately over ##book ##ing flights . over ##book ##ing can often lead to ' bump ##ing ' - when a passenger is moved to a later flight . when this happens against a passenger ' s will , airlines will now have to offer compensation . in addition , if a flight is cancelled or delayed for more than two hours through the fault of the airline , all passengers must be paid compensation . however , airlines do not have to offer compensation if flights are cancelled or delayed due to ` ` extraordinary circumstances ' ' . airlines fear that ` ` extraordinary circumstances ' ' may not include bad weather , security alert ##s or strikes - events which are outside of their control . all eu - based airlines and operators of flights which take off from the eu will have to adhere to the new compensation regime which came into force on thursday . low - cost airlines have criticised the new compensation levels , arguing that the pay - out could be worth more than the ticket . ` ` it ' s a prep ##ost ##ero ##us piece of legislation , we among all airlines are fighting this , ' ' ryan ##air deputy chief executive michael ca ##wley told radio 4 ' s today programme . the european regions airline association ( era ##a ) claims that neither airlines nor consumers were consulted over the changes . andy clarke , era ##a director of air transport , said that the ec advice mis ##lea ##ds customers as it leads them to believe that airlines could be liable for pay ##outs if flights are delayed because of bad weather . ec spoke ##sw ##oman mar ##ja qui ##llin ##an - mei ##land conceded there
+2021-12-19 23:19:36,637 [INFO] #  3 |  MASKED  | CLASS 0 | air passengers ___ new __ ______ ___ __________ ___ ___ ______ __ _____ _____ _______ _______ __ ____ ______ _____ _ ____________ ___ __ ______ ______ ___ ___ ______ _______ ____________ _ ___ __ _____ ___ ____________ __ _______ ___ _____ _ _ ___ ____ ___ _ ___ ___ _____ _ _________ __ ___ ______ __ ___ ______ _ ___ ___ _____ ____ _____ __ ___ _________ ___ _______ _______ _ _________ ______ ________ _ ________ ____ ________ ___ ___________ ______ ____ _____ __ ______ __ ____ ______ ______ __ _____ ___ _____ ____ _ ___ ________ __________ __ ______ ___ _____ __________ _ ___ ____ ___ ________ ___ _ ____ ________ ___________ _ __ ____ _ ___ ___ _____ ____ ___ _____________ air _________ ___________ ( iata _ _ _____ ___ attacked ___ package __ _ _ _ bad _____ __ ___________ _ _ _ __________ _ __________ _____ _____ _______ ___ _____ ___ ___ _____ __ ____ ___ ____ _______ ____ ________ _ _______ _ ____ _________ ______ _________ ____ _______ __ _____ ____________ __ _____ __ ____ ______ _____ ___ ____ ___ ___ ____ __ _____ ____________ ___ ______ ____________ ___ _ ___ __ _______ __ ________ _________ ____________ __ _ ___ __ _____ ________ ____ ____________ ____ ______ _____ _______ _ ____ ______ _____ ___ _____ ____ __ _ ____ _____ _ _ ____ _ _________ __ _____ __ _ _____ ______ _ ____ ____ _______ _______ _ _________ _ _ ____ _ ________ ____ ___ ____ __ _____ ____________ _ __ ________ _ __ _ ______ __ _________ __ _______ ___ ____ ____ ___ _____ _______ ___ _____ __ ___ _______ _ ___ __________ ____ __ ____ ____________ _ _______ _ ________ __ ___ ____ __ _____ ____________ __ _______ ___ _________ __ _______ ___ __ _ _ _____________ _____________ _ _ _ ________ ____ ____ _ _ _____________ _____________ _ _ ___ ___ _______ ___ _______ _ ________ _____ ___ __ _______ _ ______ _____ ___ _______ __ _____ _______ _ ___ __ _ _____ airlines ___ _________ __ _______ _____ ____ ___ ____ ___ __ ____ ____ __ ______ __ ___ ___ ____________ ______ _____ ____ ____ _____ __ ________ _ ___ _ ____ ________ ____ __________ ___ ___ ____________ ______ _ _______ ____ ___ ___ _ ___ _____ __ _____ ____ ____ ___ ______ _ _ _ __ _ _ _ ____ _____ _____ ____ _____ __ ___________ _ __ _____ ___ ________ ___ ________ ____ _ _ _ ____ _____ ______ _____ _________ _______ __ ______ ____ radio _ _ _ _____ _________ _ ___ ________ _______ airline ___________ _ ___ ___ _ ______ ____ _______ ________ ___ _________ ____ _________ ____ ___ _______ _ ____ ______ _ ___ ___ ________ __ ___ _________ _ ____ ____ ___ __ ______ ___ _____ ##ds _________ __ __ _____ ____ __ _______ ____ ________ _____ __ ______ ___ ___ ______ __ _______ ___ _______ _______ __ ___ _______ _ __ _____ ____ ______ ___ ____ ___ ______ ____ _ ___ ______ ________ _____
+2021-12-19 23:19:36,637 [INFO] ******************************************************************************************
+2021-12-19 23:19:36,638 [INFO] #  4 | ORIGINAL | CLASS 1 | rocker doherty in on - stage fight rock singer pete doherty has been involved in a fight with his band ' s guitarist at their biggest gig to date . baby ##sham ##bles played for 5 , 000 fans at london ' s br ##ix ##ton academy on tuesday . the former li ##bert ##ines singer traded blows with guitarist patrick walden . they were separated and bundled off stage before returning to end the set . the show was earlier held up due to audience over ##crow ##ding . on monday doherty faced blackmail and robbery charges in court , which he denies . he is out on a ##£ ##50 , 000 bail and the judge agreed to extend his 220 ##0 gm ##t cu ##rf ##ew deadline by two hours so he could play the br ##ix ##ton gig . baby ##sham ##bles , which he formed after his ac ##rim ##oni ##ous departure from the li ##bert ##ines , played a warm - up show at the garage , north london , on monday . on tuesday , doherty and his three band ##mates were introduced to the crowd by mick jones , the former clash guitarist who produced the li ##bert ##ines ' second album . baby ##sham ##bles took the stage to a fr ##en ##zie ##d reception at 220 ##0 gm ##t , launching into their last single , kill ##aman ##gi ##ro , which reached number eight in december . but the group had to stop during the next song to persuade fans not to push forward and allow security guards to pull people out of the crush . doherty appealed to fans to calm down , saying : ` ` there ' s a few people getting hurt down the front , you ' ve got to move back . ' ' the music resumed minutes later but after several more songs , the singer appeared to accidentally disco ##nne ##ct walden ' s guitar , leading the pair to trade kicks and punches . bounce ##rs stepped in and the band left the stage , but returned after five minutes and finished their 50 - minute performance with no further trouble . doherty , 25 , had to be home by midnight to observe the cu ##rf ##ew , which is one of the conditions of his bail . on monday , the judge agreed to allow him to perform on condition that requests for changes to his bail terms were ` ` not too regular an occurrence ' ' . the singer was arrested with fellow musician alan was ##s on 2 february after an alleged dispute with documentary - maker max carl ##ish at a london hotel . they are next due in court on 18 april .
+2021-12-19 23:19:36,638 [INFO] #  4 |  MASKED  | CLASS 1 | rocker doherty __ __ - stage _____ rock singer ____ _______ ___ ____ ________ __ _ _____ ____ ___ band _ _ guitarist __ _____ _______ ___ __ ____ _ ____ ______ ______ ______ ___ _ _ ___ ____ __ ______ _ _ __ ____ _____ _______ __ _______ _ ___ ______ __ ______ ______ singer ______ _____ ____ guitarist _______ ______ _ ____ ____ _________ ___ _______ ___ _____ ______ _________ __ ___ ___ ___ _ ___ ____ ___ _______ ____ __ ___ __ ________ ____ ______ ______ _ __ ______ _______ _____ _________ ___ _______ _______ __ _____ _ _____ __ ______ _ __ __ ___ __ _ ___ ____ _ ___ ____ ___ ___ _____ ______ __ ______ ___ ___ ___ __ ___ __ ____ ____ ________ __ ___ _____ __ __ _____ ____ ___ __ ____ _____ ___ _ ____ ______ ______ _ _____ __ ______ _____ ___ __ _____ _____ _____ _________ ____ ___ __ ______ ______ _ ______ _ ____ _ __ ____ __ ___ ______ _ _____ ______ _ __ ______ _ __ _______ _ _______ ___ ___ _____ band _______ ____ __________ __ ___ _____ __ ____ _____ _ ___ ______ _____ _________ ___ ________ ___ __ ______ ______ _ ______ _____ _ ____ ______ ______ ____ ___ _____ __ _ __ ____ _____ ___ _________ __ ___ ___ __ ___ _ _________ ____ _____ ____ ______ _ ____ ______ ____ ____ _ _____ _______ ______ _____ __ ________ _ ___ ___ _____ ___ __ ____ ______ ___ ____ ____ __ ________ ____ ___ __ ____ _______ ___ _____ ________ ______ __ ____ ______ ___ __ ___ _____ _ _______ ________ __ ____ __ ____ ____ _ ______ _ _ _ _____ _ _ _ ___ ______ _______ ____ ____ ___ _____ _ ___ _ __ ___ __ ____ ____ _ _ _ ___ music _______ _______ _____ ___ _____ _______ more songs _ ___ singer ________ __ ____________ _____ _____ ____ ______ _ _ guitar _ _______ ___ ____ __ _____ _____ ___ _______ _ ______ ____ _______ __ ___ ___ band ____ ___ _____ _ ___ ________ _____ ____ _______ ___ ________ _____ __ _ ______ ___________ ____ __ _______ _______ _ _______ _ __ _ ___ __ __ ____ __ ________ __ _______ ___ __ ____ ____ _ _____ __ ___ __ ___ __________ __ ___ ____ _ __ ______ _ ___ _____ ______ __ _____ ___ __ perform __ _________ ____ ________ ___ _______ __ ___ ____ _____ ____ _ _ ___ ___ _______ __ __________ _ _ _ ___ singer ___ ________ ____ ______ musician ____ ___ ___ __ _ ________ _____ __ _______ _______ ____ ___________ _ _____ ___ ____ _____ __ _ ______ _____ _ ____ ___ ____ ___ __ _____ __ __ _____ _
+2021-12-19 23:19:36,638 [INFO] ******************************************************************************************
+2021-12-19 23:19:36,639 [INFO] #  5 | ORIGINAL | CLASS 3 | preview : ireland v england ( sun ) lan ##sd ##own ##e road , dublin sunday , 27 february 1500 gm ##t bbc ##1 , radio 4 l ##w and this website ireland are going for their first grand slam since 1948 after two opening wins , and england represent their stern ##est test of the championship so far . england were sloppy and leader ##less in the defeats against wales and france and another loss would be un ##thi ##nka ##ble . the pressure is on coach andy robinson and his side have to deliver . despite england ' s dramatic dip in form since the world cup final - they have lost eight of their last 13 matches - ireland coach eddie o ' sullivan says his side should not under ##est ##imate the visitors . ` ` had they kicked their points they would have beaten france and that would have created a different landscape for sunday , ' ' he said . ` ` this is england we are talking about . they have a depth of talent and a very good record against ireland . ` ` they will target a victory in dublin as the turning point in their six nations . ' ' the differences between the sides is also highlighted in the team selections for the dublin encounter . ireland , despite having gordon d ' arc ##y still out injured , have been boosted by the return of star skipper brian o ' dr ##is ##coll who missed the scotland game with a ham ##st ##ring injury . ` ` the knowledge that the england game was coming up really helped during rehabilitation , ' ' he said . ` ` the will to play in this game was enormous . it does n ' t get much bigger than england at home . ' ' as well as entering the tournament without players like jonny wilkinson , mike tin ##dal ##l and richard hill , england have now lost two tight ##head props in julian white and phil vic ##ker ##y while blind - side flank ##er lewis moody is a major concern . robinson , who received a lot of fl ##ak for the inclusion and then dropping of centre mathew tai ##t , has kept faith with kicking fly - half charlie hodgson despite his horror show at t ##wick ##enham . if england slump in dublin , it will be their worst run of results in the championship since 1987 . but robinson was bull ##ish during the week about the game , saying that his side ` ` are going there to get in their faces ' ' , and has identified the line - out and tackle area as the key to england ' s chances . and despite the recent results , skipper jason robinson believes there is nothing wrong with the mood in the camp . ` ` there is no lack of confidence in the team , ' ' said the sale
+2021-12-19 23:19:36,640 [INFO] #  5 |  MASKED  | CLASS 3 | _______ _ _______ _ _______ _ ___ _ ___ ____ _____ ___ ____ _ ______ ______ _ __ ________ ____ __ ___ ___ ___ _ radio _ _ ___ ___ ____ _______ _______ ___ _____ ___ _____ _____ _____ ____ _____ ____ _____ ___ _______ ____ _ ___ _______ _________ _____ _____ _____ ____ __ ___ ____________ __ ___ _ _______ ____ ______ ___ ______ ______ __ ___ _______ _______ _____ ___ ______ ___ _______ ____ _____ __ __ _____ _____ _____ _ ___ ________ __ __ _____ ____ ________ ___ ___ ____ ____ __ _______ _ _______ _______ _ _ ________ ___ __ ____ _____ ___ _____ ___ _____ _ ____ ____ ____ _____ __ _____ ____ __ _______ _ _______ _____ _____ _ _ ________ ____ ___ ____ ______ ___ _____ _____ _______ ___ ________ _ _ _ ___ ____ ______ _____ ______ ____ _____ ____ ______ ______ ___ ____ _____ ____ _______ _ _________ _________ ___ ______ _ _ _ __ ____ _ _ _ ____ __ _______ __ ___ _______ _____ _ ____ ____ _ _____ __ ______ ___ _ ____ ____ ______ _______ _______ _ _ _ ____ ____ ______ _ _______ __ ______ __ ___ _______ _____ __ _____ ___ _______ _ _ _ ___ ___________ _______ ___ _____ __ ____ ___________ __ ___ ____ __________ ___ ___ ______ _________ _ _______ _ _______ ______ ______ _ _ ___ ___ _____ ___ _______ _ ____ ____ _______ __ ___ ______ __ ____ _______ _____ _ _ __ ____ ______ ___ ______ ___ ________ ____ ____ _ ___ ____ ______ ______ _ _ _ ___ _________ ____ ___ _______ ____ ___ ______ __ ______ ______ ______ ______________ _ _ _ __ ____ _ _ _ ___ ____ __ ____ __ ____ ____ ___ ________ _ __ ____ _ _ _ ___ ____ ______ ____ _______ __ ____ _ _ _ __ ____ __ ________ ___ __________ _______ _______ ____ _____ _________ _ ____ ___ _____ ___ ___ _______ ____ _ _______ ____ ___ ____ ___ _____ ______ _____ __ ______ _____ ___ ____ ___ _____ ___ _____ _____ _ ____ _____ ____ _____ _____ __ _ _____ _______ _ ________ _ ___ ________ _ ___ __ __ ____ ___ ___ _________ ___ ____ ________ __ ______ ______ ___ ___ _ ___ ____ _____ ____ _______ ___ _ ____ _______ _______ _______ ___ ______ ____ __ _ ______ _______ _ __ _______ _____ __ ______ _ __ ____ __ _____ _____ ___ __ _______ __ ___ ____________ _____ ____ _ ___ ________ ___ ____ _____ ______ ___ ____ _____ ___ ____ _ ______ ____ ___ ____ _ _ ___ _____ _____ __ ___ __ _____ _____ _ _ _ ___ ___ __________ ___ ____ _ ___ ___ ______ ____ __ ___ ___ __ _______ _ _ _______ _ ___ _______ ___ ______ _______ _ _______ _____ ________ ________ _____ __ _______ _____ ____ ___ ____ __ ___ ____ _ _ _ _____ __ __ ____ __ __________ __ ___ ____ _ _ _ ____ ___ ____
+2021-12-19 23:19:36,640 [INFO] ******************************************************************************************
+2021-12-19 23:19:36,640 [INFO] #  6 | ORIGINAL | CLASS 0 | saudi investor picks up the savoy london ' s famous savoy hotel has been sold to a group combining saudi billionaire investor prince al ##wal ##eed bin tal ##al and a unit of hbo ##s bank . financial details of the deal , which includes the nearby simpson ' s in the strand restaurant , were not disclosed . the seller - irish - based property firm quinlan private - bought the savoy along with the berkeley , cl ##ari ##dge ' s and the con ##na ##ught for a ##£ ##75 ##0 ##m last year . prince al ##wal ##eed ' s hotel investments include the luxury george v in paris . he also has substantial stakes in fair ##mont hotels & resorts , which will manage the savoy and simpson ' s in the strand , and four seasons . fair ##mont said it planned to invest $ 48 ##m ( a ##£ ##26 ##m ) in reno ##vating parts of the savoy including the river room and suites with views over the river thames . work was expected to be completed by summer 2006 , fair ##mont said .
+2021-12-19 23:19:36,641 [INFO] #  6 |  MASKED  | CLASS 0 | _____ ________ _____ __ ___ _____ ______ _ _ famous _____ _____ ___ ____ ____ __ _ _____ _________ _____ ___________ ________ ______ __ _____ _____ ___ ___ ____ ___ _ ____ __ ___ ___ ____ _ _________ _______ __ ___ ____ _ _____ ________ ___ ______ _______ _ _ __ ___ ______ restaurant _ ____ ___ _________ _ ___ ______ _ _____ _ _____ ________ ____ _______ _______ _ ______ ___ _____ _____ ____ ___ ________ _ __ _____ _____ _ _ ___ ___ ___ ____ ______ ___ _ ___ ____ ___ ___ ____ ____ _ ______ __ _____ _____ _ _ _____ ___________ _______ ___ ______ ______ _ __ _____ _ __ ____ ___ ___________ ______ __ ____ ______ ______ _ _______ _ _____ ____ ______ ___ _____ ___ _______ _ _ __ ___ ______ _ ___ ____ _______ _ ____ ______ ____ __ _______ __ ______ _ __ ___ _ _ ___ ____ ___ _ __ ____ ________ _____ __ ___ _____ _________ ___ _____ ____ ___ ______ ____ _____ ____ ___ _____ ______ _ ____ ___ ________ __ __ _________ __ ______ ____ _ ____ ______ ____ _
+2021-12-19 23:19:36,641 [INFO] ******************************************************************************************
+2021-12-19 23:19:36,642 [INFO] #  7 | ORIGINAL | CLASS 3 | ho ##ull ##ier praises ben ##ite ##z regime former liverpool manager gerard ho ##ull ##ier has praised the work of his an ##field successor rafael ben ##ite ##z . ho ##ull ##ier was angry at reports that he has been critical of ben ##ite ##z since the span ##iard took over at liverpool . but ho ##ull ##ier told bbc sport : ` ` in private and in public , i have stressed i believe raf ##a is doing a good job . he is the right man at the right place . ` ` raf ##a is a good coach and a good man . i ' ve spoken to him since he has been at liverpool and never criticised him . ' ' ho ##ull ##ier also revealed he is now ready to return to the game after leaving liverpool in may following six years at an ##field . the former france boss has been linked with a host of jobs and pulled out of the race to succeed mark hughes as wales national coach . he has been working for uefa , covering the premiership for french television and also coaching in brazil with national coach carlos alberto per ##re ##ira . ho ##ull ##ier said : ` ` if a good club comes up at the right time then yes , i am ready to come back . ` ` it has been interesting to watch games from a different perspective and i have learned things . ` ` i have been involved in football since leaving liverpool and my batteries are rec ##har ##ged . ' ' ho ##ull ##ier has been impressed with the quality in the premiership after watching as a pun ##dit - particularly with jose mo ##uri ##nh ##o ' s work at leaders chelsea . he said : ` ` chelsea are doing very well . they have some very good creative players in damien duff and ar ##je ##n robb ##en and did ##ier dr ##og ##ba showed he can change the face of a game when he came on against newcastle . ` ` they have got a good team spirit and are strong mentally . they have shown they can cope with all the pressure put on them because of the expectations and cope well with jose ' s principles . ` ` jose had results before he came to chelsea and i think he will have an impact in the premiership because he manages his team very clever ##ly . ' ' and ho ##ull ##ier , away from his brief at liverpool , has been hugely impressed with the premiership . he said : ` ` it is a very exciting league . it is entertaining , goals are scored and teams are always trying to win . ` ` it has been very interesting to watch the game from a different perspective . ` ` games switch from end - to - end and there is more pace to the premiership than other leagues
+2021-12-19 23:19:36,642 [INFO] #  7 |  MASKED  | CLASS 3 | __ _____ _____ _______ ___ _____ ___ ______ ______ _________ _______ ______ __ _____ _____ ___ _______ ___ ____ __ ___ __ _______ _________ ______ ___ _____ ___ _ __ _____ _____ ___ _____ __ _______ ____ __ ___ ____ ________ __ ___ _____ ___ _____ ___ ____ ______ ____ ____ __ _________ _ ___ __ _____ _____ ____ ___ _____ _ _ _ __ _______ ___ __ ______ _ _ ____ ________ _ _______ ___ ___ __ _____ _ ____ ___ _ __ __ ___ _____ ___ __ ___ _____ _____ _ _ _ ___ ___ __ _ ____ _____ ___ _ ____ ___ _ _ _ __ ______ __ ___ _____ __ ___ ____ __ _________ ___ _____ __________ ___ _ _ _ __ _____ _____ ____ ________ __ __ ___ _____ __ ______ __ ___ ____ _____ _______ _________ __ ___ _________ ___ _____ __ __ _______ _ ___ ______ ______ ____ ___ ____ ______ ____ _ ____ __ ____ ___ ______ ___ __ ___ ____ __ _______ ____ ______ __ _____ ________ _____ _ __ ___ ____ _______ ___ ____ _ ________ ___ ___________ ___ ______ television ___ ____ ________ __ ______ ____ ________ _____ ______ _______ ___ ____ _____ _ __ _____ _____ ____ _ _ _ __ _ ____ ____ _____ __ __ ___ _____ ____ ____ ___ _ _ __ _____ __ ____ ____ _ _ _ __ ___ ____ ___________ __ _____ _____ ____ _ _________ ___________ ___ _ ____ _______ ______ _ _ _ _ ____ ____ ________ __ ________ _____ _______ _________ ___ __ _________ ___ ___ _____ _____ _ _ _ __ _____ _____ ___ ____ _________ ____ ___ _______ __ ___ ___________ _____ ________ __ _ ___ _____ _ ____________ ____ ____ __ _____ ____ ___ _ _ ____ __ _______ _______ _ __ ____ _ _ _ _______ ___ _____ ____ ____ _ ____ ____ ____ ____ ____ creative _______ __ ______ ____ ___ __ ____ ___ ____ ____ ___ ___ _____ __ ____ ____ ______ __ ___ ______ ___ ____ __ _ ____ ____ __ ____ __ _______ _________ _ _ _ ____ ____ ___ _ ____ ____ ______ ___ ___ ______ ________ _ ____ ____ _____ ____ ___ ____ ____ ___ ___ ________ ___ __ ____ _______ __ ___ ____________ ___ ____ ____ ____ ____ _ _ __________ _ _ _ ____ ___ _______ ______ __ ____ __ _______ ___ _ _____ __ ____ ____ __ ______ __ ___ ___________ _______ __ _______ ___ ____ ____ ______ ____ _ _ _ ___ __ _____ _____ _ ____ ____ ___ _____ __ _________ _ ___ ____ ______ _________ ____ ___ ___________ _ __ ____ _ _ _ __ __ _ ____ ________ ______ _ __ __ ____________ _ _____ ___ ______ ___ _____ ___ ______ ______ __ ___ _ _ _ __ ___ ____ ____ ___________ __ _____ ___ ____ ____ _ _________ ___________ _ _ _ _____ ______ ____ ___ _ __ _ ___ ___ _____ __ ____ ____ __ ___ ___________ ____ _____ _______
+2021-12-19 23:19:36,642 [INFO] ******************************************************************************************
+2021-12-19 23:19:36,643 [INFO] #  8 | ORIGINAL | CLASS 2 | kelly trails new discipline power teachers could get more powers to remove un ##ru ##ly pupils from classes under a ` ` zero tolerance ' ' drive , education secretary ruth kelly has suggested . ms kelly told the bbc progress had been made against severely disrupt ##ive children but parents were still worried about lower level problems . the minister also confirmed she received ` ` spiritual support ' ' from the catholic movement opus dei . but she denied her faith meant she would refuse key government jobs . the conservatives have made school discipline one of their five priority areas in the run - up to the next general election . ms kelly is expected to announce her plans on the issue in the next fort ##night . she told bbc one ' s breakfast with frost : ` ` it is really important to support head teachers and teachers in tack ##ling disruption in the classroom . ` ` we have made huge progress on the really difficult cases , the pupils who have severely disrupt ##ive behaviour . ` ` but quite right ##ly what teachers are concerned about and what parents are concerned about is that this lower level disruption that goes on in the classroom now is tackled . ` ` i would like to see the teacher being able to remove disrupt ##ive children from the classroom completely and have either alternative provision within the school or indeed off the school and may be working together with other schools in a particular area to provide that provision . ' ' it is thought the plans may distinguish between excluding pupils from schools and taking them out of mainstream classes . head teachers can currently exclude pupils who commit or threaten violence in school , who sexually abuse pupils or other people , who sell illegal drugs or who have persistent and malicious disrupt ##ive behaviour . ms kelly entered the cabinet last month in the res ##hu ##ffle forced by the resignation of the then home secretary david blu ##nk ##ett . her links to opus dei , which means ` ` work of god ' ' in latin , have provoked controversy . critics say the organisation , which adhere ##s strictly to catholic teachings , is secretive and eli ##tist but its members reject such claims . asked if she was a member of the group , ms kelly said : ` ` i do have spiritual support from opus dei and that is right . ` ` but those are private spiritual matters and i ' m sure you ' ll respect that politicians are entitled to a private life . ' ' she cat ##egorical ##ly denied reports that her beliefs on issues such as contra ##ception would make her refuse to serve as a health or international development minister . her collective responsibility as a cabinet minister meant she also took responsibility for policies in those areas , she argued . the government has yet to issue
+2021-12-19 23:19:36,643 [INFO] #  8 |  MASKED  | CLASS 2 | _____ ______ ___ __________ _____ ________ _____ ___ ____ ______ __ ______ __ ____ ____ ______ ____ _______ _____ _ _ _ ____ _________ _ _ _____ _ _________ _________ ____ _____ ___ _________ _ __ _____ ____ ___ ___ ________ ___ ____ ____ _______ ________ _______ _____ ________ ___ _______ ____ _____ _______ _____ _____ _____ ________ _ ___ ________ ____ _________ ___ ________ _ _ _________ _______ _ _ ____ ___ ________ ________ ____ ___ _ ___ ___ ______ ___ _____ _____ ___ _____ ______ ___ __________ ____ _ ___ _____________ ____ ____ ______ __________ ___ __ _____ ____ ________ _____ __ ___ ___ _ __ __ ___ ____ _______ ________ _ __ _____ __ ________ __ ________ ___ _____ __ ___ _____ __ ___ ____ ____ _______ _ ___ ____ ___ ___ _ _ _________ ____ _____ _ _ _ __ __ ______ _________ __ _______ ____ ________ ___ ________ __ ____ ______ __________ __ ___ _________ _ _ _ __ ____ ____ ____ ________ __ ___ ______ _________ _____ _ ___ ______ ___ ____ ________ _______ _____ _________ _ _ _ ___ _____ _____ ____ ____ ________ ___ _________ _____ ___ ____ _______ ___ _________ _____ __ ____ ____ _____ _____ __________ ____ ____ __ __ ___ _________ ___ __ _______ _ _ _ _ _____ ____ __ ___ ___ _______ _____ ____ __ ______ _______ _____ ________ ____ ___ _________ __________ ___ ____ ______ ___________ _________ ______ ___ ______ __ ______ ___ ___ ______ ___ ___ __ _______ ________ ____ _____ _______ __ _ __________ ____ __ _______ ____ _________ _ _ _ __ __ _______ ___ _____ ___ ___________ _______ _________ ______ ____ _______ ___ ______ ____ ___ __ __________ _______ _ ____ ________ ___ _________ _______ ______ ___ ______ __ ________ ________ __ ______ _ ___ ________ _____ ______ __ _____ ______ _ ___ ____ _______ _____ __ ___ ____ __________ ___ _________ _______ _____ _________ _ __ _____ _______ ___ _______ ____ _____ __ ___ ___ ____ ______ ______ __ ___ ___________ __ ___ ____ ____ _________ _____ ___ ____ _____ _ ___ _____ __ ____ ___ _ _____ _____ _ _ ____ __ ___ _ _ __ _____ _ ____ ________ ___________ _ _______ ___ ___ ____________ _ _____ ______ ___ ________ __ ________ _________ _ __ _________ ___ ___ ______ ___ ___ _______ ______ ____ ______ _ _____ __ ___ ___ _ ______ __ ___ _____ _ __ _____ ____ _ _ _ _ __ ____ _________ _______ ____ ____ ___ ___ ____ __ _____ _ _ _ ___ _____ ___ _______ _________ _______ ___ _ _ _ ____ ___ _ __ _______ ____ ___________ ___ ________ __ _ _______ ____ _ _ _ ___ ___ __________ ____ ______ _______ ____ ___ _______ __ ______ ____ __ ______ _________ _____ ____ ___ ______ __ _____ __ _ ______ __ _____________ ___________ ________ _ ___ __________ ______________ __ _ _______ ________ _____ ___ ____ ____ ______________ ___ ________ __ _____ _____ _ ___ ______ _ ___ __________ ___ ___ __ _____
+2021-12-19 23:19:36,643 [INFO] ******************************************************************************************
+2021-12-19 23:19:36,644 [INFO] #  9 | ORIGINAL | CLASS 4 | bt program to beat dial ##ler sc ##ams bt is introducing two initiatives to help beat rogue dial ##ler sc ##ams , which can cost dial - up net users thousands . from may , dial - up net users will be able to download free software to stop computers using numbers not on a user ' s ` ` pre - approved list ' ' . inadvertently downloaded by surfer ##s , rogue dial ##lers are programs which hi ##jack mode ##ms and dial up a premium rate number when users log on . thousands of uk dial - up users are believed to have been hit by the sc ##am . some people have faced phone bills of up to a ##£ ##2 , 000 . bt ' s mode ##m protection program will check numbers that are dial ##led by a computer and will block them if they have not been pre - approved , such as national and net service provider numbers . ic ##stis , the uk ' s premium rate services watch ##dog , said it had been looking for companies to take the lead in initiatives . ` ` the initiatives are very welcome , ' ' a spokesperson from ic ##stis told the bbc news website . ` ` we are very pleased to see they are putting into place new measures to protect consumers . ' ' the second initiative bt announced is an early warning system which will alert bt customers if there is unusual activity on their phone bills . if a bill rises substantially above its usual daily average , or if a call is made to a suspect number , a text or voice alert will be sent to the user ' s land ##line phone . as part of the cl ##amp - down on rogue dial ##lers , companies must now satisfy string ##ent conditions , including clear terms and conditions , information about how to del ##ete dial ##lers and responsibility for customer ref ##unds . any firm running a dial ##ler without permission can now be closed down by ic ##stis . the watch ##dog brought in the action last october following a decision to license all companies which wanted to operate legitimate premium rate dial ##ler services . there are legitimate companies who offer services such as adult content , sports results and music downloads by charging a premium rate rather than by credit card bt said it had pl ##ough ##ed an enormous amount of effort into protecting people from the problem . it has already barred more than 1 , 000 premium rate numbers and has tried to raise public awareness about the sc ##ams . ` ` we now want to ensure there are even stronger safeguard ##s for our customers , who we would urge to make use of these new options to protect themselves , ' ' said gavin patterson , group managing director for consumer the arm of bt . both schemes have been undergoing trials
+2021-12-19 23:19:36,645 [INFO] #  9 |  MASKED  | CLASS 4 | bt program to beat dial ##ler sc ##ams bt is introducing two initiatives to help beat rogue dial ##ler sc ##ams , which can cost dial - up net users thousands . from ___ , dial - up net users will be able to download free software to stop computers using _______ not on a user ' s ` ` pre - approved ____ ' ' . inadvertently downloaded by surfer ##s , rogue dial ##lers are programs which hi ##jack mode ##ms and dial up a premium rate number when users log __ _ thousands of uk dial - up users ___ ________ __ ____ ____ ___ __ the sc ##am . some people ____ faced phone bills __ up __ a ##£ ##2 , 000 . bt ' s mode ##m protection program ____ check numbers that are dial ##led by a computer ___ ____ _____ ____ __ ____ ____ ___ ____ pre - approved , such as national and net _______ ________ _______ _ __ ______ _ ___ __ _ _ _______ ____ ________ _____ _____ _ ____ __ ___ ____ _______ ___ _________ __ ____ ___ ____ __ ___________ _ _ _ ___ ___________ ___ ____ _______ _ _ _ _ ____________ ____ __ ______ ____ ___ bbc ____ website _ _ _ __ ___ ____ _______ __ ___ ____ ___ _______ ____ _____ ___ ________ __ _______ _________ _ _ _ ___ ______ __________ __ _________ __ __ _____ _______ ______ _____ ____ _____ __ _________ __ _____ __ _______ ________ __ _____ _____ _____ _ __ _ ____ _____ _____________ _____ ___ _____ _____ _______ _ __ __ _ ____ __ ____ __ _ _______ ______ _ _ ____ __ _____ _____ ____ __ ____ __ the user _ _ ____ ______ _____ _ __ ____ __ ___ __ _____ _ ____ __ _____ ____ ______ _ _________ ____ ___ _______ ______ _____ __________ _ _________ _____ _____ ___ __________ _ ___________ _____ ___ __ ___ _____ ____ ______ ___ ______________ ___ ________ ___ ______ _ ___ ____ _______ _ ____ _____ _______ __________ ___ ___ __ ______ ____ __ __ ______ _ ___ _____ _____ _______ __ ___ ______ ____ _______ _________ _ ________ __ _______ ___ _________ _____ ______ __ operate legitimate premium ____ dial ##ler ________ _ _____ ___ legitimate _________ who _____ services such as adult content _ ______ _______ and music downloads __ ________ _ premium ____ ______ ____ __ ______ ____ __ ____ __ ___ __ ______ ____ __ ________ ______ __ ______ ____ __________ ______ ____ ___ _______ _ __ ___ _______ ______ ____ ____ _ _ ___ _______ ____ _______ ___ ___ _____ __ _____ ______ _________ _____ ___ __ _____ _ _ _ __ ___ ____ __ ______ _____ ___ ____ ________ _________ ___ ___ ___ _________ _ ___ __ _____ ____ __ ____ ___ __ _____ ___ _______ __ _______ __________ _ _ _ ____ _____ _________ _ _____ ________ ________ ___ ________ ___ ___ __ __ _ ____ _______ ____ ____ __________ ______
+2021-12-19 23:19:36,645 [INFO] ******************************************************************************************
+2021-12-19 23:19:36,645 [INFO] ******************************************************************************************
+2021-12-19 23:19:37,881 [INFO] Model saved to ==> /content/models/articles/model_distilbert_base_uncased.pt
