@@ -98,7 +98,8 @@ HYPERPARAMETER_GRID = {
     "hidden_dim": [256],
     "num_layers": [1],
     "dropout": [0.2],
-    "bidirectional": [True, False],
+    # "bidirectional": [True, False],
+    "bidirectional": [True,],
 }
 
 OUTPUT_DIM = {
@@ -153,6 +154,12 @@ def get_augmentation_dict(data_type):
 
 def train_models(data_type, augmentation_dicts):
     for augmentation_dict in augmentation_dicts:
+        if data_type == "polarity":
+            if augmentation_dict['augmented_dataset_id'] not in {1, 2, 3}:
+                continue
+        if data_type == "articles":
+            if augmentation_dict['augmented_dataset_id'] not in {5, 6, 9, 11, 12}:
+                continue
         logger.info("+" * 90)
         logger.info(
             f"Starting training for {data_type} with augmentation {augmentation_dict['augmented_dataset_id']}"
