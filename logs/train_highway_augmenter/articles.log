@@ -1,0 +1,523 @@
+2021-12-19 01:18:27,298 [INFO] ------------------------------------------------------------------------------------------
+2021-12-19 01:18:27,298 [INFO] Training models for articles
+2021-12-19 01:18:27,298 [INFO] ##########################################################################################
+2021-12-19 01:18:27,298 [INFO] Starting training for articles with learning augmentation.
+2021-12-19 01:18:27,298 [INFO] ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2021-12-19 01:18:27,298 [INFO] Starting training using the HuggingFace model distilbert-base-uncased
+2021-12-19 01:18:36,587 [WARNING] Using custom data configuration default-9ab8742baa7d724c
+2021-12-19 01:18:36,588 [WARNING] Reusing dataset json (/root/.cache/huggingface/datasets/json/default-9ab8742baa7d724c/0.0.0/7334ed11270d48b1ef46b6251d4d612598d73f1cd0c2510f656d05a4ff0d849a)
+2021-12-19 01:18:36,594 [WARNING] Using custom data configuration default-293f78c2aa9f0e10
+2021-12-19 01:18:36,595 [WARNING] Reusing dataset json (/root/.cache/huggingface/datasets/json/default-293f78c2aa9f0e10/0.0.0/7334ed11270d48b1ef46b6251d4d612598d73f1cd0c2510f656d05a4ff0d849a)
+2021-12-19 01:18:36,601 [WARNING] Using custom data configuration default-c2120f898daa2d5e
+2021-12-19 01:18:36,602 [WARNING] Reusing dataset json (/root/.cache/huggingface/datasets/json/default-c2120f898daa2d5e/0.0.0/7334ed11270d48b1ef46b6251d4d612598d73f1cd0c2510f656d05a4ff0d849a)
+2021-12-19 01:18:36,603 [INFO] Done loading all the datasets
+2021-12-19 01:18:36,603 [INFO] ==========================================================================================
+2021-12-19 01:18:36,603 [INFO] Starting training with the following hyperparameters: {'batch_size': 32, 'cls_bidirectional': True, 'cls_dropout': 0.2, 'cls_hidden_dim': 256, 'cls_model_type': 'lstm', 'cls_num_layers': 1, 'early_stopping_threshold': 10, 'lr': 0.001, 'masker_bidirectional': True, 'masker_dropout': 0.5, 'masker_hidden_dim': 512, 'masker_model_type': 'lstm', 'masker_num_layers': 1, 'max_seq_length': 512, 'num_epochs': 100}
+2021-12-19 01:18:36,708 [INFO] Model created...
+2021-12-19 01:18:36,708 [INFO] ==========================================================================================
+2021-12-19 01:18:36,709 [INFO] Training model:
+RNNMasker(
+  (embeddings): Embedding(30522, 768, padding_idx=0)
+  (rnn): LSTM(768, 512, batch_first=True, bidirectional=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+  (projection): Linear(in_features=1024, out_features=768, bias=True)
+  (dense): Linear(in_features=768, out_features=1, bias=True)
+)
+BERTModel - distilbert-base-uncased
+RNNClassifier(
+  (embeddings): Embedding(30522, 768, padding_idx=0)
+  (rnn): LSTM(769, 256, batch_first=True, bidirectional=True)
+  (dropout): Dropout(p=0.2, inplace=False)
+  (dense): Linear(in_features=512, out_features=5, bias=True)
+)
+2021-12-19 01:18:36,709 [INFO] ******************************************************************************************
+2021-12-19 01:18:36,709 [INFO] Training epoch 0
+2021-12-19 01:18:46,032 [INFO] | epoch   0 |  10/ 56 batches | training accuracy 0.310 | masked_ratio 0.535
+2021-12-19 01:18:51,483 [INFO] | epoch   0 |  20/ 56 batches | training accuracy 0.537 | masked_ratio 0.631
+2021-12-19 01:18:56,900 [INFO] | epoch   0 |  30/ 56 batches | training accuracy 0.747 | masked_ratio 0.449
+2021-12-19 01:19:02,317 [INFO] | epoch   0 |  40/ 56 batches | training accuracy 0.741 | masked_ratio 0.587
+2021-12-19 01:19:07,741 [INFO] | epoch   0 |  50/ 56 batches | training accuracy 0.794 | masked_ratio 0.834
+2021-12-19 01:19:13,044 [INFO] ******************************************************************************************
+2021-12-19 01:19:13,044 [INFO] | end of epoch   0 | valid accuracy 0.748 | f1-score 0.673 | masked_ratio 0.872
+2021-12-19 01:19:13,044 [INFO] ******************************************************************************************
+2021-12-19 01:19:13,082 [INFO] ******************************************************************************************
+2021-12-19 01:19:13,082 [INFO] Training epoch 1
+2021-12-19 01:19:19,051 [INFO] | epoch   1 |  10/ 56 batches | training accuracy 0.878 | masked_ratio 0.884
+2021-12-19 01:19:24,509 [INFO] | epoch   1 |  20/ 56 batches | training accuracy 0.872 | masked_ratio 0.874
+2021-12-19 01:19:29,937 [INFO] | epoch   1 |  30/ 56 batches | training accuracy 0.850 | masked_ratio 0.776
+2021-12-19 01:19:35,378 [INFO] | epoch   1 |  40/ 56 batches | training accuracy 0.859 | masked_ratio 0.736
+2021-12-19 01:19:40,823 [INFO] | epoch   1 |  50/ 56 batches | training accuracy 0.806 | masked_ratio 0.372
+2021-12-19 01:19:46,104 [INFO] ******************************************************************************************
+2021-12-19 01:19:46,105 [INFO] | end of epoch   1 | valid accuracy 0.721 | f1-score 0.687 | masked_ratio 0.507
+2021-12-19 01:19:46,105 [INFO] ******************************************************************************************
+2021-12-19 01:19:46,143 [INFO] ******************************************************************************************
+2021-12-19 01:19:46,143 [INFO] Training epoch 2
+2021-12-19 01:19:52,109 [INFO] | epoch   2 |  10/ 56 batches | training accuracy 0.838 | masked_ratio 0.317
+2021-12-19 01:19:57,535 [INFO] | epoch   2 |  20/ 56 batches | training accuracy 0.819 | masked_ratio 0.434
+2021-12-19 01:20:02,955 [INFO] | epoch   2 |  30/ 56 batches | training accuracy 0.850 | masked_ratio 0.568
+2021-12-19 01:20:08,368 [INFO] | epoch   2 |  40/ 56 batches | training accuracy 0.850 | masked_ratio 0.546
+2021-12-19 01:20:13,794 [INFO] | epoch   2 |  50/ 56 batches | training accuracy 0.806 | masked_ratio 0.210
+2021-12-19 01:20:19,079 [INFO] ******************************************************************************************
+2021-12-19 01:20:19,079 [INFO] | end of epoch   2 | valid accuracy 0.550 | f1-score 0.494 | masked_ratio 0.078
+2021-12-19 01:20:19,079 [INFO] ******************************************************************************************
+2021-12-19 01:20:19,080 [INFO] ******************************************************************************************
+2021-12-19 01:20:19,080 [INFO] Training epoch 3
+2021-12-19 01:20:25,064 [INFO] | epoch   3 |  10/ 56 batches | training accuracy 0.636 | masked_ratio 0.178
+2021-12-19 01:20:30,492 [INFO] | epoch   3 |  20/ 56 batches | training accuracy 0.744 | masked_ratio 0.126
+2021-12-19 01:20:35,924 [INFO] | epoch   3 |  30/ 56 batches | training accuracy 0.844 | masked_ratio 0.061
+2021-12-19 01:20:41,367 [INFO] | epoch   3 |  40/ 56 batches | training accuracy 0.725 | masked_ratio 0.053
+2021-12-19 01:20:46,783 [INFO] | epoch   3 |  50/ 56 batches | training accuracy 0.759 | masked_ratio 0.119
+2021-12-19 01:20:52,054 [INFO] ******************************************************************************************
+2021-12-19 01:20:52,054 [INFO] | end of epoch   3 | valid accuracy 0.712 | f1-score 0.656 | masked_ratio 0.137
+2021-12-19 01:20:52,054 [INFO] ******************************************************************************************
+2021-12-19 01:20:52,055 [INFO] ******************************************************************************************
+2021-12-19 01:20:52,055 [INFO] Training epoch 4
+2021-12-19 01:20:58,006 [INFO] | epoch   4 |  10/ 56 batches | training accuracy 0.912 | masked_ratio 0.242
+2021-12-19 01:21:03,435 [INFO] | epoch   4 |  20/ 56 batches | training accuracy 0.887 | masked_ratio 0.269
+2021-12-19 01:21:08,878 [INFO] | epoch   4 |  30/ 56 batches | training accuracy 0.941 | masked_ratio 0.507
+2021-12-19 01:21:14,314 [INFO] | epoch   4 |  40/ 56 batches | training accuracy 0.916 | masked_ratio 0.387
+2021-12-19 01:21:19,740 [INFO] | epoch   4 |  50/ 56 batches | training accuracy 0.912 | masked_ratio 0.655
+2021-12-19 01:21:25,026 [INFO] ******************************************************************************************
+2021-12-19 01:21:25,027 [INFO] | end of epoch   4 | valid accuracy 0.685 | f1-score 0.621 | masked_ratio 0.451
+2021-12-19 01:21:25,027 [INFO] ******************************************************************************************
+2021-12-19 01:21:25,028 [INFO] ******************************************************************************************
+2021-12-19 01:21:25,028 [INFO] Training epoch 5
+2021-12-19 01:21:31,007 [INFO] | epoch   5 |  10/ 56 batches | training accuracy 0.898 | masked_ratio 0.450
+2021-12-19 01:21:36,445 [INFO] | epoch   5 |  20/ 56 batches | training accuracy 0.919 | masked_ratio 0.432
+2021-12-19 01:21:41,883 [INFO] | epoch   5 |  30/ 56 batches | training accuracy 0.903 | masked_ratio 0.320
+2021-12-19 01:21:47,306 [INFO] | epoch   5 |  40/ 56 batches | training accuracy 0.850 | masked_ratio 0.172
+2021-12-19 01:21:52,727 [INFO] | epoch   5 |  50/ 56 batches | training accuracy 0.872 | masked_ratio 0.091
+2021-12-19 01:21:58,012 [INFO] ******************************************************************************************
+2021-12-19 01:21:58,013 [INFO] | end of epoch   5 | valid accuracy 0.649 | f1-score 0.639 | masked_ratio 0.095
+2021-12-19 01:21:58,013 [INFO] ******************************************************************************************
+2021-12-19 01:21:58,014 [INFO] ******************************************************************************************
+2021-12-19 01:21:58,014 [INFO] Training epoch 6
+2021-12-19 01:22:03,979 [INFO] | epoch   6 |  10/ 56 batches | training accuracy 0.903 | masked_ratio 0.092
+2021-12-19 01:22:09,424 [INFO] | epoch   6 |  20/ 56 batches | training accuracy 0.878 | masked_ratio 0.120
+2021-12-19 01:22:14,867 [INFO] | epoch   6 |  30/ 56 batches | training accuracy 0.916 | masked_ratio 0.187
+2021-12-19 01:22:20,304 [INFO] | epoch   6 |  40/ 56 batches | training accuracy 0.909 | masked_ratio 0.204
+2021-12-19 01:22:25,717 [INFO] | epoch   6 |  50/ 56 batches | training accuracy 0.941 | masked_ratio 0.098
+2021-12-19 01:22:31,021 [INFO] ******************************************************************************************
+2021-12-19 01:22:31,022 [INFO] | end of epoch   6 | valid accuracy 0.779 | f1-score 0.778 | masked_ratio 0.101
+2021-12-19 01:22:31,022 [INFO] ******************************************************************************************
+2021-12-19 01:22:31,063 [INFO] ******************************************************************************************
+2021-12-19 01:22:31,063 [INFO] Training epoch 7
+2021-12-19 01:22:37,029 [INFO] | epoch   7 |  10/ 56 batches | training accuracy 0.952 | masked_ratio 0.161
+2021-12-19 01:22:42,429 [INFO] | epoch   7 |  20/ 56 batches | training accuracy 0.934 | masked_ratio 0.167
+2021-12-19 01:22:47,855 [INFO] | epoch   7 |  30/ 56 batches | training accuracy 0.925 | masked_ratio 0.123
+2021-12-19 01:22:53,308 [INFO] | epoch   7 |  40/ 56 batches | training accuracy 0.916 | masked_ratio 0.073
+2021-12-19 01:22:58,755 [INFO] | epoch   7 |  50/ 56 batches | training accuracy 0.925 | masked_ratio 0.060
+2021-12-19 01:23:04,026 [INFO] ******************************************************************************************
+2021-12-19 01:23:04,026 [INFO] | end of epoch   7 | valid accuracy 0.734 | f1-score 0.732 | masked_ratio 0.084
+2021-12-19 01:23:04,026 [INFO] ******************************************************************************************
+2021-12-19 01:23:04,027 [INFO] ******************************************************************************************
+2021-12-19 01:23:04,027 [INFO] Training epoch 8
+2021-12-19 01:23:09,979 [INFO] | epoch   8 |  10/ 56 batches | training accuracy 0.946 | masked_ratio 0.052
+2021-12-19 01:23:15,408 [INFO] | epoch   8 |  20/ 56 batches | training accuracy 0.922 | masked_ratio 0.046
+2021-12-19 01:23:20,820 [INFO] | epoch   8 |  30/ 56 batches | training accuracy 0.922 | masked_ratio 0.037
+2021-12-19 01:23:26,222 [INFO] | epoch   8 |  40/ 56 batches | training accuracy 0.938 | masked_ratio 0.064
+2021-12-19 01:23:31,623 [INFO] | epoch   8 |  50/ 56 batches | training accuracy 0.897 | masked_ratio 0.061
+2021-12-19 01:23:36,892 [INFO] ******************************************************************************************
+2021-12-19 01:23:36,892 [INFO] | end of epoch   8 | valid accuracy 0.820 | f1-score 0.794 | masked_ratio 0.054
+2021-12-19 01:23:36,892 [INFO] ******************************************************************************************
+2021-12-19 01:23:36,929 [INFO] ******************************************************************************************
+2021-12-19 01:23:36,930 [INFO] Training epoch 9
+2021-12-19 01:23:42,875 [INFO] | epoch   9 |  10/ 56 batches | training accuracy 0.932 | masked_ratio 0.050
+2021-12-19 01:23:48,324 [INFO] | epoch   9 |  20/ 56 batches | training accuracy 0.912 | masked_ratio 0.055
+2021-12-19 01:23:53,734 [INFO] | epoch   9 |  30/ 56 batches | training accuracy 0.919 | masked_ratio 0.048
+2021-12-19 01:23:59,172 [INFO] | epoch   9 |  40/ 56 batches | training accuracy 0.944 | masked_ratio 0.049
+2021-12-19 01:24:04,602 [INFO] | epoch   9 |  50/ 56 batches | training accuracy 0.956 | masked_ratio 0.060
+2021-12-19 01:24:09,880 [INFO] ******************************************************************************************
+2021-12-19 01:24:09,880 [INFO] | end of epoch   9 | valid accuracy 0.703 | f1-score 0.665 | masked_ratio 0.057
+2021-12-19 01:24:09,880 [INFO] ******************************************************************************************
+2021-12-19 01:24:09,881 [INFO] ******************************************************************************************
+2021-12-19 01:24:09,881 [INFO] Training epoch 10
+2021-12-19 01:24:15,859 [INFO] | epoch  10 |  10/ 56 batches | training accuracy 0.949 | masked_ratio 0.054
+2021-12-19 01:24:21,286 [INFO] | epoch  10 |  20/ 56 batches | training accuracy 0.969 | masked_ratio 0.050
+2021-12-19 01:24:26,727 [INFO] | epoch  10 |  30/ 56 batches | training accuracy 0.984 | masked_ratio 0.058
+2021-12-19 01:24:32,156 [INFO] | epoch  10 |  40/ 56 batches | training accuracy 0.972 | masked_ratio 0.086
+2021-12-19 01:24:37,593 [INFO] | epoch  10 |  50/ 56 batches | training accuracy 0.978 | masked_ratio 0.073
+2021-12-19 01:24:42,866 [INFO] ******************************************************************************************
+2021-12-19 01:24:42,866 [INFO] | end of epoch  10 | valid accuracy 0.703 | f1-score 0.693 | masked_ratio 0.075
+2021-12-19 01:24:42,867 [INFO] ******************************************************************************************
+2021-12-19 01:24:42,868 [INFO] ******************************************************************************************
+2021-12-19 01:24:42,868 [INFO] Training epoch 11
+2021-12-19 01:24:48,834 [INFO] | epoch  11 |  10/ 56 batches | training accuracy 0.977 | masked_ratio 0.063
+2021-12-19 01:24:54,249 [INFO] | epoch  11 |  20/ 56 batches | training accuracy 0.997 | masked_ratio 0.052
+2021-12-19 01:24:59,663 [INFO] | epoch  11 |  30/ 56 batches | training accuracy 0.984 | masked_ratio 0.064
+2021-12-19 01:25:05,093 [INFO] | epoch  11 |  40/ 56 batches | training accuracy 0.988 | masked_ratio 0.072
+2021-12-19 01:25:10,515 [INFO] | epoch  11 |  50/ 56 batches | training accuracy 0.984 | masked_ratio 0.058
+2021-12-19 01:25:15,815 [INFO] ******************************************************************************************
+2021-12-19 01:25:15,815 [INFO] | end of epoch  11 | valid accuracy 0.757 | f1-score 0.734 | masked_ratio 0.066
+2021-12-19 01:25:15,815 [INFO] ******************************************************************************************
+2021-12-19 01:25:15,816 [INFO] ******************************************************************************************
+2021-12-19 01:25:15,816 [INFO] Training epoch 12
+2021-12-19 01:25:21,777 [INFO] | epoch  12 |  10/ 56 batches | training accuracy 0.991 | masked_ratio 0.059
+2021-12-19 01:25:27,202 [INFO] | epoch  12 |  20/ 56 batches | training accuracy 0.994 | masked_ratio 0.106
+2021-12-19 01:25:32,630 [INFO] | epoch  12 |  30/ 56 batches | training accuracy 0.994 | masked_ratio 0.103
+2021-12-19 01:25:38,068 [INFO] | epoch  12 |  40/ 56 batches | training accuracy 0.991 | masked_ratio 0.089
+2021-12-19 01:25:43,503 [INFO] | epoch  12 |  50/ 56 batches | training accuracy 0.997 | masked_ratio 0.087
+2021-12-19 01:25:48,772 [INFO] ******************************************************************************************
+2021-12-19 01:25:48,772 [INFO] | end of epoch  12 | valid accuracy 0.811 | f1-score 0.782 | masked_ratio 0.075
+2021-12-19 01:25:48,772 [INFO] ******************************************************************************************
+2021-12-19 01:25:48,773 [INFO] ******************************************************************************************
+2021-12-19 01:25:48,773 [INFO] Training epoch 13
+2021-12-19 01:25:54,749 [INFO] | epoch  13 |  10/ 56 batches | training accuracy 0.997 | masked_ratio 0.065
+2021-12-19 01:26:00,182 [INFO] | epoch  13 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.091
+2021-12-19 01:26:05,606 [INFO] | epoch  13 |  30/ 56 batches | training accuracy 0.991 | masked_ratio 0.061
+2021-12-19 01:26:11,037 [INFO] | epoch  13 |  40/ 56 batches | training accuracy 0.994 | masked_ratio 0.058
+2021-12-19 01:26:16,470 [INFO] | epoch  13 |  50/ 56 batches | training accuracy 0.997 | masked_ratio 0.053
+2021-12-19 01:26:21,745 [INFO] ******************************************************************************************
+2021-12-19 01:26:21,745 [INFO] | end of epoch  13 | valid accuracy 0.802 | f1-score 0.778 | masked_ratio 0.085
+2021-12-19 01:26:21,746 [INFO] ******************************************************************************************
+2021-12-19 01:26:21,747 [INFO] ******************************************************************************************
+2021-12-19 01:26:21,747 [INFO] Training epoch 14
+2021-12-19 01:26:27,727 [INFO] | epoch  14 |  10/ 56 batches | training accuracy 0.994 | masked_ratio 0.080
+2021-12-19 01:26:33,178 [INFO] | epoch  14 |  20/ 56 batches | training accuracy 0.997 | masked_ratio 0.106
+2021-12-19 01:26:38,615 [INFO] | epoch  14 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.108
+2021-12-19 01:26:44,036 [INFO] | epoch  14 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.085
+2021-12-19 01:26:49,447 [INFO] | epoch  14 |  50/ 56 batches | training accuracy 0.997 | masked_ratio 0.087
+2021-12-19 01:26:54,746 [INFO] ******************************************************************************************
+2021-12-19 01:26:54,746 [INFO] | end of epoch  14 | valid accuracy 0.833 | f1-score 0.824 | masked_ratio 0.085
+2021-12-19 01:26:54,746 [INFO] ******************************************************************************************
+2021-12-19 01:26:54,784 [INFO] ******************************************************************************************
+2021-12-19 01:26:54,784 [INFO] Training epoch 15
+2021-12-19 01:27:00,753 [INFO] | epoch  15 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.094
+2021-12-19 01:27:06,175 [INFO] | epoch  15 |  20/ 56 batches | training accuracy 0.997 | masked_ratio 0.061
+2021-12-19 01:27:11,595 [INFO] | epoch  15 |  30/ 56 batches | training accuracy 0.991 | masked_ratio 0.098
+2021-12-19 01:27:17,021 [INFO] | epoch  15 |  40/ 56 batches | training accuracy 0.994 | masked_ratio 0.083
+2021-12-19 01:27:22,464 [INFO] | epoch  15 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.072
+2021-12-19 01:27:27,746 [INFO] ******************************************************************************************
+2021-12-19 01:27:27,746 [INFO] | end of epoch  15 | valid accuracy 0.793 | f1-score 0.792 | masked_ratio 0.088
+2021-12-19 01:27:27,746 [INFO] ******************************************************************************************
+2021-12-19 01:27:27,747 [INFO] ******************************************************************************************
+2021-12-19 01:27:27,747 [INFO] Training epoch 16
+2021-12-19 01:27:33,727 [INFO] | epoch  16 |  10/ 56 batches | training accuracy 0.997 | masked_ratio 0.090
+2021-12-19 01:27:39,166 [INFO] | epoch  16 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.075
+2021-12-19 01:27:44,595 [INFO] | epoch  16 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.089
+2021-12-19 01:27:50,023 [INFO] | epoch  16 |  40/ 56 batches | training accuracy 0.997 | masked_ratio 0.070
+2021-12-19 01:27:55,456 [INFO] | epoch  16 |  50/ 56 batches | training accuracy 0.997 | masked_ratio 0.088
+2021-12-19 01:28:00,744 [INFO] ******************************************************************************************
+2021-12-19 01:28:00,744 [INFO] | end of epoch  16 | valid accuracy 0.838 | f1-score 0.838 | masked_ratio 0.090
+2021-12-19 01:28:00,744 [INFO] ******************************************************************************************
+2021-12-19 01:28:00,781 [INFO] ******************************************************************************************
+2021-12-19 01:28:00,782 [INFO] Training epoch 17
+2021-12-19 01:28:06,736 [INFO] | epoch  17 |  10/ 56 batches | training accuracy 0.997 | masked_ratio 0.111
+2021-12-19 01:28:12,152 [INFO] | epoch  17 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.074
+2021-12-19 01:28:17,569 [INFO] | epoch  17 |  30/ 56 batches | training accuracy 0.994 | masked_ratio 0.068
+2021-12-19 01:28:22,985 [INFO] | epoch  17 |  40/ 56 batches | training accuracy 0.994 | masked_ratio 0.075
+2021-12-19 01:28:28,427 [INFO] | epoch  17 |  50/ 56 batches | training accuracy 0.994 | masked_ratio 0.096
+2021-12-19 01:28:33,693 [INFO] ******************************************************************************************
+2021-12-19 01:28:33,694 [INFO] | end of epoch  17 | valid accuracy 0.784 | f1-score 0.771 | masked_ratio 0.090
+2021-12-19 01:28:33,694 [INFO] ******************************************************************************************
+2021-12-19 01:28:33,695 [INFO] ******************************************************************************************
+2021-12-19 01:28:33,695 [INFO] Training epoch 18
+2021-12-19 01:28:39,666 [INFO] | epoch  18 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.090
+2021-12-19 01:28:45,099 [INFO] | epoch  18 |  20/ 56 batches | training accuracy 0.994 | masked_ratio 0.091
+2021-12-19 01:28:50,522 [INFO] | epoch  18 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.092
+2021-12-19 01:28:55,942 [INFO] | epoch  18 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.095
+2021-12-19 01:29:01,358 [INFO] | epoch  18 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.076
+2021-12-19 01:29:06,653 [INFO] ******************************************************************************************
+2021-12-19 01:29:06,653 [INFO] | end of epoch  18 | valid accuracy 0.806 | f1-score 0.784 | masked_ratio 0.088
+2021-12-19 01:29:06,653 [INFO] ******************************************************************************************
+2021-12-19 01:29:06,655 [INFO] ******************************************************************************************
+2021-12-19 01:29:06,655 [INFO] Training epoch 19
+2021-12-19 01:29:12,606 [INFO] | epoch  19 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.097
+2021-12-19 01:29:18,062 [INFO] | epoch  19 |  20/ 56 batches | training accuracy 0.997 | masked_ratio 0.114
+2021-12-19 01:29:23,508 [INFO] | epoch  19 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.090
+2021-12-19 01:29:28,936 [INFO] | epoch  19 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.096
+2021-12-19 01:29:34,380 [INFO] | epoch  19 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.081
+2021-12-19 01:29:39,683 [INFO] ******************************************************************************************
+2021-12-19 01:29:39,683 [INFO] | end of epoch  19 | valid accuracy 0.806 | f1-score 0.788 | masked_ratio 0.087
+2021-12-19 01:29:39,683 [INFO] ******************************************************************************************
+2021-12-19 01:29:39,684 [INFO] ******************************************************************************************
+2021-12-19 01:29:39,684 [INFO] Training epoch 20
+2021-12-19 01:29:45,667 [INFO] | epoch  20 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.108
+2021-12-19 01:29:51,089 [INFO] | epoch  20 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.102
+2021-12-19 01:29:56,513 [INFO] | epoch  20 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.080
+2021-12-19 01:30:01,928 [INFO] | epoch  20 |  40/ 56 batches | training accuracy 0.997 | masked_ratio 0.105
+2021-12-19 01:30:07,350 [INFO] | epoch  20 |  50/ 56 batches | training accuracy 0.984 | masked_ratio 0.095
+2021-12-19 01:30:12,626 [INFO] ******************************************************************************************
+2021-12-19 01:30:12,627 [INFO] | end of epoch  20 | valid accuracy 0.766 | f1-score 0.747 | masked_ratio 0.078
+2021-12-19 01:30:12,627 [INFO] ******************************************************************************************
+2021-12-19 01:30:12,628 [INFO] ******************************************************************************************
+2021-12-19 01:30:12,628 [INFO] Training epoch 21
+2021-12-19 01:30:18,610 [INFO] | epoch  21 |  10/ 56 batches | training accuracy 0.994 | masked_ratio 0.042
+2021-12-19 01:30:24,046 [INFO] | epoch  21 |  20/ 56 batches | training accuracy 0.997 | masked_ratio 0.077
+2021-12-19 01:30:29,469 [INFO] | epoch  21 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.095
+2021-12-19 01:30:34,913 [INFO] | epoch  21 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.082
+2021-12-19 01:30:40,346 [INFO] | epoch  21 |  50/ 56 batches | training accuracy 0.997 | masked_ratio 0.089
+2021-12-19 01:30:45,623 [INFO] ******************************************************************************************
+2021-12-19 01:30:45,624 [INFO] | end of epoch  21 | valid accuracy 0.739 | f1-score 0.657 | masked_ratio 0.100
+2021-12-19 01:30:45,624 [INFO] ******************************************************************************************
+2021-12-19 01:30:45,625 [INFO] ******************************************************************************************
+2021-12-19 01:30:45,625 [INFO] Training epoch 22
+2021-12-19 01:30:51,604 [INFO] | epoch  22 |  10/ 56 batches | training accuracy 0.994 | masked_ratio 0.128
+2021-12-19 01:30:57,022 [INFO] | epoch  22 |  20/ 56 batches | training accuracy 0.991 | masked_ratio 0.124
+2021-12-19 01:31:02,450 [INFO] | epoch  22 |  30/ 56 batches | training accuracy 0.994 | masked_ratio 0.100
+2021-12-19 01:31:07,899 [INFO] | epoch  22 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.086
+2021-12-19 01:31:13,317 [INFO] | epoch  22 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.074
+2021-12-19 01:31:18,606 [INFO] ******************************************************************************************
+2021-12-19 01:31:18,606 [INFO] | end of epoch  22 | valid accuracy 0.865 | f1-score 0.866 | masked_ratio 0.097
+2021-12-19 01:31:18,606 [INFO] ******************************************************************************************
+2021-12-19 01:31:18,643 [INFO] ******************************************************************************************
+2021-12-19 01:31:18,643 [INFO] Training epoch 23
+2021-12-19 01:31:24,608 [INFO] | epoch  23 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.072
+2021-12-19 01:31:30,008 [INFO] | epoch  23 |  20/ 56 batches | training accuracy 0.997 | masked_ratio 0.128
+2021-12-19 01:31:35,439 [INFO] | epoch  23 |  30/ 56 batches | training accuracy 0.984 | masked_ratio 0.114
+2021-12-19 01:31:40,852 [INFO] | epoch  23 |  40/ 56 batches | training accuracy 0.959 | masked_ratio 0.122
+2021-12-19 01:31:46,312 [INFO] | epoch  23 |  50/ 56 batches | training accuracy 0.975 | masked_ratio 0.069
+2021-12-19 01:31:51,590 [INFO] ******************************************************************************************
+2021-12-19 01:31:51,591 [INFO] | end of epoch  23 | valid accuracy 0.815 | f1-score 0.793 | masked_ratio 0.076
+2021-12-19 01:31:51,591 [INFO] ******************************************************************************************
+2021-12-19 01:31:51,592 [INFO] ******************************************************************************************
+2021-12-19 01:31:51,592 [INFO] Training epoch 24
+2021-12-19 01:31:57,554 [INFO] | epoch  24 |  10/ 56 batches | training accuracy 0.986 | masked_ratio 0.104
+2021-12-19 01:32:02,997 [INFO] | epoch  24 |  20/ 56 batches | training accuracy 0.984 | masked_ratio 0.109
+2021-12-19 01:32:08,417 [INFO] | epoch  24 |  30/ 56 batches | training accuracy 0.975 | masked_ratio 0.103
+2021-12-19 01:32:13,873 [INFO] | epoch  24 |  40/ 56 batches | training accuracy 0.991 | masked_ratio 0.074
+2021-12-19 01:32:19,294 [INFO] | epoch  24 |  50/ 56 batches | training accuracy 0.978 | masked_ratio 0.154
+2021-12-19 01:32:24,623 [INFO] ******************************************************************************************
+2021-12-19 01:32:24,623 [INFO] | end of epoch  24 | valid accuracy 0.707 | f1-score 0.698 | masked_ratio 0.215
+2021-12-19 01:32:24,623 [INFO] ******************************************************************************************
+2021-12-19 01:32:24,624 [INFO] ******************************************************************************************
+2021-12-19 01:32:24,624 [INFO] Training epoch 25
+2021-12-19 01:32:30,594 [INFO] | epoch  25 |  10/ 56 batches | training accuracy 0.952 | masked_ratio 0.254
+2021-12-19 01:32:36,017 [INFO] | epoch  25 |  20/ 56 batches | training accuracy 0.984 | masked_ratio 0.177
+2021-12-19 01:32:41,463 [INFO] | epoch  25 |  30/ 56 batches | training accuracy 0.988 | masked_ratio 0.124
+2021-12-19 01:32:46,874 [INFO] | epoch  25 |  40/ 56 batches | training accuracy 0.988 | masked_ratio 0.085
+2021-12-19 01:32:52,292 [INFO] | epoch  25 |  50/ 56 batches | training accuracy 0.981 | masked_ratio 0.178
+2021-12-19 01:32:57,590 [INFO] ******************************************************************************************
+2021-12-19 01:32:57,590 [INFO] | end of epoch  25 | valid accuracy 0.847 | f1-score 0.830 | masked_ratio 0.191
+2021-12-19 01:32:57,590 [INFO] ******************************************************************************************
+2021-12-19 01:32:57,591 [INFO] ******************************************************************************************
+2021-12-19 01:32:57,591 [INFO] Training epoch 26
+2021-12-19 01:33:03,572 [INFO] | epoch  26 |  10/ 56 batches | training accuracy 0.986 | masked_ratio 0.770
+2021-12-19 01:33:08,969 [INFO] | epoch  26 |  20/ 56 batches | training accuracy 0.966 | masked_ratio 0.969
+2021-12-19 01:33:14,391 [INFO] | epoch  26 |  30/ 56 batches | training accuracy 0.984 | masked_ratio 0.977
+2021-12-19 01:33:19,825 [INFO] | epoch  26 |  40/ 56 batches | training accuracy 0.991 | masked_ratio 0.943
+2021-12-19 01:33:25,260 [INFO] | epoch  26 |  50/ 56 batches | training accuracy 0.988 | masked_ratio 0.806
+2021-12-19 01:33:30,555 [INFO] ******************************************************************************************
+2021-12-19 01:33:30,556 [INFO] | end of epoch  26 | valid accuracy 0.919 | f1-score 0.916 | masked_ratio 0.792
+2021-12-19 01:33:30,556 [INFO] ******************************************************************************************
+2021-12-19 01:33:30,595 [INFO] ******************************************************************************************
+2021-12-19 01:33:30,596 [INFO] Training epoch 27
+2021-12-19 01:33:36,556 [INFO] | epoch  27 |  10/ 56 batches | training accuracy 0.989 | masked_ratio 0.555
+2021-12-19 01:33:41,994 [INFO] | epoch  27 |  20/ 56 batches | training accuracy 0.994 | masked_ratio 0.556
+2021-12-19 01:33:47,426 [INFO] | epoch  27 |  30/ 56 batches | training accuracy 0.991 | masked_ratio 0.785
+2021-12-19 01:33:52,870 [INFO] | epoch  27 |  40/ 56 batches | training accuracy 0.994 | masked_ratio 0.682
+2021-12-19 01:33:58,306 [INFO] | epoch  27 |  50/ 56 batches | training accuracy 0.988 | masked_ratio 0.171
+2021-12-19 01:34:03,601 [INFO] ******************************************************************************************
+2021-12-19 01:34:03,601 [INFO] | end of epoch  27 | valid accuracy 0.937 | f1-score 0.932 | masked_ratio 0.739
+2021-12-19 01:34:03,601 [INFO] ******************************************************************************************
+2021-12-19 01:34:03,639 [INFO] ******************************************************************************************
+2021-12-19 01:34:03,639 [INFO] Training epoch 28
+2021-12-19 01:34:09,585 [INFO] | epoch  28 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.940
+2021-12-19 01:34:15,028 [INFO] | epoch  28 |  20/ 56 batches | training accuracy 0.997 | masked_ratio 0.549
+2021-12-19 01:34:20,445 [INFO] | epoch  28 |  30/ 56 batches | training accuracy 0.994 | masked_ratio 0.080
+2021-12-19 01:34:25,858 [INFO] | epoch  28 |  40/ 56 batches | training accuracy 0.981 | masked_ratio 0.041
+2021-12-19 01:34:31,278 [INFO] | epoch  28 |  50/ 56 batches | training accuracy 0.994 | masked_ratio 0.056
+2021-12-19 01:34:36,590 [INFO] ******************************************************************************************
+2021-12-19 01:34:36,590 [INFO] | end of epoch  28 | valid accuracy 0.914 | f1-score 0.915 | masked_ratio 0.065
+2021-12-19 01:34:36,590 [INFO] ******************************************************************************************
+2021-12-19 01:34:36,592 [INFO] ******************************************************************************************
+2021-12-19 01:34:36,592 [INFO] Training epoch 29
+2021-12-19 01:34:42,561 [INFO] | epoch  29 |  10/ 56 batches | training accuracy 0.989 | masked_ratio 0.081
+2021-12-19 01:34:47,992 [INFO] | epoch  29 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.121
+2021-12-19 01:34:53,418 [INFO] | epoch  29 |  30/ 56 batches | training accuracy 0.997 | masked_ratio 0.091
+2021-12-19 01:34:58,856 [INFO] | epoch  29 |  40/ 56 batches | training accuracy 0.994 | masked_ratio 0.133
+2021-12-19 01:35:04,271 [INFO] | epoch  29 |  50/ 56 batches | training accuracy 0.994 | masked_ratio 0.079
+2021-12-19 01:35:09,566 [INFO] ******************************************************************************************
+2021-12-19 01:35:09,566 [INFO] | end of epoch  29 | valid accuracy 0.838 | f1-score 0.820 | masked_ratio 0.054
+2021-12-19 01:35:09,567 [INFO] ******************************************************************************************
+2021-12-19 01:35:09,568 [INFO] ******************************************************************************************
+2021-12-19 01:35:09,568 [INFO] Training epoch 30
+2021-12-19 01:35:15,543 [INFO] | epoch  30 |  10/ 56 batches | training accuracy 0.994 | masked_ratio 0.090
+2021-12-19 01:35:21,005 [INFO] | epoch  30 |  20/ 56 batches | training accuracy 0.994 | masked_ratio 0.099
+2021-12-19 01:35:26,441 [INFO] | epoch  30 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.087
+2021-12-19 01:35:31,858 [INFO] | epoch  30 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.077
+2021-12-19 01:35:37,291 [INFO] | epoch  30 |  50/ 56 batches | training accuracy 0.991 | masked_ratio 0.163
+2021-12-19 01:35:42,582 [INFO] ******************************************************************************************
+2021-12-19 01:35:42,582 [INFO] | end of epoch  30 | valid accuracy 0.955 | f1-score 0.955 | masked_ratio 0.182
+2021-12-19 01:35:42,582 [INFO] ******************************************************************************************
+2021-12-19 01:35:42,619 [INFO] ******************************************************************************************
+2021-12-19 01:35:42,620 [INFO] Training epoch 31
+2021-12-19 01:35:48,590 [INFO] | epoch  31 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.186
+2021-12-19 01:35:54,042 [INFO] | epoch  31 |  20/ 56 batches | training accuracy 0.994 | masked_ratio 0.176
+2021-12-19 01:35:59,474 [INFO] | epoch  31 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.212
+2021-12-19 01:36:04,924 [INFO] | epoch  31 |  40/ 56 batches | training accuracy 0.997 | masked_ratio 0.163
+2021-12-19 01:36:10,353 [INFO] | epoch  31 |  50/ 56 batches | training accuracy 0.994 | masked_ratio 0.109
+2021-12-19 01:36:15,655 [INFO] ******************************************************************************************
+2021-12-19 01:36:15,655 [INFO] | end of epoch  31 | valid accuracy 0.923 | f1-score 0.924 | masked_ratio 0.100
+2021-12-19 01:36:15,655 [INFO] ******************************************************************************************
+2021-12-19 01:36:15,656 [INFO] ******************************************************************************************
+2021-12-19 01:36:15,656 [INFO] Training epoch 32
+2021-12-19 01:36:21,647 [INFO] | epoch  32 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.073
+2021-12-19 01:36:27,076 [INFO] | epoch  32 |  20/ 56 batches | training accuracy 0.997 | masked_ratio 0.054
+2021-12-19 01:36:32,529 [INFO] | epoch  32 |  30/ 56 batches | training accuracy 0.997 | masked_ratio 0.078
+2021-12-19 01:36:37,968 [INFO] | epoch  32 |  40/ 56 batches | training accuracy 0.997 | masked_ratio 0.097
+2021-12-19 01:36:43,399 [INFO] | epoch  32 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.092
+2021-12-19 01:36:48,674 [INFO] ******************************************************************************************
+2021-12-19 01:36:48,675 [INFO] | end of epoch  32 | valid accuracy 0.928 | f1-score 0.925 | masked_ratio 0.090
+2021-12-19 01:36:48,675 [INFO] ******************************************************************************************
+2021-12-19 01:36:48,676 [INFO] ******************************************************************************************
+2021-12-19 01:36:48,676 [INFO] Training epoch 33
+2021-12-19 01:36:54,628 [INFO] | epoch  33 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.119
+2021-12-19 01:37:00,056 [INFO] | epoch  33 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.130
+2021-12-19 01:37:05,486 [INFO] | epoch  33 |  30/ 56 batches | training accuracy 0.997 | masked_ratio 0.099
+2021-12-19 01:37:10,936 [INFO] | epoch  33 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.066
+2021-12-19 01:37:16,379 [INFO] | epoch  33 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.083
+2021-12-19 01:37:21,654 [INFO] ******************************************************************************************
+2021-12-19 01:37:21,654 [INFO] | end of epoch  33 | valid accuracy 0.932 | f1-score 0.931 | masked_ratio 0.083
+2021-12-19 01:37:21,654 [INFO] ******************************************************************************************
+2021-12-19 01:37:21,655 [INFO] ******************************************************************************************
+2021-12-19 01:37:21,655 [INFO] Training epoch 34
+2021-12-19 01:37:27,623 [INFO] | epoch  34 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.101
+2021-12-19 01:37:33,049 [INFO] | epoch  34 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.092
+2021-12-19 01:37:38,488 [INFO] | epoch  34 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.079
+2021-12-19 01:37:43,936 [INFO] | epoch  34 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.065
+2021-12-19 01:37:49,398 [INFO] | epoch  34 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.094
+2021-12-19 01:37:54,681 [INFO] ******************************************************************************************
+2021-12-19 01:37:54,681 [INFO] | end of epoch  34 | valid accuracy 0.932 | f1-score 0.931 | masked_ratio 0.088
+2021-12-19 01:37:54,681 [INFO] ******************************************************************************************
+2021-12-19 01:37:54,682 [INFO] ******************************************************************************************
+2021-12-19 01:37:54,682 [INFO] Training epoch 35
+2021-12-19 01:38:00,648 [INFO] | epoch  35 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.087
+2021-12-19 01:38:06,073 [INFO] | epoch  35 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.090
+2021-12-19 01:38:11,507 [INFO] | epoch  35 |  30/ 56 batches | training accuracy 0.997 | masked_ratio 0.108
+2021-12-19 01:38:16,919 [INFO] | epoch  35 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.123
+2021-12-19 01:38:22,364 [INFO] | epoch  35 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.077
+2021-12-19 01:38:27,650 [INFO] ******************************************************************************************
+2021-12-19 01:38:27,650 [INFO] | end of epoch  35 | valid accuracy 0.932 | f1-score 0.933 | masked_ratio 0.086
+2021-12-19 01:38:27,650 [INFO] ******************************************************************************************
+2021-12-19 01:38:27,651 [INFO] ******************************************************************************************
+2021-12-19 01:38:27,651 [INFO] Training epoch 36
+2021-12-19 01:38:33,618 [INFO] | epoch  36 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.070
+2021-12-19 01:38:39,053 [INFO] | epoch  36 |  20/ 56 batches | training accuracy 0.997 | masked_ratio 0.072
+2021-12-19 01:38:44,473 [INFO] | epoch  36 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.098
+2021-12-19 01:38:49,921 [INFO] | epoch  36 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.085
+2021-12-19 01:38:55,362 [INFO] | epoch  36 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.087
+2021-12-19 01:39:00,642 [INFO] ******************************************************************************************
+2021-12-19 01:39:00,642 [INFO] | end of epoch  36 | valid accuracy 0.932 | f1-score 0.933 | masked_ratio 0.087
+2021-12-19 01:39:00,642 [INFO] ******************************************************************************************
+2021-12-19 01:39:00,643 [INFO] ******************************************************************************************
+2021-12-19 01:39:00,643 [INFO] Training epoch 37
+2021-12-19 01:39:06,593 [INFO] | epoch  37 |  10/ 56 batches | training accuracy 0.997 | masked_ratio 0.102
+2021-12-19 01:39:12,043 [INFO] | epoch  37 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.111
+2021-12-19 01:39:17,486 [INFO] | epoch  37 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.110
+2021-12-19 01:39:22,928 [INFO] | epoch  37 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.083
+2021-12-19 01:39:28,374 [INFO] | epoch  37 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.109
+2021-12-19 01:39:33,648 [INFO] ******************************************************************************************
+2021-12-19 01:39:33,648 [INFO] | end of epoch  37 | valid accuracy 0.932 | f1-score 0.933 | masked_ratio 0.088
+2021-12-19 01:39:33,648 [INFO] ******************************************************************************************
+2021-12-19 01:39:33,649 [INFO] ******************************************************************************************
+2021-12-19 01:39:33,649 [INFO] Training epoch 38
+2021-12-19 01:39:39,594 [INFO] | epoch  38 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.089
+2021-12-19 01:39:45,013 [INFO] | epoch  38 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.083
+2021-12-19 01:39:50,451 [INFO] | epoch  38 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.070
+2021-12-19 01:39:55,871 [INFO] | epoch  38 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.064
+2021-12-19 01:40:01,313 [INFO] | epoch  38 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.096
+2021-12-19 01:40:06,599 [INFO] ******************************************************************************************
+2021-12-19 01:40:06,600 [INFO] | end of epoch  38 | valid accuracy 0.932 | f1-score 0.933 | masked_ratio 0.094
+2021-12-19 01:40:06,600 [INFO] ******************************************************************************************
+2021-12-19 01:40:06,601 [INFO] ******************************************************************************************
+2021-12-19 01:40:06,601 [INFO] Training epoch 39
+2021-12-19 01:40:12,584 [INFO] | epoch  39 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.098
+2021-12-19 01:40:18,026 [INFO] | epoch  39 |  20/ 56 batches | training accuracy 1.000 | masked_ratio 0.093
+2021-12-19 01:40:23,466 [INFO] | epoch  39 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.107
+2021-12-19 01:40:28,892 [INFO] | epoch  39 |  40/ 56 batches | training accuracy 0.997 | masked_ratio 0.126
+2021-12-19 01:40:34,334 [INFO] | epoch  39 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.066
+2021-12-19 01:40:39,639 [INFO] ******************************************************************************************
+2021-12-19 01:40:39,639 [INFO] | end of epoch  39 | valid accuracy 0.937 | f1-score 0.936 | masked_ratio 0.094
+2021-12-19 01:40:39,639 [INFO] ******************************************************************************************
+2021-12-19 01:40:39,640 [INFO] ******************************************************************************************
+2021-12-19 01:40:39,640 [INFO] Training epoch 40
+2021-12-19 01:40:45,620 [INFO] | epoch  40 |  10/ 56 batches | training accuracy 1.000 | masked_ratio 0.082
+2021-12-19 01:40:51,041 [INFO] | epoch  40 |  20/ 56 batches | training accuracy 0.997 | masked_ratio 0.099
+2021-12-19 01:40:56,481 [INFO] | epoch  40 |  30/ 56 batches | training accuracy 1.000 | masked_ratio 0.126
+2021-12-19 01:41:01,930 [INFO] | epoch  40 |  40/ 56 batches | training accuracy 1.000 | masked_ratio 0.092
+2021-12-19 01:41:07,349 [INFO] | epoch  40 |  50/ 56 batches | training accuracy 1.000 | masked_ratio 0.069
+2021-12-19 01:41:12,658 [INFO] ******************************************************************************************
+2021-12-19 01:41:12,658 [INFO] | end of epoch  40 | valid accuracy 0.932 | f1-score 0.932 | masked_ratio 0.098
+2021-12-19 01:41:12,658 [INFO] ******************************************************************************************
+2021-12-19 01:41:12,659 [WARNING] The validation f1-score has not improved for 10 epochs. Stopping training early.
+2021-12-19 01:41:12,659 [INFO] ==========================================================================================
+2021-12-19 01:41:12,660 [INFO] Finished training model. Best hyperparameters: {'batch_size': 32, 'cls_bidirectional': True, 'cls_dropout': 0.2, 'cls_hidden_dim': 256, 'cls_model_type': 'lstm', 'cls_num_layers': 1, 'early_stopping_threshold': 10, 'lr': 0.001, 'masker_bidirectional': True, 'masker_dropout': 0.5, 'masker_hidden_dim': 512, 'masker_model_type': 'lstm', 'masker_num_layers': 1, 'max_seq_length': 512, 'num_epochs': 100}
+2021-12-19 01:41:12,660 [INFO] Here is the validation results:
+2021-12-19 01:41:15,378 [INFO] ******************************************************************************************
+2021-12-19 01:41:15,378 [INFO] |valid accuracy 0.955 | f1-score 0.955 | masked_ratio 0.182
+2021-12-19 01:41:15,382 [INFO]               precision    recall  f1-score   support
+
+           0       0.98      0.91      0.94        56
+           1       1.00      0.89      0.94        36
+           2       0.93      0.97      0.95        40
+           3       0.93      1.00      0.96        54
+           4       0.95      1.00      0.97        36
+
+    accuracy                           0.95       222
+   macro avg       0.96      0.95      0.95       222
+weighted avg       0.96      0.95      0.95       222
+
+2021-12-19 01:41:15,383 [INFO] [[51  0  3  1  1]
+ [ 0 32  0  3  1]
+ [ 1  0 39  0  0]
+ [ 0  0  0 54  0]
+ [ 0  0  0  0 36]]
+2021-12-19 01:41:15,383 [INFO] ******************************************************************************************
+2021-12-19 01:41:15,384 [INFO] Here is the test results (DO NOT USE THESE RESULTS FOR CHOOSING THE BEST AUGMENTATION):
+2021-12-19 01:41:18,113 [INFO] ******************************************************************************************
+2021-12-19 01:41:18,113 [INFO] |valid accuracy 0.915 | f1-score 0.909 | masked_ratio 0.174
+2021-12-19 01:41:18,117 [INFO]               precision    recall  f1-score   support
+
+           0       0.90      0.95      0.93        59
+           1       1.00      0.75      0.86        36
+           2       0.82      0.92      0.87        36
+           3       0.94      0.96      0.95        48
+           4       0.93      0.95      0.94        44
+
+    accuracy                           0.91       223
+   macro avg       0.92      0.91      0.91       223
+weighted avg       0.92      0.91      0.91       223
+
+2021-12-19 01:41:18,117 [INFO] [[56  0  2  0  1]
+ [ 2 27  3  2  2]
+ [ 3  0 33  0  0]
+ [ 1  0  1 46  0]
+ [ 0  0  1  1 42]]
+2021-12-19 01:41:18,118 [INFO] ******************************************************************************************
+2021-12-19 01:41:18,120 [INFO] Here is the FINAL masking of the training data:
+2021-12-19 01:41:18,513 [INFO] ******************************************************************************************
+2021-12-19 01:41:18,513 [INFO] Masking Examples:
+2021-12-19 01:41:18,513 [INFO] ******************************************************************************************
+2021-12-19 01:41:18,514 [INFO] #  0 | ORIGINAL | CLASS 4 | uk broadband gets speed injection broadband ' s rapid rise continues ap ##ace as speeds gear up a notch . an eight mega ##bit service has been launched by internet service provider uk online . it is 16 times faster than the average broadband package on the market and will pa ##ve the way for services such as video - on - demand and broadband tv . the service is possible due to a new regime which allows other operators to use bt ' s exchanges and will initially only be available in towns . it represents a ` ` big leap forward ' ' for broadband , said chris ste ##ning , uk online general manager . the service comes with a he ##ft ##y a ##£ ##39 . 99 monthly price tag but will mean users can download mp3 ##s in seconds and offers tv - quality video streaming . the service includes wi ##fi as standard , meaning users can connect multiple pcs , laptop ##s and game consoles from any room in the house . not everybody will be able to take advantage of the service , as it will be restricted to metropolitan areas . the service will initially be available to users within 2 ##km radius of 230 telephone exchanges in areas such as london , birmingham , glasgow and cambridge . that represents about 4 . 4 million households . the service is possible due to a decision to loosen bt ' s st ##rangle - hold on telephone exchanges . the process , known as local loop un ##bund ##ling , was put in motion by the now defunct telecom ##s watch ##dog of ##tel but has only proved popular in recent months due to falling costs . uk online is looking at the possibility of bun ##dling services such as cheap net telephone calls , video - on - demand and tv by 2005 if the service proves popular . ` ` the service is twice as fast as any other service on offer in the uk and 16 times faster than most broadband services , ' ' said mr ste ##ning . ` ` it takes a big leap for broadband and we are very excited about it , ' ' he said . countries such as south korea and france have found the advantage of up ##ping the speeds of broadband . in south korea , video - on - demand over the net is cheaper than rent ##ing a dvd and online gaming is huge . mr ste ##ning believes the service will appeal to people in multi - o ##cc ##up ##ancy buildings as well as easing family arguments . ` ` a typical family with two adults and two children is currently sharing a 512 ki ##lo ##bit service . this will basically give them 2 mega ##bit ##s each , ' ' he said .
+2021-12-19 01:41:18,514 [INFO] #  0 |  MASKED  | CLASS 4 | uk broadband gets speed injection broadband ' s rapid rise continues ap ##ace as speeds gear up a notch . an eight mega ##bit service has been launched by internet service provider uk online . it is 16 times faster than the average broadband package on the market and will pa ##ve the way for services such as video - on - demand and broadband tv . the service is possible due to a new regime which allows other operators to use bt ' s exchanges and will initially only be available in towns . it represents a ` ` big leap forward ' ' for broadband , said chris ste ##ning , uk online general manager . the service comes with a he ##ft ##y a ##£ ##39 . 99 monthly price tag but will mean users can download mp3 ##s in seconds and offers tv - quality video streaming . the service includes wi ##fi as standard , meaning users can connect multiple pcs , laptop ##s and game consoles from any room in the house . not _________ will be able to take advantage of the service , as it will be restricted to metropolitan areas . the service will initially be available to users within 2 ##km radius of 230 telephone exchanges in areas such as london , birmingham , glasgow and cambridge . that represents about 4 . 4 million households . the service is possible due to a decision to loosen bt ' s st ##rangle - hold on telephone exchanges . the process , known as local loop un ##bund ##ling , was put in motion by the now defunct telecom ##s watch ##dog of ##tel but has only proved popular in recent months due to falling costs . uk online is looking at the possibility of bun ##dling services such as cheap net telephone calls , video - on - demand and tv by 2005 if the service proves popular . ` ` the service is twice as fast as any other service on offer in the uk and 16 times faster than most broadband services , ' ' said mr ste ##ning . ` ` it takes a big leap for broadband and we are very excited about it , ' ' he said . countries such as south korea and france have found the advantage of up ##ping the speeds of broadband . in south korea , video - on - demand over the net is cheaper than rent ##ing a dvd and online gaming is huge . mr ste ##ning believes the service will appeal to people in multi - o ##cc ##up ##ancy buildings as well as easing family arguments . ` ` a typical family with two adults and two children is currently sharing a 512 ki ##lo ##bit service . this will basically give them 2 mega ##bit ___ ____ _ _ _ __ ____ _
+2021-12-19 01:41:18,514 [INFO] ******************************************************************************************
+2021-12-19 01:41:18,515 [INFO] #  1 | ORIGINAL | CLASS 3 | mo ##yes u - turn on beat ##tie dismissal everton manager david mo ##yes will discipline striker james beat ##tie after all for his head ##bu ##tt on chelsea defender william gall ##as . the sc ##ot initially defended beat ##tie , whose dismissal put everton on the back foot in a game they ultimately lost 1 - 0 , saying gall ##as over ##rea ##cted . but he has had a re ##thi ##nk after looking over the video evidence again . he said : ` ` i believe that i should set the record straight by con ##ced ##ing that the dismissal was right and correct . ' ' mo ##yes added : ` ` my comments on saturday came immediately after the final whistle and at a point when i had only had the opportunity to see one , very quick re - run of the incident . ' ' the club website also reported that beat ##tie , who seemed un ##re ##pen ##tan ##t after saturday ' s match , insisting gall ##as ` ` would have stayed down a lot longer ' ' if he had head ##bu ##tted him , has now ap ##olo ##gis ##ed . mo ##yes continued : ` ` although the incident was totally out of character - james has never even been suspended before in his career - his actions were unacceptable and had a detrimental effect on his team - mates . ` ` james did issue a formal apology to myself , his team - mates and to the everton supporters immediately after the game and that was the right thing to have done . he will now be subjected to the normal club discipline . ` ` he is a competitive player but a fair player and i know how upset he is by what has happened . however , i must say that i do still believe the chelsea player in question did go down too easily . ' ' speaking immediately after the game , mo ##yes said : ` ` i do n ' t think it was a sending - off , i have been a centre - half in my time and i would have been ashamed to have gone down as easily as that . ` ` not in a million years would john terry have gone down in the same way . i have never heard of anybody butt ##ing somebody from behind while you are running after them . ` ` what has happened to big , strong centre - halves ? i thought it was a push initially and i still do n ' t think it was a sending - off . ' ' an angry beat ##tie initially said : ` ` he ( gall ##as ) would have stayed down a lot longer if i had head ##bu ##tted him . ` ` i can tell you it was n ' t an intentional head ##bu ##tt . we were chasing a ball
+2021-12-19 01:41:18,516 [INFO] #  1 |  MASKED  | CLASS 3 | __ _____ _ _ ____ __ ____ _____ _________ _______ _______ _____ __ _____ ____ __________ _______ _____ ____ _____ _____ ___ ___ ___ ____ ____ ____ __ _______ ________ _______ ____ ____ _ ___ __ ____ _________ ________ ____ _____ _ _____ _________ ___ _______ on the back foot in a game they ultimately lost 1 - 0 , saying gall ##as over ##rea ##cted . but he has had a re ##thi ##nk after looking over the video evidence again . he said : ` ` i believe that i should set the record straight by con ##ced ##ing that the dismissal was right and correct . ' ' mo ##yes added : ` ` my comments on saturday came immediately after the final whistle and at a point ____ _ ___ only ___ the ___________ to see one , very quick re - run of the incident . ' ' the club website ____ ________ ____ ____ _____ _ ___ ______ __ ____ _____ _____ ___ _____ ________ _ _ _____ _ _________ ____ ____ _ _ _____ ____ ______ ____ a ___ longer _ _ if he had head ##bu ##tted him , has now ap ##olo ##gis ##ed . mo ##yes continued : ` ` although the incident was totally out of character - james has never even been suspended before in his career - his actions were unacceptable and had a detrimental effect on his team - mates . ` ` james did issue a formal apology to myself , his team - mates and to the _______ supporters immediately after the game and that was the right thing to have done . he will now be subjected to the normal club discipline . ` ` he is a competitive player but a fair player and i know how upset he is by what has happened . however , i must say that i do still believe the chelsea player in question did go down too easily . ' ' speaking immediately after the game , mo ##yes said : ` ` i do n ' t think it was a sending - off , i have been a centre - half in my time and i would have been ashamed to have gone down as easily as that . ` ` not __ a million _____ _____ ____ _____ ____ ____ down in the same way . i have never heard of anybody butt ##ing somebody from behind while you are running after them . ` ` what has happened to big , strong centre - halves ? i thought it was a push initially and i still do n ' t think it was a sending _ ___ . _ _ __ angry ____ _____ _________ ____ _ _ _ he ( gall ##as ) would ____ stayed down a lot longer if i ___ head ##bu ##tted him . ` ` i can tell you it was n ' t an intentional head ##bu ##tt . __ ____ _______ _ ____
+2021-12-19 01:41:18,516 [INFO] ******************************************************************************************
+2021-12-19 01:41:18,516 [INFO] #  2 | ORIGINAL | CLASS 0 | k ##ho ##dor ##kovsky quit ##s yu ##kos shares jailed ty ##co ##on mikhail k ##ho ##dor ##kovsky has transferred his controlling stake in oil giant yu ##kos to a business partner . mr k ##ho ##dor ##kovsky handed over his entire 59 . 5 % stake in holding company group men ##ate ##p - which controls yu ##kos - to leonid ne ##v ##z ##lin . a close ally of the ex - yu ##kos boss , mr ne ##v ##z ##lin is currently based in israel . mr k ##ho ##dor ##kovsky handed over his stake after the forced sale of yu ##kos ' core oil production unit , yu ##gan ##sk ##ne ##ft ##ega ##z to pay a giant tax bill . yu ##gan ##sk ##ne ##ft ##ega ##z was sold off at auction in december last year , eventually falling into the hands of state oil firm ro ##s ##ne ##ft in a deal worth $ 9 . 4 ##bn ( a ##£ ##5 ##bn ) . ` ` since the sale of yu ##gan ##sk ##ne ##ft ##ega ##z , i have been delivered of ( all ) responsibility for the business that remains and the group ' s money as a whole , ' ' mr k ##ho ##dor ##kovsky said . ` ` it is all over . as before , i see my future in public activity to build a civil society in russia . ' ' mr ne ##v ##z ##lin is yu ##kos ' largest shareholder but is living in self - imposed exile in israel . yu ##gan ##sk ##ne ##ft ##ega ##z pumps around 1 million barrels of oil a day . it was sold by the russian authorities to recover government tax claims against yu ##kos total ##ling over $ 27 ##bn . previously considered to be russia ' s richest man , with an estimated fortune of $ 15 ##bn , mr k ##ho ##dor ##kovsky is currently on trial for fraud and tax eva ##sion following his arrest in october 2003 . however , the charges are widely seen as politically motivated and part of a drive by russian president vladimir putin to rein in the country ' s super - rich business leaders , the so - called ol ##iga ##rch ##s . it is also believed that mr k ##ho ##dor ##kovsky was particularly targeted because he had started to bank ##roll political opponents of mr putin .
+2021-12-19 01:41:18,516 [INFO] #  2 |  MASKED  | CLASS 0 | k ##ho ##dor ##kovsky quit ##s yu ##kos shares jailed ty ##co ##on mikhail k ##ho ##dor ##kovsky has transferred his controlling stake in oil giant yu ##kos to a business partner . mr k ##ho ##dor ##kovsky handed over his entire 59 . 5 % stake in holding company group men ##ate ##p - which controls yu ##kos - to leonid ne ##v ##z ##lin . a close ally of the ex - yu ##kos boss , mr ne ##v ##z ##lin is currently based in israel . mr k ##ho ##dor ##kovsky handed over his stake after the forced sale of yu ##kos ' core oil production unit , yu ##gan ##sk ##ne ##ft ##ega ##z to pay a giant tax bill . yu ##gan ##sk ##ne ____ _____ ##z was sold off at auction __ december last year , eventually falling ____ the hands of state oil firm __ ___ ____ ____ __ _ ____ worth $ _ _ _ ____ _ _ ___ ___ ____ ) _ _ _ since the sale of yu ##gan ##sk ##ne ##ft ##ega ##z , i have been delivered of ( all ) responsibility for the business that remains and the group ' s money as a whole , ' ' mr k ##ho ##dor ##kovsky said . ` ` it is all over . as before , i see my future in public activity to build a civil society in russia . ' ' mr ne ##v ##z ##lin is yu ##kos ' largest shareholder but is living in self - imposed exile in israel . yu ##gan ##sk ##ne ##ft ##ega ##z pumps around 1 million barrels of oil a day . it was sold by the russian authorities to recover government tax claims against yu ##kos total ##ling over $ 27 ##bn . previously considered to be russia ' s richest man , with an estimated fortune of $ 15 ##bn , mr k ##ho ##dor ##kovsky is currently on trial for fraud and tax eva ##sion following his arrest in october 2003 . however , the charges are widely seen as politically motivated and part of a drive by russian president vladimir putin to rein in the country ' s super - rich business leaders , the so - called ol ##iga ##rch ##s . it is also believed ____ __ _ ____ _____ ________ ___ ____________ ________ _______ __ ___ _______ __ bank ______ _________ _________ __ __ _____ _
+2021-12-19 01:41:18,517 [INFO] ******************************************************************************************
+2021-12-19 01:41:18,517 [INFO] #  3 | ORIGINAL | CLASS 1 | uk ' world ' s biggest music buyer ' uk consumers are the biggest music buyers in the world , according to new figures released on tuesday by the british ph ##ono ##graphic industry ( bp ##i ) . but global sales of recorded music were flat in 2004 , with growing sales in dvd music videos offset by online and physical piracy in major markets . the uk music industry recorded an overall 3 % increase in volume sales , mostly due to its robust albums market . however , world music sales declined by 1 . 3 % to $ 33 . 6 billion ( a ##£ ##17 . 7 billion ) . the uk cd albums market grew by 4 . 5 % in 2004 with a record 174 . 6 million units sold . on average every brit ##on buys 3 . 2 cds per person per year . around 26 , 000 albums are released in the uk each year , making britain second only to the us in terms of the number of releases . overall sales were driven by new uk - signed artists such as keane , katie mel ##ua and sci ##sso ##r sisters , whose debut album sold almost 1 . 6 million copies in the uk . ` ` a sl ##ew of great new british artists have met uk music fans ' demand for great music , ' ' said bp ##i chairman peter jameson . the best - selling album globally was usher ' s confessions - one of eight albums to sell more than five million copies in 2004 . the growth in the dvd market and a sharp increase in sales of digital music ensured a strong market in the us . the total number of tracks downloaded last year were up more than ten ##fold on 2003 . digital sales in the us in the first two months of 2005 are already more than double that of the same period in 2004 . however , some markets in continental europe and asia - notably sweden , finland , france , spain and south korea - have been drastically hit by internet piracy . australia , italy and the netherlands also saw a decline . ` ` on the positive side digital sales are booming , ' ' said john kennedy , chief executive of the international federation of ph ##ono ##graphic industries ( if ##pi ) . ` ` however , commercial piracy and illegal file - sharing are continuing to de ##press our markets . ` ` the priority in the coming year is to step up the advance of legitimate digital sales and sustain our anti - piracy efforts . ' ' ` ` the main choice today ' s music fan now has to make is whether to get music legally or illegally , ' ' added mr jameson .
+2021-12-19 01:41:18,518 [INFO] #  3 |  MASKED  | CLASS 1 | __ ' world ' s biggest music buyer ' uk consumers are the biggest music buyers in the world , according to new figures released on _______ by the _______ ph ##ono ##graphic industry ( bp ##i ) . but global sales of recorded music were flat in 2004 , with growing sales in dvd music videos offset by online and physical piracy in major markets . the uk music industry recorded an overall 3 % increase in volume sales , mostly due to its robust albums market . however , world music sales declined by 1 . 3 % to $ 33 . 6 billion ( a ##£ ##17 . 7 billion ) . the uk cd albums market grew by 4 . 5 % in 2004 ____ _ ______ ___ _ _ million units sold _ __ _______ every ____ ##on buys 3 . 2 cds per person per year _ around __ , ___ ______ are released __ ___ __ each year _ ______ _______ second only to the us in terms of the number of releases _ overall sales were driven by new __ _ signed _______ such as _____ , katie mel ##ua and sci ##sso ##r sisters , whose debut album sold almost 1 . 6 million copies in the uk . ` ` a sl ##ew of great new british artists have met uk music fans ' demand for great music , ' ' said bp ##i chairman peter jameson . the best - selling album globally was usher ' s confessions - one of eight albums to sell more than five million copies in 2004 . the growth in the dvd market and a sharp increase in sales of digital music ensured a strong market in the us . the total number of tracks downloaded last year were up more than ten ##fold on 2003 . digital sales in the us in the first two months of 2005 are already more than double that of the same period in 2004 . however , some markets in continental europe and asia - notably sweden , finland , france , spain and south korea - have been drastically hit by internet piracy . australia , italy and the netherlands also saw a decline . ` ` on the positive side digital sales are booming _ _ _ ____ ____ _______ , chief _________ of the _____________ federation of ph ##ono ##graphic industries ( if ##pi ) . ` ` however , commercial piracy and illegal file - sharing are continuing to de ##press our markets . ` ` the priority in the coming year is to step up the advance of legitimate digital sales and sustain our anti - piracy _______ . _ _ _ _ the main choice today _ s _____ fan now ___ to make is whether to get music legally or _________ _ _ _ _____ __ _______ _
+2021-12-19 01:41:18,518 [INFO] ******************************************************************************************
+2021-12-19 01:41:18,519 [INFO] #  4 | ORIGINAL | CLASS 2 | ' uk will stand firm on eu re ##bate ' britain ' s a ##£ ##3 ##bn eu re ##bate is not up for rene ##go ##tia ##tion at next week ' s european council summit , jack straw said . the foreign secretary told mps the re ##bate , secured by margaret thatcher in 1984 , was ` ` entirely justified ' ' . new european commission president jose manuel barr ##oso has suggested the cash could be shared out among net contributors to the eu budget . mr straw acknowledged some countries in the newly enlarged 25 nation eu still had to ` ` see the light ' ' on the re ##bate . but the foreign secretary told the commons foreign affairs committee : ` ` our position is very clear : it is entirely justified and it is not for negotiation . ' ' he added that he did not think there would be a political price to pay for the uk ' s stance - britain contributed more and received less than other eu states . the two - day european council summit in brussels begins on 16 december and is widely expected to mark the beginning of a lengthy negotiating period over the eu ' s budget for 2007 - 13 . the wr ##ang ##ling could stretch into 2005 , even 2006 . the uk , france , germany , austria , the netherlands and sweden want the eu budget to be capped at 1 % of member states ' combined national incomes - the commission wants it to be 1 . 26 % . mr straw said the eu commission ' s proposal would mean a 35 % hike in the budget . ` ` i do n ' t know of any national government thinking of increasing its budget by that amount , ' ' he added . the foreign secretary said he hoped the talks next week could produce a date in 2005 for the beginning of negotiations with turkey about possible eu membership although that there would be no prospect of a date for joining for some time .
+2021-12-19 01:41:18,519 [INFO] #  4 |  MASKED  | CLASS 2 | _ __ ____ _____ ____ __ eu __ ##bate ' britain ' s _ ##£ ##3 ____ eu __ ##bate __ ___ __ ___ ____ ____ _____ ______ __ ____ ____ _ _ ________ _______ ______ _ ____ _____ said . the foreign _________ ____ mps the re ##bate , secured by margaret thatcher in 1984 , was ` ` entirely justified ' ' . new european commission president jose manuel barr ##oso has suggested the cash could be shared out among net contributors to the eu budget . mr straw acknowledged some countries in the newly enlarged 25 nation eu still had to ` ` see the light ' ' on the re ##bate . but the foreign secretary told the commons foreign affairs committee : _ _ ___ ________ __ ____ _____ _ __ __ ________ _________ ___ __ __ ___ ___ ___________ _ _ _ __ added ____ __ did not think there would be a political price __ ___ ___ ___ __ _ _ ______ _ _______ contributed more and received less than other eu states _ the ___ _ day european _______ ______ __ ________ begins on 16 december and is widely expected to mark the beginning of a lengthy negotiating period over the eu ' s budget for 2007 - 13 . the wr ##ang ##ling could stretch into 2005 , even 2006 . the uk , france , germany , austria , the netherlands and sweden want the eu budget to be capped at 1 % of member states ' combined national incomes - the commission wants it to be 1 . 26 % . mr straw said the eu commission ' s proposal would mean a 35 % hike in the budget . ` ` i do n ' t know of any national government thinking of increasing its budget by that amount , ' ' he added . the foreign secretary said he hoped the talks next week could produce a date in 2005 for the beginning of negotiations with turkey about possible eu membership although that there would be no prospect of a date for joining for some time _
+2021-12-19 01:41:18,519 [INFO] ******************************************************************************************
+2021-12-19 01:41:18,520 [INFO] #  5 | ORIGINAL | CLASS 2 | howard attacks cost of asylum michael howard has launched an attack on the cost of britain ' s ` ` chaotic ' ' asylum system under tony blair . the tory leader said english local authorities have spent more than a ##£ ##3 ##bn - or a ##£ ##14 ##0 per household - on asylum since labour won power in 1997 . mr howard is expected to tell activists in kent that voters ' tolerance and desire to help others are being abused . other parties and refugee agencies have already attacked tory plans for annual limits on numbers . mr howard said britain should take its fair share of the world ' s ` ` genuine refugees ' ' . ` ` the anniversary of the liberation of auschwitz - where my grandmother was murdered along with over a million others - has reminded all of us that we have a moral responsibility to those fleeing persecution , ' ' he was due to say . ` ` but if we are to fu ##lf ##il responsibility , we have to get a grip of the system . ` ` fair play matters . people want a government that uphold ##s the rules - not one that turns a blind eye when they are bent and abused , ' ' he said . ` ` and let ' s be clear . our asylum system is being abused - and with it britain ' s generosity . ' ' earlier this week , mr howard said his party ' s plans to cut immigration were not racist , arguing they would make the asylum system fair ##er for genuine refugees . if elected , his party would institute an annual limit on asylum and all claims would be processed overseas . that prompted some charities to say the plans would put refugees ' lives at risk if they were turned away once quota ##s were filled . ` ` if we have a moral responsibility towards people fleeing persecution , then these policies will not provide a safe haven , ' ' said hannah ward of the refugee council . ` ` if people turn up in the uk asking for help they will be turned away . michael howard ' s policy effectively means there is no safe haven in the uk . ` ` when it comes to costs , then perhaps we should start with how decisions are made on asylum seekers . so many of them are shown to be wrong - one in five decisions that are appealed are successfully overturned , rising to half for some nationalities . ` ` we need good quality decision - making on asylum applications because it is delays in the system which cost so much . ' ' tony blair said labour would set out work ##able plans for tack ##ling immigration abuse in the next few weeks and attacked the tory plans . ` ` by cutting the number of front - line immigration staff at
+2021-12-19 01:41:18,520 [INFO] #  5 |  MASKED  | CLASS 2 | ______ _______ ____ __ ______ _______ ______ ___ ________ __ ______ __ ___ ____ __ _______ _ _ _ _ _______ _ _ ______ ______ _____ ____ _____ _ ___ ____ ______ ____ _______ _____ ___________ ____ spent more than a ##£ ##3 ##bn - or a ##£ ##14 ##0 per household - on asylum since labour won power in 1997 . mr howard is expected to tell activists in kent that voters ' tolerance and desire to help others are being abused . other parties and refugee agencies have already attacked tory plans for annual limits on numbers . mr howard said britain should take its fair share of the world ' s ` ` genuine refugees ' ' . ` ` the anniversary of the __________ __ _________ _ _____ __ ___________ ___ ________ _____ ____ ____ _ _______ ______ _ ___ ________ ___ __ __ ____ __ ____ _ _____ ______________ __ _____ _______ ___________ _ _ _ __ ___ due __ ___ _ _ _ ___ __ __ ___ __ fu ____ ____ ______________ , __ ____ to get a grip of the system _ _ _ fair play matters . people want a government that uphold ##s the rules - not one that turns a blind eye when they are bent and abused , ' ' he said . ` ` and let ' s be clear . our asylum system is being abused - and with it britain ' s generosity . ' ' earlier this week , mr howard said his party ' s plans to cut immigration were not racist , arguing they would make the asylum system fair ##er for genuine refugees . if elected , his party would institute an annual limit on asylum and all claims would be processed overseas . that prompted some charities to say the plans would put refugees ' lives at risk if they were turned away once quota ##s were filled . ` ` if we have a moral responsibility towards people fleeing persecution , then these policies will not provide a safe haven , ' ' said hannah ward of the refugee council . ` ` if people turn up in the uk asking for help they will be turned away . michael howard ' s policy effectively means there is no ____ _____ __ the __ _ _ _ when it _____ __ costs _ ____ _______ __ ______ start ____ ___ _________ are made on asylum seekers . so many of them are shown to be wrong - one in five decisions that are appealed are successfully overturned , rising to half for some nationalities . ` ` we need good quality decision - making on asylum applications because it is delays in the system _____ ____ __ ____ _ _ _ ____ _____ ____ ______ would set out work ##able _____ ___ ____ ______ ___________ _____ in the next few weeks and ________ the ____ plans . ` ` by cutting the number of front _ ____ ___________ _____ __
+2021-12-19 01:41:18,520 [INFO] ******************************************************************************************
+2021-12-19 01:41:18,521 [INFO] #  6 | ORIGINAL | CLASS 0 | safety alert as gm recalls cars the world ' s biggest car ##maker general motors ( gm ) is recalling nearly 200 , 000 vehicles in the us on safety grounds , according to federal regulators . the national highway traffic safety administration ( nh ##tsa ) said the largest recall involves 155 , 46 ##5 pickup ##s , vans and sports utility vehicles ( suv ##s ) . this is because of possible mal ##fu ##nction ##s with the braking systems . the affected vehicles in the product recall are from the 2004 and 2005 model years , gm said . those vehicles with potential faults are the chevrolet avalanche , express , ko ##dia ##k , silver ##ade and suburban ; the gm ##c sava ##na , sierra and yukon . the nh ##tsa said a pressure acc ##um ##ulator in the braking system could crack during normal driving and fragments could in ##jure people if the hood was open . this could allow hydraulic fluid to leak , which could make it harder to brake or steer and could cause a crash , it warned . gm is also recalling 19 , 92 ##4 cadillac xl ##r coupe ##s , sr ##x suv ##s and pontiac grand prix sedan ##s from the 2004 model year . this is because the accelerator pedal may not work properly in extremely cold temperatures , requiring more braking . in addition , the car giant is calling back 17 , 81 ##5 buick rani ##ers , chevrolet trail ##bla ##zers , gm ##c envoy ##s and is ##uz ##u as ##cend ##ers from the 2005 model years because the windshield is not properly fitted and could fall out in a crash . however , gm stressed that it did not know of any injuries related to the problems . news of the recall follows an announcement last month that gm expects earnings this year be lower than in 2004 . the world ' s biggest car maker is gr ##app ##ling with losses in its european business , weak us sales and now a product recall . in january , gm said higher healthcare costs in north america , and lower profits at its financial services subsidiary would hurt its performance in 2005 .
+2021-12-19 01:41:18,521 [INFO] #  6 |  MASKED  | CLASS 0 | safety alert as gm recalls cars the world ' s biggest car ##maker general motors _ __ ) is _________ nearly ___ , 000 vehicles __ ___ us __ ______ grounds , according to federal __________ . the national highway traffic safety administration ( nh ##tsa ) said the largest recall involves 155 , 46 ##5 pickup ##s , vans and sports utility vehicles ( suv ##s ) . this is because of possible mal ##fu ##nction ##s with the braking systems . the affected vehicles in the product recall are from the 2004 and 2005 model years , gm said . those vehicles with potential faults are the chevrolet avalanche , express , ko ##dia ##k , silver ##ade and suburban ; the gm ##c sava ##na , ______ ___ _____ _ ___ __ _____ said a pressure acc ##um ##ulator in the braking system could _____ during normal driving ___ _________ _____ __ ______ people if the hood was open . this could allow hydraulic fluid to leak , which could make it ______ __ brake __ _____ and _____ _____ a crash , it ______ . gm is also recalling 19 , 92 ##4 cadillac xl ##r coupe ##s , sr ##x suv ##s and pontiac grand prix sedan ##s from the 2004 model year . this is because the accelerator pedal may not work properly in extremely cold temperatures , requiring more braking . in addition , the car giant is calling back 17 , 81 ##5 buick rani ##ers , chevrolet trail ##bla ##zers , gm ##c envoy ##s and is ##uz ##u as ##cend ##ers from the 2005 model years because the windshield is not properly fitted and could fall out in a crash . however , gm stressed that it did not know of any injuries related to the problems . news of the recall follows an announcement last month that gm expects earnings this year be lower than in 2004 . the world ' s biggest car maker is gr ##app ##ling with losses in its european business , weak us sales and now a product recall . in january , gm said higher healthcare costs in north america , and lower profits at its financial services subsidiary would hurt its performance in 2005 _
+2021-12-19 01:41:18,521 [INFO] ******************************************************************************************
+2021-12-19 01:41:18,522 [INFO] #  7 | ORIGINAL | CLASS 4 | open source leaders slam patents the war of words between microsoft and the open source movement heated up this week as linux founder lin ##us tor ##val ##ds led an attack on software patents . in a panel discussion at a linux summit in california mr tor ##val ##ds said software patents were a problem for the open source movement . mitchell ka ##por , chairman of the mo ##zi ##lla foundation , warned that microsoft could use patent lawsuits in the future . linux is a freely - available alternative to microsoft ' s windows . it relies on a community of programmers for its development and is based on open source principles , which allow others to use and modify it without having to pay licence fees . the attack on software patents comes at a time when ibm has made 500 of its patents freely available . other companies are expected to follow suit . there are between 150 , 000 and 300 , 000 registered software patents in the us and open source developers argue that many should never have been granted . this is a view co ##rro ##bor ##ated by the uk patent office . ` ` some of the patents have dubious validity and are being wi ##eld ##ed by some big companies to force smaller companies to buy licenses in the knowledge that they ca n ' t afford to take them to court , ' ' said dr jeremy phil ##pot ##t of the uk patent office . some panel members are worried that microsoft would issue a series of patent lawsuits in the future . ` ` if totally pushed to the wall - because their business model no longer holds up in an era in which open source is an economically superior way to produce software . . . of course they ' re going to un ##lea ##sh the w ##md ##s , ' ' mr ka ##por is reported as saying . microsoft did not want to comment directly , referring the issue instead to trade body intellect , of which it is a member . ` ` as far as intellect is concerned , open source and patents have co - existed for many years without problems , ' ' said spoke ##sw ##oman jill sutherland . ` ` the industry respects the open source movement and in fact many of the members we represent use the open source system to develop software , ' ' ` ` we think the important point to make is that companies should be able to choose between patents , copyright ##s and open source as to the treatment of their intellectual discoveries , and not be forced into using one or the other , ' ' she added .
+2021-12-19 01:41:18,524 [INFO] #  7 |  MASKED  | CLASS 4 | open source leaders slam patents the war of words between microsoft and the open source movement heated up this week as linux founder lin ##us tor ##val ##ds led an attack on software patents . in a panel discussion at a linux summit in california mr tor ##val ##ds said software patents were a problem for the open source movement . mitchell ka ##por , chairman of the mo ##zi ##lla foundation , warned that microsoft could use patent lawsuits in the future . linux is a freely - available alternative to microsoft ' s windows . it relies on a community of programmers for its development and is based on open source principles , which allow others to use and modify it without having to pay licence fees . the attack on software patents comes at a time when ibm has made 500 of its patents freely available . other companies are expected to follow suit . there are between 150 , 000 and 300 , 000 registered software patents in the us and open source __________ _____ ____ ____ ______ _____ ____ been _______ . this is a view co ##rro ##bor ##ated by the uk patent office . ` ` some of the patents have dubious validity and are being wi ##eld ##ed by some big companies to force smaller companies to buy licenses in the knowledge that they ca n ' t afford to take them to court , ' ' said dr jeremy phil ##pot ##t of the uk patent office . some panel members are worried that microsoft would issue a series of patent lawsuits in the future . ` ` if totally pushed to the wall - because their business model no longer holds up in an era in which open source is an economically superior way to produce software . . . of course they ' re going to un ##lea ##sh the w ##md ##s , ' ' mr ka ##por is reported as saying . microsoft did not want to comment directly , referring the issue instead to trade body intellect , of which it is a member . ` ` as far as intellect is concerned , open source and patents have co - existed for many years without problems , ' ' said spoke ##sw ##oman jill sutherland . ` ` the industry respects the open source movement and in fact many of the members we represent use the open source system to develop software , ' ' ` ` we think the important point to make is that companies should be able to choose between patents , copyright ##s and open source as to the treatment of their intellectual discoveries , and not be forced into using one or ___ _____ _ _ _ ___ _____ _
+2021-12-19 01:41:18,524 [INFO] ******************************************************************************************
+2021-12-19 01:41:18,525 [INFO] #  8 | ORIGINAL | CLASS 2 | child access law shake - up planned parents who refuse to allow former partners contact with their children could be electronically tagged under plans being considered by ministers . cu ##rf ##ew ##s and community service orders were other options which could be used if court orders to allow parental access were def ##ied , lord falcon ##er said . the constitutional affairs secretary outlined some of the plans on tuesday . he denied fathers ' activists had forced the changes , telling the bbc ` ` there is a recognition that something is wrong ' ' . between 15 , 000 and 20 , 000 couples go to court to resolve access disputes each year , although in nine out of 10 separation ##s there is no court intervention . lord falcon ##er told bbc radio 4 ' s today programme he hoped voluntary mediation could help solve disputes before they reached court . but he opposed compulsory mediation , saying that it would lead to many people taking part with the wrong attitude . other plans include : - parenting plans to give advice on access arrangements , based on real - life examples that have worked in the past - extending in - court con ##ci ##lia ##tion - more informal hearings before contested court cases - better access to legal , emotional and practical advice by telephone and internet - legal aid changes to give incentives for early resolution of disputes . judges can already jail parents who breach contact orders but that was a ` ` nuclear option ' ' which was rarely used as it was not seen as being in the child ' s interests , a spokesman said . the aim of the new legislation was to provide a ` ` medium range ' ' of penalties , such as fines , community service orders , compulsory anger management or parenting classes or cu ##rf ##ew ##s . failure to comply with these measures could result in offenders being electronically tagged . on the possibility of tag ##ging un ##co ##oper ##ative parents , lord falcon ##er said : ` ` tag ##ging may be going too far , but let ' s have a debate about that . ' ' full details of the new powers will not be revealed until a bill is published ` ` in the next two weeks , ' ' a spokesman said . the government ' s proposals have met with disapproval from fathers ' rights groups . john iso ##n , from the controversial group fathers 4 justice , said : ` ` it is very disappointing . what we have got is a cynical case of recycling existing legislation . ' ' jim part ##on , from families need fathers , said the new proposals ` ` lacked compulsion ' ' . ` ` we would like to see couples develop a plan and then have it as a source of a court order - then you know where you stand , you
+2021-12-19 01:41:18,525 [INFO] #  8 |  MASKED  | CLASS 2 | _____ ______ ___ _____ _ __ _______ _______ ___ ______ __ _____ ______ ________ _______ with their ________ _____ be electronically ______ _____ _____ _____ __________ __ _________ . cu ##rf ##ew ##s and community service orders were other options which could be used if court orders to allow parental access were def ##ied , lord falcon ##er said . the constitutional affairs secretary outlined some of the plans on tuesday . he denied fathers ' activists had forced the changes , telling the bbc ` ` there is a recognition that something is wrong ' ' . between 15 , 000 and 20 , 000 couples go to court to resolve access disputes each year , although in nine out of 10 separation ##s there is no court ____________ _ ____ ______ ##er ____ ___ _____ _ _ _ _____ _________ __ _____ _________ _________ _____ ____ _____ ________ ______ ____ _______ _____ _ ___ __ _______ __________ _________ _ ______ that it _____ lead __ many ______ ______ ____ ____ the _____ ________ _ _____ _____ _______ _ _ _________ _____ __ give ______ on access arrangements , based on real - life examples that have worked in the past - extending in - court con ##ci ##lia ##tion - more informal hearings before contested court cases - better access to legal , emotional and practical advice by telephone and internet - legal aid changes to give incentives for early resolution of disputes . judges can already jail parents who breach contact orders but that was a ` ` nuclear option ' ' which was rarely used as it was not seen as being in the child ' s interests , a spokesman said . the aim of the new legislation was to provide a ` ` medium range ' ' of penalties , such as fines , community service orders , compulsory anger management or parenting classes or cu ##rf ##ew ##s . failure to comply with these measures could result in offenders being electronically tagged . on the possibility of tag ##ging un ##co ##oper ##ative parents , lord falcon ##er said : ` ` tag ##ging may be going too far , but let ' s have a debate about that . ' ' full details of the new powers will not be revealed until a bill is published _ _ __ ___ ____ ___ _____ _ _ _ _ _________ ____ _ the government _ s proposals ____ ___ ____ disapproval from fathers ' rights groups . john iso ##n , from the controversial group fathers 4 justice , said : ` ` it is very disappointing . what we have got is a cynical case of recycling existing legislation . ' ' jim part ##on , from families ____ _______ , said the new _________ _ _ ______ __________ _ _ . _ _ we would like to see couples develop a plan and then have it as a source of a court order - then you know where you stand , ___
+2021-12-19 01:41:18,525 [INFO] ******************************************************************************************
+2021-12-19 01:41:18,526 [INFO] #  9 | ORIGINAL | CLASS 3 | dal ##lag ##lio his own man to the end controversy and lawrence dal ##lag ##lio have never been very far away from each other throughout a glittering international career . even the end of his nine - year career came out of the blue , just four days before the start of the season . but then dal ##lag ##lio has always been his own man . ever since emerging onto the international scene dal ##lag ##lio has polar ##ised opinions . to supporters of england , dal ##lag ##lio could do no wrong . an integral part of a sustained period of success for england , dal ##lag ##lio ' s crown ##ing glory was his part in the side that won the rugby world cup in 2003 . rival fans , meanwhile , have tended to take an alternative view , seeing dal ##lag ##lio as the ep ##ito ##me of the less agree ##able characteristics of english rugby . never afraid to speak his mind , be it to the referee or the opposition on the pitch , or his coach or the media off it , dal ##lag ##lio has sometimes rubbed people up the wrong way . dal ##lag ##lio arrived as part of the un ##her ##ald ##ed england side which became the shock winners of the first rugby sevens world cup in 1993 . it took him another two years to graduate to the full england xv , but once there he proved to the manor born . displaying maturity and physical power beyond his years , dal ##lag ##lio rapidly established himself as an automatic choice able to play any one of the three back - row positions at international standard . within two years of his debut , dal ##lag ##lio was offered the england captain ' s band , and his career continued to go from strength to strength as he made the 1997 lions tour to south africa . although overlooked for the captain ##cy in favour of england team - mate martin johnson , he played a massive role in the 2 - 1 series victory . but after building up a seemingly un ##sto ##ppa ##ble momentum , dal ##lag ##lio ' s career hit the buffer ##s at speed in 1999 . first came the last - minute defeat to wales in which dal ##lag ##lio ' s decision not to kick for goal in the dying minutes was blamed for costing england a grand slam . worse was to follow though as an infamous newspaper sting cost him his treasure ##d england captain ##cy . with sensation ##al allegations of drug use - of which he was subsequently cleared - splashed across the front pages , a devastated dal ##lag ##lio stepped down as england skipper . but he bounced back , getting his head down at club level before returning to the england fold , albeit now as a lieutenant to new captain johnson . as a member of a new - look england
+2021-12-19 01:41:18,527 [INFO] #  9 |  MASKED  | CLASS 3 | ___ _____ _____ ___ ___ ___ __ ___ ___ ___________ ___ ________ ___ _____ _____ ____ _____ ____ ____ ___ ____ ____ ____ _____ __________ _ __________ _____________ ______ . even the end of ___ nine - year ______ came out of the blue , just four days before the start of the season . but then dal ##lag ##lio has always been his own man . ever since emerging onto the international scene dal ##lag ##lio has polar ##ised opinions . to supporters of england , dal ##lag ##lio could do no wrong . an integral part of a sustained period of success for england , dal ##lag ##lio ' s crown ##ing glory was his part in the side that won the _____ _____ ___ in 2003 _ _____ ____ , _________ _ ____ ______ __ ____ an ___________ view _ ______ ___ _____ _____ __ ___ __ _____ ____ __ ___ ____ _____ ______ _______________ __ _______ _____ _ _____ ______ __ _____ his mind , be it __ ___ _______ or ___ __________ on the pitch , or his coach or the media off it , ___ ##lag ##lio has sometimes rubbed people up the wrong way . dal ##lag ##lio arrived as part of the un ##her ##ald ##ed england side which became the shock winners of the first rugby sevens world cup in 1993 . it took him another two years to graduate to the full england xv , but once there he proved to the manor born . displaying maturity and physical power beyond his years , dal ##lag ##lio rapidly established himself as an automatic choice able to play any one of the three back - row positions at international standard . within two years of his debut , dal ##lag ##lio was offered the england captain ' s band , and his career continued to go from strength to strength as he made the 1997 _____ tour to south africa . although overlooked for the captain ##cy in favour of england team - mate martin johnson , he played a massive role in the 2 - 1 series victory . but after building up a seemingly un ##sto ##ppa ##ble momentum , dal ##lag ##lio ' s career hit the buffer ##s at speed in 1999 . first ____ ___ ____ _ ______ ______ __ _____ __ _____ ___ _____ _____ _ _ ________ ___ __ ____ ___ ____ __ ___ _____ _______ ___ ______ ___ _______ _______ a grand slam . worse was to follow though as an infamous newspaper sting cost him his treasure ##d england captain ##cy . with sensation ##al allegations of drug use - of which he was subsequently cleared - splashed across the front _____ _ _ __________ ___ _____ _____ _______ ____ __ _______ _______ _ ___ __ _______ back , getting his head down at club level before returning to the _______ fold , albeit now as a lieutenant to new _______ johnson . as a member of a new _ ____ _______
+2021-12-19 01:41:18,527 [INFO] ******************************************************************************************
+2021-12-19 01:41:18,527 [INFO] ******************************************************************************************
+2021-12-19 01:41:19,743 [INFO] Model saved to ==> /content/models/articles/model_distilbert_base_uncased.pt

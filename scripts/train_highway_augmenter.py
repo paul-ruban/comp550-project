@@ -100,13 +100,13 @@ HYPERPARAMETER_GRID = {
     "lr": [0.001],
     "num_epochs": [100],
     "max_seq_length": [512],
-    "early_stopping_threshold": [25],
+    "early_stopping_threshold": [10],
     "batch_size": [32],
     # h-params for masking RNN
     "masker_model_type": ["lstm"],
-    "masker_hidden_dim": [256, 512, 768],
+    "masker_hidden_dim": [512], # [256, 512, 768]
     "masker_num_layers": [1],
-    "masker_dropout": [0.2, 0.5],
+    "masker_dropout": [0.5], # [0.2, 0.5]
     "masker_bidirectional": [True],
     # h-params for classifier RNN
     "cls_model_type": ["lstm"],
@@ -222,15 +222,16 @@ def train_models(data_type):
                         ext_feat_size=1
                     ),
                     max_seq_length=hyperparam["max_seq_length"],
-                    glu=GLU(
-                            hidden_dim=bert_model.embeddings.word_embeddings.embedding_dim, 
-                            activation=torch.sigmoid)
+                    # glu=GLU(
+                    #         hidden_dim=bert_model.embeddings.word_embeddings.embedding_dim, 
+                    #         activation=torch.sigmoid)
                 )
             logger.info(f"Model created...")
             optimizer = torch.optim.Adam(
                 params=[{"params": model.masker.parameters()},
                         {"params": model.classifier.parameters()}],
-                lr=hyperparam["lr"]       
+                lr=hyperparam["lr"],
+                weight_decay=1e-5
             )
             loss = torch.nn.CrossEntropyLoss()
             # Train the model
