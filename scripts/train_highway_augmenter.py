@@ -104,9 +104,9 @@ HYPERPARAMETER_GRID = {
     "batch_size": [32],
     # h-params for masking RNN
     "masker_model_type": ["lstm"],
-    "masker_hidden_dim": [512], # [256, 512, 768]
+    "masker_hidden_dim": [768], # [256, 512, 768]
     "masker_num_layers": [1],
-    "masker_dropout": [0.5], # [0.2, 0.5]
+    "masker_dropout": [0.2], # [0.2, 0.5]
     "masker_bidirectional": [True],
     # h-params for classifier RNN
     "cls_model_type": ["lstm"],
