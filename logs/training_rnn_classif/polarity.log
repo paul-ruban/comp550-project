@@ -11657,3 +11657,1484 @@ weighted avg       0.74      0.73      0.73      1067
  [203 340]]
 2021-12-12 03:16:59,424 [INFO] ***********************************************************
 2021-12-12 03:17:02,841 [INFO] Model saved to ==> /home/mila/c/cesare.spinoso/scratch/datasets_550/polarity/augmentation_13/rnn_classif_distilbert_base_uncased.pt
+2021-12-17 19:05:49,364 [INFO] ------------------------------------------------------------------------------------------------------------------------
+2021-12-17 19:05:49,366 [INFO] Training models for polarity
+2021-12-17 19:05:49,367 [INFO] ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2021-12-17 19:05:49,368 [INFO] Starting training for polarity with augmentation 1
+2021-12-17 19:05:49,369 [INFO] Augmentation features: {'num_samples': 5, 'augmentation_type': 'random_swap', 'aug_max': None, 'aug_p': 0.25}
+2021-12-17 19:05:49,370 [INFO] ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2021-12-17 19:05:49,371 [INFO] Starting training using the HuggingFace model distilbert-base-uncased
+2021-12-17 19:05:52,468 [INFO] Done loading all the datasets
+2021-12-17 19:05:52,469 [INFO] ============================================================
+2021-12-17 19:05:52,470 [INFO] Starting training with the following hyperparameters: {'batch_size': 32, 'bidirectional': True, 'dropout': 0.2, 'hidden_dim': 256, 'lr': 0.001, 'model_type': 'lstm', 'num_epochs': 100, 'num_layers': 1}
+2021-12-17 19:05:52,491 [INFO] ===========================================================
+2021-12-17 19:05:52,492 [INFO] Training model RNNClassifier(
+  (embedding): Embedding(30522, 768, padding_idx=0)
+  (rnn): LSTM(768, 256, batch_first=True, dropout=0.2, bidirectional=True)
+  (dropout): Dropout(p=0.2, inplace=False)
+  (fc): Linear(in_features=512, out_features=2, bias=True)
+)
+2021-12-17 19:05:52,493 [INFO] ***********************************************************
+2021-12-17 19:05:52,493 [INFO] Training epoch 0
+2021-12-17 19:06:05,534 [INFO] | epoch   0 |    50/ 1600 batches | training accuracy    0.519
+2021-12-17 19:06:06,599 [INFO] | epoch   0 |   100/ 1600 batches | training accuracy    0.632
+2021-12-17 19:06:07,661 [INFO] | epoch   0 |   150/ 1600 batches | training accuracy    0.705
+2021-12-17 19:06:08,742 [INFO] | epoch   0 |   200/ 1600 batches | training accuracy    0.776
+2021-12-17 19:06:09,816 [INFO] | epoch   0 |   250/ 1600 batches | training accuracy    0.797
+2021-12-17 19:06:10,872 [INFO] | epoch   0 |   300/ 1600 batches | training accuracy    0.812
+2021-12-17 19:06:11,927 [INFO] | epoch   0 |   350/ 1600 batches | training accuracy    0.851
+2021-12-17 19:06:13,000 [INFO] | epoch   0 |   400/ 1600 batches | training accuracy    0.837
+2021-12-17 19:06:14,045 [INFO] | epoch   0 |   450/ 1600 batches | training accuracy    0.882
+2021-12-17 19:06:15,096 [INFO] | epoch   0 |   500/ 1600 batches | training accuracy    0.898
+2021-12-17 19:06:16,151 [INFO] | epoch   0 |   550/ 1600 batches | training accuracy    0.892
+2021-12-17 19:06:17,217 [INFO] | epoch   0 |   600/ 1600 batches | training accuracy    0.912
+2021-12-17 19:06:18,274 [INFO] | epoch   0 |   650/ 1600 batches | training accuracy    0.914
+2021-12-17 19:06:19,415 [INFO] | epoch   0 |   700/ 1600 batches | training accuracy    0.922
+2021-12-17 19:06:20,594 [INFO] | epoch   0 |   750/ 1600 batches | training accuracy    0.934
+2021-12-17 19:06:21,795 [INFO] | epoch   0 |   800/ 1600 batches | training accuracy    0.934
+2021-12-17 19:06:22,995 [INFO] | epoch   0 |   850/ 1600 batches | training accuracy    0.949
+2021-12-17 19:06:24,192 [INFO] | epoch   0 |   900/ 1600 batches | training accuracy    0.952
+2021-12-17 19:06:25,407 [INFO] | epoch   0 |   950/ 1600 batches | training accuracy    0.957
+2021-12-17 19:06:26,629 [INFO] | epoch   0 |  1000/ 1600 batches | training accuracy    0.965
+2021-12-17 19:06:27,816 [INFO] | epoch   0 |  1050/ 1600 batches | training accuracy    0.965
+2021-12-17 19:06:29,034 [INFO] | epoch   0 |  1100/ 1600 batches | training accuracy    0.958
+2021-12-17 19:06:30,229 [INFO] | epoch   0 |  1150/ 1600 batches | training accuracy    0.971
+2021-12-17 19:06:31,437 [INFO] | epoch   0 |  1200/ 1600 batches | training accuracy    0.973
+2021-12-17 19:06:32,613 [INFO] | epoch   0 |  1250/ 1600 batches | training accuracy    0.973
+2021-12-17 19:06:33,793 [INFO] | epoch   0 |  1300/ 1600 batches | training accuracy    0.979
+2021-12-17 19:06:34,976 [INFO] | epoch   0 |  1350/ 1600 batches | training accuracy    0.978
+2021-12-17 19:06:36,100 [INFO] | epoch   0 |  1400/ 1600 batches | training accuracy    0.980
+2021-12-17 19:06:37,159 [INFO] | epoch   0 |  1450/ 1600 batches | training accuracy    0.984
+2021-12-17 19:06:38,358 [INFO] | epoch   0 |  1500/ 1600 batches | training accuracy    0.981
+2021-12-17 19:06:39,533 [INFO] | epoch   0 |  1550/ 1600 batches | training accuracy    0.985
+2021-12-17 19:06:41,075 [INFO] ***********************************************************
+2021-12-17 19:06:41,076 [INFO] | end of epoch   0 valid accuracy    0.742 and f1 score    0.742
+2021-12-17 19:06:41,076 [INFO] ***********************************************************
+2021-12-17 19:06:41,086 [INFO] ***********************************************************
+2021-12-17 19:06:41,087 [INFO] Training epoch 1
+2021-12-17 19:06:42,191 [INFO] | epoch   1 |    50/ 1600 batches | training accuracy    0.993
+2021-12-17 19:06:43,254 [INFO] | epoch   1 |   100/ 1600 batches | training accuracy    0.992
+2021-12-17 19:06:44,317 [INFO] | epoch   1 |   150/ 1600 batches | training accuracy    0.993
+2021-12-17 19:06:45,379 [INFO] | epoch   1 |   200/ 1600 batches | training accuracy    0.990
+2021-12-17 19:06:46,478 [INFO] | epoch   1 |   250/ 1600 batches | training accuracy    0.984
+2021-12-17 19:06:47,674 [INFO] | epoch   1 |   300/ 1600 batches | training accuracy    0.991
+2021-12-17 19:06:48,888 [INFO] | epoch   1 |   350/ 1600 batches | training accuracy    0.991
+2021-12-17 19:06:50,089 [INFO] | epoch   1 |   400/ 1600 batches | training accuracy    0.989
+2021-12-17 19:06:51,280 [INFO] | epoch   1 |   450/ 1600 batches | training accuracy    0.993
+2021-12-17 19:06:52,484 [INFO] | epoch   1 |   500/ 1600 batches | training accuracy    0.994
+2021-12-17 19:06:53,675 [INFO] | epoch   1 |   550/ 1600 batches | training accuracy    0.996
+2021-12-17 19:06:54,871 [INFO] | epoch   1 |   600/ 1600 batches | training accuracy    0.997
+2021-12-17 19:06:56,066 [INFO] | epoch   1 |   650/ 1600 batches | training accuracy    0.996
+2021-12-17 19:06:57,257 [INFO] | epoch   1 |   700/ 1600 batches | training accuracy    0.998
+2021-12-17 19:06:58,450 [INFO] | epoch   1 |   750/ 1600 batches | training accuracy    0.991
+2021-12-17 19:06:59,643 [INFO] | epoch   1 |   800/ 1600 batches | training accuracy    0.994
+2021-12-17 19:07:00,838 [INFO] | epoch   1 |   850/ 1600 batches | training accuracy    0.992
+2021-12-17 19:07:02,053 [INFO] | epoch   1 |   900/ 1600 batches | training accuracy    0.989
+2021-12-17 19:07:03,243 [INFO] | epoch   1 |   950/ 1600 batches | training accuracy    0.996
+2021-12-17 19:07:04,451 [INFO] | epoch   1 |  1000/ 1600 batches | training accuracy    0.998
+2021-12-17 19:07:05,641 [INFO] | epoch   1 |  1050/ 1600 batches | training accuracy    0.996
+2021-12-17 19:07:06,843 [INFO] | epoch   1 |  1100/ 1600 batches | training accuracy    0.995
+2021-12-17 19:07:08,034 [INFO] | epoch   1 |  1150/ 1600 batches | training accuracy    0.996
+2021-12-17 19:07:09,238 [INFO] | epoch   1 |  1200/ 1600 batches | training accuracy    0.998
+2021-12-17 19:07:10,442 [INFO] | epoch   1 |  1250/ 1600 batches | training accuracy    0.998
+2021-12-17 19:07:11,636 [INFO] | epoch   1 |  1300/ 1600 batches | training accuracy    0.994
+2021-12-17 19:07:12,864 [INFO] | epoch   1 |  1350/ 1600 batches | training accuracy    0.997
+2021-12-17 19:07:14,050 [INFO] | epoch   1 |  1400/ 1600 batches | training accuracy    0.996
+2021-12-17 19:07:15,145 [INFO] | epoch   1 |  1450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:07:16,202 [INFO] | epoch   1 |  1500/ 1600 batches | training accuracy    0.998
+2021-12-17 19:07:17,251 [INFO] | epoch   1 |  1550/ 1600 batches | training accuracy    0.996
+2021-12-17 19:07:18,652 [INFO] ***********************************************************
+2021-12-17 19:07:18,653 [INFO] | end of epoch   1 valid accuracy    0.735 and f1 score    0.735
+2021-12-17 19:07:18,654 [INFO] ***********************************************************
+2021-12-17 19:07:18,654 [INFO] ***********************************************************
+2021-12-17 19:07:18,655 [INFO] Training epoch 2
+2021-12-17 19:07:19,734 [INFO] | epoch   2 |    50/ 1600 batches | training accuracy    0.999
+2021-12-17 19:07:20,783 [INFO] | epoch   2 |   100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:07:21,835 [INFO] | epoch   2 |   150/ 1600 batches | training accuracy    0.999
+2021-12-17 19:07:22,911 [INFO] | epoch   2 |   200/ 1600 batches | training accuracy    0.999
+2021-12-17 19:07:24,062 [INFO] | epoch   2 |   250/ 1600 batches | training accuracy    0.999
+2021-12-17 19:07:25,233 [INFO] | epoch   2 |   300/ 1600 batches | training accuracy    0.999
+2021-12-17 19:07:26,406 [INFO] | epoch   2 |   350/ 1600 batches | training accuracy    0.999
+2021-12-17 19:07:27,589 [INFO] | epoch   2 |   400/ 1600 batches | training accuracy    0.998
+2021-12-17 19:07:28,790 [INFO] | epoch   2 |   450/ 1600 batches | training accuracy    0.999
+2021-12-17 19:07:29,983 [INFO] | epoch   2 |   500/ 1600 batches | training accuracy    0.999
+2021-12-17 19:07:31,170 [INFO] | epoch   2 |   550/ 1600 batches | training accuracy    0.999
+2021-12-17 19:07:32,352 [INFO] | epoch   2 |   600/ 1600 batches | training accuracy    0.998
+2021-12-17 19:07:33,546 [INFO] | epoch   2 |   650/ 1600 batches | training accuracy    0.998
+2021-12-17 19:07:34,742 [INFO] | epoch   2 |   700/ 1600 batches | training accuracy    0.999
+2021-12-17 19:07:35,942 [INFO] | epoch   2 |   750/ 1600 batches | training accuracy    0.998
+2021-12-17 19:07:37,156 [INFO] | epoch   2 |   800/ 1600 batches | training accuracy    0.999
+2021-12-17 19:07:38,358 [INFO] | epoch   2 |   850/ 1600 batches | training accuracy    1.000
+2021-12-17 19:07:39,564 [INFO] | epoch   2 |   900/ 1600 batches | training accuracy    0.999
+2021-12-17 19:07:40,778 [INFO] | epoch   2 |   950/ 1600 batches | training accuracy    0.999
+2021-12-17 19:07:41,975 [INFO] | epoch   2 |  1000/ 1600 batches | training accuracy    0.999
+2021-12-17 19:07:43,182 [INFO] | epoch   2 |  1050/ 1600 batches | training accuracy    1.000
+2021-12-17 19:07:44,384 [INFO] | epoch   2 |  1100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:07:45,592 [INFO] | epoch   2 |  1150/ 1600 batches | training accuracy    0.999
+2021-12-17 19:07:46,795 [INFO] | epoch   2 |  1200/ 1600 batches | training accuracy    0.999
+2021-12-17 19:07:47,980 [INFO] | epoch   2 |  1250/ 1600 batches | training accuracy    0.999
+2021-12-17 19:07:49,160 [INFO] | epoch   2 |  1300/ 1600 batches | training accuracy    0.998
+2021-12-17 19:07:50,369 [INFO] | epoch   2 |  1350/ 1600 batches | training accuracy    0.999
+2021-12-17 19:07:51,580 [INFO] | epoch   2 |  1400/ 1600 batches | training accuracy    0.991
+2021-12-17 19:07:52,795 [INFO] | epoch   2 |  1450/ 1600 batches | training accuracy    0.995
+2021-12-17 19:07:54,023 [INFO] | epoch   2 |  1500/ 1600 batches | training accuracy    0.997
+2021-12-17 19:07:55,214 [INFO] | epoch   2 |  1550/ 1600 batches | training accuracy    0.998
+2021-12-17 19:07:56,775 [INFO] ***********************************************************
+2021-12-17 19:07:56,776 [INFO] | end of epoch   2 valid accuracy    0.731 and f1 score    0.731
+2021-12-17 19:07:56,777 [INFO] ***********************************************************
+2021-12-17 19:07:56,777 [INFO] ***********************************************************
+2021-12-17 19:07:56,778 [INFO] Training epoch 3
+2021-12-17 19:07:58,035 [INFO] | epoch   3 |    50/ 1600 batches | training accuracy    0.998
+2021-12-17 19:07:59,258 [INFO] | epoch   3 |   100/ 1600 batches | training accuracy    0.999
+2021-12-17 19:08:00,511 [INFO] | epoch   3 |   150/ 1600 batches | training accuracy    0.999
+2021-12-17 19:08:01,736 [INFO] | epoch   3 |   200/ 1600 batches | training accuracy    0.999
+2021-12-17 19:08:02,976 [INFO] | epoch   3 |   250/ 1600 batches | training accuracy    0.999
+2021-12-17 19:08:04,204 [INFO] | epoch   3 |   300/ 1600 batches | training accuracy    0.999
+2021-12-17 19:08:05,393 [INFO] | epoch   3 |   350/ 1600 batches | training accuracy    0.999
+2021-12-17 19:08:06,597 [INFO] | epoch   3 |   400/ 1600 batches | training accuracy    0.997
+2021-12-17 19:08:07,850 [INFO] | epoch   3 |   450/ 1600 batches | training accuracy    0.999
+2021-12-17 19:08:09,108 [INFO] | epoch   3 |   500/ 1600 batches | training accuracy    0.999
+2021-12-17 19:08:10,333 [INFO] | epoch   3 |   550/ 1600 batches | training accuracy    0.997
+2021-12-17 19:08:11,557 [INFO] | epoch   3 |   600/ 1600 batches | training accuracy    0.998
+2021-12-17 19:08:12,807 [INFO] | epoch   3 |   650/ 1600 batches | training accuracy    0.998
+2021-12-17 19:08:14,029 [INFO] | epoch   3 |   700/ 1600 batches | training accuracy    0.998
+2021-12-17 19:08:15,259 [INFO] | epoch   3 |   750/ 1600 batches | training accuracy    0.999
+2021-12-17 19:08:16,463 [INFO] | epoch   3 |   800/ 1600 batches | training accuracy    0.999
+2021-12-17 19:08:17,695 [INFO] | epoch   3 |   850/ 1600 batches | training accuracy    1.000
+2021-12-17 19:08:18,919 [INFO] | epoch   3 |   900/ 1600 batches | training accuracy    0.999
+2021-12-17 19:08:20,113 [INFO] | epoch   3 |   950/ 1600 batches | training accuracy    1.000
+2021-12-17 19:08:21,337 [INFO] | epoch   3 |  1000/ 1600 batches | training accuracy    1.000
+2021-12-17 19:08:22,560 [INFO] | epoch   3 |  1050/ 1600 batches | training accuracy    1.000
+2021-12-17 19:08:23,773 [INFO] | epoch   3 |  1100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:08:24,986 [INFO] | epoch   3 |  1150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:08:26,206 [INFO] | epoch   3 |  1200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:08:27,428 [INFO] | epoch   3 |  1250/ 1600 batches | training accuracy    0.999
+2021-12-17 19:08:28,668 [INFO] | epoch   3 |  1300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:08:29,879 [INFO] | epoch   3 |  1350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:08:31,111 [INFO] | epoch   3 |  1400/ 1600 batches | training accuracy    0.999
+2021-12-17 19:08:32,320 [INFO] | epoch   3 |  1450/ 1600 batches | training accuracy    0.999
+2021-12-17 19:08:33,548 [INFO] | epoch   3 |  1500/ 1600 batches | training accuracy    0.999
+2021-12-17 19:08:34,763 [INFO] | epoch   3 |  1550/ 1600 batches | training accuracy    0.999
+2021-12-17 19:08:36,317 [INFO] ***********************************************************
+2021-12-17 19:08:36,318 [INFO] | end of epoch   3 valid accuracy    0.733 and f1 score    0.733
+2021-12-17 19:08:36,319 [INFO] ***********************************************************
+2021-12-17 19:08:36,320 [INFO] ***********************************************************
+2021-12-17 19:08:36,320 [INFO] Training epoch 4
+2021-12-17 19:08:37,560 [INFO] | epoch   4 |    50/ 1600 batches | training accuracy    1.000
+2021-12-17 19:08:38,766 [INFO] | epoch   4 |   100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:08:40,003 [INFO] | epoch   4 |   150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:08:41,212 [INFO] | epoch   4 |   200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:08:42,427 [INFO] | epoch   4 |   250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:08:43,633 [INFO] | epoch   4 |   300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:08:44,871 [INFO] | epoch   4 |   350/ 1600 batches | training accuracy    0.999
+2021-12-17 19:08:46,091 [INFO] | epoch   4 |   400/ 1600 batches | training accuracy    0.999
+2021-12-17 19:08:47,311 [INFO] | epoch   4 |   450/ 1600 batches | training accuracy    0.999
+2021-12-17 19:08:48,548 [INFO] | epoch   4 |   500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:08:49,766 [INFO] | epoch   4 |   550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:08:50,985 [INFO] | epoch   4 |   600/ 1600 batches | training accuracy    1.000
+2021-12-17 19:08:52,204 [INFO] | epoch   4 |   650/ 1600 batches | training accuracy    1.000
+2021-12-17 19:08:53,444 [INFO] | epoch   4 |   700/ 1600 batches | training accuracy    1.000
+2021-12-17 19:08:54,664 [INFO] | epoch   4 |   750/ 1600 batches | training accuracy    1.000
+2021-12-17 19:08:55,903 [INFO] | epoch   4 |   800/ 1600 batches | training accuracy    1.000
+2021-12-17 19:08:57,142 [INFO] | epoch   4 |   850/ 1600 batches | training accuracy    1.000
+2021-12-17 19:08:58,386 [INFO] | epoch   4 |   900/ 1600 batches | training accuracy    1.000
+2021-12-17 19:08:59,615 [INFO] | epoch   4 |   950/ 1600 batches | training accuracy    1.000
+2021-12-17 19:09:00,848 [INFO] | epoch   4 |  1000/ 1600 batches | training accuracy    1.000
+2021-12-17 19:09:02,090 [INFO] | epoch   4 |  1050/ 1600 batches | training accuracy    1.000
+2021-12-17 19:09:03,329 [INFO] | epoch   4 |  1100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:09:04,573 [INFO] | epoch   4 |  1150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:09:05,748 [INFO] | epoch   4 |  1200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:09:06,890 [INFO] | epoch   4 |  1250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:09:08,110 [INFO] | epoch   4 |  1300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:09:09,309 [INFO] | epoch   4 |  1350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:09:10,527 [INFO] | epoch   4 |  1400/ 1600 batches | training accuracy    1.000
+2021-12-17 19:09:11,759 [INFO] | epoch   4 |  1450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:09:13,008 [INFO] | epoch   4 |  1500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:09:14,258 [INFO] | epoch   4 |  1550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:09:15,853 [INFO] ***********************************************************
+2021-12-17 19:09:15,855 [INFO] | end of epoch   4 valid accuracy    0.733 and f1 score    0.733
+2021-12-17 19:09:15,855 [INFO] ***********************************************************
+2021-12-17 19:09:15,856 [INFO] ***********************************************************
+2021-12-17 19:09:15,857 [INFO] Training epoch 5
+2021-12-17 19:09:17,021 [INFO] | epoch   5 |    50/ 1600 batches | training accuracy    1.000
+2021-12-17 19:09:18,161 [INFO] | epoch   5 |   100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:09:19,307 [INFO] | epoch   5 |   150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:09:20,530 [INFO] | epoch   5 |   200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:09:21,783 [INFO] | epoch   5 |   250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:09:23,035 [INFO] | epoch   5 |   300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:09:24,281 [INFO] | epoch   5 |   350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:09:25,513 [INFO] | epoch   5 |   400/ 1600 batches | training accuracy    1.000
+2021-12-17 19:09:26,780 [INFO] | epoch   5 |   450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:09:28,010 [INFO] | epoch   5 |   500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:09:29,286 [INFO] | epoch   5 |   550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:09:30,567 [INFO] | epoch   5 |   600/ 1600 batches | training accuracy    1.000
+2021-12-17 19:09:31,861 [INFO] | epoch   5 |   650/ 1600 batches | training accuracy    1.000
+2021-12-17 19:09:33,163 [INFO] | epoch   5 |   700/ 1600 batches | training accuracy    1.000
+2021-12-17 19:09:34,444 [INFO] | epoch   5 |   750/ 1600 batches | training accuracy    1.000
+2021-12-17 19:09:35,707 [INFO] | epoch   5 |   800/ 1600 batches | training accuracy    1.000
+2021-12-17 19:09:36,943 [INFO] | epoch   5 |   850/ 1600 batches | training accuracy    1.000
+2021-12-17 19:09:38,185 [INFO] | epoch   5 |   900/ 1600 batches | training accuracy    1.000
+2021-12-17 19:09:39,440 [INFO] | epoch   5 |   950/ 1600 batches | training accuracy    1.000
+2021-12-17 19:09:40,652 [INFO] | epoch   5 |  1000/ 1600 batches | training accuracy    1.000
+2021-12-17 19:09:41,880 [INFO] | epoch   5 |  1050/ 1600 batches | training accuracy    1.000
+2021-12-17 19:09:43,103 [INFO] | epoch   5 |  1100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:09:44,332 [INFO] | epoch   5 |  1150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:09:45,560 [INFO] | epoch   5 |  1200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:09:46,811 [INFO] | epoch   5 |  1250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:09:48,068 [INFO] | epoch   5 |  1300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:09:49,312 [INFO] | epoch   5 |  1350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:09:50,575 [INFO] | epoch   5 |  1400/ 1600 batches | training accuracy    1.000
+2021-12-17 19:09:51,835 [INFO] | epoch   5 |  1450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:09:53,073 [INFO] | epoch   5 |  1500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:09:54,308 [INFO] | epoch   5 |  1550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:09:55,876 [INFO] ***********************************************************
+2021-12-17 19:09:55,877 [INFO] | end of epoch   5 valid accuracy    0.735 and f1 score    0.734
+2021-12-17 19:09:55,878 [INFO] ***********************************************************
+2021-12-17 19:09:55,879 [INFO] ***********************************************************
+2021-12-17 19:09:55,879 [INFO] Training epoch 6
+2021-12-17 19:09:57,052 [INFO] | epoch   6 |    50/ 1600 batches | training accuracy    1.000
+2021-12-17 19:09:58,334 [INFO] | epoch   6 |   100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:09:59,579 [INFO] | epoch   6 |   150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:10:00,838 [INFO] | epoch   6 |   200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:10:02,072 [INFO] | epoch   6 |   250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:10:03,302 [INFO] | epoch   6 |   300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:10:04,574 [INFO] | epoch   6 |   350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:10:05,814 [INFO] | epoch   6 |   400/ 1600 batches | training accuracy    1.000
+2021-12-17 19:10:07,070 [INFO] | epoch   6 |   450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:10:08,320 [INFO] | epoch   6 |   500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:10:09,535 [INFO] | epoch   6 |   550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:10:10,768 [INFO] | epoch   6 |   600/ 1600 batches | training accuracy    1.000
+2021-12-17 19:10:12,016 [INFO] | epoch   6 |   650/ 1600 batches | training accuracy    1.000
+2021-12-17 19:10:13,284 [INFO] | epoch   6 |   700/ 1600 batches | training accuracy    1.000
+2021-12-17 19:10:14,531 [INFO] | epoch   6 |   750/ 1600 batches | training accuracy    1.000
+2021-12-17 19:10:15,768 [INFO] | epoch   6 |   800/ 1600 batches | training accuracy    1.000
+2021-12-17 19:10:16,999 [INFO] | epoch   6 |   850/ 1600 batches | training accuracy    1.000
+2021-12-17 19:10:18,225 [INFO] | epoch   6 |   900/ 1600 batches | training accuracy    1.000
+2021-12-17 19:10:19,456 [INFO] | epoch   6 |   950/ 1600 batches | training accuracy    1.000
+2021-12-17 19:10:20,675 [INFO] | epoch   6 |  1000/ 1600 batches | training accuracy    1.000
+2021-12-17 19:10:21,896 [INFO] | epoch   6 |  1050/ 1600 batches | training accuracy    1.000
+2021-12-17 19:10:23,084 [INFO] | epoch   6 |  1100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:10:24,287 [INFO] | epoch   6 |  1150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:10:25,536 [INFO] | epoch   6 |  1200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:10:26,792 [INFO] | epoch   6 |  1250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:10:28,037 [INFO] | epoch   6 |  1300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:10:29,152 [INFO] | epoch   6 |  1350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:10:30,405 [INFO] | epoch   6 |  1400/ 1600 batches | training accuracy    1.000
+2021-12-17 19:10:31,640 [INFO] | epoch   6 |  1450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:10:32,891 [INFO] | epoch   6 |  1500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:10:34,164 [INFO] | epoch   6 |  1550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:10:35,739 [INFO] ***********************************************************
+2021-12-17 19:10:35,740 [INFO] | end of epoch   6 valid accuracy    0.732 and f1 score    0.732
+2021-12-17 19:10:35,741 [INFO] ***********************************************************
+2021-12-17 19:10:35,742 [INFO] ***********************************************************
+2021-12-17 19:10:35,743 [INFO] Training epoch 7
+2021-12-17 19:10:36,915 [INFO] | epoch   7 |    50/ 1600 batches | training accuracy    1.000
+2021-12-17 19:10:38,126 [INFO] | epoch   7 |   100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:10:39,347 [INFO] | epoch   7 |   150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:10:40,601 [INFO] | epoch   7 |   200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:10:41,808 [INFO] | epoch   7 |   250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:10:43,027 [INFO] | epoch   7 |   300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:10:44,269 [INFO] | epoch   7 |   350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:10:45,474 [INFO] | epoch   7 |   400/ 1600 batches | training accuracy    1.000
+2021-12-17 19:10:46,711 [INFO] | epoch   7 |   450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:10:47,917 [INFO] | epoch   7 |   500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:10:49,141 [INFO] | epoch   7 |   550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:10:50,356 [INFO] | epoch   7 |   600/ 1600 batches | training accuracy    1.000
+2021-12-17 19:10:51,559 [INFO] | epoch   7 |   650/ 1600 batches | training accuracy    1.000
+2021-12-17 19:10:52,789 [INFO] | epoch   7 |   700/ 1600 batches | training accuracy    1.000
+2021-12-17 19:10:54,009 [INFO] | epoch   7 |   750/ 1600 batches | training accuracy    1.000
+2021-12-17 19:10:55,255 [INFO] | epoch   7 |   800/ 1600 batches | training accuracy    1.000
+2021-12-17 19:10:56,468 [INFO] | epoch   7 |   850/ 1600 batches | training accuracy    1.000
+2021-12-17 19:10:57,675 [INFO] | epoch   7 |   900/ 1600 batches | training accuracy    1.000
+2021-12-17 19:10:58,870 [INFO] | epoch   7 |   950/ 1600 batches | training accuracy    1.000
+2021-12-17 19:11:00,099 [INFO] | epoch   7 |  1000/ 1600 batches | training accuracy    1.000
+2021-12-17 19:11:01,351 [INFO] | epoch   7 |  1050/ 1600 batches | training accuracy    1.000
+2021-12-17 19:11:02,558 [INFO] | epoch   7 |  1100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:11:03,778 [INFO] | epoch   7 |  1150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:11:05,007 [INFO] | epoch   7 |  1200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:11:06,233 [INFO] | epoch   7 |  1250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:11:07,379 [INFO] | epoch   7 |  1300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:11:08,531 [INFO] | epoch   7 |  1350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:11:09,772 [INFO] | epoch   7 |  1400/ 1600 batches | training accuracy    1.000
+2021-12-17 19:11:11,003 [INFO] | epoch   7 |  1450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:11:12,189 [INFO] | epoch   7 |  1500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:11:13,339 [INFO] | epoch   7 |  1550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:11:14,897 [INFO] ***********************************************************
+2021-12-17 19:11:14,898 [INFO] | end of epoch   7 valid accuracy    0.735 and f1 score    0.734
+2021-12-17 19:11:14,899 [INFO] ***********************************************************
+2021-12-17 19:11:14,900 [INFO] ***********************************************************
+2021-12-17 19:11:14,901 [INFO] Training epoch 8
+2021-12-17 19:11:16,131 [INFO] | epoch   8 |    50/ 1600 batches | training accuracy    1.000
+2021-12-17 19:11:17,368 [INFO] | epoch   8 |   100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:11:18,625 [INFO] | epoch   8 |   150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:11:19,856 [INFO] | epoch   8 |   200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:11:21,103 [INFO] | epoch   8 |   250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:11:22,302 [INFO] | epoch   8 |   300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:11:23,511 [INFO] | epoch   8 |   350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:11:24,738 [INFO] | epoch   8 |   400/ 1600 batches | training accuracy    1.000
+2021-12-17 19:11:25,948 [INFO] | epoch   8 |   450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:11:27,120 [INFO] | epoch   8 |   500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:11:28,341 [INFO] | epoch   8 |   550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:11:29,547 [INFO] | epoch   8 |   600/ 1600 batches | training accuracy    1.000
+2021-12-17 19:11:30,762 [INFO] | epoch   8 |   650/ 1600 batches | training accuracy    1.000
+2021-12-17 19:11:31,983 [INFO] | epoch   8 |   700/ 1600 batches | training accuracy    1.000
+2021-12-17 19:11:33,188 [INFO] | epoch   8 |   750/ 1600 batches | training accuracy    1.000
+2021-12-17 19:11:34,398 [INFO] | epoch   8 |   800/ 1600 batches | training accuracy    1.000
+2021-12-17 19:11:35,601 [INFO] | epoch   8 |   850/ 1600 batches | training accuracy    1.000
+2021-12-17 19:11:36,803 [INFO] | epoch   8 |   900/ 1600 batches | training accuracy    1.000
+2021-12-17 19:11:38,039 [INFO] | epoch   8 |   950/ 1600 batches | training accuracy    1.000
+2021-12-17 19:11:39,266 [INFO] | epoch   8 |  1000/ 1600 batches | training accuracy    1.000
+2021-12-17 19:11:40,471 [INFO] | epoch   8 |  1050/ 1600 batches | training accuracy    1.000
+2021-12-17 19:11:41,703 [INFO] | epoch   8 |  1100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:11:42,936 [INFO] | epoch   8 |  1150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:11:44,180 [INFO] | epoch   8 |  1200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:11:45,408 [INFO] | epoch   8 |  1250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:11:46,654 [INFO] | epoch   8 |  1300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:11:47,921 [INFO] | epoch   8 |  1350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:11:49,188 [INFO] | epoch   8 |  1400/ 1600 batches | training accuracy    1.000
+2021-12-17 19:11:50,431 [INFO] | epoch   8 |  1450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:11:51,667 [INFO] | epoch   8 |  1500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:11:52,902 [INFO] | epoch   8 |  1550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:11:54,497 [INFO] ***********************************************************
+2021-12-17 19:11:54,498 [INFO] | end of epoch   8 valid accuracy    0.734 and f1 score    0.733
+2021-12-17 19:11:54,499 [INFO] ***********************************************************
+2021-12-17 19:11:54,500 [INFO] ***********************************************************
+2021-12-17 19:11:54,501 [INFO] Training epoch 9
+2021-12-17 19:11:55,782 [INFO] | epoch   9 |    50/ 1600 batches | training accuracy    1.000
+2021-12-17 19:11:57,016 [INFO] | epoch   9 |   100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:11:58,267 [INFO] | epoch   9 |   150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:11:59,508 [INFO] | epoch   9 |   200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:00,746 [INFO] | epoch   9 |   250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:01,979 [INFO] | epoch   9 |   300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:03,208 [INFO] | epoch   9 |   350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:04,425 [INFO] | epoch   9 |   400/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:05,682 [INFO] | epoch   9 |   450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:06,941 [INFO] | epoch   9 |   500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:08,171 [INFO] | epoch   9 |   550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:09,452 [INFO] | epoch   9 |   600/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:10,696 [INFO] | epoch   9 |   650/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:11,965 [INFO] | epoch   9 |   700/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:13,214 [INFO] | epoch   9 |   750/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:14,426 [INFO] | epoch   9 |   800/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:15,655 [INFO] | epoch   9 |   850/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:16,921 [INFO] | epoch   9 |   900/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:18,181 [INFO] | epoch   9 |   950/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:19,441 [INFO] | epoch   9 |  1000/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:20,688 [INFO] | epoch   9 |  1050/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:21,947 [INFO] | epoch   9 |  1100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:23,208 [INFO] | epoch   9 |  1150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:24,381 [INFO] | epoch   9 |  1200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:25,568 [INFO] | epoch   9 |  1250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:26,800 [INFO] | epoch   9 |  1300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:27,946 [INFO] | epoch   9 |  1350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:29,192 [INFO] | epoch   9 |  1400/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:30,414 [INFO] | epoch   9 |  1450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:31,591 [INFO] | epoch   9 |  1500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:32,792 [INFO] | epoch   9 |  1550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:34,365 [INFO] ***********************************************************
+2021-12-17 19:12:34,366 [INFO] | end of epoch   9 valid accuracy    0.731 and f1 score    0.731
+2021-12-17 19:12:34,367 [INFO] ***********************************************************
+2021-12-17 19:12:34,367 [INFO] ***********************************************************
+2021-12-17 19:12:34,368 [INFO] Training epoch 10
+2021-12-17 19:12:35,459 [INFO] | epoch  10 |    50/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:36,711 [INFO] | epoch  10 |   100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:37,929 [INFO] | epoch  10 |   150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:39,152 [INFO] | epoch  10 |   200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:40,375 [INFO] | epoch  10 |   250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:41,556 [INFO] | epoch  10 |   300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:42,763 [INFO] | epoch  10 |   350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:43,957 [INFO] | epoch  10 |   400/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:45,169 [INFO] | epoch  10 |   450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:46,391 [INFO] | epoch  10 |   500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:47,620 [INFO] | epoch  10 |   550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:48,831 [INFO] | epoch  10 |   600/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:50,046 [INFO] | epoch  10 |   650/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:51,274 [INFO] | epoch  10 |   700/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:52,501 [INFO] | epoch  10 |   750/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:53,709 [INFO] | epoch  10 |   800/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:54,938 [INFO] | epoch  10 |   850/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:56,155 [INFO] | epoch  10 |   900/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:57,371 [INFO] | epoch  10 |   950/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:58,599 [INFO] | epoch  10 |  1000/ 1600 batches | training accuracy    1.000
+2021-12-17 19:12:59,795 [INFO] | epoch  10 |  1050/ 1600 batches | training accuracy    1.000
+2021-12-17 19:13:00,962 [INFO] | epoch  10 |  1100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:13:02,104 [INFO] | epoch  10 |  1150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:13:03,295 [INFO] | epoch  10 |  1200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:13:04,494 [INFO] | epoch  10 |  1250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:13:05,734 [INFO] | epoch  10 |  1300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:13:06,937 [INFO] | epoch  10 |  1350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:13:08,160 [INFO] | epoch  10 |  1400/ 1600 batches | training accuracy    1.000
+2021-12-17 19:13:09,390 [INFO] | epoch  10 |  1450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:13:10,588 [INFO] | epoch  10 |  1500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:13:11,803 [INFO] | epoch  10 |  1550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:13:13,382 [INFO] ***********************************************************
+2021-12-17 19:13:13,383 [INFO] | end of epoch  10 valid accuracy    0.732 and f1 score    0.732
+2021-12-17 19:13:13,384 [INFO] ***********************************************************
+2021-12-17 19:13:13,385 [WARNING] The validation f1 score has not improved for 10 epochs. Stopping training early.
+2021-12-17 19:13:13,386 [INFO] ============================================================
+2021-12-17 19:13:13,387 [INFO] Finished training model. Best hyperparameters: {'batch_size': 32, 'bidirectional': True, 'dropout': 0.2, 'hidden_dim': 256, 'lr': 0.001, 'model_type': 'lstm', 'num_epochs': 100, 'num_layers': 1}
+2021-12-17 19:13:13,387 [INFO] Here is the validation results:
+2021-12-17 19:13:13,778 [INFO] ***********************************************************
+2021-12-17 19:13:13,779 [INFO] |valid accuracy    0.742 and f1 score    0.742
+2021-12-17 19:13:13,790 [INFO]               precision    recall  f1-score   support
+
+         0.0       0.74      0.75      0.75       538
+         1.0       0.74      0.73      0.74       528
+
+    accuracy                           0.74      1066
+   macro avg       0.74      0.74      0.74      1066
+weighted avg       0.74      0.74      0.74      1066
+
+2021-12-17 19:13:13,794 [INFO] [[403 135]
+ [140 388]]
+2021-12-17 19:13:13,796 [INFO] ***********************************************************
+2021-12-17 19:13:13,797 [INFO] Here is the test results (DO NOT USE THESE RESULTS FOR CHOOSING THE BEST AUGMENTATION):
+2021-12-17 19:13:14,185 [INFO] ***********************************************************
+2021-12-17 19:13:14,186 [INFO] |valid accuracy    0.730 and f1 score    0.730
+2021-12-17 19:13:14,191 [INFO]               precision    recall  f1-score   support
+
+         0.0       0.72      0.74      0.73       524
+         1.0       0.74      0.72      0.73       543
+
+    accuracy                           0.73      1067
+   macro avg       0.73      0.73      0.73      1067
+weighted avg       0.73      0.73      0.73      1067
+
+2021-12-17 19:13:14,193 [INFO] [[386 138]
+ [150 393]]
+2021-12-17 19:13:14,194 [INFO] ***********************************************************
+2021-12-17 19:13:14,820 [INFO] Model saved to ==> /home/mila/c/cesare.spinoso/scratch/datasets_550/polarity/augmentation_1/rnn_classif_distilbert_base_uncased.pt
+2021-12-17 19:13:14,824 [INFO] ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2021-12-17 19:13:14,825 [INFO] Starting training for polarity with augmentation 2
+2021-12-17 19:13:14,825 [INFO] Augmentation features: {'num_samples': 5, 'augmentation_type': 'random_swap', 'aug_max': None, 'aug_p': 0.5}
+2021-12-17 19:13:14,826 [INFO] ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2021-12-17 19:13:14,827 [INFO] Starting training using the HuggingFace model distilbert-base-uncased
+2021-12-17 19:13:17,141 [INFO] Done loading all the datasets
+2021-12-17 19:13:17,142 [INFO] ============================================================
+2021-12-17 19:13:17,143 [INFO] Starting training with the following hyperparameters: {'batch_size': 32, 'bidirectional': True, 'dropout': 0.2, 'hidden_dim': 256, 'lr': 0.001, 'model_type': 'lstm', 'num_epochs': 100, 'num_layers': 1}
+2021-12-17 19:13:17,169 [INFO] ===========================================================
+2021-12-17 19:13:17,171 [INFO] Training model RNNClassifier(
+  (embedding): Embedding(30522, 768, padding_idx=0)
+  (rnn): LSTM(768, 256, batch_first=True, dropout=0.2, bidirectional=True)
+  (dropout): Dropout(p=0.2, inplace=False)
+  (fc): Linear(in_features=512, out_features=2, bias=True)
+)
+2021-12-17 19:13:17,171 [INFO] ***********************************************************
+2021-12-17 19:13:17,172 [INFO] Training epoch 0
+2021-12-17 19:13:18,429 [INFO] | epoch   0 |    50/ 1600 batches | training accuracy    0.487
+2021-12-17 19:13:19,662 [INFO] | epoch   0 |   100/ 1600 batches | training accuracy    0.586
+2021-12-17 19:13:20,864 [INFO] | epoch   0 |   150/ 1600 batches | training accuracy    0.718
+2021-12-17 19:13:22,067 [INFO] | epoch   0 |   200/ 1600 batches | training accuracy    0.777
+2021-12-17 19:13:23,270 [INFO] | epoch   0 |   250/ 1600 batches | training accuracy    0.752
+2021-12-17 19:13:24,511 [INFO] | epoch   0 |   300/ 1600 batches | training accuracy    0.833
+2021-12-17 19:13:25,734 [INFO] | epoch   0 |   350/ 1600 batches | training accuracy    0.834
+2021-12-17 19:13:26,948 [INFO] | epoch   0 |   400/ 1600 batches | training accuracy    0.867
+2021-12-17 19:13:28,157 [INFO] | epoch   0 |   450/ 1600 batches | training accuracy    0.868
+2021-12-17 19:13:29,367 [INFO] | epoch   0 |   500/ 1600 batches | training accuracy    0.896
+2021-12-17 19:13:30,586 [INFO] | epoch   0 |   550/ 1600 batches | training accuracy    0.889
+2021-12-17 19:13:31,800 [INFO] | epoch   0 |   600/ 1600 batches | training accuracy    0.911
+2021-12-17 19:13:33,023 [INFO] | epoch   0 |   650/ 1600 batches | training accuracy    0.905
+2021-12-17 19:13:34,243 [INFO] | epoch   0 |   700/ 1600 batches | training accuracy    0.932
+2021-12-17 19:13:35,454 [INFO] | epoch   0 |   750/ 1600 batches | training accuracy    0.921
+2021-12-17 19:13:36,676 [INFO] | epoch   0 |   800/ 1600 batches | training accuracy    0.941
+2021-12-17 19:13:37,898 [INFO] | epoch   0 |   850/ 1600 batches | training accuracy    0.946
+2021-12-17 19:13:39,133 [INFO] | epoch   0 |   900/ 1600 batches | training accuracy    0.958
+2021-12-17 19:13:40,344 [INFO] | epoch   0 |   950/ 1600 batches | training accuracy    0.956
+2021-12-17 19:13:41,573 [INFO] | epoch   0 |  1000/ 1600 batches | training accuracy    0.959
+2021-12-17 19:13:42,804 [INFO] | epoch   0 |  1050/ 1600 batches | training accuracy    0.960
+2021-12-17 19:13:44,043 [INFO] | epoch   0 |  1100/ 1600 batches | training accuracy    0.971
+2021-12-17 19:13:45,288 [INFO] | epoch   0 |  1150/ 1600 batches | training accuracy    0.970
+2021-12-17 19:13:46,536 [INFO] | epoch   0 |  1200/ 1600 batches | training accuracy    0.960
+2021-12-17 19:13:47,799 [INFO] | epoch   0 |  1250/ 1600 batches | training accuracy    0.976
+2021-12-17 19:13:49,057 [INFO] | epoch   0 |  1300/ 1600 batches | training accuracy    0.974
+2021-12-17 19:13:50,316 [INFO] | epoch   0 |  1350/ 1600 batches | training accuracy    0.982
+2021-12-17 19:13:51,568 [INFO] | epoch   0 |  1400/ 1600 batches | training accuracy    0.989
+2021-12-17 19:13:52,831 [INFO] | epoch   0 |  1450/ 1600 batches | training accuracy    0.984
+2021-12-17 19:13:54,092 [INFO] | epoch   0 |  1500/ 1600 batches | training accuracy    0.986
+2021-12-17 19:13:55,361 [INFO] | epoch   0 |  1550/ 1600 batches | training accuracy    0.991
+2021-12-17 19:13:56,958 [INFO] ***********************************************************
+2021-12-17 19:13:56,959 [INFO] | end of epoch   0 valid accuracy    0.732 and f1 score    0.730
+2021-12-17 19:13:56,960 [INFO] ***********************************************************
+2021-12-17 19:13:56,963 [INFO] ***********************************************************
+2021-12-17 19:13:56,964 [INFO] Training epoch 1
+2021-12-17 19:13:58,148 [INFO] | epoch   1 |    50/ 1600 batches | training accuracy    0.993
+2021-12-17 19:13:59,402 [INFO] | epoch   1 |   100/ 1600 batches | training accuracy    0.992
+2021-12-17 19:14:00,669 [INFO] | epoch   1 |   150/ 1600 batches | training accuracy    0.989
+2021-12-17 19:14:01,936 [INFO] | epoch   1 |   200/ 1600 batches | training accuracy    0.993
+2021-12-17 19:14:03,183 [INFO] | epoch   1 |   250/ 1600 batches | training accuracy    0.994
+2021-12-17 19:14:04,468 [INFO] | epoch   1 |   300/ 1600 batches | training accuracy    0.994
+2021-12-17 19:14:05,723 [INFO] | epoch   1 |   350/ 1600 batches | training accuracy    0.996
+2021-12-17 19:14:06,995 [INFO] | epoch   1 |   400/ 1600 batches | training accuracy    0.998
+2021-12-17 19:14:08,269 [INFO] | epoch   1 |   450/ 1600 batches | training accuracy    0.994
+2021-12-17 19:14:09,513 [INFO] | epoch   1 |   500/ 1600 batches | training accuracy    0.997
+2021-12-17 19:14:10,736 [INFO] | epoch   1 |   550/ 1600 batches | training accuracy    0.996
+2021-12-17 19:14:11,981 [INFO] | epoch   1 |   600/ 1600 batches | training accuracy    0.998
+2021-12-17 19:14:13,209 [INFO] | epoch   1 |   650/ 1600 batches | training accuracy    0.998
+2021-12-17 19:14:14,435 [INFO] | epoch   1 |   700/ 1600 batches | training accuracy    0.992
+2021-12-17 19:14:15,705 [INFO] | epoch   1 |   750/ 1600 batches | training accuracy    0.994
+2021-12-17 19:14:16,939 [INFO] | epoch   1 |   800/ 1600 batches | training accuracy    0.994
+2021-12-17 19:14:18,210 [INFO] | epoch   1 |   850/ 1600 batches | training accuracy    0.995
+2021-12-17 19:14:19,409 [INFO] | epoch   1 |   900/ 1600 batches | training accuracy    0.998
+2021-12-17 19:14:20,672 [INFO] | epoch   1 |   950/ 1600 batches | training accuracy    0.998
+2021-12-17 19:14:21,921 [INFO] | epoch   1 |  1000/ 1600 batches | training accuracy    0.998
+2021-12-17 19:14:23,192 [INFO] | epoch   1 |  1050/ 1600 batches | training accuracy    0.993
+2021-12-17 19:14:24,459 [INFO] | epoch   1 |  1100/ 1600 batches | training accuracy    0.998
+2021-12-17 19:14:25,701 [INFO] | epoch   1 |  1150/ 1600 batches | training accuracy    0.994
+2021-12-17 19:14:26,932 [INFO] | epoch   1 |  1200/ 1600 batches | training accuracy    0.996
+2021-12-17 19:14:28,148 [INFO] | epoch   1 |  1250/ 1600 batches | training accuracy    0.998
+2021-12-17 19:14:29,387 [INFO] | epoch   1 |  1300/ 1600 batches | training accuracy    0.998
+2021-12-17 19:14:30,636 [INFO] | epoch   1 |  1350/ 1600 batches | training accuracy    0.998
+2021-12-17 19:14:31,863 [INFO] | epoch   1 |  1400/ 1600 batches | training accuracy    0.999
+2021-12-17 19:14:33,134 [INFO] | epoch   1 |  1450/ 1600 batches | training accuracy    0.997
+2021-12-17 19:14:34,412 [INFO] | epoch   1 |  1500/ 1600 batches | training accuracy    0.999
+2021-12-17 19:14:35,653 [INFO] | epoch   1 |  1550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:14:37,302 [INFO] ***********************************************************
+2021-12-17 19:14:37,303 [INFO] | end of epoch   1 valid accuracy    0.720 and f1 score    0.719
+2021-12-17 19:14:37,304 [INFO] ***********************************************************
+2021-12-17 19:14:37,305 [INFO] ***********************************************************
+2021-12-17 19:14:37,305 [INFO] Training epoch 2
+2021-12-17 19:14:38,524 [INFO] | epoch   2 |    50/ 1600 batches | training accuracy    0.996
+2021-12-17 19:14:39,753 [INFO] | epoch   2 |   100/ 1600 batches | training accuracy    0.999
+2021-12-17 19:14:41,022 [INFO] | epoch   2 |   150/ 1600 batches | training accuracy    0.999
+2021-12-17 19:14:42,306 [INFO] | epoch   2 |   200/ 1600 batches | training accuracy    0.998
+2021-12-17 19:14:43,575 [INFO] | epoch   2 |   250/ 1600 batches | training accuracy    0.998
+2021-12-17 19:14:44,835 [INFO] | epoch   2 |   300/ 1600 batches | training accuracy    0.999
+2021-12-17 19:14:45,963 [INFO] | epoch   2 |   350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:14:47,154 [INFO] | epoch   2 |   400/ 1600 batches | training accuracy    1.000
+2021-12-17 19:14:48,350 [INFO] | epoch   2 |   450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:14:49,617 [INFO] | epoch   2 |   500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:14:50,872 [INFO] | epoch   2 |   550/ 1600 batches | training accuracy    0.996
+2021-12-17 19:14:52,114 [INFO] | epoch   2 |   600/ 1600 batches | training accuracy    0.999
+2021-12-17 19:14:53,278 [INFO] | epoch   2 |   650/ 1600 batches | training accuracy    0.998
+2021-12-17 19:14:54,539 [INFO] | epoch   2 |   700/ 1600 batches | training accuracy    0.999
+2021-12-17 19:14:55,791 [INFO] | epoch   2 |   750/ 1600 batches | training accuracy    0.998
+2021-12-17 19:14:57,065 [INFO] | epoch   2 |   800/ 1600 batches | training accuracy    0.998
+2021-12-17 19:14:58,291 [INFO] | epoch   2 |   850/ 1600 batches | training accuracy    0.998
+2021-12-17 19:14:59,531 [INFO] | epoch   2 |   900/ 1600 batches | training accuracy    0.999
+2021-12-17 19:15:00,793 [INFO] | epoch   2 |   950/ 1600 batches | training accuracy    1.000
+2021-12-17 19:15:02,008 [INFO] | epoch   2 |  1000/ 1600 batches | training accuracy    1.000
+2021-12-17 19:15:03,261 [INFO] | epoch   2 |  1050/ 1600 batches | training accuracy    1.000
+2021-12-17 19:15:04,518 [INFO] | epoch   2 |  1100/ 1600 batches | training accuracy    0.996
+2021-12-17 19:15:05,745 [INFO] | epoch   2 |  1150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:15:06,984 [INFO] | epoch   2 |  1200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:15:08,226 [INFO] | epoch   2 |  1250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:15:09,456 [INFO] | epoch   2 |  1300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:15:10,707 [INFO] | epoch   2 |  1350/ 1600 batches | training accuracy    0.998
+2021-12-17 19:15:11,909 [INFO] | epoch   2 |  1400/ 1600 batches | training accuracy    0.999
+2021-12-17 19:15:13,030 [INFO] | epoch   2 |  1450/ 1600 batches | training accuracy    0.997
+2021-12-17 19:15:14,252 [INFO] | epoch   2 |  1500/ 1600 batches | training accuracy    0.996
+2021-12-17 19:15:15,483 [INFO] | epoch   2 |  1550/ 1600 batches | training accuracy    0.997
+2021-12-17 19:15:17,059 [INFO] ***********************************************************
+2021-12-17 19:15:17,060 [INFO] | end of epoch   2 valid accuracy    0.727 and f1 score    0.726
+2021-12-17 19:15:17,061 [INFO] ***********************************************************
+2021-12-17 19:15:17,062 [INFO] ***********************************************************
+2021-12-17 19:15:17,063 [INFO] Training epoch 3
+2021-12-17 19:15:18,272 [INFO] | epoch   3 |    50/ 1600 batches | training accuracy    0.994
+2021-12-17 19:15:19,549 [INFO] | epoch   3 |   100/ 1600 batches | training accuracy    0.999
+2021-12-17 19:15:20,799 [INFO] | epoch   3 |   150/ 1600 batches | training accuracy    0.998
+2021-12-17 19:15:21,951 [INFO] | epoch   3 |   200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:15:23,180 [INFO] | epoch   3 |   250/ 1600 batches | training accuracy    0.999
+2021-12-17 19:15:24,420 [INFO] | epoch   3 |   300/ 1600 batches | training accuracy    0.999
+2021-12-17 19:15:25,661 [INFO] | epoch   3 |   350/ 1600 batches | training accuracy    0.999
+2021-12-17 19:15:26,867 [INFO] | epoch   3 |   400/ 1600 batches | training accuracy    0.999
+2021-12-17 19:15:28,134 [INFO] | epoch   3 |   450/ 1600 batches | training accuracy    0.999
+2021-12-17 19:15:29,404 [INFO] | epoch   3 |   500/ 1600 batches | training accuracy    0.999
+2021-12-17 19:15:30,646 [INFO] | epoch   3 |   550/ 1600 batches | training accuracy    0.999
+2021-12-17 19:15:31,880 [INFO] | epoch   3 |   600/ 1600 batches | training accuracy    0.999
+2021-12-17 19:15:33,132 [INFO] | epoch   3 |   650/ 1600 batches | training accuracy    1.000
+2021-12-17 19:15:34,365 [INFO] | epoch   3 |   700/ 1600 batches | training accuracy    1.000
+2021-12-17 19:15:35,611 [INFO] | epoch   3 |   750/ 1600 batches | training accuracy    1.000
+2021-12-17 19:15:36,841 [INFO] | epoch   3 |   800/ 1600 batches | training accuracy    0.999
+2021-12-17 19:15:38,088 [INFO] | epoch   3 |   850/ 1600 batches | training accuracy    0.999
+2021-12-17 19:15:39,250 [INFO] | epoch   3 |   900/ 1600 batches | training accuracy    0.998
+2021-12-17 19:15:40,463 [INFO] | epoch   3 |   950/ 1600 batches | training accuracy    0.998
+2021-12-17 19:15:41,709 [INFO] | epoch   3 |  1000/ 1600 batches | training accuracy    1.000
+2021-12-17 19:15:42,961 [INFO] | epoch   3 |  1050/ 1600 batches | training accuracy    1.000
+2021-12-17 19:15:44,197 [INFO] | epoch   3 |  1100/ 1600 batches | training accuracy    0.999
+2021-12-17 19:15:45,448 [INFO] | epoch   3 |  1150/ 1600 batches | training accuracy    0.998
+2021-12-17 19:15:46,708 [INFO] | epoch   3 |  1200/ 1600 batches | training accuracy    0.999
+2021-12-17 19:15:47,973 [INFO] | epoch   3 |  1250/ 1600 batches | training accuracy    0.999
+2021-12-17 19:15:49,215 [INFO] | epoch   3 |  1300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:15:50,465 [INFO] | epoch   3 |  1350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:15:51,732 [INFO] | epoch   3 |  1400/ 1600 batches | training accuracy    0.999
+2021-12-17 19:15:52,960 [INFO] | epoch   3 |  1450/ 1600 batches | training accuracy    0.998
+2021-12-17 19:15:54,235 [INFO] | epoch   3 |  1500/ 1600 batches | training accuracy    0.998
+2021-12-17 19:15:55,497 [INFO] | epoch   3 |  1550/ 1600 batches | training accuracy    0.996
+2021-12-17 19:15:56,987 [INFO] ***********************************************************
+2021-12-17 19:15:56,988 [INFO] | end of epoch   3 valid accuracy    0.731 and f1 score    0.731
+2021-12-17 19:15:56,989 [INFO] ***********************************************************
+2021-12-17 19:15:56,994 [INFO] ***********************************************************
+2021-12-17 19:15:56,995 [INFO] Training epoch 4
+2021-12-17 19:15:58,137 [INFO] | epoch   4 |    50/ 1600 batches | training accuracy    1.000
+2021-12-17 19:15:59,311 [INFO] | epoch   4 |   100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:16:00,546 [INFO] | epoch   4 |   150/ 1600 batches | training accuracy    0.999
+2021-12-17 19:16:01,811 [INFO] | epoch   4 |   200/ 1600 batches | training accuracy    0.999
+2021-12-17 19:16:03,048 [INFO] | epoch   4 |   250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:16:04,336 [INFO] | epoch   4 |   300/ 1600 batches | training accuracy    0.999
+2021-12-17 19:16:05,583 [INFO] | epoch   4 |   350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:16:06,847 [INFO] | epoch   4 |   400/ 1600 batches | training accuracy    0.999
+2021-12-17 19:16:08,112 [INFO] | epoch   4 |   450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:16:09,357 [INFO] | epoch   4 |   500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:16:10,630 [INFO] | epoch   4 |   550/ 1600 batches | training accuracy    0.998
+2021-12-17 19:16:11,867 [INFO] | epoch   4 |   600/ 1600 batches | training accuracy    0.999
+2021-12-17 19:16:13,151 [INFO] | epoch   4 |   650/ 1600 batches | training accuracy    0.999
+2021-12-17 19:16:14,422 [INFO] | epoch   4 |   700/ 1600 batches | training accuracy    0.998
+2021-12-17 19:16:15,663 [INFO] | epoch   4 |   750/ 1600 batches | training accuracy    0.999
+2021-12-17 19:16:16,909 [INFO] | epoch   4 |   800/ 1600 batches | training accuracy    1.000
+2021-12-17 19:16:18,153 [INFO] | epoch   4 |   850/ 1600 batches | training accuracy    0.999
+2021-12-17 19:16:19,427 [INFO] | epoch   4 |   900/ 1600 batches | training accuracy    0.999
+2021-12-17 19:16:20,689 [INFO] | epoch   4 |   950/ 1600 batches | training accuracy    0.999
+2021-12-17 19:16:21,903 [INFO] | epoch   4 |  1000/ 1600 batches | training accuracy    1.000
+2021-12-17 19:16:23,143 [INFO] | epoch   4 |  1050/ 1600 batches | training accuracy    1.000
+2021-12-17 19:16:24,366 [INFO] | epoch   4 |  1100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:16:25,588 [INFO] | epoch   4 |  1150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:16:26,848 [INFO] | epoch   4 |  1200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:16:28,105 [INFO] | epoch   4 |  1250/ 1600 batches | training accuracy    0.999
+2021-12-17 19:16:29,244 [INFO] | epoch   4 |  1300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:16:30,492 [INFO] | epoch   4 |  1350/ 1600 batches | training accuracy    0.999
+2021-12-17 19:16:31,704 [INFO] | epoch   4 |  1400/ 1600 batches | training accuracy    1.000
+2021-12-17 19:16:32,975 [INFO] | epoch   4 |  1450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:16:34,204 [INFO] | epoch   4 |  1500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:16:35,448 [INFO] | epoch   4 |  1550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:16:37,069 [INFO] ***********************************************************
+2021-12-17 19:16:37,070 [INFO] | end of epoch   4 valid accuracy    0.721 and f1 score    0.721
+2021-12-17 19:16:37,071 [INFO] ***********************************************************
+2021-12-17 19:16:37,072 [INFO] ***********************************************************
+2021-12-17 19:16:37,073 [INFO] Training epoch 5
+2021-12-17 19:16:38,350 [INFO] | epoch   5 |    50/ 1600 batches | training accuracy    1.000
+2021-12-17 19:16:39,614 [INFO] | epoch   5 |   100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:16:40,889 [INFO] | epoch   5 |   150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:16:42,140 [INFO] | epoch   5 |   200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:16:43,405 [INFO] | epoch   5 |   250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:16:44,688 [INFO] | epoch   5 |   300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:16:45,941 [INFO] | epoch   5 |   350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:16:47,204 [INFO] | epoch   5 |   400/ 1600 batches | training accuracy    1.000
+2021-12-17 19:16:48,458 [INFO] | epoch   5 |   450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:16:49,704 [INFO] | epoch   5 |   500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:16:50,956 [INFO] | epoch   5 |   550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:16:52,213 [INFO] | epoch   5 |   600/ 1600 batches | training accuracy    1.000
+2021-12-17 19:16:53,476 [INFO] | epoch   5 |   650/ 1600 batches | training accuracy    1.000
+2021-12-17 19:16:54,731 [INFO] | epoch   5 |   700/ 1600 batches | training accuracy    1.000
+2021-12-17 19:16:55,979 [INFO] | epoch   5 |   750/ 1600 batches | training accuracy    1.000
+2021-12-17 19:16:57,212 [INFO] | epoch   5 |   800/ 1600 batches | training accuracy    1.000
+2021-12-17 19:16:58,476 [INFO] | epoch   5 |   850/ 1600 batches | training accuracy    1.000
+2021-12-17 19:16:59,704 [INFO] | epoch   5 |   900/ 1600 batches | training accuracy    1.000
+2021-12-17 19:17:00,968 [INFO] | epoch   5 |   950/ 1600 batches | training accuracy    1.000
+2021-12-17 19:17:02,204 [INFO] | epoch   5 |  1000/ 1600 batches | training accuracy    1.000
+2021-12-17 19:17:03,451 [INFO] | epoch   5 |  1050/ 1600 batches | training accuracy    1.000
+2021-12-17 19:17:04,684 [INFO] | epoch   5 |  1100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:17:05,911 [INFO] | epoch   5 |  1150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:17:07,149 [INFO] | epoch   5 |  1200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:17:08,395 [INFO] | epoch   5 |  1250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:17:09,641 [INFO] | epoch   5 |  1300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:17:10,890 [INFO] | epoch   5 |  1350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:17:12,173 [INFO] | epoch   5 |  1400/ 1600 batches | training accuracy    1.000
+2021-12-17 19:17:13,415 [INFO] | epoch   5 |  1450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:17:14,648 [INFO] | epoch   5 |  1500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:17:15,915 [INFO] | epoch   5 |  1550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:17:17,498 [INFO] ***********************************************************
+2021-12-17 19:17:17,499 [INFO] | end of epoch   5 valid accuracy    0.721 and f1 score    0.721
+2021-12-17 19:17:17,500 [INFO] ***********************************************************
+2021-12-17 19:17:17,500 [INFO] ***********************************************************
+2021-12-17 19:17:17,501 [INFO] Training epoch 6
+2021-12-17 19:17:18,664 [INFO] | epoch   6 |    50/ 1600 batches | training accuracy    1.000
+2021-12-17 19:17:19,716 [INFO] | epoch   6 |   100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:17:20,753 [INFO] | epoch   6 |   150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:17:21,973 [INFO] | epoch   6 |   200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:17:23,199 [INFO] | epoch   6 |   250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:17:24,430 [INFO] | epoch   6 |   300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:17:25,637 [INFO] | epoch   6 |   350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:17:26,898 [INFO] | epoch   6 |   400/ 1600 batches | training accuracy    1.000
+2021-12-17 19:17:28,090 [INFO] | epoch   6 |   450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:17:29,373 [INFO] | epoch   6 |   500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:17:30,619 [INFO] | epoch   6 |   550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:17:31,883 [INFO] | epoch   6 |   600/ 1600 batches | training accuracy    1.000
+2021-12-17 19:17:33,121 [INFO] | epoch   6 |   650/ 1600 batches | training accuracy    1.000
+2021-12-17 19:17:34,391 [INFO] | epoch   6 |   700/ 1600 batches | training accuracy    1.000
+2021-12-17 19:17:35,639 [INFO] | epoch   6 |   750/ 1600 batches | training accuracy    1.000
+2021-12-17 19:17:36,888 [INFO] | epoch   6 |   800/ 1600 batches | training accuracy    1.000
+2021-12-17 19:17:38,033 [INFO] | epoch   6 |   850/ 1600 batches | training accuracy    1.000
+2021-12-17 19:17:39,090 [INFO] | epoch   6 |   900/ 1600 batches | training accuracy    1.000
+2021-12-17 19:17:40,308 [INFO] | epoch   6 |   950/ 1600 batches | training accuracy    1.000
+2021-12-17 19:17:41,548 [INFO] | epoch   6 |  1000/ 1600 batches | training accuracy    1.000
+2021-12-17 19:17:42,826 [INFO] | epoch   6 |  1050/ 1600 batches | training accuracy    1.000
+2021-12-17 19:17:44,084 [INFO] | epoch   6 |  1100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:17:45,347 [INFO] | epoch   6 |  1150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:17:46,546 [INFO] | epoch   6 |  1200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:17:47,789 [INFO] | epoch   6 |  1250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:17:49,042 [INFO] | epoch   6 |  1300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:17:50,296 [INFO] | epoch   6 |  1350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:17:51,575 [INFO] | epoch   6 |  1400/ 1600 batches | training accuracy    1.000
+2021-12-17 19:17:52,808 [INFO] | epoch   6 |  1450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:17:54,072 [INFO] | epoch   6 |  1500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:17:55,356 [INFO] | epoch   6 |  1550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:17:56,964 [INFO] ***********************************************************
+2021-12-17 19:17:56,966 [INFO] | end of epoch   6 valid accuracy    0.720 and f1 score    0.719
+2021-12-17 19:17:56,967 [INFO] ***********************************************************
+2021-12-17 19:17:56,968 [INFO] ***********************************************************
+2021-12-17 19:17:56,969 [INFO] Training epoch 7
+2021-12-17 19:17:58,239 [INFO] | epoch   7 |    50/ 1600 batches | training accuracy    1.000
+2021-12-17 19:17:59,480 [INFO] | epoch   7 |   100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:18:00,757 [INFO] | epoch   7 |   150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:18:02,009 [INFO] | epoch   7 |   200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:18:03,272 [INFO] | epoch   7 |   250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:18:04,543 [INFO] | epoch   7 |   300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:18:05,791 [INFO] | epoch   7 |   350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:18:07,059 [INFO] | epoch   7 |   400/ 1600 batches | training accuracy    1.000
+2021-12-17 19:18:08,312 [INFO] | epoch   7 |   450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:18:09,580 [INFO] | epoch   7 |   500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:18:10,844 [INFO] | epoch   7 |   550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:18:12,105 [INFO] | epoch   7 |   600/ 1600 batches | training accuracy    1.000
+2021-12-17 19:18:13,394 [INFO] | epoch   7 |   650/ 1600 batches | training accuracy    1.000
+2021-12-17 19:18:14,659 [INFO] | epoch   7 |   700/ 1600 batches | training accuracy    1.000
+2021-12-17 19:18:15,901 [INFO] | epoch   7 |   750/ 1600 batches | training accuracy    1.000
+2021-12-17 19:18:17,177 [INFO] | epoch   7 |   800/ 1600 batches | training accuracy    1.000
+2021-12-17 19:18:18,452 [INFO] | epoch   7 |   850/ 1600 batches | training accuracy    1.000
+2021-12-17 19:18:19,728 [INFO] | epoch   7 |   900/ 1600 batches | training accuracy    1.000
+2021-12-17 19:18:20,984 [INFO] | epoch   7 |   950/ 1600 batches | training accuracy    1.000
+2021-12-17 19:18:22,245 [INFO] | epoch   7 |  1000/ 1600 batches | training accuracy    1.000
+2021-12-17 19:18:23,521 [INFO] | epoch   7 |  1050/ 1600 batches | training accuracy    1.000
+2021-12-17 19:18:24,791 [INFO] | epoch   7 |  1100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:18:26,048 [INFO] | epoch   7 |  1150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:18:27,326 [INFO] | epoch   7 |  1200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:18:28,560 [INFO] | epoch   7 |  1250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:18:29,810 [INFO] | epoch   7 |  1300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:18:31,052 [INFO] | epoch   7 |  1350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:18:32,347 [INFO] | epoch   7 |  1400/ 1600 batches | training accuracy    1.000
+2021-12-17 19:18:33,593 [INFO] | epoch   7 |  1450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:18:34,818 [INFO] | epoch   7 |  1500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:18:36,039 [INFO] | epoch   7 |  1550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:18:37,589 [INFO] ***********************************************************
+2021-12-17 19:18:37,590 [INFO] | end of epoch   7 valid accuracy    0.720 and f1 score    0.720
+2021-12-17 19:18:37,590 [INFO] ***********************************************************
+2021-12-17 19:18:37,591 [INFO] ***********************************************************
+2021-12-17 19:18:37,592 [INFO] Training epoch 8
+2021-12-17 19:18:38,681 [INFO] | epoch   8 |    50/ 1600 batches | training accuracy    1.000
+2021-12-17 19:18:39,824 [INFO] | epoch   8 |   100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:18:40,949 [INFO] | epoch   8 |   150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:18:42,209 [INFO] | epoch   8 |   200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:18:43,454 [INFO] | epoch   8 |   250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:18:44,692 [INFO] | epoch   8 |   300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:18:45,981 [INFO] | epoch   8 |   350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:18:47,249 [INFO] | epoch   8 |   400/ 1600 batches | training accuracy    1.000
+2021-12-17 19:18:48,523 [INFO] | epoch   8 |   450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:18:49,776 [INFO] | epoch   8 |   500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:18:51,036 [INFO] | epoch   8 |   550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:18:52,313 [INFO] | epoch   8 |   600/ 1600 batches | training accuracy    1.000
+2021-12-17 19:18:53,550 [INFO] | epoch   8 |   650/ 1600 batches | training accuracy    1.000
+2021-12-17 19:18:54,787 [INFO] | epoch   8 |   700/ 1600 batches | training accuracy    1.000
+2021-12-17 19:18:56,071 [INFO] | epoch   8 |   750/ 1600 batches | training accuracy    1.000
+2021-12-17 19:18:57,318 [INFO] | epoch   8 |   800/ 1600 batches | training accuracy    1.000
+2021-12-17 19:18:58,568 [INFO] | epoch   8 |   850/ 1600 batches | training accuracy    1.000
+2021-12-17 19:18:59,800 [INFO] | epoch   8 |   900/ 1600 batches | training accuracy    1.000
+2021-12-17 19:19:01,052 [INFO] | epoch   8 |   950/ 1600 batches | training accuracy    1.000
+2021-12-17 19:19:02,304 [INFO] | epoch   8 |  1000/ 1600 batches | training accuracy    1.000
+2021-12-17 19:19:03,561 [INFO] | epoch   8 |  1050/ 1600 batches | training accuracy    1.000
+2021-12-17 19:19:04,736 [INFO] | epoch   8 |  1100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:19:05,976 [INFO] | epoch   8 |  1150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:19:07,182 [INFO] | epoch   8 |  1200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:19:08,400 [INFO] | epoch   8 |  1250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:19:09,635 [INFO] | epoch   8 |  1300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:19:10,887 [INFO] | epoch   8 |  1350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:19:12,134 [INFO] | epoch   8 |  1400/ 1600 batches | training accuracy    1.000
+2021-12-17 19:19:13,393 [INFO] | epoch   8 |  1450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:19:14,655 [INFO] | epoch   8 |  1500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:19:15,905 [INFO] | epoch   8 |  1550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:19:17,514 [INFO] ***********************************************************
+2021-12-17 19:19:17,515 [INFO] | end of epoch   8 valid accuracy    0.719 and f1 score    0.718
+2021-12-17 19:19:17,516 [INFO] ***********************************************************
+2021-12-17 19:19:17,517 [INFO] ***********************************************************
+2021-12-17 19:19:17,517 [INFO] Training epoch 9
+2021-12-17 19:19:18,675 [INFO] | epoch   9 |    50/ 1600 batches | training accuracy    1.000
+2021-12-17 19:19:19,802 [INFO] | epoch   9 |   100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:19:20,960 [INFO] | epoch   9 |   150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:19:22,191 [INFO] | epoch   9 |   200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:19:23,424 [INFO] | epoch   9 |   250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:19:24,645 [INFO] | epoch   9 |   300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:19:25,835 [INFO] | epoch   9 |   350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:19:27,093 [INFO] | epoch   9 |   400/ 1600 batches | training accuracy    1.000
+2021-12-17 19:19:28,330 [INFO] | epoch   9 |   450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:19:29,486 [INFO] | epoch   9 |   500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:19:30,718 [INFO] | epoch   9 |   550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:19:31,963 [INFO] | epoch   9 |   600/ 1600 batches | training accuracy    1.000
+2021-12-17 19:19:33,217 [INFO] | epoch   9 |   650/ 1600 batches | training accuracy    1.000
+2021-12-17 19:19:34,416 [INFO] | epoch   9 |   700/ 1600 batches | training accuracy    1.000
+2021-12-17 19:19:35,631 [INFO] | epoch   9 |   750/ 1600 batches | training accuracy    1.000
+2021-12-17 19:19:36,872 [INFO] | epoch   9 |   800/ 1600 batches | training accuracy    1.000
+2021-12-17 19:19:38,040 [INFO] | epoch   9 |   850/ 1600 batches | training accuracy    1.000
+2021-12-17 19:19:39,292 [INFO] | epoch   9 |   900/ 1600 batches | training accuracy    1.000
+2021-12-17 19:19:40,515 [INFO] | epoch   9 |   950/ 1600 batches | training accuracy    1.000
+2021-12-17 19:19:41,752 [INFO] | epoch   9 |  1000/ 1600 batches | training accuracy    1.000
+2021-12-17 19:19:42,998 [INFO] | epoch   9 |  1050/ 1600 batches | training accuracy    1.000
+2021-12-17 19:19:44,271 [INFO] | epoch   9 |  1100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:19:45,413 [INFO] | epoch   9 |  1150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:19:46,585 [INFO] | epoch   9 |  1200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:19:47,841 [INFO] | epoch   9 |  1250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:19:49,120 [INFO] | epoch   9 |  1300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:19:50,380 [INFO] | epoch   9 |  1350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:19:51,617 [INFO] | epoch   9 |  1400/ 1600 batches | training accuracy    1.000
+2021-12-17 19:19:52,899 [INFO] | epoch   9 |  1450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:19:54,144 [INFO] | epoch   9 |  1500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:19:55,409 [INFO] | epoch   9 |  1550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:19:57,057 [INFO] ***********************************************************
+2021-12-17 19:19:57,058 [INFO] | end of epoch   9 valid accuracy    0.720 and f1 score    0.720
+2021-12-17 19:19:57,059 [INFO] ***********************************************************
+2021-12-17 19:19:57,060 [INFO] ***********************************************************
+2021-12-17 19:19:57,060 [INFO] Training epoch 10
+2021-12-17 19:19:58,312 [INFO] | epoch  10 |    50/ 1600 batches | training accuracy    1.000
+2021-12-17 19:19:59,596 [INFO] | epoch  10 |   100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:20:00,846 [INFO] | epoch  10 |   150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:20:02,115 [INFO] | epoch  10 |   200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:20:03,344 [INFO] | epoch  10 |   250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:20:04,592 [INFO] | epoch  10 |   300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:20:05,846 [INFO] | epoch  10 |   350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:20:07,091 [INFO] | epoch  10 |   400/ 1600 batches | training accuracy    1.000
+2021-12-17 19:20:08,338 [INFO] | epoch  10 |   450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:20:09,614 [INFO] | epoch  10 |   500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:20:10,854 [INFO] | epoch  10 |   550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:20:12,108 [INFO] | epoch  10 |   600/ 1600 batches | training accuracy    1.000
+2021-12-17 19:20:13,365 [INFO] | epoch  10 |   650/ 1600 batches | training accuracy    1.000
+2021-12-17 19:20:14,630 [INFO] | epoch  10 |   700/ 1600 batches | training accuracy    1.000
+2021-12-17 19:20:15,895 [INFO] | epoch  10 |   750/ 1600 batches | training accuracy    1.000
+2021-12-17 19:20:17,139 [INFO] | epoch  10 |   800/ 1600 batches | training accuracy    1.000
+2021-12-17 19:20:18,418 [INFO] | epoch  10 |   850/ 1600 batches | training accuracy    1.000
+2021-12-17 19:20:19,652 [INFO] | epoch  10 |   900/ 1600 batches | training accuracy    1.000
+2021-12-17 19:20:20,891 [INFO] | epoch  10 |   950/ 1600 batches | training accuracy    1.000
+2021-12-17 19:20:22,147 [INFO] | epoch  10 |  1000/ 1600 batches | training accuracy    1.000
+2021-12-17 19:20:23,381 [INFO] | epoch  10 |  1050/ 1600 batches | training accuracy    1.000
+2021-12-17 19:20:24,632 [INFO] | epoch  10 |  1100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:20:25,863 [INFO] | epoch  10 |  1150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:20:27,092 [INFO] | epoch  10 |  1200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:20:28,332 [INFO] | epoch  10 |  1250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:20:29,551 [INFO] | epoch  10 |  1300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:20:30,796 [INFO] | epoch  10 |  1350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:20:32,009 [INFO] | epoch  10 |  1400/ 1600 batches | training accuracy    1.000
+2021-12-17 19:20:33,246 [INFO] | epoch  10 |  1450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:20:34,497 [INFO] | epoch  10 |  1500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:20:35,741 [INFO] | epoch  10 |  1550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:20:37,342 [INFO] ***********************************************************
+2021-12-17 19:20:37,343 [INFO] | end of epoch  10 valid accuracy    0.721 and f1 score    0.721
+2021-12-17 19:20:37,344 [INFO] ***********************************************************
+2021-12-17 19:20:37,344 [INFO] ***********************************************************
+2021-12-17 19:20:37,345 [INFO] Training epoch 11
+2021-12-17 19:20:38,608 [INFO] | epoch  11 |    50/ 1600 batches | training accuracy    1.000
+2021-12-17 19:20:39,860 [INFO] | epoch  11 |   100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:20:41,098 [INFO] | epoch  11 |   150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:20:42,340 [INFO] | epoch  11 |   200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:20:43,587 [INFO] | epoch  11 |   250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:20:44,815 [INFO] | epoch  11 |   300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:20:46,058 [INFO] | epoch  11 |   350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:20:47,297 [INFO] | epoch  11 |   400/ 1600 batches | training accuracy    1.000
+2021-12-17 19:20:48,530 [INFO] | epoch  11 |   450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:20:49,795 [INFO] | epoch  11 |   500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:20:51,034 [INFO] | epoch  11 |   550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:20:52,273 [INFO] | epoch  11 |   600/ 1600 batches | training accuracy    1.000
+2021-12-17 19:20:53,500 [INFO] | epoch  11 |   650/ 1600 batches | training accuracy    1.000
+2021-12-17 19:20:54,725 [INFO] | epoch  11 |   700/ 1600 batches | training accuracy    1.000
+2021-12-17 19:20:55,976 [INFO] | epoch  11 |   750/ 1600 batches | training accuracy    1.000
+2021-12-17 19:20:57,238 [INFO] | epoch  11 |   800/ 1600 batches | training accuracy    1.000
+2021-12-17 19:20:58,503 [INFO] | epoch  11 |   850/ 1600 batches | training accuracy    1.000
+2021-12-17 19:20:59,767 [INFO] | epoch  11 |   900/ 1600 batches | training accuracy    1.000
+2021-12-17 19:21:01,010 [INFO] | epoch  11 |   950/ 1600 batches | training accuracy    1.000
+2021-12-17 19:21:02,163 [INFO] | epoch  11 |  1000/ 1600 batches | training accuracy    1.000
+2021-12-17 19:21:03,384 [INFO] | epoch  11 |  1050/ 1600 batches | training accuracy    1.000
+2021-12-17 19:21:04,626 [INFO] | epoch  11 |  1100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:21:05,861 [INFO] | epoch  11 |  1150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:21:07,112 [INFO] | epoch  11 |  1200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:21:08,356 [INFO] | epoch  11 |  1250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:21:09,642 [INFO] | epoch  11 |  1300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:21:10,885 [INFO] | epoch  11 |  1350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:21:12,169 [INFO] | epoch  11 |  1400/ 1600 batches | training accuracy    1.000
+2021-12-17 19:21:13,423 [INFO] | epoch  11 |  1450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:21:14,628 [INFO] | epoch  11 |  1500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:21:15,900 [INFO] | epoch  11 |  1550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:21:17,488 [INFO] ***********************************************************
+2021-12-17 19:21:17,489 [INFO] | end of epoch  11 valid accuracy    0.721 and f1 score    0.721
+2021-12-17 19:21:17,490 [INFO] ***********************************************************
+2021-12-17 19:21:17,491 [INFO] ***********************************************************
+2021-12-17 19:21:17,492 [INFO] Training epoch 12
+2021-12-17 19:21:18,665 [INFO] | epoch  12 |    50/ 1600 batches | training accuracy    1.000
+2021-12-17 19:21:19,831 [INFO] | epoch  12 |   100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:21:21,045 [INFO] | epoch  12 |   150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:21:22,284 [INFO] | epoch  12 |   200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:21:23,557 [INFO] | epoch  12 |   250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:21:24,812 [INFO] | epoch  12 |   300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:21:26,064 [INFO] | epoch  12 |   350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:21:27,270 [INFO] | epoch  12 |   400/ 1600 batches | training accuracy    1.000
+2021-12-17 19:21:28,508 [INFO] | epoch  12 |   450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:21:29,770 [INFO] | epoch  12 |   500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:21:31,013 [INFO] | epoch  12 |   550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:21:32,254 [INFO] | epoch  12 |   600/ 1600 batches | training accuracy    1.000
+2021-12-17 19:21:33,500 [INFO] | epoch  12 |   650/ 1600 batches | training accuracy    1.000
+2021-12-17 19:21:34,749 [INFO] | epoch  12 |   700/ 1600 batches | training accuracy    1.000
+2021-12-17 19:21:36,004 [INFO] | epoch  12 |   750/ 1600 batches | training accuracy    1.000
+2021-12-17 19:21:37,269 [INFO] | epoch  12 |   800/ 1600 batches | training accuracy    1.000
+2021-12-17 19:21:38,502 [INFO] | epoch  12 |   850/ 1600 batches | training accuracy    1.000
+2021-12-17 19:21:39,737 [INFO] | epoch  12 |   900/ 1600 batches | training accuracy    1.000
+2021-12-17 19:21:40,975 [INFO] | epoch  12 |   950/ 1600 batches | training accuracy    1.000
+2021-12-17 19:21:42,236 [INFO] | epoch  12 |  1000/ 1600 batches | training accuracy    1.000
+2021-12-17 19:21:43,475 [INFO] | epoch  12 |  1050/ 1600 batches | training accuracy    1.000
+2021-12-17 19:21:44,697 [INFO] | epoch  12 |  1100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:21:45,919 [INFO] | epoch  12 |  1150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:21:47,159 [INFO] | epoch  12 |  1200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:21:48,396 [INFO] | epoch  12 |  1250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:21:49,618 [INFO] | epoch  12 |  1300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:21:50,855 [INFO] | epoch  12 |  1350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:21:52,068 [INFO] | epoch  12 |  1400/ 1600 batches | training accuracy    1.000
+2021-12-17 19:21:53,326 [INFO] | epoch  12 |  1450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:21:54,552 [INFO] | epoch  12 |  1500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:21:55,794 [INFO] | epoch  12 |  1550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:21:57,362 [INFO] ***********************************************************
+2021-12-17 19:21:57,364 [INFO] | end of epoch  12 valid accuracy    0.720 and f1 score    0.719
+2021-12-17 19:21:57,364 [INFO] ***********************************************************
+2021-12-17 19:21:57,365 [INFO] ***********************************************************
+2021-12-17 19:21:57,367 [INFO] Training epoch 13
+2021-12-17 19:21:58,482 [INFO] | epoch  13 |    50/ 1600 batches | training accuracy    1.000
+2021-12-17 19:21:59,716 [INFO] | epoch  13 |   100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:22:00,959 [INFO] | epoch  13 |   150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:22:02,186 [INFO] | epoch  13 |   200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:22:03,411 [INFO] | epoch  13 |   250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:22:04,647 [INFO] | epoch  13 |   300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:22:05,882 [INFO] | epoch  13 |   350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:22:07,108 [INFO] | epoch  13 |   400/ 1600 batches | training accuracy    1.000
+2021-12-17 19:22:08,331 [INFO] | epoch  13 |   450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:22:09,548 [INFO] | epoch  13 |   500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:22:10,808 [INFO] | epoch  13 |   550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:22:12,026 [INFO] | epoch  13 |   600/ 1600 batches | training accuracy    1.000
+2021-12-17 19:22:13,238 [INFO] | epoch  13 |   650/ 1600 batches | training accuracy    1.000
+2021-12-17 19:22:14,485 [INFO] | epoch  13 |   700/ 1600 batches | training accuracy    1.000
+2021-12-17 19:22:15,712 [INFO] | epoch  13 |   750/ 1600 batches | training accuracy    1.000
+2021-12-17 19:22:16,928 [INFO] | epoch  13 |   800/ 1600 batches | training accuracy    1.000
+2021-12-17 19:22:18,153 [INFO] | epoch  13 |   850/ 1600 batches | training accuracy    1.000
+2021-12-17 19:22:19,392 [INFO] | epoch  13 |   900/ 1600 batches | training accuracy    1.000
+2021-12-17 19:22:20,606 [INFO] | epoch  13 |   950/ 1600 batches | training accuracy    1.000
+2021-12-17 19:22:21,850 [INFO] | epoch  13 |  1000/ 1600 batches | training accuracy    1.000
+2021-12-17 19:22:23,083 [INFO] | epoch  13 |  1050/ 1600 batches | training accuracy    1.000
+2021-12-17 19:22:24,300 [INFO] | epoch  13 |  1100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:22:25,523 [INFO] | epoch  13 |  1150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:22:26,779 [INFO] | epoch  13 |  1200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:22:28,003 [INFO] | epoch  13 |  1250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:22:29,224 [INFO] | epoch  13 |  1300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:22:30,446 [INFO] | epoch  13 |  1350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:22:31,664 [INFO] | epoch  13 |  1400/ 1600 batches | training accuracy    1.000
+2021-12-17 19:22:32,883 [INFO] | epoch  13 |  1450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:22:34,124 [INFO] | epoch  13 |  1500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:22:35,313 [INFO] | epoch  13 |  1550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:22:36,906 [INFO] ***********************************************************
+2021-12-17 19:22:36,908 [INFO] | end of epoch  13 valid accuracy    0.721 and f1 score    0.721
+2021-12-17 19:22:36,908 [INFO] ***********************************************************
+2021-12-17 19:22:36,909 [WARNING] The validation f1 score has not improved for 10 epochs. Stopping training early.
+2021-12-17 19:22:36,910 [INFO] ============================================================
+2021-12-17 19:22:36,911 [INFO] Finished training model. Best hyperparameters: {'batch_size': 32, 'bidirectional': True, 'dropout': 0.2, 'hidden_dim': 256, 'lr': 0.001, 'model_type': 'lstm', 'num_epochs': 100, 'num_layers': 1}
+2021-12-17 19:22:36,912 [INFO] Here is the validation results:
+2021-12-17 19:22:37,294 [INFO] ***********************************************************
+2021-12-17 19:22:37,295 [INFO] |valid accuracy    0.731 and f1 score    0.731
+2021-12-17 19:22:37,300 [INFO]               precision    recall  f1-score   support
+
+         0.0       0.73      0.73      0.73       538
+         1.0       0.73      0.73      0.73       528
+
+    accuracy                           0.73      1066
+   macro avg       0.73      0.73      0.73      1066
+weighted avg       0.73      0.73      0.73      1066
+
+2021-12-17 19:22:37,302 [INFO] [[394 144]
+ [143 385]]
+2021-12-17 19:22:37,303 [INFO] ***********************************************************
+2021-12-17 19:22:37,304 [INFO] Here is the test results (DO NOT USE THESE RESULTS FOR CHOOSING THE BEST AUGMENTATION):
+2021-12-17 19:22:37,691 [INFO] ***********************************************************
+2021-12-17 19:22:37,692 [INFO] |valid accuracy    0.722 and f1 score    0.722
+2021-12-17 19:22:37,697 [INFO]               precision    recall  f1-score   support
+
+         0.0       0.72      0.72      0.72       524
+         1.0       0.73      0.73      0.73       543
+
+    accuracy                           0.72      1067
+   macro avg       0.72      0.72      0.72      1067
+weighted avg       0.72      0.72      0.72      1067
+
+2021-12-17 19:22:37,699 [INFO] [[376 148]
+ [149 394]]
+2021-12-17 19:22:37,700 [INFO] ***********************************************************
+2021-12-17 19:22:38,248 [INFO] Model saved to ==> /home/mila/c/cesare.spinoso/scratch/datasets_550/polarity/augmentation_2/rnn_classif_distilbert_base_uncased.pt
+2021-12-17 19:22:38,251 [INFO] ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2021-12-17 19:22:38,252 [INFO] Starting training for polarity with augmentation 3
+2021-12-17 19:22:38,253 [INFO] Augmentation features: {'num_samples': 5, 'augmentation_type': 'random_swap', 'aug_max': None, 'aug_p': 0.75}
+2021-12-17 19:22:38,254 [INFO] ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2021-12-17 19:22:38,255 [INFO] Starting training using the HuggingFace model distilbert-base-uncased
+2021-12-17 19:22:40,543 [INFO] Done loading all the datasets
+2021-12-17 19:22:40,544 [INFO] ============================================================
+2021-12-17 19:22:40,545 [INFO] Starting training with the following hyperparameters: {'batch_size': 32, 'bidirectional': True, 'dropout': 0.2, 'hidden_dim': 256, 'lr': 0.001, 'model_type': 'lstm', 'num_epochs': 100, 'num_layers': 1}
+2021-12-17 19:22:40,562 [INFO] ===========================================================
+2021-12-17 19:22:40,563 [INFO] Training model RNNClassifier(
+  (embedding): Embedding(30522, 768, padding_idx=0)
+  (rnn): LSTM(768, 256, batch_first=True, dropout=0.2, bidirectional=True)
+  (dropout): Dropout(p=0.2, inplace=False)
+  (fc): Linear(in_features=512, out_features=2, bias=True)
+)
+2021-12-17 19:22:40,564 [INFO] ***********************************************************
+2021-12-17 19:22:40,565 [INFO] Training epoch 0
+2021-12-17 19:22:41,860 [INFO] | epoch   0 |    50/ 1600 batches | training accuracy    0.502
+2021-12-17 19:22:43,117 [INFO] | epoch   0 |   100/ 1600 batches | training accuracy    0.651
+2021-12-17 19:22:44,358 [INFO] | epoch   0 |   150/ 1600 batches | training accuracy    0.729
+2021-12-17 19:22:45,607 [INFO] | epoch   0 |   200/ 1600 batches | training accuracy    0.756
+2021-12-17 19:22:46,863 [INFO] | epoch   0 |   250/ 1600 batches | training accuracy    0.787
+2021-12-17 19:22:48,121 [INFO] | epoch   0 |   300/ 1600 batches | training accuracy    0.818
+2021-12-17 19:22:49,411 [INFO] | epoch   0 |   350/ 1600 batches | training accuracy    0.849
+2021-12-17 19:22:50,687 [INFO] | epoch   0 |   400/ 1600 batches | training accuracy    0.878
+2021-12-17 19:22:51,948 [INFO] | epoch   0 |   450/ 1600 batches | training accuracy    0.900
+2021-12-17 19:22:53,208 [INFO] | epoch   0 |   500/ 1600 batches | training accuracy    0.883
+2021-12-17 19:22:54,469 [INFO] | epoch   0 |   550/ 1600 batches | training accuracy    0.897
+2021-12-17 19:22:55,717 [INFO] | epoch   0 |   600/ 1600 batches | training accuracy    0.914
+2021-12-17 19:22:56,954 [INFO] | epoch   0 |   650/ 1600 batches | training accuracy    0.915
+2021-12-17 19:22:58,224 [INFO] | epoch   0 |   700/ 1600 batches | training accuracy    0.910
+2021-12-17 19:22:59,479 [INFO] | epoch   0 |   750/ 1600 batches | training accuracy    0.934
+2021-12-17 19:23:00,696 [INFO] | epoch   0 |   800/ 1600 batches | training accuracy    0.939
+2021-12-17 19:23:01,947 [INFO] | epoch   0 |   850/ 1600 batches | training accuracy    0.932
+2021-12-17 19:23:03,191 [INFO] | epoch   0 |   900/ 1600 batches | training accuracy    0.960
+2021-12-17 19:23:04,433 [INFO] | epoch   0 |   950/ 1600 batches | training accuracy    0.951
+2021-12-17 19:23:05,722 [INFO] | epoch   0 |  1000/ 1600 batches | training accuracy    0.964
+2021-12-17 19:23:06,975 [INFO] | epoch   0 |  1050/ 1600 batches | training accuracy    0.962
+2021-12-17 19:23:08,203 [INFO] | epoch   0 |  1100/ 1600 batches | training accuracy    0.968
+2021-12-17 19:23:09,463 [INFO] | epoch   0 |  1150/ 1600 batches | training accuracy    0.976
+2021-12-17 19:23:10,709 [INFO] | epoch   0 |  1200/ 1600 batches | training accuracy    0.970
+2021-12-17 19:23:11,973 [INFO] | epoch   0 |  1250/ 1600 batches | training accuracy    0.981
+2021-12-17 19:23:13,234 [INFO] | epoch   0 |  1300/ 1600 batches | training accuracy    0.983
+2021-12-17 19:23:14,496 [INFO] | epoch   0 |  1350/ 1600 batches | training accuracy    0.983
+2021-12-17 19:23:15,736 [INFO] | epoch   0 |  1400/ 1600 batches | training accuracy    0.984
+2021-12-17 19:23:16,965 [INFO] | epoch   0 |  1450/ 1600 batches | training accuracy    0.984
+2021-12-17 19:23:18,231 [INFO] | epoch   0 |  1500/ 1600 batches | training accuracy    0.986
+2021-12-17 19:23:19,496 [INFO] | epoch   0 |  1550/ 1600 batches | training accuracy    0.994
+2021-12-17 19:23:21,101 [INFO] ***********************************************************
+2021-12-17 19:23:21,102 [INFO] | end of epoch   0 valid accuracy    0.725 and f1 score    0.724
+2021-12-17 19:23:21,103 [INFO] ***********************************************************
+2021-12-17 19:23:21,106 [INFO] ***********************************************************
+2021-12-17 19:23:21,107 [INFO] Training epoch 1
+2021-12-17 19:23:22,341 [INFO] | epoch   1 |    50/ 1600 batches | training accuracy    0.996
+2021-12-17 19:23:23,588 [INFO] | epoch   1 |   100/ 1600 batches | training accuracy    0.990
+2021-12-17 19:23:24,827 [INFO] | epoch   1 |   150/ 1600 batches | training accuracy    0.995
+2021-12-17 19:23:26,075 [INFO] | epoch   1 |   200/ 1600 batches | training accuracy    0.996
+2021-12-17 19:23:27,316 [INFO] | epoch   1 |   250/ 1600 batches | training accuracy    0.994
+2021-12-17 19:23:28,596 [INFO] | epoch   1 |   300/ 1600 batches | training accuracy    0.992
+2021-12-17 19:23:29,864 [INFO] | epoch   1 |   350/ 1600 batches | training accuracy    0.992
+2021-12-17 19:23:31,131 [INFO] | epoch   1 |   400/ 1600 batches | training accuracy    0.994
+2021-12-17 19:23:32,363 [INFO] | epoch   1 |   450/ 1600 batches | training accuracy    0.997
+2021-12-17 19:23:33,558 [INFO] | epoch   1 |   500/ 1600 batches | training accuracy    0.995
+2021-12-17 19:23:34,791 [INFO] | epoch   1 |   550/ 1600 batches | training accuracy    0.997
+2021-12-17 19:23:36,010 [INFO] | epoch   1 |   600/ 1600 batches | training accuracy    0.992
+2021-12-17 19:23:37,248 [INFO] | epoch   1 |   650/ 1600 batches | training accuracy    0.996
+2021-12-17 19:23:38,513 [INFO] | epoch   1 |   700/ 1600 batches | training accuracy    0.996
+2021-12-17 19:23:39,614 [INFO] | epoch   1 |   750/ 1600 batches | training accuracy    0.996
+2021-12-17 19:23:40,701 [INFO] | epoch   1 |   800/ 1600 batches | training accuracy    0.997
+2021-12-17 19:23:41,886 [INFO] | epoch   1 |   850/ 1600 batches | training accuracy    0.996
+2021-12-17 19:23:43,119 [INFO] | epoch   1 |   900/ 1600 batches | training accuracy    0.998
+2021-12-17 19:23:44,336 [INFO] | epoch   1 |   950/ 1600 batches | training accuracy    0.998
+2021-12-17 19:23:45,564 [INFO] | epoch   1 |  1000/ 1600 batches | training accuracy    0.994
+2021-12-17 19:23:46,816 [INFO] | epoch   1 |  1050/ 1600 batches | training accuracy    0.993
+2021-12-17 19:23:48,084 [INFO] | epoch   1 |  1100/ 1600 batches | training accuracy    0.998
+2021-12-17 19:23:49,328 [INFO] | epoch   1 |  1150/ 1600 batches | training accuracy    0.997
+2021-12-17 19:23:50,588 [INFO] | epoch   1 |  1200/ 1600 batches | training accuracy    0.993
+2021-12-17 19:23:51,869 [INFO] | epoch   1 |  1250/ 1600 batches | training accuracy    0.995
+2021-12-17 19:23:53,072 [INFO] | epoch   1 |  1300/ 1600 batches | training accuracy    0.995
+2021-12-17 19:23:54,360 [INFO] | epoch   1 |  1350/ 1600 batches | training accuracy    0.997
+2021-12-17 19:23:55,596 [INFO] | epoch   1 |  1400/ 1600 batches | training accuracy    0.998
+2021-12-17 19:23:56,816 [INFO] | epoch   1 |  1450/ 1600 batches | training accuracy    0.998
+2021-12-17 19:23:58,066 [INFO] | epoch   1 |  1500/ 1600 batches | training accuracy    0.997
+2021-12-17 19:23:59,299 [INFO] | epoch   1 |  1550/ 1600 batches | training accuracy    0.995
+2021-12-17 19:24:00,898 [INFO] ***********************************************************
+2021-12-17 19:24:00,899 [INFO] | end of epoch   1 valid accuracy    0.730 and f1 score    0.730
+2021-12-17 19:24:00,900 [INFO] ***********************************************************
+2021-12-17 19:24:00,903 [INFO] ***********************************************************
+2021-12-17 19:24:00,904 [INFO] Training epoch 2
+2021-12-17 19:24:02,156 [INFO] | epoch   2 |    50/ 1600 batches | training accuracy    0.997
+2021-12-17 19:24:03,270 [INFO] | epoch   2 |   100/ 1600 batches | training accuracy    0.996
+2021-12-17 19:24:04,495 [INFO] | epoch   2 |   150/ 1600 batches | training accuracy    0.999
+2021-12-17 19:24:05,656 [INFO] | epoch   2 |   200/ 1600 batches | training accuracy    0.998
+2021-12-17 19:24:06,907 [INFO] | epoch   2 |   250/ 1600 batches | training accuracy    0.997
+2021-12-17 19:24:08,180 [INFO] | epoch   2 |   300/ 1600 batches | training accuracy    0.998
+2021-12-17 19:24:09,392 [INFO] | epoch   2 |   350/ 1600 batches | training accuracy    0.999
+2021-12-17 19:24:10,653 [INFO] | epoch   2 |   400/ 1600 batches | training accuracy    0.999
+2021-12-17 19:24:11,905 [INFO] | epoch   2 |   450/ 1600 batches | training accuracy    0.999
+2021-12-17 19:24:13,135 [INFO] | epoch   2 |   500/ 1600 batches | training accuracy    0.998
+2021-12-17 19:24:14,388 [INFO] | epoch   2 |   550/ 1600 batches | training accuracy    0.998
+2021-12-17 19:24:15,620 [INFO] | epoch   2 |   600/ 1600 batches | training accuracy    0.999
+2021-12-17 19:24:16,862 [INFO] | epoch   2 |   650/ 1600 batches | training accuracy    1.000
+2021-12-17 19:24:18,072 [INFO] | epoch   2 |   700/ 1600 batches | training accuracy    0.998
+2021-12-17 19:24:19,294 [INFO] | epoch   2 |   750/ 1600 batches | training accuracy    0.998
+2021-12-17 19:24:20,548 [INFO] | epoch   2 |   800/ 1600 batches | training accuracy    0.998
+2021-12-17 19:24:21,781 [INFO] | epoch   2 |   850/ 1600 batches | training accuracy    0.996
+2021-12-17 19:24:23,056 [INFO] | epoch   2 |   900/ 1600 batches | training accuracy    0.999
+2021-12-17 19:24:24,313 [INFO] | epoch   2 |   950/ 1600 batches | training accuracy    0.998
+2021-12-17 19:24:25,499 [INFO] | epoch   2 |  1000/ 1600 batches | training accuracy    0.999
+2021-12-17 19:24:26,739 [INFO] | epoch   2 |  1050/ 1600 batches | training accuracy    0.998
+2021-12-17 19:24:27,996 [INFO] | epoch   2 |  1100/ 1600 batches | training accuracy    0.997
+2021-12-17 19:24:29,249 [INFO] | epoch   2 |  1150/ 1600 batches | training accuracy    0.998
+2021-12-17 19:24:30,507 [INFO] | epoch   2 |  1200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:24:31,753 [INFO] | epoch   2 |  1250/ 1600 batches | training accuracy    0.999
+2021-12-17 19:24:32,991 [INFO] | epoch   2 |  1300/ 1600 batches | training accuracy    0.998
+2021-12-17 19:24:34,237 [INFO] | epoch   2 |  1350/ 1600 batches | training accuracy    0.998
+2021-12-17 19:24:35,471 [INFO] | epoch   2 |  1400/ 1600 batches | training accuracy    0.999
+2021-12-17 19:24:36,726 [INFO] | epoch   2 |  1450/ 1600 batches | training accuracy    0.994
+2021-12-17 19:24:37,949 [INFO] | epoch   2 |  1500/ 1600 batches | training accuracy    0.999
+2021-12-17 19:24:39,182 [INFO] | epoch   2 |  1550/ 1600 batches | training accuracy    0.996
+2021-12-17 19:24:40,780 [INFO] ***********************************************************
+2021-12-17 19:24:40,781 [INFO] | end of epoch   2 valid accuracy    0.727 and f1 score    0.727
+2021-12-17 19:24:40,781 [INFO] ***********************************************************
+2021-12-17 19:24:40,782 [INFO] ***********************************************************
+2021-12-17 19:24:40,783 [INFO] Training epoch 3
+2021-12-17 19:24:41,957 [INFO] | epoch   3 |    50/ 1600 batches | training accuracy    0.998
+2021-12-17 19:24:43,191 [INFO] | epoch   3 |   100/ 1600 batches | training accuracy    0.999
+2021-12-17 19:24:44,435 [INFO] | epoch   3 |   150/ 1600 batches | training accuracy    0.999
+2021-12-17 19:24:45,681 [INFO] | epoch   3 |   200/ 1600 batches | training accuracy    0.998
+2021-12-17 19:24:46,887 [INFO] | epoch   3 |   250/ 1600 batches | training accuracy    0.996
+2021-12-17 19:24:48,107 [INFO] | epoch   3 |   300/ 1600 batches | training accuracy    0.998
+2021-12-17 19:24:49,370 [INFO] | epoch   3 |   350/ 1600 batches | training accuracy    0.998
+2021-12-17 19:24:50,621 [INFO] | epoch   3 |   400/ 1600 batches | training accuracy    0.999
+2021-12-17 19:24:51,911 [INFO] | epoch   3 |   450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:24:53,124 [INFO] | epoch   3 |   500/ 1600 batches | training accuracy    0.999
+2021-12-17 19:24:54,361 [INFO] | epoch   3 |   550/ 1600 batches | training accuracy    0.999
+2021-12-17 19:24:55,603 [INFO] | epoch   3 |   600/ 1600 batches | training accuracy    1.000
+2021-12-17 19:24:56,829 [INFO] | epoch   3 |   650/ 1600 batches | training accuracy    1.000
+2021-12-17 19:24:58,069 [INFO] | epoch   3 |   700/ 1600 batches | training accuracy    1.000
+2021-12-17 19:24:59,336 [INFO] | epoch   3 |   750/ 1600 batches | training accuracy    0.999
+2021-12-17 19:25:00,553 [INFO] | epoch   3 |   800/ 1600 batches | training accuracy    0.997
+2021-12-17 19:25:01,814 [INFO] | epoch   3 |   850/ 1600 batches | training accuracy    0.999
+2021-12-17 19:25:03,033 [INFO] | epoch   3 |   900/ 1600 batches | training accuracy    0.999
+2021-12-17 19:25:04,278 [INFO] | epoch   3 |   950/ 1600 batches | training accuracy    0.999
+2021-12-17 19:25:05,498 [INFO] | epoch   3 |  1000/ 1600 batches | training accuracy    1.000
+2021-12-17 19:25:06,697 [INFO] | epoch   3 |  1050/ 1600 batches | training accuracy    1.000
+2021-12-17 19:25:07,967 [INFO] | epoch   3 |  1100/ 1600 batches | training accuracy    0.999
+2021-12-17 19:25:09,213 [INFO] | epoch   3 |  1150/ 1600 batches | training accuracy    0.998
+2021-12-17 19:25:10,456 [INFO] | epoch   3 |  1200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:25:11,704 [INFO] | epoch   3 |  1250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:25:12,966 [INFO] | epoch   3 |  1300/ 1600 batches | training accuracy    0.999
+2021-12-17 19:25:14,207 [INFO] | epoch   3 |  1350/ 1600 batches | training accuracy    0.999
+2021-12-17 19:25:15,461 [INFO] | epoch   3 |  1400/ 1600 batches | training accuracy    0.998
+2021-12-17 19:25:16,752 [INFO] | epoch   3 |  1450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:25:18,041 [INFO] | epoch   3 |  1500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:25:19,283 [INFO] | epoch   3 |  1550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:25:20,890 [INFO] ***********************************************************
+2021-12-17 19:25:20,891 [INFO] | end of epoch   3 valid accuracy    0.710 and f1 score    0.710
+2021-12-17 19:25:20,892 [INFO] ***********************************************************
+2021-12-17 19:25:20,892 [INFO] ***********************************************************
+2021-12-17 19:25:20,893 [INFO] Training epoch 4
+2021-12-17 19:25:21,995 [INFO] | epoch   4 |    50/ 1600 batches | training accuracy    1.000
+2021-12-17 19:25:23,229 [INFO] | epoch   4 |   100/ 1600 batches | training accuracy    0.999
+2021-12-17 19:25:24,518 [INFO] | epoch   4 |   150/ 1600 batches | training accuracy    0.998
+2021-12-17 19:25:25,775 [INFO] | epoch   4 |   200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:25:27,068 [INFO] | epoch   4 |   250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:25:28,304 [INFO] | epoch   4 |   300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:25:29,581 [INFO] | epoch   4 |   350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:25:30,841 [INFO] | epoch   4 |   400/ 1600 batches | training accuracy    0.999
+2021-12-17 19:25:32,084 [INFO] | epoch   4 |   450/ 1600 batches | training accuracy    0.996
+2021-12-17 19:25:33,364 [INFO] | epoch   4 |   500/ 1600 batches | training accuracy    0.995
+2021-12-17 19:25:34,643 [INFO] | epoch   4 |   550/ 1600 batches | training accuracy    0.996
+2021-12-17 19:25:35,889 [INFO] | epoch   4 |   600/ 1600 batches | training accuracy    0.996
+2021-12-17 19:25:37,171 [INFO] | epoch   4 |   650/ 1600 batches | training accuracy    0.998
+2021-12-17 19:25:38,427 [INFO] | epoch   4 |   700/ 1600 batches | training accuracy    0.998
+2021-12-17 19:25:39,716 [INFO] | epoch   4 |   750/ 1600 batches | training accuracy    0.996
+2021-12-17 19:25:40,992 [INFO] | epoch   4 |   800/ 1600 batches | training accuracy    0.999
+2021-12-17 19:25:42,268 [INFO] | epoch   4 |   850/ 1600 batches | training accuracy    0.999
+2021-12-17 19:25:43,536 [INFO] | epoch   4 |   900/ 1600 batches | training accuracy    0.996
+2021-12-17 19:25:44,769 [INFO] | epoch   4 |   950/ 1600 batches | training accuracy    0.998
+2021-12-17 19:25:46,019 [INFO] | epoch   4 |  1000/ 1600 batches | training accuracy    0.998
+2021-12-17 19:25:47,288 [INFO] | epoch   4 |  1050/ 1600 batches | training accuracy    0.997
+2021-12-17 19:25:48,522 [INFO] | epoch   4 |  1100/ 1600 batches | training accuracy    0.999
+2021-12-17 19:25:49,753 [INFO] | epoch   4 |  1150/ 1600 batches | training accuracy    0.998
+2021-12-17 19:25:50,985 [INFO] | epoch   4 |  1200/ 1600 batches | training accuracy    0.999
+2021-12-17 19:25:52,215 [INFO] | epoch   4 |  1250/ 1600 batches | training accuracy    0.999
+2021-12-17 19:25:53,454 [INFO] | epoch   4 |  1300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:25:54,668 [INFO] | epoch   4 |  1350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:25:55,903 [INFO] | epoch   4 |  1400/ 1600 batches | training accuracy    1.000
+2021-12-17 19:25:57,135 [INFO] | epoch   4 |  1450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:25:58,383 [INFO] | epoch   4 |  1500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:25:59,620 [INFO] | epoch   4 |  1550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:26:01,209 [INFO] ***********************************************************
+2021-12-17 19:26:01,211 [INFO] | end of epoch   4 valid accuracy    0.714 and f1 score    0.714
+2021-12-17 19:26:01,212 [INFO] ***********************************************************
+2021-12-17 19:26:01,213 [INFO] ***********************************************************
+2021-12-17 19:26:01,213 [INFO] Training epoch 5
+2021-12-17 19:26:02,409 [INFO] | epoch   5 |    50/ 1600 batches | training accuracy    1.000
+2021-12-17 19:26:03,628 [INFO] | epoch   5 |   100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:26:04,862 [INFO] | epoch   5 |   150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:26:06,093 [INFO] | epoch   5 |   200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:26:07,309 [INFO] | epoch   5 |   250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:26:08,499 [INFO] | epoch   5 |   300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:26:09,706 [INFO] | epoch   5 |   350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:26:10,933 [INFO] | epoch   5 |   400/ 1600 batches | training accuracy    1.000
+2021-12-17 19:26:12,190 [INFO] | epoch   5 |   450/ 1600 batches | training accuracy    0.999
+2021-12-17 19:26:13,363 [INFO] | epoch   5 |   500/ 1600 batches | training accuracy    0.998
+2021-12-17 19:26:14,619 [INFO] | epoch   5 |   550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:26:15,871 [INFO] | epoch   5 |   600/ 1600 batches | training accuracy    0.999
+2021-12-17 19:26:17,101 [INFO] | epoch   5 |   650/ 1600 batches | training accuracy    1.000
+2021-12-17 19:26:18,376 [INFO] | epoch   5 |   700/ 1600 batches | training accuracy    1.000
+2021-12-17 19:26:19,618 [INFO] | epoch   5 |   750/ 1600 batches | training accuracy    0.999
+2021-12-17 19:26:20,872 [INFO] | epoch   5 |   800/ 1600 batches | training accuracy    1.000
+2021-12-17 19:26:22,120 [INFO] | epoch   5 |   850/ 1600 batches | training accuracy    1.000
+2021-12-17 19:26:23,357 [INFO] | epoch   5 |   900/ 1600 batches | training accuracy    0.998
+2021-12-17 19:26:24,594 [INFO] | epoch   5 |   950/ 1600 batches | training accuracy    0.998
+2021-12-17 19:26:25,860 [INFO] | epoch   5 |  1000/ 1600 batches | training accuracy    0.999
+2021-12-17 19:26:27,090 [INFO] | epoch   5 |  1050/ 1600 batches | training accuracy    0.999
+2021-12-17 19:26:28,339 [INFO] | epoch   5 |  1100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:26:29,575 [INFO] | epoch   5 |  1150/ 1600 batches | training accuracy    0.998
+2021-12-17 19:26:30,766 [INFO] | epoch   5 |  1200/ 1600 batches | training accuracy    0.999
+2021-12-17 19:26:31,808 [INFO] | epoch   5 |  1250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:26:32,857 [INFO] | epoch   5 |  1300/ 1600 batches | training accuracy    0.999
+2021-12-17 19:26:33,913 [INFO] | epoch   5 |  1350/ 1600 batches | training accuracy    0.997
+2021-12-17 19:26:34,988 [INFO] | epoch   5 |  1400/ 1600 batches | training accuracy    0.999
+2021-12-17 19:26:36,061 [INFO] | epoch   5 |  1450/ 1600 batches | training accuracy    0.997
+2021-12-17 19:26:37,123 [INFO] | epoch   5 |  1500/ 1600 batches | training accuracy    0.999
+2021-12-17 19:26:38,174 [INFO] | epoch   5 |  1550/ 1600 batches | training accuracy    0.999
+2021-12-17 19:26:39,580 [INFO] ***********************************************************
+2021-12-17 19:26:39,582 [INFO] | end of epoch   5 valid accuracy    0.711 and f1 score    0.710
+2021-12-17 19:26:39,582 [INFO] ***********************************************************
+2021-12-17 19:26:39,583 [INFO] ***********************************************************
+2021-12-17 19:26:39,584 [INFO] Training epoch 6
+2021-12-17 19:26:40,664 [INFO] | epoch   6 |    50/ 1600 batches | training accuracy    1.000
+2021-12-17 19:26:41,711 [INFO] | epoch   6 |   100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:26:42,772 [INFO] | epoch   6 |   150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:26:43,842 [INFO] | epoch   6 |   200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:26:44,912 [INFO] | epoch   6 |   250/ 1600 batches | training accuracy    0.999
+2021-12-17 19:26:45,961 [INFO] | epoch   6 |   300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:26:47,025 [INFO] | epoch   6 |   350/ 1600 batches | training accuracy    0.999
+2021-12-17 19:26:48,090 [INFO] | epoch   6 |   400/ 1600 batches | training accuracy    0.999
+2021-12-17 19:26:49,169 [INFO] | epoch   6 |   450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:26:50,228 [INFO] | epoch   6 |   500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:26:51,299 [INFO] | epoch   6 |   550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:26:52,380 [INFO] | epoch   6 |   600/ 1600 batches | training accuracy    1.000
+2021-12-17 19:26:53,464 [INFO] | epoch   6 |   650/ 1600 batches | training accuracy    1.000
+2021-12-17 19:26:54,548 [INFO] | epoch   6 |   700/ 1600 batches | training accuracy    1.000
+2021-12-17 19:26:55,618 [INFO] | epoch   6 |   750/ 1600 batches | training accuracy    1.000
+2021-12-17 19:26:56,688 [INFO] | epoch   6 |   800/ 1600 batches | training accuracy    0.998
+2021-12-17 19:26:57,757 [INFO] | epoch   6 |   850/ 1600 batches | training accuracy    1.000
+2021-12-17 19:26:58,842 [INFO] | epoch   6 |   900/ 1600 batches | training accuracy    1.000
+2021-12-17 19:26:59,902 [INFO] | epoch   6 |   950/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:00,983 [INFO] | epoch   6 |  1000/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:02,059 [INFO] | epoch   6 |  1050/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:03,139 [INFO] | epoch   6 |  1100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:04,218 [INFO] | epoch   6 |  1150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:05,282 [INFO] | epoch   6 |  1200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:06,349 [INFO] | epoch   6 |  1250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:07,436 [INFO] | epoch   6 |  1300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:08,518 [INFO] | epoch   6 |  1350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:09,605 [INFO] | epoch   6 |  1400/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:10,680 [INFO] | epoch   6 |  1450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:11,733 [INFO] | epoch   6 |  1500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:12,805 [INFO] | epoch   6 |  1550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:14,220 [INFO] ***********************************************************
+2021-12-17 19:27:14,221 [INFO] | end of epoch   6 valid accuracy    0.702 and f1 score    0.702
+2021-12-17 19:27:14,222 [INFO] ***********************************************************
+2021-12-17 19:27:14,222 [INFO] ***********************************************************
+2021-12-17 19:27:14,223 [INFO] Training epoch 7
+2021-12-17 19:27:15,313 [INFO] | epoch   7 |    50/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:16,378 [INFO] | epoch   7 |   100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:17,457 [INFO] | epoch   7 |   150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:18,540 [INFO] | epoch   7 |   200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:19,614 [INFO] | epoch   7 |   250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:20,709 [INFO] | epoch   7 |   300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:21,900 [INFO] | epoch   7 |   350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:23,118 [INFO] | epoch   7 |   400/ 1600 batches | training accuracy    0.999
+2021-12-17 19:27:24,247 [INFO] | epoch   7 |   450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:25,452 [INFO] | epoch   7 |   500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:26,670 [INFO] | epoch   7 |   550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:27,866 [INFO] | epoch   7 |   600/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:29,053 [INFO] | epoch   7 |   650/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:30,266 [INFO] | epoch   7 |   700/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:31,473 [INFO] | epoch   7 |   750/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:32,670 [INFO] | epoch   7 |   800/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:33,883 [INFO] | epoch   7 |   850/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:35,089 [INFO] | epoch   7 |   900/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:36,282 [INFO] | epoch   7 |   950/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:37,470 [INFO] | epoch   7 |  1000/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:38,536 [INFO] | epoch   7 |  1050/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:39,732 [INFO] | epoch   7 |  1100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:40,952 [INFO] | epoch   7 |  1150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:42,158 [INFO] | epoch   7 |  1200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:43,360 [INFO] | epoch   7 |  1250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:44,567 [INFO] | epoch   7 |  1300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:45,762 [INFO] | epoch   7 |  1350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:46,955 [INFO] | epoch   7 |  1400/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:48,158 [INFO] | epoch   7 |  1450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:49,354 [INFO] | epoch   7 |  1500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:50,550 [INFO] | epoch   7 |  1550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:52,091 [INFO] ***********************************************************
+2021-12-17 19:27:52,092 [INFO] | end of epoch   7 valid accuracy    0.698 and f1 score    0.698
+2021-12-17 19:27:52,093 [INFO] ***********************************************************
+2021-12-17 19:27:52,094 [INFO] ***********************************************************
+2021-12-17 19:27:52,095 [INFO] Training epoch 8
+2021-12-17 19:27:53,305 [INFO] | epoch   8 |    50/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:54,513 [INFO] | epoch   8 |   100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:55,722 [INFO] | epoch   8 |   150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:56,936 [INFO] | epoch   8 |   200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:58,142 [INFO] | epoch   8 |   250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:27:59,351 [INFO] | epoch   8 |   300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:00,539 [INFO] | epoch   8 |   350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:01,738 [INFO] | epoch   8 |   400/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:02,896 [INFO] | epoch   8 |   450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:04,102 [INFO] | epoch   8 |   500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:05,298 [INFO] | epoch   8 |   550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:06,482 [INFO] | epoch   8 |   600/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:07,679 [INFO] | epoch   8 |   650/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:08,883 [INFO] | epoch   8 |   700/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:10,090 [INFO] | epoch   8 |   750/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:11,282 [INFO] | epoch   8 |   800/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:12,481 [INFO] | epoch   8 |   850/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:13,665 [INFO] | epoch   8 |   900/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:14,862 [INFO] | epoch   8 |   950/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:16,034 [INFO] | epoch   8 |  1000/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:17,239 [INFO] | epoch   8 |  1050/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:18,443 [INFO] | epoch   8 |  1100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:19,626 [INFO] | epoch   8 |  1150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:20,836 [INFO] | epoch   8 |  1200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:22,022 [INFO] | epoch   8 |  1250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:23,220 [INFO] | epoch   8 |  1300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:24,414 [INFO] | epoch   8 |  1350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:25,630 [INFO] | epoch   8 |  1400/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:26,842 [INFO] | epoch   8 |  1450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:28,049 [INFO] | epoch   8 |  1500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:29,254 [INFO] | epoch   8 |  1550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:30,783 [INFO] ***********************************************************
+2021-12-17 19:28:30,785 [INFO] | end of epoch   8 valid accuracy    0.698 and f1 score    0.698
+2021-12-17 19:28:30,785 [INFO] ***********************************************************
+2021-12-17 19:28:30,786 [INFO] ***********************************************************
+2021-12-17 19:28:30,787 [INFO] Training epoch 9
+2021-12-17 19:28:31,874 [INFO] | epoch   9 |    50/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:32,982 [INFO] | epoch   9 |   100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:34,180 [INFO] | epoch   9 |   150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:35,386 [INFO] | epoch   9 |   200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:36,596 [INFO] | epoch   9 |   250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:37,806 [INFO] | epoch   9 |   300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:39,011 [INFO] | epoch   9 |   350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:40,218 [INFO] | epoch   9 |   400/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:41,418 [INFO] | epoch   9 |   450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:42,606 [INFO] | epoch   9 |   500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:43,806 [INFO] | epoch   9 |   550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:45,007 [INFO] | epoch   9 |   600/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:46,191 [INFO] | epoch   9 |   650/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:47,401 [INFO] | epoch   9 |   700/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:48,662 [INFO] | epoch   9 |   750/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:49,921 [INFO] | epoch   9 |   800/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:51,188 [INFO] | epoch   9 |   850/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:52,442 [INFO] | epoch   9 |   900/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:53,699 [INFO] | epoch   9 |   950/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:54,980 [INFO] | epoch   9 |  1000/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:56,247 [INFO] | epoch   9 |  1050/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:57,528 [INFO] | epoch   9 |  1100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:28:58,800 [INFO] | epoch   9 |  1150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:29:00,051 [INFO] | epoch   9 |  1200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:29:01,303 [INFO] | epoch   9 |  1250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:29:02,576 [INFO] | epoch   9 |  1300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:29:03,846 [INFO] | epoch   9 |  1350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:29:05,128 [INFO] | epoch   9 |  1400/ 1600 batches | training accuracy    1.000
+2021-12-17 19:29:06,405 [INFO] | epoch   9 |  1450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:29:07,672 [INFO] | epoch   9 |  1500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:29:08,954 [INFO] | epoch   9 |  1550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:29:10,617 [INFO] ***********************************************************
+2021-12-17 19:29:10,619 [INFO] | end of epoch   9 valid accuracy    0.698 and f1 score    0.698
+2021-12-17 19:29:10,620 [INFO] ***********************************************************
+2021-12-17 19:29:10,621 [INFO] ***********************************************************
+2021-12-17 19:29:10,621 [INFO] Training epoch 10
+2021-12-17 19:29:11,754 [INFO] | epoch  10 |    50/ 1600 batches | training accuracy    1.000
+2021-12-17 19:29:12,979 [INFO] | epoch  10 |   100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:29:14,226 [INFO] | epoch  10 |   150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:29:15,436 [INFO] | epoch  10 |   200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:29:16,679 [INFO] | epoch  10 |   250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:29:17,953 [INFO] | epoch  10 |   300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:29:19,164 [INFO] | epoch  10 |   350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:29:20,419 [INFO] | epoch  10 |   400/ 1600 batches | training accuracy    1.000
+2021-12-17 19:29:21,646 [INFO] | epoch  10 |   450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:29:22,877 [INFO] | epoch  10 |   500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:29:24,119 [INFO] | epoch  10 |   550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:29:25,341 [INFO] | epoch  10 |   600/ 1600 batches | training accuracy    1.000
+2021-12-17 19:29:26,596 [INFO] | epoch  10 |   650/ 1600 batches | training accuracy    1.000
+2021-12-17 19:29:27,785 [INFO] | epoch  10 |   700/ 1600 batches | training accuracy    1.000
+2021-12-17 19:29:29,036 [INFO] | epoch  10 |   750/ 1600 batches | training accuracy    1.000
+2021-12-17 19:29:30,295 [INFO] | epoch  10 |   800/ 1600 batches | training accuracy    1.000
+2021-12-17 19:29:31,548 [INFO] | epoch  10 |   850/ 1600 batches | training accuracy    1.000
+2021-12-17 19:29:32,800 [INFO] | epoch  10 |   900/ 1600 batches | training accuracy    1.000
+2021-12-17 19:29:34,060 [INFO] | epoch  10 |   950/ 1600 batches | training accuracy    1.000
+2021-12-17 19:29:35,297 [INFO] | epoch  10 |  1000/ 1600 batches | training accuracy    1.000
+2021-12-17 19:29:36,564 [INFO] | epoch  10 |  1050/ 1600 batches | training accuracy    1.000
+2021-12-17 19:29:37,782 [INFO] | epoch  10 |  1100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:29:39,019 [INFO] | epoch  10 |  1150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:29:40,241 [INFO] | epoch  10 |  1200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:29:41,464 [INFO] | epoch  10 |  1250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:29:42,718 [INFO] | epoch  10 |  1300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:29:43,945 [INFO] | epoch  10 |  1350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:29:45,167 [INFO] | epoch  10 |  1400/ 1600 batches | training accuracy    1.000
+2021-12-17 19:29:46,398 [INFO] | epoch  10 |  1450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:29:47,633 [INFO] | epoch  10 |  1500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:29:48,868 [INFO] | epoch  10 |  1550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:29:50,470 [INFO] ***********************************************************
+2021-12-17 19:29:50,471 [INFO] | end of epoch  10 valid accuracy    0.696 and f1 score    0.696
+2021-12-17 19:29:50,472 [INFO] ***********************************************************
+2021-12-17 19:29:50,473 [INFO] ***********************************************************
+2021-12-17 19:29:50,474 [INFO] Training epoch 11
+2021-12-17 19:29:51,641 [INFO] | epoch  11 |    50/ 1600 batches | training accuracy    1.000
+2021-12-17 19:29:52,808 [INFO] | epoch  11 |   100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:29:54,023 [INFO] | epoch  11 |   150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:29:55,235 [INFO] | epoch  11 |   200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:29:56,495 [INFO] | epoch  11 |   250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:29:57,744 [INFO] | epoch  11 |   300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:29:58,957 [INFO] | epoch  11 |   350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:30:00,223 [INFO] | epoch  11 |   400/ 1600 batches | training accuracy    1.000
+2021-12-17 19:30:01,463 [INFO] | epoch  11 |   450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:30:02,670 [INFO] | epoch  11 |   500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:30:03,900 [INFO] | epoch  11 |   550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:30:05,148 [INFO] | epoch  11 |   600/ 1600 batches | training accuracy    1.000
+2021-12-17 19:30:06,380 [INFO] | epoch  11 |   650/ 1600 batches | training accuracy    1.000
+2021-12-17 19:30:07,634 [INFO] | epoch  11 |   700/ 1600 batches | training accuracy    1.000
+2021-12-17 19:30:08,863 [INFO] | epoch  11 |   750/ 1600 batches | training accuracy    1.000
+2021-12-17 19:30:10,079 [INFO] | epoch  11 |   800/ 1600 batches | training accuracy    1.000
+2021-12-17 19:30:11,296 [INFO] | epoch  11 |   850/ 1600 batches | training accuracy    1.000
+2021-12-17 19:30:12,504 [INFO] | epoch  11 |   900/ 1600 batches | training accuracy    1.000
+2021-12-17 19:30:13,737 [INFO] | epoch  11 |   950/ 1600 batches | training accuracy    1.000
+2021-12-17 19:30:14,955 [INFO] | epoch  11 |  1000/ 1600 batches | training accuracy    1.000
+2021-12-17 19:30:16,184 [INFO] | epoch  11 |  1050/ 1600 batches | training accuracy    1.000
+2021-12-17 19:30:17,420 [INFO] | epoch  11 |  1100/ 1600 batches | training accuracy    1.000
+2021-12-17 19:30:18,639 [INFO] | epoch  11 |  1150/ 1600 batches | training accuracy    1.000
+2021-12-17 19:30:19,901 [INFO] | epoch  11 |  1200/ 1600 batches | training accuracy    1.000
+2021-12-17 19:30:21,129 [INFO] | epoch  11 |  1250/ 1600 batches | training accuracy    1.000
+2021-12-17 19:30:22,379 [INFO] | epoch  11 |  1300/ 1600 batches | training accuracy    1.000
+2021-12-17 19:30:23,595 [INFO] | epoch  11 |  1350/ 1600 batches | training accuracy    1.000
+2021-12-17 19:30:24,823 [INFO] | epoch  11 |  1400/ 1600 batches | training accuracy    1.000
+2021-12-17 19:30:26,073 [INFO] | epoch  11 |  1450/ 1600 batches | training accuracy    1.000
+2021-12-17 19:30:27,324 [INFO] | epoch  11 |  1500/ 1600 batches | training accuracy    1.000
+2021-12-17 19:30:28,600 [INFO] | epoch  11 |  1550/ 1600 batches | training accuracy    1.000
+2021-12-17 19:30:30,211 [INFO] ***********************************************************
+2021-12-17 19:30:30,213 [INFO] | end of epoch  11 valid accuracy    0.695 and f1 score    0.695
+2021-12-17 19:30:30,214 [INFO] ***********************************************************
+2021-12-17 19:30:30,214 [WARNING] The validation f1 score has not improved for 10 epochs. Stopping training early.
+2021-12-17 19:30:30,215 [INFO] ============================================================
+2021-12-17 19:30:30,216 [INFO] Finished training model. Best hyperparameters: {'batch_size': 32, 'bidirectional': True, 'dropout': 0.2, 'hidden_dim': 256, 'lr': 0.001, 'model_type': 'lstm', 'num_epochs': 100, 'num_layers': 1}
+2021-12-17 19:30:30,217 [INFO] Here is the validation results:
+2021-12-17 19:30:30,617 [INFO] ***********************************************************
+2021-12-17 19:30:30,619 [INFO] |valid accuracy    0.730 and f1 score    0.730
+2021-12-17 19:30:30,624 [INFO]               precision    recall  f1-score   support
+
+         0.0       0.73      0.75      0.74       538
+         1.0       0.73      0.71      0.72       528
+
+    accuracy                           0.73      1066
+   macro avg       0.73      0.73      0.73      1066
+weighted avg       0.73      0.73      0.73      1066
+
+2021-12-17 19:30:30,626 [INFO] [[401 137]
+ [151 377]]
+2021-12-17 19:30:30,627 [INFO] ***********************************************************
+2021-12-17 19:30:30,628 [INFO] Here is the test results (DO NOT USE THESE RESULTS FOR CHOOSING THE BEST AUGMENTATION):
+2021-12-17 19:30:31,028 [INFO] ***********************************************************
+2021-12-17 19:30:31,030 [INFO] |valid accuracy    0.730 and f1 score    0.730
+2021-12-17 19:30:31,035 [INFO]               precision    recall  f1-score   support
+
+         0.0       0.72      0.73      0.73       524
+         1.0       0.74      0.73      0.73       543
+
+    accuracy                           0.73      1067
+   macro avg       0.73      0.73      0.73      1067
+weighted avg       0.73      0.73      0.73      1067
+
+2021-12-17 19:30:31,037 [INFO] [[385 139]
+ [149 394]]
+2021-12-17 19:30:31,038 [INFO] ***********************************************************
+2021-12-17 19:30:31,554 [INFO] Model saved to ==> /home/mila/c/cesare.spinoso/scratch/datasets_550/polarity/augmentation_3/rnn_classif_distilbert_base_uncased.pt
