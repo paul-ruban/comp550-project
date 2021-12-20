@@ -1,7 +1,7 @@
 # Repository for COMP550-F21 Project
 
 ## Datasets
-Our final datasets for the polarity, articles and smokers task can be found in `/data/{rt-polaritydata,articles,smokers}/augmentation/`. Some preprocessing was done in `/scripts/prepare_text_data.py` and in `/scripts/prepare_medical_data.py`. All of our augmented datasets were run using the cluster and are thus hosted there. You can e-mail `cesare.spinoso-dipiano@mail.mcgill.ca` for further information about the augmented datasets.
+Our final datasets for the polarity, articles and smokers task can be found in `/data/{rt-polaritydata,articles,smokers}/augmentation/`. Some preprocessing was done in `/scripts/prepare_text_data.py` and in `/scripts/prepare_medical_data.py`. All of our augmented datasets were run using the cluster and are thus hosted there. You can e-mail `cesare.spinoso-dipiano@mail.mcgill.ca` for further information about the augmented datasets. We chose not to upload the individual augmented datasets as this did not seem pratical.
 
 ## Data augmentation
 You can find the data augmentation script in `/scripts/augment_data.py`. The augmentation script works per task so run `python augment_data.py -t polarity` for the polarity data augmentation.
