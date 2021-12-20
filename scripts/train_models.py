@@ -142,9 +142,7 @@ def prepare_train_and_val_data(training_json_path: str, validation_json_path: st
     validation_matrix = np.array([[dict_["text"], dict_["label"]] for dict_ in validation_data])
     # Split into X and y
     X_train, y_train = training_matrix[:, [0]], training_matrix[:, [1]]
-    # X_train, y_train = training_matrix[:100, [0]], training_matrix[:100, [1]]
     X_val, y_val = validation_matrix[:, [0]], validation_matrix[:, [1]]
-    # X_val, y_val = validation_matrix[:100, [0]], validation_matrix[:100, [1]]
     # To use GridSearch format merge train and val and keep the split index
     # By convention training points are identified with -1 and validation points with 0
     split_index = np.array([-1] * len(X_train) + [0] * len(X_val))

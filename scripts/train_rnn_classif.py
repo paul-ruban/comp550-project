@@ -154,12 +154,6 @@ def get_augmentation_dict(data_type):
 
 def train_models(data_type, augmentation_dicts):
     for augmentation_dict in augmentation_dicts:
-        if data_type == "polarity":
-            if augmentation_dict['augmented_dataset_id'] not in {1, 2, 3}:
-                continue
-        if data_type == "articles":
-            if augmentation_dict['augmented_dataset_id'] not in {5, 6, 9, 11, 12}:
-                continue
         logger.info("+" * 90)
         logger.info(
             f"Starting training for {data_type} with augmentation {augmentation_dict['augmented_dataset_id']}"
