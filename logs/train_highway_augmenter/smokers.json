@@ -1,0 +1,2 @@
+{"huggingface_model": "distilbert-base-uncased", "f1_score": 0.539313399778516, "accuracy_score": 0.5733333333333334, "path_to_pickle": "/content/models/smokers/model_distilbert_base_uncased.pt"}
+{"huggingface_model": "microsoft/BiomedNLP-PubMedBERT-base-uncased-abstract-fulltext", "f1_score": 0.5236060236060237, "accuracy_score": 0.6533333333333333, "path_to_pickle": "/content/models/smokers/model_pubmed_bert_base_uncased.pt"}
