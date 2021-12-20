@@ -2,16 +2,18 @@ import os
 import re
 import copy
 import torch
-from datasets import load_dataset
 from torch.utils import data
+from datasets import load_dataset
+from typing import List, Tuple, Union
+from transformers.tokenization_utils import PreTrainedTokenizer
 
-DATASET_SCRIPT_PATH = os.path.join(os.path.dirname(os.path.realpath(__file__)), "dataset_script.py")
+TEXT_SCRIPT_PATH = os.path.join(os.path.dirname(os.path.realpath(__file__)), "text.py")
+JSON_SCRIPT_PATH = os.path.join(os.path.dirname(os.path.realpath(__file__)), "json.py")
 
 
 class DataFiles:
-    """An abstraction representing a list of file paths that will 
-    form a dataset"""
-    def __init__(self, paths) -> None:
+    """An abstraction representing a list of file paths that will form a dataset"""
+    def __init__(self, paths : List[str]) -> None:
         self.paths = paths
     
     def __len__(self) -> int:
@@ -21,14 +23,14 @@ class DataFiles:
         for path in self.paths:
             yield path
     
-    def __getitem__(self, i) -> str:
+    def __getitem__(self, i : int) -> str:
         return self.paths[i]
     
     def __str__(self) -> str:
         return str(self.paths)
 
     @classmethod
-    def from_dir(cls, dir):
+    def from_dir(cls, dir : str) -> None:
         """All .txt files in dir are form FilePaths"""
         paths = [os.path.join(dir, f) for f in os.listdir(dir) 
                 if os.path.isfile(os.path.join(dir, f)) and 
@@ -36,7 +38,7 @@ class DataFiles:
         return cls(paths=paths)
     
     @classmethod
-    def from_url_file(cls, url_file):
+    def from_url_file(cls, url_file : str) -> None:
         """Use a file with urls each on a separate line"""
         with open(url_file) as f:
             urls = [line.rstrip() for line in f.readlines()]
@@ -46,10 +48,17 @@ class DataFiles:
 
 class Dataset(torch.utils.data.Dataset):
     """Represents an iterable dataset that wraps transformers dataset object"""
-    def __init__(self, data_files, split="all"):
+    def __init__(
+        self, 
+        data_files : DataFiles,
+        data_format : str = "txt",
+        split : str ="all"
+    ) -> None:
+
+        assert (data_format in ["txt", "json"]), "data_format bust be one of: ['txt', 'json']"
         self.data_files = data_files
         self.dataset = load_dataset(
-            path=DATASET_SCRIPT_PATH, 
+            path=TEXT_SCRIPT_PATH if data_format == "txt" else JSON_SCRIPT_PATH, 
             data_files=data_files, 
             split=split
         )
@@ -79,7 +88,12 @@ def remove_empty_fn(dataset : Dataset) -> Dataset:
     return dataset
 
 
-def truncate_fn(dataset: Dataset, tokenizer, max_seq_length : int = 128, fill_to_max : bool = False) -> Dataset:
+def truncate_fn(
+    dataset: Dataset, 
+    tokenizer : PreTrainedTokenizer, 
+    max_seq_length : int = 128, 
+    fill_to_max : bool = False
+) -> Dataset:
     """Performs splitting of long lines into several lines by keeping track of their original location.
     Also may merge several lines into one to have fuller data samples.
     
@@ -117,8 +131,8 @@ def truncate_fn(dataset: Dataset, tokenizer, max_seq_length : int = 128, fill_to
                     next_example = {feat : dataset[feat].pop(i+1) for feat in dataset}
                     
                     # join lines, but keep file, document, line ids the same
-                    dataset["text"][i] += tokenizer.eos_token + next_example["text"]
-                    dataset["tokens"][i] += [tokenizer.eos_token] + next_example["tokens"]
+                    dataset["text"][i] += ' ' + tokenizer.sep_token + ' ' + next_example["text"]
+                    dataset["tokens"][i] += [tokenizer.sep_token] + next_example["tokens"]
                     continue
             i += 1
     # remove tokens feature as having them will result in errors when we iterate over batches
@@ -127,37 +141,37 @@ def truncate_fn(dataset: Dataset, tokenizer, max_seq_length : int = 128, fill_to
     return dataset
 
 
-def tokenize_fn(dataset : Dataset, tokenizer) -> Dataset:
-    """Tokenize text feature and add tokens feature."""
-    processed = tokenizer(dataset["text"], padding=True)
-    dataset["input_ids"] = processed["input_ids"]
+# def tokenize_fn(dataset : Dataset, tokenizer) -> Dataset:
+#     """Tokenize text feature and add tokens feature."""
+#     processed = tokenizer(dataset["text"], padding=True)
+#     dataset["input_ids"] = processed["input_ids"]
 
-    return dataset
-
-
-def convert_tokens_to_ids_fn(dataset : Dataset, tokenizer) -> Dataset:
-    """Convert tokens to input_ids."""
-    dataset["input_ids"] = [tokenizer.convert_tokens_to_ids(line) for line in dataset["tokens"]]
-
-    return dataset
+#     return dataset
 
 
-def recover_mask_fn(dataset : Dataset, tokenizer, mask_char='A') -> Dataset:
-    """Replace the symbol used to mask words in a file to a mask recognized by the model.
-    By convention a single <mask_char> represents a single token. To indicate that multiple tokens 
-    were masked we use <number><mask_char>, like 3A -> <mask><mask><mask>.
-    Note: this is better to be done before truncating and merging lines. 
+# def convert_tokens_to_ids_fn(dataset : Dataset, tokenizer) -> Dataset:
+#     """Convert tokens to input_ids."""
+#     dataset["input_ids"] = [tokenizer.convert_tokens_to_ids(line) for line in dataset["tokens"]]
 
-    Ex.
-    1. "I 'm enjoying A." -> I 'm enjoying <mask>.
-    2. "I 'm 2A life." -> I 'm <mask><mask> life.
-    """
-    dataset["text"] = [
-        re.sub(
-            pattern=rf'(\d*)({mask_char})', 
-            repl=lambda x: tokenizer.mask_token * int(x[1] if x[1] else 1), 
-            string=line) 
-        for line in dataset["text"]
-    ]
+#     return dataset
 
-    return dataset
+
+# def recover_mask_fn(dataset : Dataset, tokenizer, mask_char='A') -> Dataset:
+#     """Replace the symbol used to mask words in a file to a mask recognized by the model.
+#     By convention a single <mask_char> represents a single token. To indicate that multiple tokens 
+#     were masked we use <number><mask_char>, like 3A -> <mask><mask><mask>.
+#     Note: this is better to be done before truncating and merging lines. 
+
+#     Ex.
+#     1. "I 'm enjoying A." -> I 'm enjoying <mask>.
+#     2. "I 'm 2A life." -> I 'm <mask><mask> life.
+#     """
+#     dataset["text"] = [
+#         re.sub(
+#             pattern=rf'(\d*)({mask_char})', 
+#             repl=lambda x: tokenizer.mask_token * int(x[1] if x[1] else 1), 
+#             string=line) 
+#         for line in dataset["text"]
+#     ]
+
+#     return dataset

@@ -1,76 +1,150 @@
-from abc import abstractmethod
-from tqdm import tqdm
 import torch
 from torch import nn
-from torch.nn import functional as F
+from tqdm import tqdm
+from abc import abstractmethod
 from src.models.model import Model
-from typing import Union, List, Iterator, Tuple
 from src.data.dataio import Dataset
-from src.models.tokenizing import Tokenizer
+from torch.nn import functional as F
 from torch.utils.data import DataLoader
 from torch.nn.parameter import Parameter
+from typing import Union, List, Iterator, Tuple
+from transformers.tokenization_utils import PreTrainedTokenizer
 
 
-class RNN(nn.Module):
-    def __init__(self, rnn_type, vocab_size, embedding_dim, hidden_dim, 
-                num_layers, dropout, bidirectional, tie_weights):
+class RNNMasker(torch.nn.Module):
+    def __init__(
+        self,
+        rnn_type : str = "lstm", 
+        embeddings : torch.nn.modules.sparse.Embedding = None,
+        hidden_dim : int = 768, 
+        num_layers : int = 1,
+        bidirectional : bool = False,
+        dropout : float = 0.1,
+    ) -> None:
+
         super().__init__()
-
         assert (rnn_type in ["lstm", "gru"]), "rnn_type can be one of: 'lstm', 'gru'."
-        rnn_type = nn.LSTM if rnn_type == "lstm" else nn.GRU
+        rnn_type = torch.nn.LSTM if rnn_type == "lstm" else torch.nn.GRU
+        self.embeddings = embeddings
+        self.hidden_dim = hidden_dim
+        self.bidirectional = bidirectional
 
-        self.embeddings = nn.Embedding(vocab_size, embedding_dim)
         self.rnn = rnn_type(
-            input_size=embedding_dim, 
+            input_size=embeddings.embedding_dim, 
             hidden_size=hidden_dim,
             num_layers=num_layers,
-            dropout=dropout,
+            dropout=dropout if num_layers > 1 else 0, # prevents warning for 1 layer
             bidirectional=bidirectional,
             batch_first=True
         )
-        self.tie_weights = tie_weights
-        if bidirectional:
-            # create projection from 2 * hidden_dim to hidden_dim
-            self.projection = nn.Linear(2 * hidden_dim, hidden_dim)
 
-        self.hidden2token = nn.Linear(in_features=hidden_dim, out_features=vocab_size)
+        self.dropout = torch.nn.Dropout(p=dropout)
+        if self.hidden_dim * (2 if bidirectional else 1) != embeddings.embedding_dim:
+            self.projection = torch.nn.Linear(
+                in_features=self.hidden_dim * (2 if bidirectional else 1),
+                out_features=embeddings.embedding_dim)
+        else:
+            self.projection = None
+        self.dense = torch.nn.Linear(in_features=embeddings.embedding_dim, out_features=1)
         
-        # tie input and output embedding weights
-        if tie_weights:
-            self.hidden2token.weight = self.embeddings.weight
+    def forward(
+        self, 
+        input_ids : torch.Tensor = None, # [Batch, SeqLen]
+        inputs_embeds : torch.Tensor = None, # [Batch, SeqLen, EmbDim]
+        return_hidden : bool = False
+    ) -> torch.Tensor:
 
-    def forward(self, x):
-        x = self.embeddings(x)
-        x, _ = self.rnn(x)
-        if self.rnn.bidirectional:
-            x = self.projection(x)
-        x = self.hidden2token(x)
-        log_probas = F.log_softmax(x, dim=-1)
-        log_probas = log_probas.transpose(-1, 1)
-        return log_probas
+        assert (input_ids is None or inputs_embeds is None), "Can take either input_ids or inputs_embeds, not both."
+        if inputs_embeds is None:
+            inputs_embeds = self.embeddings(input_ids) # [Batch, SeqLen, EmbDim]
+        hidden, _ = self.rnn(inputs_embeds) # [Batch, SeqLen, HidDim * (2 if bidirectional else 1)]
+        if self.projection:
+            hidden = self.projection(hidden) # [Batch, SeqLen, EmbDim]
+        hidden = self.dropout(hidden) # [Batch, SeqLen, EmbDim]
+        output = self.dense(hidden) # [Batch, SeqLen, 1]
+        if return_hidden:
+            return output, hidden
+        else:
+            return output
+
+
+class RNNClassifier(nn.Module):
+    def __init__(
+        self,
+        rnn_type : str = "lstm", 
+        embeddings_layer : torch.nn.modules.sparse.Embedding = None,
+        hidden_dim : int = 768, 
+        num_layers : int = 1,
+        output_size : int = 2,
+        bidirectional : bool = False,
+        dropout : float = 0.1,
+        ext_feat_size : int = 0 # comes from outside and is concatenated to embeddings
+    ) -> None:
+
+        super().__init__()
+        assert (rnn_type in ["lstm", "gru"]), "rnn_type can be one of: 'lstm', 'gru'."
+        rnn_type = nn.LSTM if rnn_type == "lstm" else nn.GRU
+        self.embeddings = embeddings_layer
+        self.hidden_dim = hidden_dim
+        self.bidirectional = bidirectional
+
+        self.rnn = rnn_type(
+            input_size=self.embeddings.embedding_dim + ext_feat_size, 
+            # input_size=self.embeddings.embedding_dim, 
+            hidden_size=hidden_dim,
+            num_layers=num_layers,
+            dropout=dropout if num_layers > 1 else 0, # prevents warning for 1 layer
+            bidirectional=bidirectional,
+            batch_first=True
+        )
+
+        self.dropout = nn.Dropout(p=dropout)
+        self.dense = nn.Linear(
+            in_features=hidden_dim * (2 if bidirectional else 1), 
+            out_features=output_size)
+        
+    def forward(
+        self, 
+        input_ids : torch.Tensor = None, # [B, L]
+        inputs_embeds : torch.Tensor = None # [B, L, H]
+    ) -> torch.Tensor:
+        assert (input_ids is None or inputs_embeds is None), "Can take either input_ids or inputs_embeds, not both."
+        if inputs_embeds is None:
+            inputs_embeds = self.embeddings(input_ids)
+        
+        _, (hidden, _) = self.rnn(inputs_embeds)
+        hidden = self.dropout(hidden)
+
+        if self.bidirectional:
+            hidden = torch.cat([hidden[-2], hidden[-1]], dim=-1)
+        else:
+            # Only use last hidden state
+            hidden = hidden[-1]
+        output = self.dense(hidden)
+        return output
 
 
 class RNNBaseLM(Model):
     def __init__(
         self,
-        tokenizer : Tokenizer, 
+        tokenizer : PreTrainedTokenizer,
+        embeddings_layer : torch.nn.modules.sparse.Embedding = None,
         rnn_type : str = "lstm",
-        embedding_dim : int = 300, 
-        hidden_dim : int =  300, 
-        num_layers : int = 2, 
+        embedding_dim : int = 768, 
+        hidden_dim : int =  768, 
+        num_layers : int = 1, 
         dropout : float = 0.1, 
         bidirectional : bool = False,
         tie_weights : bool = True
     ) -> None:
 
-        self.embedding_dim = embedding_dim
-        self.hidden_dim = hidden_dim
         self.tokenizer = tokenizer
-
         self.model = RNN(
-            rnn_type=rnn_type,
-            vocab_size=len(tokenizer.vocab),
+            input_size=len(tokenizer.vocab),
             embedding_dim=embedding_dim, 
+            output_size=len(tokenizer.vocab),
+            embeddings_layer=embeddings_layer,
+            rnn_type=rnn_type,
             hidden_dim=hidden_dim, 
             num_layers=num_layers,
             dropout=dropout,
@@ -115,12 +189,14 @@ class RNNBaseLM(Model):
     def predict():
         raise NotImplemented("Must implement predict() method.")
 
+
 class RNNMaskedLM(RNNBaseLM):
     def fit(
         self, 
-        dataset : Dataset, 
+        dataset : Dataset,
         loss_fn : torch.nn.Module, 
         optim : torch.optim.Optimizer, 
+        masking : str = None, # TODO add masking strategies
         n_epochs : int = 1, 
         batch_size : int = 32, 
         log_every : int = 50
@@ -133,22 +209,25 @@ class RNNMaskedLM(RNNBaseLM):
 
         for epoch in range(n_epochs):
             for i, batch in enumerate(loader):
-                x = self.tokenizer(batch["text"], add_special=True)
-                # here we would mask some of the tokens
+                inputs = self.tokenizer(
+                    text=batch["text"],
+                    padding=True,
+                    return_attention_mask=True,
+                    return_tensors="pt"
+                )
+                input_ids = inputs["input_ids"].to(device)
+                attention_mask = inputs["attention_mask"].to(device)
+                targets = input_ids.detach().clone()
                 # TODO
-                x, pad_mask = self._pad_batch(x, batch_first=True, return_pad_mask=True)
-                x = x.to(device)
-                pad_mask = pad_mask.to(device)
-                y = self.tokenizer(batch["text"], add_special=True)
-                y = self._pad_batch(y, batch_first=True).to(device)
+                # here we would mask some of the tokens
 
                 self.model.zero_grad()
-                log_probas = self.model(x)
+                log_probas = self.model(input_ids)
 
-                loss = loss_fn(log_probas, y)
+                loss = loss_fn(log_probas, targets)
                 if i and i % (log_every) == 0:
                     print(f"Step {i}: loss = {loss.item()}")
-                    out = (log_probas.detach().clone().argmax(dim=1) * pad_mask).tolist()
+                    out = (log_probas.detach().clone().argmax(dim=1) * attention_mask).tolist()
                     print(self.tokenizer.decode(out, remove_special=True))
                 loss.backward()
                 optim.step()
@@ -161,23 +240,31 @@ class RNNMaskedLM(RNNBaseLM):
         loader = DataLoader(dataset=dataset, batch_size=batch_size, shuffle=False)
         with torch.no_grad():
             for batch in loader:
-                x = self.tokenizer(batch["text"], add_special=True)
-                x, pad_mask = self._pad_batch(x, batch_first=True, return_pad_mask=True)
-                x = x.to(device)
-                pad_mask = pad_mask.to(device)
+                inputs = self.tokenizer(
+                    text=batch["text"],
+                    padding=True,
+                    return_attention_mask=True,
+                    return_tensors="pt"
+                )
+                input_ids = inputs["input_ids"].to(device)
+                attention_mask = inputs["attention_mask"].to(device)
 
-                log_probas = self.model(x)
-                out = (log_probas.detach().clone().argmax(dim=1) * pad_mask).tolist()
-                output.extend(self.tokenizer.decode(out, remove_special=True))
+                log_probas = self.model(input_ids)
+                out = (log_probas.detach().clone().argmax(dim=1) * attention_mask).tolist()
+                decoded_batch = self.tokenizer.batch_decode(out, skip_special_tokens=True)
+                output.extend(decoded_batch)
 
         return output
 
 
 class RNNLanguageModel(RNNBaseLM):
-    def _shift_labels(self, labels : List[List[int]]):
+    def _shift_labels(self, labels : torch.Tensor) -> torch.Tensor:
         # shifts labels one position left to predict next word in LM
-        labels = [row[1:] + [self.tokenizer.vocab.pad_token_id] for row in labels]
-
+        batch_size = labels.shape[0]
+        labels = torch.cat(
+            tensors=[labels[:, 1:], torch.ones(size=(batch_size, 1), dtype=labels.dtype)], 
+            dim=1
+        )
         return labels
 
     def fit(
@@ -197,50 +284,58 @@ class RNNLanguageModel(RNNBaseLM):
 
         for epoch in range(n_epochs):
             for i, batch in enumerate(loader):
-                x = self.tokenizer(batch["text"], add_special=True)
-                x, pad_mask = self._pad_batch(x, batch_first=True, return_pad_mask=True)
-                x = x.to(device)
-                pad_mask = pad_mask.to(device)
-                y = self.tokenizer(batch["text"], add_special=True)
-                y = self._shift_labels(y)
-                y = self._pad_batch(y, batch_first=True).to(device)
+                inputs = self.tokenizer(
+                    text=batch["text"],
+                    padding=True,
+                    return_attention_mask=True,
+                    return_tensors="pt"
+                )
+                input_ids = inputs["input_ids"].to(device)
+                attention_mask = inputs["attention_mask"].to(device)
+                targets = input_ids.detach().clone()
+                targets = self._shift_labels(labels=targets)
 
                 self.model.zero_grad()
-                log_probas = self.model(x)
+                log_probas = self.model(input_ids)
 
-                loss = loss_fn(log_probas, y)
+                loss = loss_fn(log_probas, targets)
                 if i and i % (log_every) == 0:
                     print(f"Step {i}: loss = {loss.item()}")
-                    out = (log_probas.detach().clone().argmax(dim=1) * pad_mask).tolist()
-                    print(self.tokenizer.decode(out, remove_special=True))
+                    out = (log_probas.detach().clone().argmax(dim=1) * attention_mask).tolist()
+                    print(self.tokenizer.batch_decode(out, skip_special_tokens=True))
                 loss.backward()
                 optim.step()
         
         return self
 
     def predict(self, dataset : Dataset):
-        mask_token_id = self.tokenizer.mask_token_id
-
         device = self._get_device()
         loader = DataLoader(dataset=dataset, batch_size=1, shuffle=False)
 
         output = []
         # since we do prediction sequentially we cannot have a batch size > 1
         with torch.no_grad():
+            # TODO implement sequential predictions
             for batch in loader:
-                x = self.tokenizer(batch["text"], add_special=True)
-                masked_token_ids = [i for i in range(len(x[0])) if x[0][i] == self.tokenizer.mask_token_id]
-                print(x)
-                for masked_token_id in masked_token_ids:
-                    _x = [x[0][:masked_token_id]]
-                    _x = self._pad_batch(_x, batch_first=True)
-                    _x = _x.to(device)
+                inputs = self.tokenizer(
+                    text=batch["text"],
+                    return_attention_mask=False,
+                    return_tensors="pt"
+                )
+                input_ids = inputs["input_ids"].to(device)
+                mask_token_ids = (input_ids == self.tokenizer.mask_token_id).nonzero(as_tuple=True)[-1]
+                for mask_token_id in mask_token_ids:
+                    _input_ids = input_ids[:, :mask_token_id]
+                    _input_ids = _input_ids.to(device)
 
-                    log_proba = self.model(_x)[0, -1] # take the last output of RNN
+                    log_proba = self.model(_input_ids)[:, -1] # take the last output of RNN
                     predicted_token_id = log_proba.argmax().item()
                     # replace mask token with predicted token
-                    x[0][masked_token_id] =  predicted_token_id
+                    input_ids[0, mask_token_id] = predicted_token_id
 
-                output.append(self.tokenizer.decode(x, remove_special=True)[0])
+                output.append(
+                    self.tokenizer.batch_decode(
+                        input_ids.detach().clone().tolist(), skip_special_tokens=True)[0]
+                )
 
         return output
