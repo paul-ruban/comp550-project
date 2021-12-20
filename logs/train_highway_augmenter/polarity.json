@@ -1,0 +1,1 @@
+{"huggingface_model": "distilbert-base-uncased", "f1_score": 0.7913563267033432, "accuracy_score": 0.7917448405253283, "path_to_pickle": "/content/models/polarity/model_distilbert_base_uncased.pt"}
