@@ -556,12 +556,3 @@ class POSMask(Mask):
         )
         return _X
 
-
-class LearnedMask(Mask):
-    def __init__(
-        self,
-        mask_model,
-        mask_token
-    ) -> None:
-        super().__init__(mask_token)
-        self.mask_model = mask_model

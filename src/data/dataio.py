@@ -1,10 +1,7 @@
 import os
-import re
-import copy
 import torch
-from torch.utils import data
 from datasets import load_dataset
-from typing import List, Tuple, Union
+from typing import List
 from transformers.tokenization_utils import PreTrainedTokenizer
 
 TEXT_SCRIPT_PATH = os.path.join(os.path.dirname(os.path.realpath(__file__)), "text.py")
@@ -140,38 +137,3 @@ def truncate_fn(
     
     return dataset
 
-
-# def tokenize_fn(dataset : Dataset, tokenizer) -> Dataset:
-#     """Tokenize text feature and add tokens feature."""
-#     processed = tokenizer(dataset["text"], padding=True)
-#     dataset["input_ids"] = processed["input_ids"]
-
-#     return dataset
-
-
-# def convert_tokens_to_ids_fn(dataset : Dataset, tokenizer) -> Dataset:
-#     """Convert tokens to input_ids."""
-#     dataset["input_ids"] = [tokenizer.convert_tokens_to_ids(line) for line in dataset["tokens"]]
-
-#     return dataset
-
-
-# def recover_mask_fn(dataset : Dataset, tokenizer, mask_char='A') -> Dataset:
-#     """Replace the symbol used to mask words in a file to a mask recognized by the model.
-#     By convention a single <mask_char> represents a single token. To indicate that multiple tokens 
-#     were masked we use <number><mask_char>, like 3A -> <mask><mask><mask>.
-#     Note: this is better to be done before truncating and merging lines. 
-
-#     Ex.
-#     1. "I 'm enjoying A." -> I 'm enjoying <mask>.
-#     2. "I 'm 2A life." -> I 'm <mask><mask> life.
-#     """
-#     dataset["text"] = [
-#         re.sub(
-#             pattern=rf'(\d*)({mask_char})', 
-#             repl=lambda x: tokenizer.mask_token * int(x[1] if x[1] else 1), 
-#             string=line) 
-#         for line in dataset["text"]
-#     ]
-
-#     return dataset
