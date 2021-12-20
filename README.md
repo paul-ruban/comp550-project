@@ -7,7 +7,7 @@ Our final datasets for the polarity, articles and smokers task can be found in `
 You can find the data augmentation script in `/scripts/augment_data.py`. The augmentation script works per task so run `python augment_data.py -t polarity` for the polarity data augmentation.
 
 ## SVM classifier
-You can find the script for the SVM classifier in `/scripts/train_models.py`. The script also works on a per task basis. Another thing to point out is that we initially ran our experiments with naive bayes, logistic regression and SVM but we only presented the SVM in our report for brevity and because we only needed the comparison of one BoW model. The logs for the training can be found under `/logs/training/{polarity,articles,smokers}_constant.log` (we use `constant` because we fiz the hyperparameters).
+You can find the script for the SVM classifier in `/scripts/train_models.py`. The script also works on a per task basis. Another thing to point out is that we initially ran our experiments with naive bayes, logistic regression and SVM but we only presented the SVM in our report for brevity and because we only needed the comparison of one BoW model. The logs for the training can be found under `/logs/training/{polarity,articles,smokers}_constant.log` (we use `constant` because we fix the hyperparameters).
 
 ## RNN classifier
 You can find the script for the RNN classifier in `/scripts/train_rnn_classif.py`. It also works on per task basis. The logs are found in `/logs/training_rnn_classif/{polarity,articles,smokers}.log`.
