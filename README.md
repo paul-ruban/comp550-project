@@ -12,6 +12,6 @@ You can find the script for the RNN classifier in /scripts/train_rnn_classif.py
 ## Masker classifier Architecture
 You can find the script for the Masker classifier classifier in /scripts/train_highway_augmenter.py
 
-# Notebooks for results and discussions
+## Notebooks for results and discussions
 - You can find the notebook for the results in /notebooks/ad_hoc_data_analytics.ipynb
 - You can find the notebook for masking ratios in /notebooks/log_plots.ipynb
