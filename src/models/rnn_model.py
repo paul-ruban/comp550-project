@@ -1,14 +1,4 @@
 import torch
-from torch import nn
-from tqdm import tqdm
-from abc import abstractmethod
-from src.models.model import Model
-from src.data.dataio import Dataset
-from torch.nn import functional as F
-from torch.utils.data import DataLoader
-from torch.nn.parameter import Parameter
-from typing import Union, List, Iterator, Tuple
-from transformers.tokenization_utils import PreTrainedTokenizer
 
 
 class RNNMasker(torch.nn.Module):
@@ -68,7 +58,7 @@ class RNNMasker(torch.nn.Module):
             return output
 
 
-class RNNClassifier(nn.Module):
+class RNNClassifier(torch.nn.Module):
     def __init__(
         self,
         rnn_type : str = "lstm", 
@@ -83,7 +73,7 @@ class RNNClassifier(nn.Module):
 
         super().__init__()
         assert (rnn_type in ["lstm", "gru"]), "rnn_type can be one of: 'lstm', 'gru'."
-        rnn_type = nn.LSTM if rnn_type == "lstm" else nn.GRU
+        rnn_type = torch.nn.LSTM if rnn_type == "lstm" else torch.nn.GRU
         self.embeddings = embeddings_layer
         self.hidden_dim = hidden_dim
         self.bidirectional = bidirectional
@@ -98,8 +88,8 @@ class RNNClassifier(nn.Module):
             batch_first=True
         )
 
-        self.dropout = nn.Dropout(p=dropout)
-        self.dense = nn.Linear(
+        self.dropout = torch.nn.Dropout(p=dropout)
+        self.dense = torch.nn.Linear(
             in_features=hidden_dim * (2 if bidirectional else 1), 
             out_features=output_size)
         
