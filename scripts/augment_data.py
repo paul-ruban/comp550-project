@@ -96,23 +96,12 @@ AUGMENTATION_GRID = [
         "aug_p": [0.25, 0.5, 0.75],
         "aug_max": [None]
     },
-    # {
-    #     "augmentation_type": ["synonym_wordnet"],
-    #     "num_samples": [5],
-    #     "aug_p": [0.25, 0.5, 0.75],
-    #     # "stopwords_regex": [r"^[^a-zA-Z]+$"],  # skip non-alpha words
-    #     "aug_max": [None]
-    # },
     {
-        "augmentation_type": ["synonym_word2vec"],
+        "augmentation_type": ["synonym_wordnet"],
         "num_samples": [5],
         "aug_p": [0.25, 0.5, 0.75],
-        "top_k": [100],
+        # "stopwords_regex": [r"^[^a-zA-Z]+$"],  # skip non-alpha words
         "aug_max": [None]
-    },
-    {
-        "augmentation_type": ["backtranslation"],
-        "num_samples": [5],
     },
     {
         "augmentation_type": ["contextual_word_embeddings"],
@@ -150,6 +139,7 @@ def main():
     # Create augmentation grid
     if data_type == "smokers":
         # Add PubMedBERT => Make sure it's in this directory
+        # Otherwise some manual changes must be done
         assert os.path.exists(
             os.path.join(
                 cur_dir, "..", "BiomedNLP-PubMedBERT-base-uncased-abstract-fulltext"
