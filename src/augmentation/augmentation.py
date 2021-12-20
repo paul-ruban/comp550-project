@@ -12,16 +12,17 @@ from pathlib import Path
 
 class Augmentation:
     AUGMENTATION_TYPES = [
+        "none",
         "random_swap",
         "random_delete",
         "synonym_wordnet",
         "synonym_word2vec",
         "backtranslation",
-        "ssmba",
+        "contextual_word_embeddings",
     ]
 
     def __init__(
-        self, augmentation_type: str, num_samples: int, random_state: int = 42
+        self, augmentation_type: str, num_samples: int = 1, random_state: int = 42
     ) -> None:
         """Augmentation module.
 
@@ -64,7 +65,9 @@ class Augmentation:
         self.kwargs = kwargs
         # cast X to object type
         X = X.astype(dtype="object") if X.dtype != np.dtype("object") else X
-        if self.augmentation_type == "random_swap":
+        if self.augmentation_type == "none":
+            return np.array([]), np.array([])
+        elif self.augmentation_type == "random_swap":
             return self.random_swap_augment(X, y, **kwargs)
         elif self.augmentation_type == "random_delete":
             return self.random_delete_augment(X, y, **kwargs)
@@ -74,8 +77,8 @@ class Augmentation:
             return self.synonym_word2vec(X, y, **kwargs)
         elif self.augmentation_type == "backtranslation":
             return self.backtranslation(X, y, **kwargs)
-        elif self.augmentation_type == "ssmba":
-            return self.ssmba(X, y, **kwargs)
+        elif self.augmentation_type == "contextual_word_embeddings":
+            return self.contextual_word_embeddings(X, y, **kwargs)
         else:
             raise ValueError("Augmentation type not supported")
 
@@ -176,7 +179,7 @@ class Augmentation:
                 "augmentation_type": self.augmentation_type,
                 **self.kwargs,
             },
-            "path_to_agumented_dataset": self.path_to_json,
+            "path_to_augmented_dataset": self.path_to_json,
         }
         append_json_lines([dict_to_write], output_path=path_to_json_log)
 
@@ -235,13 +238,13 @@ class Augmentation:
             from_model_name="facebook/wmt19-en-de",
             to_model_name="facebook/wmt19-de-en",
             device="cuda" if torch.cuda.is_available() else "cpu",
-            max_length=1024, # This is the model's max length
+            max_length=1024,  # This is the model's max length
         )
         return self._augment(X_truncated, y, aug)
 
-    def ssmba(self, X, y):
-        """TODO: Modify the paper's code slightly to make this work. Not using nlpaug because
-        we can test a few relaxing assumptions such as temperature and the use of a more closed/restrcited
-        space for augmentation.
-        """
-        pass
+    def contextual_word_embeddings(self, X: np.array, y: np.array, **kwargs):
+        """This is a variation of the SSMBA paper. Allows simpler implementation."""
+        aug = naw.context_word_embs.ContextualWordEmbsAug(
+            device="cuda" if torch.cuda.is_available() else "cpu", **kwargs
+        )
+        return self._augment(X, y, aug)

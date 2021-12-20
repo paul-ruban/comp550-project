@@ -1,16 +1,76 @@
+import argparse
+import logging
 import os
+import pickle
 import re
 
+import numpy as np
 from nltk import word_tokenize
 from nltk.stem import WordNetLemmatizer
 from nltk.stem.porter import PorterStemmer
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import classification_report, confusion_matrix, f1_score, make_scorer
+from sklearn.model_selection import GridSearchCV, PredefinedSplit
 from sklearn.naive_bayes import MultinomialNB
-from sklearn.neural_network import MLPClassifier
-from sklearn.svm import SVC
 from sklearn.pipeline import Pipeline
+from sklearn.svm import SVC
+from src.utils.json_utils import append_json_lines, read_json_lines
+from tqdm import tqdm
+
+cur_dir = os.path.dirname(os.path.abspath(__file__))
+logger = logging.getLogger()
+
+# Classes and constants #
+
+LOGGER_FOLDER_PATH = os.path.join(cur_dir, "..", "logs", "training")
+DATA_TYPE_DICT = {
+    "polarity": {
+        "json_training_log_path": os.path.join(
+            cur_dir, "..", "logs", "augmentation", "polarity.json"
+        ),
+        "json_validation_path": os.path.join(
+            cur_dir, "..", "data", "rt-polaritydata", "augmentation", "validation.json"
+        ),
+        "json_test_path": os.path.join(
+            cur_dir, "..", "data", "rt-polaritydata", "augmentation", "test.json"
+        ),
+        "json_train_log_path": os.path.join(cur_dir, "..", "logs", "training", "polarity_constant.json"),
+        # Change to save to the augmentation
+        "pickle_folder_path": "/home/mila/c/cesare.spinoso/scratch/datasets_550/polarity",
+    },
+    "articles": {
+        "json_training_log_path": os.path.join(
+            cur_dir, "..", "logs", "augmentation", "articles.json"
+        ),
+        "json_validation_path": os.path.join(
+            cur_dir, "..", "data", "articles", "augmentation", "validation.json"
+        ),
+        "json_test_path": os.path.join(
+            cur_dir, "..", "data", "articles", "augmentation", "test.json"
+        ),
+        "json_train_log_path": os.path.join(cur_dir, "..", "logs", "training", "articles_constant.json"),
+        # Change to save to the augmentation
+        "pickle_folder_path": "/home/mila/c/cesare.spinoso/scratch/datasets_550/articles",
+    },
+    "smokers": {
+        "json_training_log_path": os.path.join(
+            cur_dir, "..", "logs", "augmentation", "smokers.json"
+        ),
+        "json_validation_path": os.path.join(
+            cur_dir, "..", "data", "smokers", "augmentation", "validation.json"
+        ),
+        "json_test_path": os.path.join(
+            cur_dir, "..", "data", "smokers", "augmentation", "test.json"
+        ),
+        "json_train_log_path": os.path.join(cur_dir, "..", "logs", "training", "smokers_constant.json"),
+        # Change to save to the augmentation
+        "pickle_folder_path": "/home/mila/c/cesare.spinoso/scratch/datasets_550/smokers",
+    },
+}
+# Run nb and logistic for all, see if need to run more models later
+MODELS = ["nb", "logistic", "svm"]
 
 
 class WordTokenizer:
@@ -22,7 +82,7 @@ class WordTokenizer:
             return [t for t in word_tokenize(doc)]
         else:
             return [
-                t for t in word_tokenize(doc) if not re.search(r"[\.,\?\!\:\;\(\)\[\]\{\}]*", t)
+                t for t in word_tokenize(doc) if not re.search(r"^[\.,\?\!\:\;\(\)\[\]\{\}]*$", t)
             ]
 
 
@@ -38,7 +98,7 @@ class LemmaTokenizer:
             return [
                 self.wnl.lemmatize(t)
                 for t in word_tokenize(doc)
-                if not re.search(r"[\.,\?\!\:\;\(\)\[\]\{\}]*", t)
+                if not re.search(r"^[\.,\?\!\:\;\(\)\[\]\{\}]*$", t)
             ]
 
 
@@ -54,132 +114,273 @@ class StemmerTokenizer:
             return [
                 self.wnl.stem(t)
                 for t in word_tokenize(doc)
-                if not re.search(r"[\.,\?\!\:\;\(\)\[\]\{\}]*", t)
+                if not re.search(r"^[\.,\?\!\:\;\(\)\[\]\{\}]*$", t)
             ]
 
 
-cur_dir = os.path.dirname(os.path.abspath(__file__))
-
-DATA_TYPE_DICT = {
-    "polarity": {
-        "json_training_log_path": os.path.join(
-            cur_dir, "..", "logs", "augmentation", "polarity.json"
-        ),
-        "json_validation_path": os.path.join(
-            cur_dir, "..", "data", "rt-polaritydata", "augmentation", "validation.json"
-        ),
-        "json_test_path": os.path.join(
-            cur_dir, "..", "data", "rt-polaritydata", "augmentation", "test.json"
-        ),
-    },
-    "articles": {
-        "json_training_log_path": os.path.join(
-            cur_dir, "..", "logs", "augmentation", "articles.json"
-        ),
-        "json_validation_path": os.path.join(
-            cur_dir, "..", "data", "articles", "augmentation", "validation.json"
-        ),
-        "json_test_path": os.path.join(
-            cur_dir, "..", "data", "articles", "augmentation", "test.json"
-        ),
-    },
-    "smokers": {
-        "json_training_log_path": os.path.join(
-            cur_dir, "..", "logs", "augmentation", "smokers.json"
-        ),
-        "json_validation_path": [
-            os.path.join(
-                cur_dir, "..", "data", "smokers", "augmentation", f"validation_fold_{i+1}.json"
-            )
-            for i in range(1, 6)
-        ],
-        "json_test_path": os.path.join(
-            cur_dir, "..", "data", "smokers", "augmentation", "test.json"
-        ),
-    },
-}
-
-PREPROCESSING_GRID = {
-    "tokenize_type": ["word", "lemma", "stem"],
-    "remove_punctuation": [True, False],
-    "remove_stopwords": [True, False],
-    "ngram_range": [(1, 1), (1, 2), (1, 3)],
-    "count_type": ["raw_counts", "binary_counts", "tfidf"],
-}
+# Helper functions #
 
 
-def create_preprocessing_pipeline_list(
-    tokenize_type: str = "word",
-    remove_punctuation: bool = True,
-    remove_stopwords: bool = True,
-    ngram_range: tuple = (1, 1),
-    count_type="raw_counts",
-) -> list:
-    assert tokenize_type in {"word", "lemma", "stem"}
-    assert isinstance(remove_punctuation, bool)
-    assert isinstance(remove_stopwords, bool)
-    assert (
-        isinstance(ngram_range, tuple)
-        and len(ngram_range) == 2
-        and all(elt in {1, 2, 3} for elt in ngram_range)
+def parse_args():
+    parser = argparse.ArgumentParser("Trains given the data augmentation for the passed data type")
+    parser.add_argument(
+        "-t", "--data_type", help=f"Data type must be one of {DATA_TYPE_DICT.keys()}"
     )
-    assert count_type in {"raw_counts", "binary_counts", "tfidf"}
-
-    preprocessing_pipeline = []
-    if tokenize_type == "word":
-        tokenizer = WordTokenizer(remove_punctuation=remove_punctuation)
-    elif tokenize_type == "lemma":
-        tokenizer = LemmaTokenizer(remove_punctuation=remove_punctuation)
-    elif tokenize_type == "stem":
-        tokenizer = StemmerTokenizer(remove_punctuation=remove_punctuation)
-    preprocessing_pipeline.append(("tokenizer", tokenizer))
-
-    if count_type == "raw_counts":
-        vectorizer = CountVectorizer(
-            tokenize=tokenizer,
-            ngram_range=ngram_range,
-            stop_words=None if not remove_stopwords else "english",
-        )
-    elif count_type == "binary_counts":
-        vectorizer = CountVectorizer(
-            tokenize=tokenizer,
-            ngram_range=ngram_range,
-            binary=True,
-            stop_words=None if not remove_stopwords else "english",
-        )
-    elif count_type == "tfidf":
-        vectorizer = TfidfVectorizer(
-            tokenize=tokenizer,
-            ngram_range=ngram_range,
-            stop_words=None if not remove_stopwords else "english",
-        )
-    preprocessing_pipeline.append(("vectorizer", vectorizer))
-
-    return preprocessing_pipeline
+    args = parser.parse_args()
+    data_type = args.data_type
+    assert data_type in DATA_TYPE_DICT.keys()
+    return data_type
 
 
-def create_training_pipeline(
-    preprocessing_list: list, model_type: str, model_params: dict
+def prepare_train_and_val_data(training_json_path: str, validation_json_path: str):
+    # Load the training and validation data
+    training_data = read_json_lines(training_json_path)
+    validation_data = read_json_lines(validation_json_path)
+    # Convert to numpy arrays
+    # Sklearn requires the labels to be arrays of strings (categories)
+    training_matrix = np.array([[dict_["text"], dict_["label"]] for dict_ in training_data])
+    validation_matrix = np.array([[dict_["text"], dict_["label"]] for dict_ in validation_data])
+    # Split into X and y
+    X_train, y_train = training_matrix[:, [0]], training_matrix[:, [1]]
+    # X_train, y_train = training_matrix[:100, [0]], training_matrix[:100, [1]]
+    X_val, y_val = validation_matrix[:, [0]], validation_matrix[:, [1]]
+    # X_val, y_val = validation_matrix[:100, [0]], validation_matrix[:100, [1]]
+    # To use GridSearch format merge train and val and keep the split index
+    # By convention training points are identified with -1 and validation points with 0
+    split_index = np.array([-1] * len(X_train) + [0] * len(X_val))
+    X = np.vstack([X_train, X_val])
+    y = np.vstack([y_train, y_val])
+    # Extra ravel is there to convert the shape from (n_samples, 1) to (n_samples,)
+    return X.ravel(), y.ravel(), split_index
+
+
+def get_test_data(test_json_path: str):
+    test_data = read_json_lines(test_json_path)
+    test_matrix = np.array([[dict_["text"], dict_["label"]] for dict_ in test_data])
+    X_test, y_test = test_matrix[:, 0], test_matrix[:, 1]
+    return X_test, y_test
+
+
+def create_pipeline(
+    model_type: str = "logistic",
 ) -> Pipeline:
-    assert model_type in {"naive_bayes", "logistic", "random_forest", "mlp", "svm"}
-    assert isinstance(model_params, dict)
+    # Use the "meta" parameters to create the full sklearn pipeline, then use GridSearchCV
+    # to find the best paramters (allows multithreading)
+    assert model_type in MODELS
 
-    if model_type == "naive_bayes":
-        model = MultinomialNB(**model_params)
+    # Pipeline will be a pipeline object with a counter and a model
+    pipeline = []
+    # Use tfidf vectorizer
+    vectorizer = TfidfVectorizer()
+    pipeline.append(("vectorizer", vectorizer))
+    # Pick the model
+    if model_type == "nb":
+        model = MultinomialNB()
     elif model_type == "logistic":
-        model = LogisticRegression(**model_params)
-    elif model_type == "boosted_tree":
-        model = RandomForestClassifier(**model_params)
+        model = LogisticRegression()
     elif model_type == "svm":
-        model = SVC(**model_params)
-    elif model_type == "mlp":
-        model = MLPClassifier(**model_params)
+        model = SVC()
+    elif model_type == "rf":
+        model = RandomForestClassifier()
+    pipeline.append(("model", model))
+    pipeline = Pipeline(pipeline)
+    return pipeline
 
-    return Pipeline(preprocessing_list + [("model", model)])
+
+def create_pipeline_grid(model_type: str = "logistic"):
+    assert model_type in MODELS
+    param_grid = {
+        # Punctuation removal is on automatically
+        # "vectorizer__tokenizer": [WordTokenizer(), LemmaTokenizer(), StemmerTokenizer()],
+        "vectorizer__tokenizer": [WordTokenizer()],
+        # "vectorizer__ngram_range": [(1, 1), (1, 2)],
+        "vectorizer__ngram_range": [(1, 2)],
+    }
+    if model_type == "nb":
+        # model_grid = {"model__alpha": [0.1, 1.0, 10.0]}
+        model_grid = {"model__alpha": [0.1]}
+    elif model_type == "logistic":
+        model_grid = {
+            "model__penalty": ["l2"],
+            # "model__C": [0.01, 0.1, 1],
+            "model__C": [1],
+            "model__solver": ["lbfgs"],
+            "model__random_state": [42],
+            "model__n_jobs": [-1],
+        }
+    elif model_type == "svm":
+        model_grid = {
+            # "model__C": [0.01, 0.1, 1],
+            "model__C": [1],
+            "model__kernel": ["rbf"],
+            "model__random_state": [42],
+        }
+    elif model_type == "rf":
+        model_grid = {
+            "model__n_estimators": [100, 500],
+            "model__min_samples_split": [2, 5],
+            "model__n_jobs": [-1],
+        }
+    pipeline_grid = {**param_grid, **model_grid}
+    return pipeline_grid
+
+
+def train_pipeline(
+    X: np.ndarray, y: np.ndarray, split_index: np.ndarray, pieline: Pipeline, grid: dict
+):
+    # Use GridSearchCV to find the best paramters (allows multithreading)
+    pds = PredefinedSplit(test_fold=split_index)
+    grid_search = GridSearchCV(
+        estimator=pieline,
+        param_grid=grid,
+        cv=pds,
+        scoring=["f1_macro", "accuracy"],
+        refit="f1_macro",  # Use best macro averaged f1 score
+        n_jobs=-1,
+        verbose=3,
+    )
+    grid_search.fit(X, y)
+    return grid_search
+
+
+def log_grid_search_results(
+    grid_search: GridSearchCV,
+    X: np.ndarray,
+    y: np.ndarray,
+    X_test: np.ndarray,
+    y_test: np.ndarray,
+    split_index: np.ndarray,
+):
+    # Log the results of the grid search
+    logger.debug("Results of the grid search for the model:")
+    logger.debug("Best estimator:")
+    logger.debug(f"{grid_search.best_estimator_}")
+    logger.debug("Best parameters:")
+    logger.debug(f"{grid_search.best_params_}")
+    logger.debug("Best (f1) score:")
+    logger.debug(f"{grid_search.best_score_}")
+    # Evaluate on the val set
+    best_estimator = grid_search.best_estimator_
+    best_estimator.fit(X=X[split_index == -1], y=y[split_index == -1])
+    y_pred = best_estimator.predict(X=X[split_index == 0])
+    logger.debug("Val set results of the best classifier:")
+    logger.debug(f"{classification_report(y_true=y[split_index == 0], y_pred=y_pred)}")
+    logger.debug(f"{confusion_matrix(y_true=y[split_index == 0], y_pred=y_pred)}")
+    # Evaluate on the test set
+    best_estimator = grid_search.best_estimator_
+    best_estimator.fit(X=X, y=y)
+    y_pred = best_estimator.predict(X=X_test)
+    logger.debug(
+        "Test set results of the best classifier (DO NOT USE THESE RESULTS TO CHOOSE DA, ONLY TO REPORT):"
+    )
+    logger.debug(f"{classification_report(y_true=y_test, y_pred=y_pred)}")
+    logger.debug(f"{confusion_matrix(y_true=y_test, y_pred=y_pred)}")
+
+
+def save_grid_search_results(
+    augmentation_id: int,
+    augmentation_features: dict,
+    model_type: str,
+    grid_search: GridSearchCV,
+    pickle_folder_path: str,
+    json_file_path: str,
+):
+    # Pickle the grid search object
+    if not os.path.exists(pickle_folder_path):
+        os.makedirs(pickle_folder_path)
+    grid_search_pickle_path = os.path.join(
+        pickle_folder_path,
+        f"augmentation_{augmentation_id}",
+        f"grid_search_augmentation_{augmentation_id}_{model_type}_constant.pkl",
+    )
+    with open(grid_search_pickle_path, "wb") as f:
+        pickle.dump(grid_search, f)
+    # Append the results of the grid search to the json file
+    dict_to_write = [
+        {
+            "augmented_dataset_id": augmentation_id,
+            "augmentation_features": augmentation_features,
+            "model_type": model_type,
+            "f1_score": float(
+                grid_search.cv_results_["mean_test_f1_macro"][grid_search.best_index_]
+            ),
+            "accuracy_score": float(
+                grid_search.cv_results_["mean_test_accuracy"][grid_search.best_index_]
+            ),
+            "path_to_pickle": grid_search_pickle_path,
+        }
+    ]
+    append_json_lines(dict_to_write, json_file_path)
 
 
 def main():
-    pass
+    # Get the data type
+    data_type = parse_args()
+    # Setup the logger
+    logging.basicConfig(
+        level=logging.DEBUG,
+        format="%(asctime)s [%(levelname)s] %(message)s",
+        handlers=[
+            logging.FileHandler(os.path.join(LOGGER_FOLDER_PATH, f"{data_type}_constant.log")),
+            logging.StreamHandler(),
+        ],
+    )
+    logger.info(f"Starting {data_type} training")
+    # Get the json file for the augmentation
+    augmentation_json_file_path = DATA_TYPE_DICT[data_type]["json_training_log_path"]
+    # Get each dictionary in the json file
+    augmentation_dicts = read_json_lines(augmentation_json_file_path)
+    for augmentation_dict in tqdm(augmentation_dicts[11:]):
+        logger.info("-" * 120)
+        logger.info(
+            f"Starting training for {data_type} with augmentation {augmentation_dict['augmented_dataset_id']}"
+        )
+        logger.info(f"Augmentation features: {augmentation_dict['augmentation_features']}")
+        # Get train, val, test paths
+        training_json_path = augmentation_dict["path_to_augmented_dataset"]
+        validation_json_path = DATA_TYPE_DICT[data_type]["json_validation_path"]
+        test_json_path = DATA_TYPE_DICT[data_type]["json_test_path"]
+        # Get data for pipeline and testing data
+        X, y, split_index = prepare_train_and_val_data(
+            training_json_path=training_json_path, validation_json_path=validation_json_path
+        )
+        X_test, y_test = get_test_data(test_json_path=test_json_path)
+        # For smokers merge 2, 3, 4 into "smoker" category
+        if data_type == "smokers":
+            SMOKER_CATEGORIES = ["2", "3", "4"]
+            SMOKER_MERGED = "2"
+            y[np.isin(y, SMOKER_CATEGORIES)] = SMOKER_MERGED
+            y_test[np.isin(y_test, SMOKER_CATEGORIES)] = SMOKER_MERGED
+        # Train the different models
+        for model_type in tqdm(MODELS):
+            logger.debug("-" * 15 + f"Starting training for {model_type}" + "-" * 15)
+            # Create the pipeline
+            pipeline = create_pipeline(model_type=model_type)
+            # Create the grid
+            grid = create_pipeline_grid(model_type=model_type)
+            # Train the pipeline
+            grid_search = train_pipeline(
+                X=X, y=y, split_index=split_index, pieline=pipeline, grid=grid
+            )
+            # Log the grid search results on the validation set and test set (DO NOT PICK
+            # THE BEST MODEL WITH TEST SET)
+            log_grid_search_results(
+                grid_search=grid_search,
+                X=X,
+                y=y,
+                X_test=X_test,
+                y_test=y_test,
+                split_index=split_index,
+            )
+            # Save the results
+            save_grid_search_results(
+                augmentation_id=augmentation_dict["augmented_dataset_id"],
+                augmentation_features=augmentation_dict["augmentation_features"],
+                model_type=model_type,
+                grid_search=grid_search,
+                pickle_folder_path=DATA_TYPE_DICT[data_type]["pickle_folder_path"],
+                json_file_path=DATA_TYPE_DICT[data_type]["json_train_log_path"],
+            )
 
 
 if __name__ == "__main__":
